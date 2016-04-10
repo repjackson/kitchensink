@@ -20,10 +20,6 @@ template(name='view')
                         .ui.icon.basic.button.deleteDoc
                             // |Delete
                             i.red.trash.icon
-            .description
-                if body.length
-                    +markdown
-                        !{body}
             // .ui.divider
         unless isAuthor
             if currentUser

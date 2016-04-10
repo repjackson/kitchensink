@@ -24,15 +24,11 @@ matb33:collection-hooks
 accounts-password
 semantic:ui
 flemay:less-autoprefixer
-iandouglas:accounts-ui-semantic-ui
 kadira:flow-router
 kadira:blaze-layout
 dburles:collection-helpers
 momentjs:moment
-perak:markdown
 zimme:active-route
 uzumaxy:prevent-backspace
-froala:editor
-perak:codemirror
 useraccounts:semantic-ui
 useraccounts:flow-routing

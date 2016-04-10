@@ -1,31 +1,31 @@
 template(name='cloud')
-    .ui.center.aligned.bottom.attached.segment
+    // .ui.center.aligned.bottom.attached.basic.segment
         // .ui.header Doc Navigator
         // |Filter Tags:
-        if selectedTags
-            #clearTags.ui.primary.big.compact.icon.button
-                i.remove.icon
-        if selectedTags
-            each selectedTags
-                a.ui.primary.big.compact.button.unselectTag
-                    strong #{this}
-        each globalTags
-            .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
-                // small #{this.count}
-        .ui.hidden.divider
-        // |Filter Authors:
-        if selectedUsernames
-            #clearUsernames.ui.circular.primary.icon.button
-                i.remove.icon
-            each selectedUsernames
-                a.ui.primary.circular.button.unselectUsername
-                    i.user.icon
-                    strong #{this}
-        each globalUsernames
-            .ui.basic.circular.button.selectUsername
-                i.user.icon
-                |#{this.text}
-                small #{this.count}
+    if selectedTags
+        #clearTags.ui.primary.big.compact.icon.button
+            i.remove.icon
+    if selectedTags
+        each selectedTags
+            a.ui.primary.big.compact.button.unselectTag
+                strong #{this}
+    each globalTags
+        .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
+            // small #{this.count}
+    .ui.hidden.divider
+    // |Filter Authors:
+    // if selectedUsernames
+    //     #clearUsernames.ui.circular.primary.icon.button
+    //         i.remove.icon
+    //     each selectedUsernames
+    //         a.ui.primary.circular.button.unselectUsername
+    //             i.user.icon
+    //             strong #{this}
+    // each globalUsernames
+    //     .ui.basic.circular.button.selectUsername
+    //         i.user.icon
+    //         |#{this.text}
+    //         small #{this.count}
 
 template(name='docs')
     .ui.container

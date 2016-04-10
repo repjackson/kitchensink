@@ -47,7 +47,7 @@ Meteor.publish 'docs', (selectedTags, selectedUsernames, viewMode)->
             match.downVoters = $nin: [@userId]
 
     Docs.find match,
-        limit: 5
+        limit: 10
         sort:
             tagCount: 1
             points: -1
@@ -60,10 +60,12 @@ Meteor.publish 'usernames', (selectedTags, selectedUsernames, viewMode)->
     match = {}
     if selectedTags.length > 0 then match.tags = $all: selectedTags
     if selectedUsernames.length > 0 then match.username = $in: selectedUsernames
-    # switch viewMode
-    #     when 'unvoted'
-    #         match.upVoters = $nin: [@userId]
-    #         match.downVoters = $nin: [@userId]
+    match.tagCount = $gt: 0
+    switch viewMode
+        when 'mine' then match.authorId = @userId
+        when 'unvoted'
+            match.upVoters = $nin: [@userId]
+            match.downVoters = $nin: [@userId]
 
 
     cloud = Docs.aggregate [

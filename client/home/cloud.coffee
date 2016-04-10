@@ -5,7 +5,7 @@ Template.docs.onCreated ->
     @autorun -> Meteor.subscribe('docs', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
 
 Template.docs.helpers
-    docs: -> Docs.find({}, limit: 1)
+    docs: -> Docs.find({}, limit: 10)
     # docs: -> Docs.find()
 
 
