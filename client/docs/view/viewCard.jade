@@ -1,0 +1,46 @@
+template(name='view')
+    // .ui.center.aligned.basic.basic.segment(class=viewSegmentClass)
+    .ui.fluid.card
+        .content
+            .header
+                each tags
+                    .ui.large.compact.button.docTag(class=docTagClass)  #{this}
+                .meta.right.floated
+                    // .ui.basic.large.label
+                    //     | #{points} pts
+                    unless isAuthor
+                        .ui.huge.icon.button.voteUp(class=voteUpButtonClass)
+                            i.thumbs.up.icon
+                        .ui.huge.icon.button.voteDown(class=voteDownButtonClass)
+                            i.thumbs.down.icon
+                    if isAuthor
+                        .ui.basic.button.editDoc
+                            i.blue.pencil.icon
+                            |Edit
+                        .ui.icon.basic.button.deleteDoc
+                            // |Delete
+                            i.red.trash.icon
+            .description
+                if body.length
+                    +markdown
+                        !{body}
+            // .ui.divider
+        unless isAuthor
+            if currentUser
+                .extra.content
+                    .ui.circular.compact.button.authorFilterButton(class=authorFilterButtonClass)
+                        i.user.icon
+                        |#{username}
+                    // |[#{author.points} points] #{when}
+                    | Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
+                    div
+                        each upVotedMatchCloud.cloud
+                            .ui.basic.label #{this.tag} #{this.min}
+            else
+                .extra.content
+                    p Log in to vote and match with #{username}'s interests
+        // if cost
+        //     .extra.content
+        //         |For Sale for #{cost} points
+        //         if canBuy
+        //             .ui.button.purchase Purchase for #{cost} points

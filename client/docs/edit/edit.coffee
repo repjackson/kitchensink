@@ -8,7 +8,7 @@ Template.edit.onCreated ->
 Template.edit.onRendered ->
     Meteor.setTimeout (->
         $('#body').froalaEditor
-            height: 500
+            height: 400
             toolbarButtonsXS: ['bold', 'italic', 'fontFamily', 'fontSize', 'undo', 'redo', 'insertImage']
 
     #     $('#datetimepicker').datetimepicker(
@@ -70,9 +70,11 @@ Template.edit.events
                     $('#addTag').val('')
                 else
                     body = $('#body').val()
+                    cost = $('#cost').val()
                     Docs.update FlowRouter.getParam('docId'),
                         $set:
                             body: body
+                            cost: cost
                             tagCount: @tags.length
                     selectedTags.clear()
                     for tag in @tags
@@ -114,8 +116,10 @@ Template.edit.events
 
     'click #saveDoc': ->
         body = $('#body').val()
+        cost = $('#cost').val()
         Docs.update FlowRouter.getParam('docId'),
             $set:
+                cost: cost
                 body: body
                 tagCount: @tags.length
         selectedTags.clear()

@@ -1,12 +1,16 @@
-template(name='view')
+template(name='viewSegment')
     // .ui.center.aligned.basic.basic.segment(class=viewSegmentClass)
     .ui.segment
         .ui.center.aligned.basic.segment
-            // i.tags.icon
+            i.tags.icon
             .ui.huge.horizontal.list
                 each tags
                     .ui.large.compact.button.docTag(class=docTagClass)  #{this}
                     // .item(class=docTagClass) #{this}
+            | by
+            .ui.circular.button.authorFilterButton(class=authorFilterButtonClass)
+                |#{username}
+            |[#{author.points} points] #{when}
             // .ui.divider
         if body.length
             .description
@@ -26,14 +30,10 @@ template(name='view')
                 .ui.basic.button.editDoc
                     i.blue.pencil.icon
                     |Edit
-                // .ui.icon.basic.button.deleteDoc
-                //     // |Delete
-                //     i.red.trash.icon
+                .ui.icon.basic.button.deleteDoc
+                    // |Delete
+                    i.red.trash.icon
             .row
-                | by
-                .ui.circular.button.authorFilterButton(class=authorFilterButtonClass)
-                    |#{username}
-                |[#{author.points} points] #{when}
             unless isAuthor
                 if currentUser
                     .ui.segment

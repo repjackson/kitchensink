@@ -55,10 +55,16 @@ Meteor.publish 'docs', (selectedTags, selectedUsernames, viewMode)->
 
 Meteor.publish 'usernames', (selectedTags, selectedUsernames, viewMode)->
     self = @
+    # if viewMode is 'mine' or 'unvoted' then return
 
     match = {}
     if selectedTags.length > 0 then match.tags = $all: selectedTags
     if selectedUsernames.length > 0 then match.username = $in: selectedUsernames
+    # switch viewMode
+    #     when 'unvoted'
+    #         match.upVoters = $nin: [@userId]
+    #         match.downVoters = $nin: [@userId]
+
 
     cloud = Docs.aggregate [
         { $match: match }

@@ -57,6 +57,7 @@ Template.view.helpers
     authorFilterButtonClass: ->
         if @username in selectedUsernames.array() then 'primary' else 'basic'
 
+    canBuy: -> Meteor.user().points > @cost
 
     author: -> Meteor.users.findOne(@authorId)
 
@@ -79,7 +80,7 @@ Template.view.events
         if confirm 'Delete?'
             Meteor.call 'deleteDoc', @_id
 
-    'click .authorFilterButton': (e)->
-        if e.target.innerHTML in selectedUsernames.array() then selectedUsernames.remove e.target.innerHTML else selectedUsernames.push e.target.innerHTML
+    'click .authorFilterButton': ->
+        if @username in selectedUsernames.array() then selectedUsernames.remove @username else selectedUsernames.push @username
 
 

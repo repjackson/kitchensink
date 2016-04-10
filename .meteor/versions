@@ -100,6 +100,7 @@ semantic:ui-data@2.1.8
 service-configuration@1.0.8
 session@1.1.4
 sha@1.0.6
+softwarerero:accounts-t9n@1.1.7
 spacebars@1.0.10
 spacebars-compiler@1.0.10
 srp@1.0.7
@@ -110,6 +111,9 @@ u2622:persistent-session@0.4.4
 ui@1.0.10
 underscore@1.0.7
 url@1.0.8
+useraccounts:core@1.13.1
+useraccounts:flow-routing@1.13.1
+useraccounts:semantic-ui@1.13.1
 uzumaxy:prevent-backspace@0.0.1
 webapp@1.2.7
 webapp-hashing@1.0.8

@@ -34,3 +34,5 @@ zimme:active-route
 uzumaxy:prevent-backspace
 froala:editor
 perak:codemirror
+useraccounts:semantic-ui
+useraccounts:flow-routing
