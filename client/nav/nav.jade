@@ -1,39 +1,15 @@
 template(name='nav')
-    .ui.top.attached.tabular.menu
-        // a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
-        //     i.large.comment.outline.icon
-        //     |Bubl
+    .ui.menu
+        a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}") Facet
+        // .item
+        //     .ui.left.icon.input
+        //         i.search.icon
+        //         input#search(type='text', placeholder="Search")
         if currentUser
-            .item View:
-            a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
-                // i.large.comment.outline.icon
-                |All
-            a.item(href='/unvoted' class="{{isActivePath '/unvoted'}}")
-                // i.announcement.icon
-                |Unvoted
-            a.item(href='/mine' class="{{isActivePath '/mine'}}")
-                // i.file.text.outline.icon
-                |Mine
-        // .ui.item
-        //     .ui.left.transparent.icon.input
-        //         i.lightning.icon
-        //         input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
-        .item
-            .ui.left.icon.input
-                i.search.icon
-                input#search(type='text', placeholder="Search")
-        if currentUser
-            a#addDoc.item
-                i.plus.icon
-                |Add
-            // a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
-            //     i.shop.icon
-            //     |Marketplace
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 |#{user.username}
         +atNavButton
-        // +loginButtons align='right'
 
 
 template(name='tagresult')

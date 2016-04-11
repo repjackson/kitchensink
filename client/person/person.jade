@@ -1,0 +1,23 @@
+template(name='person')
+    .ui.card
+        .content
+            .header
+                |#{username}
+                each tags
+                    .ui.large.compact.button.userTag(class=userTagClass)  #{this}
+        unless isUser
+            if currentUser
+                .extra.content
+                    if hasTagged
+                        each myTags
+                            .ui.labeled.basic.icon.button.myTags
+                                |#{this}
+                        .ui.left.icon.input
+                            i.tag.icon
+                            input.addTag(type='text' placeholder='Add Tag')
+                    else
+                        .ui.basic.button.tagUser Tag User
+                    // | Common tags with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
+                    // div
+                    //     each upVotedMatchCloud.cloud
+                    //         .ui.basic.label #{this.tag} #{this.min}

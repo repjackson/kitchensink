@@ -11,25 +11,6 @@ template(name='cloud')
                     strong #{this}
         each globalTags
             .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
-                // small #{this.count}
+                small #{this.count}
         .ui.hidden.divider
-    // |Filter Authors:
-    // if selectedUsernames
-    //     #clearUsernames.ui.circular.primary.icon.button
-    //         i.remove.icon
-    //     each selectedUsernames
-    //         a.ui.primary.circular.button.unselectUsername
-    //             i.user.icon
-    //             strong #{this}
-    // each globalUsernames
-    //     .ui.basic.circular.button.selectUsername
-    //         i.user.icon
-    //         |#{this.text}
-    //         small #{this.count}
 
-template(name='docs')
-    .ui.container
-        .ui.cards
-            // .ui.center.aligned.header Top Doc
-            each docs
-                +view
