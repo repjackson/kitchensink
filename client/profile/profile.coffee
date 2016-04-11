@@ -1,6 +1,7 @@
 Template.profile.onCreated ->
     @autorun -> Meteor.subscribe 'me'
     @autorun -> Meteor.subscribe 'people'
+    @autorun -> Meteor.subscribe 'messages'
 
 
 Template.profile.helpers
