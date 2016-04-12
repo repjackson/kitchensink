@@ -1,7 +1,7 @@
 template(name='cloud')
-    .ui.center.bottom.attached.aligned.segment
+    .ui.center.aligned.segment
         // .ui.header Doc Navigator
-        // |Filter Tags:
+        .ui.header Filter Descriptors to Find Others:
         if selectedTags
             #clearTags.ui.primary.big.compact.icon.button
                 i.remove.icon
@@ -12,5 +12,4 @@ template(name='cloud')
         each globalTags
             .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
                 small #{this.count}
-        .ui.hidden.divider
 

@@ -115,7 +115,7 @@ Meteor.methods
             $addToSet:
                 userTags:
                     uId: uId
-                    tagList: []
+                    tags: []
 
     addTag: (uId, tag)->
         user = Meteor.users.findOne uId

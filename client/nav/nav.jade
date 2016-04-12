@@ -1,15 +1,17 @@
 template(name='nav')
-    .ui.menu
-        a#homeLink.ui.item(href='/') Facet
+    .ui.segment
         // .item
         //     .ui.left.icon.input
         //         i.search.icon
         //         input#search(type='text', placeholder="Search")
         if currentUser
             // a.item(href='/profile' class="{{isActivePath '/profile'}}")
-            .item
+            .ui.item
                 i.user.icon
-                |#{user.username}
+                |#{user.username}'s Descriptors:
+                each user.tagCloud
+                    .ui.small.compact.button.userTag(class=userTagClass) #{this.name}
+                        small #{this.count}
         +atNavButton
 
 

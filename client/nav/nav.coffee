@@ -5,7 +5,6 @@ Template.nav.onCreated ->
 
 
 Template.nav.helpers
-    doc_counter: -> Counts.get('doc_counter')
     user_counter: -> Meteor.users.find().count()
     user: -> Meteor.user()
     tagsettings: -> {
@@ -19,10 +18,16 @@ Template.nav.helpers
             }
         ]
     }
+    userTagClass: ->
+        if @name in selectedTags.array() then 'primary' else 'basic'
 
 
 
 Template.nav.events
+    'click .userTag': ->
+        if @name in selectedTags.array() then selectedTags.remove @name else selectedTags.push @name
+
+
     'keyup #quickAdd': (e,t)->
         e.preventDefault
         tag = $('#quickAdd').val().toLowerCase()
