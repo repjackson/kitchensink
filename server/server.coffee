@@ -5,6 +5,15 @@
 #             username: 1
 #             taggers: 1
 
+Accounts.onCreateUser (options, user) ->
+    user.taggers = []
+    user.userTags = []
+    user.tagCloud = []
+    user.tagList = []
+    user
+
+
+
 Meteor.publish 'me', ->
     Meteor.users.find @userId,
         fields:
@@ -119,11 +128,12 @@ Meteor.methods
 
 
         if tag in user.tagList
-            Meteor.users.update {
-                _id: uId
-                'tagCloud.name': tag
-            }, $inc: 'tagCloud.$.count'
-
+            if tag in _.findWhere(Meteor.user().userTags, uId: uId).tags then return
+            else
+                Meteor.users.update {
+                    _id: uId
+                    'tagCloud.name': tag
+                }, {$inc: 'tagCloud.$.count': 1}
         else
             Meteor.users.update uId,
                 $addToSet:
@@ -135,7 +145,7 @@ Meteor.methods
         Meteor.users.update {
             _id: Meteor.userId()
             'userTags.uId': uId
-        }, $addToSet: 'userTags.$.tags': tag
+        }, {$addToSet: 'userTags.$.tags': tag}
 
 
     removeUserTag: (uId, tag)->
@@ -150,12 +160,12 @@ Meteor.methods
             Meteor.users.update {
                 _id: uId
                 'tagCloud.name': tag
-            }, $inc: 'tagCloud.$.count': -1
+            }, {$inc: 'tagCloud.$.count': -1}
 
         Meteor.users.update {
             _id: Meteor.userId()
             'userTags.uId': uId
-        }, $pull: 'userTags.$.tags': tag
+        }, {$pull: 'userTags.$.tags': tag}
 
 
 
