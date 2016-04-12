@@ -18,17 +18,12 @@ manuel:reactivearray
 meteorhacks:aggregate
 jquery
 babrahams:constellation
-raix:handlebar-helpers
 mquandalle:stylus
-matb33:collection-hooks
 accounts-password
 semantic:ui
 flemay:less-autoprefixer
 kadira:flow-router
 kadira:blaze-layout
-dburles:collection-helpers
-momentjs:moment
-zimme:active-route
 uzumaxy:prevent-backspace
 useraccounts:semantic-ui
 useraccounts:flow-routing

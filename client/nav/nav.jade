@@ -1,12 +1,13 @@
 template(name='nav')
     .ui.menu
-        a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}") Facet
+        a#homeLink.ui.item(href='/') Facet
         // .item
         //     .ui.left.icon.input
         //         i.search.icon
         //         input#search(type='text', placeholder="Search")
         if currentUser
-            a.item(href='/profile' class="{{isActivePath '/profile'}}")
+            // a.item(href='/profile' class="{{isActivePath '/profile'}}")
+            .item
                 i.user.icon
                 |#{user.username}
         +atNavButton

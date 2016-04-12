@@ -1,7 +1,7 @@
 Template.nav.onCreated ->
     self = @
     self.autorun ->
-        self.subscribe 'people'
+        self.subscribe 'me'
 
 
 Template.nav.helpers

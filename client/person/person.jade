@@ -1,16 +1,19 @@
 template(name='person')
-    .ui.card
+    .ui.fluid.card
         .content
             .header
                 |#{username}
-                each tags
-                    .ui.large.compact.button.userTag(class=userTagClass)  #{this}
+                each tagCloud
+                    .ui.large.compact.button.userTag(class=userTagClass)
+                        |#{this.name}
+                        small #{this.count}
         unless isUser
             if currentUser
                 .extra.content
                     if hasTagged
                         each myTags
-                            .ui.labeled.basic.icon.button.myTags
+                            .ui.labeled.basic.icon.button.removeMyTag
+                                i.remove.icon
                                 |#{this}
                         .ui.left.icon.input
                             i.tag.icon

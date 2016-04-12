@@ -5,21 +5,27 @@
 #             username: 1
 #             taggers: 1
 
-# Meteor.publish 'me', ->
-#     Meteor.users.find @userId,
-#         fields:
-#             tags: 1
-#             username: 1
-#             taggers: 1
-#             userTags: 1
+Meteor.publish 'me', ->
+    Meteor.users.find @userId,
+        fields:
+            tags: 1
+            username: 1
+            taggers: 1
+            userTags: 1
 
 Meteor.publish 'people', (selectedTags)->
     self = @
     # console.log selectedTags
     match = {}
-    if selectedTags.length > 0 then match.tags = $all: selectedTags
+    if selectedTags.length > 0 then match.tagList = $all: selectedTags
 
-    Meteor.users.find match
+    Meteor.users.find match,
+        fields:
+            tagCloud: 1
+            tagList: 1
+            taggers: 1
+            username: 1
+
 
 
 
@@ -71,9 +77,9 @@ Meteor.publish 'tags', (selectedTags)->
 
     cloud = Meteor.users.aggregate [
         { $match: match }
-        { $project: tags: 1 }
-        { $unwind: '$tags' }
-        { $group: _id: '$tags', count: $sum: 1 }
+        { $project: tagList: 1 }
+        { $unwind: '$tagList' }
+        { $group: _id: '$tagList', count: $sum: 1 }
         { $match: _id: $nin: selectedTags }
         { $sort: count: -1, _id: 1 }
         { $limit: 50 }
@@ -91,13 +97,40 @@ Meteor.publish 'tags', (selectedTags)->
 
 
 Meteor.methods
-    addTag: (uId, tag)->
-        user = Meteor.users.findOne uId
-        # if tag in _.pluck(user.tags, 'name')
-        # tags[tag] = (tags[tag] or 0) + 1
+    tagUser: (uId)->
         Meteor.users.update uId,
             $addToSet:
-                tags: tag
+                taggers: Meteor.userId()
+
+        Meteor.users.update Meteor.userId(),
+            $addToSet:
+                userTags:
+                    uId: uId
+                    tagList: []
+
+    addTag: (uId, tag)->
+        user = Meteor.users.findOne uId
+        if not user.tagCloud
+            Meteor.users.update uId,
+                $set: tagCloud: []
+        if not user.tagList
+            Meteor.users.update uId,
+                $set: tagList: []
+
+
+        if tag in user.tagList
+            Meteor.users.update {
+                _id: uId
+                'tagCloud.name': tag
+            }, $inc: 'tagCloud.$.count'
+
+        else
+            Meteor.users.update uId,
+                $addToSet:
+                    tagList: tag
+                    tagCloud:
+                        name: tag
+                        count: 1
 
         Meteor.users.update {
             _id: Meteor.userId()
@@ -105,15 +138,24 @@ Meteor.methods
         }, $addToSet: 'userTags.$.tags': tag
 
 
-    tagUser: (uId)->
-        Meteor.users.update uId,
-            $addToSet:
-                taggers: Meteor.userId()
-        Meteor.users.update Meteor.userId(),
-            $addToSet:
-                userTags:
-                    uId: uId
-                    tags: []
+    removeUserTag: (uId, tag)->
+        user = Meteor.users.findOne uId
+        if _.findWhere(user.tagCloud, name: tag).count is 1
+            Meteor.users.update uId,
+                $pull:
+                    tagCloud: name: tag
+                    tagList: tag
+
+        else
+            Meteor.users.update {
+                _id: uId
+                'tagCloud.name': tag
+            }, $inc: 'tagCloud.$.count': -1
+
+        Meteor.users.update {
+            _id: Meteor.userId()
+            'userTags.uId': uId
+        }, $pull: 'userTags.$.tags': tag
 
 
 

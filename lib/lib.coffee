@@ -1,9 +1,6 @@
 @Tags = new Meteor.Collection 'tags'
 
 
-
-
-
 # Meteor.users.schema
 #     hasTagged: ['id', 'id']
 #     tagCloud: [
