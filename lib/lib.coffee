@@ -1,4 +1,29 @@
 @Tags = new Meteor.Collection 'tags'
+@Docs = new Meteor.Collection 'docs'
+@Messages = new Meteor.Collection 'messages'
+@Usernames = new Meteor.Collection 'usernames'
+
+
+Docs.before.insert (userId, doc)->
+    doc.upVoters = [userId]
+    doc.downVoters = []
+    doc.timestamp = Date.now()
+    doc.authorId = Meteor.userId()
+    doc.username = Meteor.user().username
+    doc.points = 1
+    doc.cost = 0
+    doc.tagCount = doc.tags.length
+    return
+
+Docs.helpers
+    author: (doc)-> Meteor.users.findOne @authorId
+
+
+Messages.helpers
+    from: (doc)-> Meteor.users.findOne @fromId
+    to: (doc)-> Meteor.users.findOne @toId
+
+
 
 
 # Meteor.users.schema
@@ -9,7 +34,7 @@
 #         ]
 
 
-FlowRouter.route '/', action: (params) ->
+FlowRouter.route '/people', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         cloud: 'cloud'
@@ -20,10 +45,37 @@ FlowRouter.route '/edit/:docId', action: (params) ->
         main: 'edit'
 
 
+FlowRouter.route '/', action: (params) ->
+    Session.set('view', 'all')
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'cloud'
+        main: 'docs'
+
+
+FlowRouter.route '/mine', action: (params) ->
+    Session.set('view', 'mine')
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'cloud'
+        main: 'docs'
+
+FlowRouter.route '/unvoted', action: (params) ->
+    Session.set('view', 'unvoted')
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'cloud'
+        main: 'docs'
+
 FlowRouter.route '/profile', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         main: 'profile'
+
+FlowRouter.route '/marketplace', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'marketplace'
 
 
 
