@@ -7,25 +7,24 @@ template(name='edit')
                         .ui.labeled.basic.large.icon.button.docTag
                             i.minus.icon
                             |#{this}
+                .ui.basic.segment
                     .ui.left.icon.input
                         i.add.icon
                         input#addTag(type='text' autofocus='' placeholder='Add Tag')
-                // .ui.basic.segment
-                //     .ui.form
-                //         .inline.field
-                //             label Cost
-                //             input#cost(type='number' value=cost min='0')
-
-                    // .ui.left.icon.action.input
-                    //     i.map.icon
-                    //     input#place(type='text' value=locationob.formatted_address placeholder='Add Address')
-                    // .ui.icon.button
-                    //     i.link.remove.icon.clearAddress
-                    // .ui.left.icon.action.input
-                    //     i.calendar.outline.icon
-                    //     input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
-                    //     .ui.icon.button
-                    //         i.link.remove.icon.clearDT
+                    // .ui.form
+                    //     .field
+                    //         label Cost
+                    //         input#cost(type='number' value=cost min='0')
+                    .ui.left.icon.action.input
+                        i.map.icon
+                        input#place(type='text' value=locationob.formatted_address placeholder='Add Address')
+                    .ui.icon.button
+                        i.link.remove.icon.clearAddress
+                    .ui.left.icon.action.input
+                        i.calendar.outline.icon
+                        input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
+                        .ui.icon.button
+                            i.link.remove.icon.clearDT
                 .ui.hidden.divider
                 .field
                     textarea#body(rows='20')

@@ -1,16 +1,16 @@
 template(name='nav')
-    .ui.inverted.menu.grid
+    .ui.menu.grid
         .mobile.only.row
             a.item.toggleSidebar
                 i.sidebar.icon
             .item
                 |Facet
-        .tablet.only.row
-            a.item.toggleSidebar
-                i.sidebar.icon
-            .item
-                |Facet
-        .computer.only.row
+        // .tablet.only.row
+        //     a.item.toggleSidebar
+        //         i.sidebar.icon
+        //     .item
+        //         |Facet
+        .computer.tablet.only.row
             // a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
             //     i.large.comment.outline.icon
             //     |Bubl
@@ -30,10 +30,8 @@ template(name='nav')
                     i.users.icon
                     |People
                 a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
-                    i.users.icon
                     |Bulk
                 a.item(href='/importers' class="{{isActivePath '/importers'}}")
-                    i.users.icon
                     |Importer
             // .ui.item
             //     .ui.left.transparent.icon.input

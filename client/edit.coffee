@@ -42,7 +42,7 @@ Template.edit.onRendered ->
                         datearray: datearray
                         dateTime: val
             )
-        ), 100
+        ), 300
 
     @autorun ->
         if GoogleMaps.loaded()

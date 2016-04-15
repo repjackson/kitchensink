@@ -51,6 +51,7 @@ froala:editor@2.2.3
 geojson-utils@1.0.7
 gwendall:body-events@0.1.6
 gwendall:session-json@0.1.7
+harrison:papa-parse@1.1.1
 hot-code-push@1.0.3
 html-tools@1.0.8
 htmljs@1.0.8
