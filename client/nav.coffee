@@ -24,6 +24,10 @@ Template.nav.helpers
 
 
 Template.nav.events
+    'click .toggleSidebar': ->
+        $('.ui.sidebar').sidebar 'toggle'
+
+
     'click .userTag': ->
         if @name in selectedTags.array() then selectedTags.remove @name else selectedTags.push @name
 

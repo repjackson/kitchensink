@@ -25,7 +25,46 @@ head
     meta(name="theme-color", content="#ffffff")
 
 template(name='layout')
-    +Template.dynamic template=nav
-    +Template.dynamic template=cloud
-    +Template.dynamic template=main
+    .ui.sidebar.inverted.vertical.menu
+        if currentUser
+            a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
+                i.file.text.outline.icon
+                |All
+            a.item(href='/unvoted' class="{{isActivePath '/unvoted'}}")
+                i.file.text.outline.icon
+                |Unvoted
+            a.item(href='/mine' class="{{isActivePath '/mine'}}")
+                i.file.text.outline.icon
+                |Mine
+            a.item(href='/people' class="{{isActivePath '/people'}}")
+                i.users.icon
+                |People
+            a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
+                i.users.icon
+                |Bulk
+            a.item(href='/importers' class="{{isActivePath '/importers'}}")
+                i.users.icon
+                |Importer
+        // .ui.item
+        //     .ui.left.transparent.icon.input
+        //         i.lightning.icon
+        //         input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
+        .item
+            .ui.left.icon.input
+                i.search.icon
+                input#search(type='text', placeholder="Search")
+        if currentUser
+            a#addDoc.item
+                i.plus.icon
+                |Add
+        // a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
+        //     i.shop.icon
+        //     |Marketplace
+        a.item(href='/profile' class="{{isActivePath '/profile'}}")
+            i.user.icon
+            |Profile
+    .pusher
+        +Template.dynamic template=nav
+        +Template.dynamic template=cloud
+        +Template.dynamic template=main
 

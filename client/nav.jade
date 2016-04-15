@@ -1,48 +1,59 @@
 template(name='nav')
-    .ui.top.fixed.stackable.menu
-        // a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
-        //     i.large.comment.outline.icon
-        //     |Bubl
-        if currentUser
-            a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
-                i.file.text.outline.icon
-                // i.large.comment.outline.icon
-                |All
-            a.item(href='/unvoted' class="{{isActivePath '/unvoted'}}")
-                i.file.text.outline.icon
-                // i.announcement.icon
-                |Unvoted
-            a.item(href='/mine' class="{{isActivePath '/mine'}}")
-                i.file.text.outline.icon
-                |Mine
-            a.item(href='/people' class="{{isActivePath '/people'}}")
-                i.users.icon
-                |People
-            a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
-                i.users.icon
-                |Bulk
-            a.item(href='/importers' class="{{isActivePath '/importers'}}")
-                i.users.icon
-                |Importer
-        // .ui.item
-        //     .ui.left.transparent.icon.input
-        //         i.lightning.icon
-        //         input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
-        .item
-            .ui.left.icon.input
-                i.search.icon
-                input#search(type='text', placeholder="Search")
-        if currentUser
-            a#addDoc.item
-                i.plus.icon
-                |Add
+    .ui.inverted.menu.grid
+        .mobile.only.row
+            a.item.toggleSidebar
+                i.sidebar.icon
+            .item
+                |Facet
+        .tablet.only.row
+            a.item.toggleSidebar
+                i.sidebar.icon
+            .item
+                |Facet
+        .computer.only.row
+            // a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
+            //     i.large.comment.outline.icon
+            //     |Bubl
+            if currentUser
+                a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
+                    i.file.text.outline.icon
+                    // i.large.comment.outline.icon
+                    |All
+                a.item(href='/unvoted' class="{{isActivePath '/unvoted'}}")
+                    i.file.text.outline.icon
+                    // i.announcement.icon
+                    |Unvoted
+                a.item(href='/mine' class="{{isActivePath '/mine'}}")
+                    i.file.text.outline.icon
+                    |Mine
+                a.item(href='/people' class="{{isActivePath '/people'}}")
+                    i.users.icon
+                    |People
+                a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
+                    i.users.icon
+                    |Bulk
+                a.item(href='/importers' class="{{isActivePath '/importers'}}")
+                    i.users.icon
+                    |Importer
+            // .ui.item
+            //     .ui.left.transparent.icon.input
+            //         i.lightning.icon
+            //         input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
+            .item
+                .ui.left.icon.input
+                    i.search.icon
+                    input#search(type='text', placeholder="Search")
+            if currentUser
+                a#addDoc.item
+                    i.plus.icon
+                    |Add Doc
             // a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
             //     i.shop.icon
             //     |Marketplace
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 |#{user.username}
-        +atNavButton
+            +atNavButton
 
 
 template(name='tagresult')
