@@ -38,8 +38,8 @@ template(name='view')
                     .ui.circular.compact.button.authorFilterButton(class=authorFilterButtonClass)
                         i.user.icon
                         |#{username}
-                    // |[#{author.points} points] #{when}
-                    | Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
+                    p [#{author.points} points] #{when}
+                    p Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
                     div
                         each upVotedMatchCloud.cloud
                             .ui.basic.label #{this.tag} #{this.min}

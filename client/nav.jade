@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.top.attached.menu
+    .ui.top.fixed.stackable.menu
         // a#homeLink.ui.item(href='/' class="{{isActivePath '/'}}")
         //     i.large.comment.outline.icon
         //     |Bubl
@@ -18,6 +18,12 @@ template(name='nav')
             a.item(href='/people' class="{{isActivePath '/people'}}")
                 i.users.icon
                 |People
+            a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
+                i.users.icon
+                |Bulk
+            a.item(href='/importers' class="{{isActivePath '/importers'}}")
+                i.users.icon
+                |Importer
         // .ui.item
         //     .ui.left.transparent.icon.input
         //         i.lightning.icon
@@ -36,20 +42,6 @@ template(name='nav')
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 |#{user.username}
-        +atNavButton
-    .ui.segment
-        // .item
-        //     .ui.left.icon.input
-        //         i.search.icon
-        //         input#search(type='text', placeholder="Search")
-        if currentUser
-            // a.item(href='/profile' class="{{isActivePath '/profile'}}")
-            .ui.item
-                i.user.icon
-                |#{user.username}'s Descriptors:
-                each user.tagCloud
-                    .ui.small.compact.button.userTag(class=userTagClass) #{this.name}
-                        small #{this.count}
         +atNavButton
 
 

@@ -1,6 +1,12 @@
 template(name='profile')
     .ui.container
         .ui.segment
+            i.user.icon
+            |#{user.username}'s Descriptors:
+            each user.tagCloud
+                .ui.small.compact.button.userTag(class=userTagClass) #{this.name}
+                    small #{this.count}
+        .ui.segment
             .ui.header Messages
             +messageList
         .ui.segment

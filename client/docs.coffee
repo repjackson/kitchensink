@@ -2,12 +2,12 @@ Template.docs.onCreated ->
     @autorun -> Meteor.subscribe('docs', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
 
 Template.docs.helpers
-    docs: -> Docs.find({}, limit: 1)
-    # docs: -> Docs.find()
+    # docs: -> Docs.find({}, limit: 1)
+    docs: -> Docs.find()
 
 
 Template.view.onCreated ->
-    Meteor.subscribe 'person', @authorId
+    Meteor.subscribe 'person', @data.authorId
 
 Template.view.helpers
     isAuthor: -> @authorId is Meteor.userId()
@@ -40,9 +40,10 @@ Template.view.helpers
         myUpVotedCloud = Meteor.user().upvotedCloud
         myUpVotedList = Meteor.user().upvotedList
         # console.log 'myUpVotedCloud', myUpVotedCloud
+        # console.log @
         otherUser = Meteor.users.findOne @authorId
-        otherUpVotedCloud = otherUser.upvotedCloud
-        otherUpVotedList = otherUser.upvotedList
+        otherUpVotedCloud = otherUser?.upvotedCloud
+        otherUpVotedList = otherUser?.upvotedList
         # console.log 'otherCloud', otherUpVotedCloud
         intersection = _.intersection(myUpVotedList, otherUpVotedList)
         intersectionCloud = []

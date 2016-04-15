@@ -2,12 +2,12 @@
 @selectedUsernames = new ReactiveArray []
 
 
-Template.cloud.onCreated ->
+Template.docCloud.onCreated ->
     Meteor.subscribe 'people'
     @autorun -> Meteor.subscribe('usernames', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
-    @autorun -> Meteor.subscribe('tags', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
+    @autorun -> Meteor.subscribe('docTags', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
 
-Template.cloud.helpers
+Template.docCloud.helpers
     globalTags: ->
         docCount = Docs.find().count()
         if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
@@ -51,7 +51,7 @@ Template.cloud.helpers
     selectedUsernames: -> selectedUsernames.list()
 
 
-Template.cloud.events
+Template.docCloud.events
     'click .selectTag': -> selectedTags.push @name
     'click .unselectTag': -> selectedTags.remove @valueOf()
     'click #clearTags': -> selectedTags.clear()

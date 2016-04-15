@@ -64,3 +64,10 @@ Meteor.methods
                 tags: tagsWithNew
                 locationob: result
                 addresstags: loweredAddressTags
+
+    toggleFieldTag: (id, fieldName, value)->
+        Importers.update {
+            _id: id
+            fieldsObject: $elemMatch:
+                name: fieldName
+            }, $set: 'fieldsObject.$.tag': value

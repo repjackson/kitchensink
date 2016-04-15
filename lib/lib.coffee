@@ -2,6 +2,7 @@
 @Docs = new Meteor.Collection 'docs'
 @Messages = new Meteor.Collection 'messages'
 @Usernames = new Meteor.Collection 'usernames'
+@Importers = new Meteor.Collection 'importers'
 
 
 Docs.before.insert (userId, doc)->
@@ -33,11 +34,29 @@ Messages.helpers
 #         count: 4
 #         ]
 
+FlowRouter.route '/importers', action: (params) ->
+    analytics.page()
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'importerList'
+
+FlowRouter.route '/importers/:iId', action: (params) ->
+    analytics.page()
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'importerView'
+
+FlowRouter.route '/bulk', action: (params) ->
+    analytics.page()
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'bulk'
+
 
 FlowRouter.route '/people', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
-        cloud: 'cloud'
+        cloud: 'userCloud'
         main: 'people'
 
 FlowRouter.route '/edit/:docId', action: (params) ->
@@ -49,7 +68,7 @@ FlowRouter.route '/', action: (params) ->
     Session.set('view', 'all')
     BlazeLayout.render 'layout',
         nav: 'nav'
-        cloud: 'cloud'
+        cloud: 'docCloud'
         main: 'docs'
 
 
@@ -57,14 +76,14 @@ FlowRouter.route '/mine', action: (params) ->
     Session.set('view', 'mine')
     BlazeLayout.render 'layout',
         nav: 'nav'
-        cloud: 'cloud'
+        cloud: 'docCloud'
         main: 'docs'
 
 FlowRouter.route '/unvoted', action: (params) ->
     Session.set('view', 'unvoted')
     BlazeLayout.render 'layout',
         nav: 'nav'
-        cloud: 'cloud'
+        cloud: 'docCloud'
         main: 'docs'
 
 FlowRouter.route '/profile', action: (params) ->
