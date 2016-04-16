@@ -8,7 +8,7 @@ Template.person.helpers
         _.findWhere(Meteor.user().userTags, uId: @_id)?.tags
 
     userTagClass: ->
-        if @name in selectedTags.array() then 'primary' else 'basic'
+        if @name in selectedUserTags.array() then 'primary' else 'basic'
 
     hasTagged: ->
         if @taggers and Meteor.userId() in @taggers then true else false
@@ -41,7 +41,7 @@ Template.person.helpers
 
 Template.person.events
     'click .userTag': ->
-        if @name in selectedTags.array() then selectedTags.remove @name else selectedTags.push @name
+        if @name in selectedUserTags.array() then selectedUserTags.remove @name else selectedUserTags.push @name
 
     'keyup .addTag': (e,t)->
         tag = t.find('.addTag').value.toLowerCase()

@@ -1,7 +1,7 @@
-@selectedTags = new ReactiveArray []
+@selectedUserTags = new ReactiveArray []
 
 Template.userCloud.onCreated ->
-    @autorun -> Meteor.subscribe('userTags', selectedTags.array())
+    @autorun -> Meteor.subscribe('userTags', selectedUserTags.array())
 
 Template.userCloud.helpers
     globalTags: ->
@@ -27,13 +27,13 @@ Template.userCloud.helpers
             when @index <= 50 then 'tiny'
         return buttonClass
 
-    selectedTags: -> selectedTags.list()
+    selectedUserTags: -> selectedUserTags.list()
 
     user: -> Meteor.user()
 
 
 
 Template.userCloud.events
-    'click .selectTag': -> selectedTags.push @name
-    'click .unselectTag': -> selectedTags.remove @valueOf()
-    'click #clearTags': -> selectedTags.clear()
+    'click .selectTag': -> selectedUserTags.push @name
+    'click .unselectTag': -> selectedUserTags.remove @valueOf()
+    'click #clearTags': -> selectedUserTags.clear()

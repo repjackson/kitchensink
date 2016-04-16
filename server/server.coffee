@@ -17,6 +17,9 @@ Accounts.onCreateUser (options, user) ->
     user.tagList = []
     user
 
+# Accounts.onCreateUser (options, user)->
+#     user.points = 100
+#     user
 
 
 Messages.allow

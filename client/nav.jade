@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.menu.grid
+    .ui.borderless.menu.grid
         .mobile.only.row
             a.item.toggleSidebar
                 i.sidebar.icon
@@ -19,6 +19,9 @@ template(name='nav')
                     i.file.text.outline.icon
                     // i.large.comment.outline.icon
                     |All
+                a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
+                    |my points [#{user.points}]
+
                 a.item(href='/unvoted' class="{{isActivePath '/unvoted'}}")
                     i.file.text.outline.icon
                     // i.announcement.icon
@@ -33,10 +36,10 @@ template(name='nav')
                     |Bulk
                 a.item(href='/importers' class="{{isActivePath '/importers'}}")
                     |Importer
-            // .ui.item
-            //     .ui.left.transparent.icon.input
-            //         i.lightning.icon
-            //         input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
+            .ui.item
+                .ui.left.transparent.icon.input
+                    i.lightning.icon
+                    input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
             .item
                 .ui.left.icon.input
                     i.search.icon
@@ -45,12 +48,12 @@ template(name='nav')
                 a#addDoc.item
                     i.plus.icon
                     |Add Doc
-            // a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
-            //     i.shop.icon
-            //     |Marketplace
+            a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
+                i.shop.icon
+                |Marketplace
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
-                |#{user.username}
+                |#{user.username}'s Profile
             +atNavButton
 
 

@@ -69,9 +69,23 @@ Template.view.helpers
     canBuy: -> Meteor.user().points > @cost
 
     author: -> Meteor.users.findOne(@authorId)
+    currentUserDonations: ->
+        if @donators and Meteor.userId() in @donators
+            result = _.find @donations, (donation)->
+                donation.user is Meteor.userId()
+            result.amount
+        else return 0
+    canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
 
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"
+    'click .sendPoint': -> Meteor.call 'sendPoint', @_id
+    'click .retrievePoint': -> Meteor.call 'retrievePoint', @_id
+
+    'click .cloneDoc': ->
+        id = Docs.insert
+            tags: @tags
+        FlowRouter.go "/edit/#{id}"
 
     'click .docTag': -> if @valueOf() in selectedTags.array() then selectedTags.remove @valueOf() else selectedTags.push @valueOf()
 

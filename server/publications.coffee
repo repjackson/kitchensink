@@ -43,11 +43,11 @@ Meteor.publish 'me', ->
             upvotedList: 1
 
 
-Meteor.publish 'people', (selectedTags)->
+Meteor.publish 'people', (selectedUserTags)->
     self = @
     # console.log selectedTags
     match = {}
-    if selectedTags.length > 0 then match.tagList = $all: selectedTags
+    if selectedUserTags and selectedUserTags.length > 0 then match.tagList = $all: selectedUserTags
 
     Meteor.users.find match,
         fields:
@@ -63,6 +63,8 @@ Meteor.publish 'people', (selectedTags)->
 
 
 Meteor.publish 'docs', (selectedTags, selectedUsernames, viewMode)->
+    Counts.publish(this, 'doc_counter', Docs.find(), { noReady: true })
+
     match = {}
     if selectedTags.length > 0 then match.tags = $all: selectedTags
     if selectedUsernames.length > 0 then match.username = $in: selectedUsernames
@@ -212,3 +214,28 @@ Meteor.publish 'docTags', (selectedTags, selectedUsernames, viewMode)->
 
     self.ready()
 
+#Meteor.publish 'authored_intersection_tags', (authorId)->
+    #author_list = Meteor.users.findOne(authorId).authored_list
+    #author_tags = Meteor.users.findOne(authorId).authored_cloud
+#
+    #your_list = Meteor.user().authored_list
+    #your_tags = Meteor.user().authored_cloud
+#
+    #list_intersection = _.intersection(author_list, your_list)
+#
+    #intersection_tags = []
+    #for tag in list_intersection
+        #author_count = author_tags.tag.count
+        #your_count = your_tags.tag.count
+        #lower_value = Meth.min(author_count, your_count)
+        #cloud_object = name: tag, count: lower_value
+        #intersection_tags.push cloud_object
+#
+    #console.log intersection_tags
+#
+    #intersection_tags.forEach (tag) ->
+        #self.added 'authored_intersection_tags', Random.id(),
+            #name: tag.name
+            #count: tag.count
+#
+    #self.ready()

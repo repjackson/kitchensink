@@ -3,6 +3,7 @@ Template.edit.onCreated ->
     self.autorun ->
         docId = FlowRouter.getParam('docId')
         self.subscribe 'doc', docId
+    Meteor.subscribe('people')
 
 
 Template.edit.onRendered ->
@@ -42,7 +43,7 @@ Template.edit.onRendered ->
                         datearray: datearray
                         dateTime: val
             )
-        ), 300
+        ), 500
 
     @autorun ->
         if GoogleMaps.loaded()
@@ -52,13 +53,95 @@ Template.edit.onRendered ->
                 Meteor.call 'updatelocation', docId, result, ->
 
 Template.edit.helpers
+    unpickedConcepts: ->
+        _.difference @concept_array, @tags
+    unpickedKeywords: ->
+        _.difference @keyword_array, @tags
+
+    docKeywordClass: ->
+        docId = FlowRouter.getParam('docId')
+        doc = Docs.findOne docId
+        if @text.toLowerCase() in doc.tags then 'disabled' else ''
+
     doc: ->
         docId = FlowRouter.getParam('docId')
         Docs.findOne docId
 
+    userSettings: -> {
+        position: 'bottom'
+        limit: 10
+        rules: [
+            {
+                collection: Meteor.users
+                field: 'username'
+                template: Template.userPill
+            }
+        ]
+    }
 
 
 Template.edit.events
+    'click #generateTags': ->
+        text = $('textarea').val()
+        Meteor.call 'generateTags', FlowRouter.getParam('docId'), text
+
+    'keyup #url': (e,t)->
+        docId = FlowRouter.getParam('docId')
+        url = $('#url').val()
+        switch e.which
+            when 13
+                if url.length > 0
+                    Docs.update docId,
+                        $set: url: url
+                    Meteor.call 'fetchUrlTags', docId, url
+
+    'click #analyzeBody': ->
+        Docs.update FlowRouter.getParam('docId'),
+            $set: body: $('#body').val()
+        Meteor.call 'analyze', FlowRouter.getParam('docId')
+    'click .docKeyword': ->
+        docId = FlowRouter.getParam('docId')
+        Docs.update docId, $addToSet: tags: @valueOf()
+
+    'click #delete': ->
+        $('.modal').modal(
+            onApprove: ->
+                Meteor.call 'deleteDoc', FlowRouter.getParam('docId'), ->
+                $('.ui.modal').modal('hide')
+                FlowRouter.go '/docs'
+        	).modal 'show'
+
+    'click #personal': ->
+        docId = FlowRouter.getParam('docId')
+        doc = Docs.findOne docId
+        newValue = !doc.personal
+        Docs.update docId,
+            $set:
+                personal: newValue
+
+    'click #auctionable': (e)->
+        docId = FlowRouter.getParam('docId')
+        doc = Docs.findOne docId
+        newValue = !doc.auctionable
+        Docs.update docId,
+            $set:
+                auctionable: newValue
+        Meteor.setTimeout (->
+            $('#auctionDateTimePicker').datetimepicker()
+        ), 200
+
+    'autocompleteselect #userSelection': (event, template, doc)->
+        name =  doc.username.toString()
+        Docs.update FlowRouter.getParam('docId'),
+            $addToSet: mentions: name
+        console.log @
+        $('#userSelection').val('')
+
+    'click .docMention': ->
+        mention = @valueOf()
+        Docs.update FlowRouter.getParam('docId'),
+            $pull: mentions: mention
+
     'keydown #addTag': (e,t)->
         e.preventDefault
         tag = $('#addTag').val().toLowerCase().trim()

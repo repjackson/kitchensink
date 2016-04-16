@@ -1,0 +1,88 @@
+template(name='edit')
+    with doc
+        .ui.container
+            .ui.segment
+                .ui.segment
+                    each tags
+                        .ui.labeled.basic.large.icon.button.docTag
+                            i.minus.icon
+                            |#{this}
+                    .ui.form
+                        .field
+                            .ui.left.icon.input
+                                i.add.icon
+                                input#addTag(type='text' autofocus='' placeholder='Add Tag')
+                        .field
+                            .ui.left.icon.action.input
+                                i.map.icon
+                                input#place(type='text' value=locationob.formatted_address placeholder='Add Address')
+                                .ui.icon.button
+                                    i.link.remove.icon.clearAddress
+                        .field
+                            .ui.left.icon.action.input
+                                i.calendar.outline.icon
+                                input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
+                                .ui.icon.button
+                                    i.link.remove.icon.clearDT
+                    .checkbox
+                        label
+                            input(type="checkbox" id="personal" checked=personal)
+                            |private
+                    .checkbox
+                        label
+                            input(type='checkbox' id='auctionable' checked=auctionable)
+                            |auctionable
+                    if auctionable
+                        .ui.segment
+                            .panel-heading auction settings
+                            .panel-body
+                                .form-group
+                                    label(for='auctionDateTimePicker') expiration date
+                                    input#auctionDateTimePicker.form-control(type="text" value=auctionEndDateTime)
+                    if unpickedKeywords.length
+                        .ui.segment
+                            .panel-heading suggestions
+                            .panel-body
+                                div keywords
+                                    each unpickedKeywords
+                                        .docKeyword.btn.btn-default #{this}
+                                .card-action
+                                    a#addAll add all suggestions
+
+                .ui.form
+                    .field
+                        label Cost (in points)
+                        input#cost(type='number' value=cost min='0')
+                    .ui.segment
+                        label User Mentions
+                        each mentions
+                            .ui.basic.button.docMention
+                                i.remove.icon
+                                |#{this}
+                        +inputAutocomplete(settings=userSettings id='userSelection' class='' placeholder="select users")
+                .ui.hidden.divider
+                .field
+                    #generateTags.ui.button Generate Tags
+                    #analyzeBody.ui.button Autotag Body
+                    textarea#body(rows='20')
+                        |#{body}
+                .ui.hidden.divider
+                if tags.length
+                    #saveDoc.ui.large.labeled.green.icon.button
+                        |Save
+                        i.check.icon
+                #deleteDoc.ui.large.red.labeled.icon.button
+                    i.remove.icon
+                    |Delete
+
+    .ui.modal
+        .header Confirm Delete
+        .content
+           .meta This will refund you one point
+           .description #{body}
+        .actions
+           .ui.button.cancel Cancel
+           .ui.red.button.approve Delete
+
+template(name='userPill')
+    span.ui.basic.label #{username}

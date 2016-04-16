@@ -71,3 +71,63 @@ Meteor.methods
             fieldsObject: $elemMatch:
                 name: fieldName
             }, $set: 'fieldsObject.$.tag': value
+
+    sendPoint: (id)->
+        doc = Docs.findOne id
+        # check if current user has sent points
+        if doc.donators and Meteor.userId() in doc.donators
+            Docs.update {
+                _id: id
+                "donations.user": Meteor.userId()
+                },
+                    $inc:
+                        "donations.$.amount": 1
+                        points: 1
+            Meteor.users.update Meteor.userId(), $inc: points: -1
+
+        else
+            Docs.update id,
+                $addToSet:
+                    donators: Meteor.userId()
+                    donations:
+                        user: Meteor.userId()
+                        amount: 1
+            Meteor.users.update Meteor.userId(), $inc: points: -1
+
+
+    retrievePoint: (id)->
+        doc = Docs.findOne id
+        currentId = Meteor.userId()
+        # check if current user has sent points
+        if doc.donators and Meteor.userId() in doc.donators
+            donationEntry = _.find doc.donations, (donation)->
+                donation.user is currentId
+            if donationEntry.amount is 1
+                Docs.update {
+                    _id: id
+                    "donations.user": Meteor.userId()
+                    },
+                    $pull: { donations: {user: Meteor.userId()}, donators: Meteor.userId()}
+                    $inc: points: -1
+
+                Meteor.users.update Meteor.userId(), $inc: points: 1
+
+            else
+                Docs.update {
+                    _id: id
+                    "donations.user": Meteor.userId()
+                    }, $inc: "donations.$.amount": -1, points: -1
+
+                Meteor.users.update Meteor.userId(), $inc: points: 1
+
+        else
+            Docs.update id,
+                $addToSet:
+                    donators: Meteor.userId()
+                    donations:
+                        user: Meteor.userId()
+                        amount: 1
+                $inc: points: -1
+
+            Meteor.users.update Meteor.userId(), $inc: points: 1
+
