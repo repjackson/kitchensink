@@ -69,7 +69,11 @@ Template.nav.events
                 if tag.length > 0
                     splitTags = tag.match(/\S+/g);
                     $('#quickAdd').val('')
-                    Meteor.call 'createDoc', splitTags
+                    Docs.insert
+                        tags: splitTags
+                    # Meteor.call 'createDoc', splitTags, (err,res)->
+                    #     if err then console.log err
+                    #     else console.log res
                     selectedTags.clear()
                     for tag in splitTags
                         selectedTags.push tag

@@ -19,9 +19,6 @@ template(name='nav')
                     i.file.text.outline.icon
                     // i.large.comment.outline.icon
                     |All
-                a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
-                    |my points [#{user.points}]
-
                 a.item(href='/unvoted' class="{{isActivePath '/unvoted'}}")
                     i.file.text.outline.icon
                     // i.announcement.icon
@@ -36,10 +33,12 @@ template(name='nav')
                     |Bulk
                 a.item(href='/importers' class="{{isActivePath '/importers'}}")
                     |Importer
-            .ui.item
-                .ui.left.transparent.icon.input
-                    i.lightning.icon
-                    input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
+                a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
+                    |my points [#{user.points}]
+                .ui.item
+                    .ui.left.icon.input
+                        i.lightning.icon
+                        input#quickAdd(type='text' autofocus='' placeholder='Quick Add')
             .item
                 .ui.left.icon.input
                     i.search.icon

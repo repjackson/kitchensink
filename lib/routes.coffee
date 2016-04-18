@@ -1,5 +1,7 @@
 FlowRouter.route '/leaderboard', action: (params) ->
-    BlazeLayout.render 'layout', main: 'leaderboard'
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'leaderboard'
 
 FlowRouter.route '/importers', action: (params) ->
     analytics.page()
@@ -18,9 +20,6 @@ FlowRouter.route '/bulk', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         main: 'bulk'
-FlowRouter.route '/marketplace', action: (params) ->
-    Session.set('view', 'marketplace')
-    BlazeLayout.render 'layout', main: 'home'
 
 
 FlowRouter.route '/people', action: (params) ->

@@ -85,6 +85,11 @@ Template.edit.events
         text = $('textarea').val()
         Meteor.call 'generateTags', FlowRouter.getParam('docId'), text
 
+    'click #analyzeBody': ->
+        Docs.update FlowRouter.getParam('docId'),
+            $set: body: $('#body').val()
+        Meteor.call 'analyze', FlowRouter.getParam('docId')
+
     'keyup #url': (e,t)->
         docId = FlowRouter.getParam('docId')
         url = $('#url').val()
@@ -95,10 +100,6 @@ Template.edit.events
                         $set: url: url
                     Meteor.call 'fetchUrlTags', docId, url
 
-    'click #analyzeBody': ->
-        Docs.update FlowRouter.getParam('docId'),
-            $set: body: $('#body').val()
-        Meteor.call 'analyze', FlowRouter.getParam('docId')
     'click .docKeyword': ->
         docId = FlowRouter.getParam('docId')
         Docs.update docId, $addToSet: tags: @valueOf()
