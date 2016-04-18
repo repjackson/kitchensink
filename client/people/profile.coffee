@@ -1,13 +1,46 @@
+@selectedTags = new ReactiveArray []
+
+
 Template.profile.onCreated ->
     @autorun -> Meteor.subscribe 'me'
     @autorun -> Meteor.subscribe 'people'
     @autorun -> Meteor.subscribe 'messages'
+    @autorun -> Meteor.subscribe 'myDocs', selectedTags.array()
+    @autorun -> Meteor.subscribe 'myTags', selectedTags.array()
+
 
 
 Template.profile.helpers
+    globalTags: ->
+        # docCount = Docs.find().count()
+        # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
+        Tags.find()
+
+    # globalTagClass: ->
+    #     buttonClass = switch
+    #         when @index <= 20 then 'big'
+    #         when @index <= 40 then 'large'
+    #         when @index <= 60 then ''
+    #         when @index <= 80 then 'small'
+    #         when @index <= 100 then 'tiny'
+    #     return buttonClass
+
+    globalTagClass: ->
+        buttonClass = switch
+            when @index <= 10 then 'big'
+            when @index <= 20 then 'large'
+            when @index <= 30 then ''
+            when @index <= 40 then 'small'
+            when @index <= 50 then 'tiny'
+        return buttonClass
+
+    selectedTags: -> selectedTags.list()
+
     user: -> Meteor.user()
 
     people: -> Meteor.users.find()
+
+    myDocs: -> Docs.find()
 
     matchedUsersList:->
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
@@ -66,20 +99,12 @@ Template.profile.events
     'click .matchTwoUsersUpvotedCloud': ->
         Meteor.call 'matchTwoUsersUpvotedCloud', @_id, ->
 
-    'keyup #quickAdd': (e,t)->
-        e.preventDefault
-        tag = $('#quickAdd').val().toLowerCase()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    splitTags = tag.match(/\S+/g);
-                    $('#quickAdd').val('')
-                    Docs.insert
-                        tags: splitTags
-                    # Meteor.call 'createDoc', splitTags, (err,res)->
-                    #     if err then console.log err
-                    #     else console.log res
-                    selectedTags.clear()
-                    for tag in splitTags
-                        selectedTags.push tag
-                    FlowRouter.go '/'
+    'click .selectTag': -> selectedTags.push @name
+    'click .unselectTag': -> selectedTags.remove @valueOf()
+    'click #clearTags': -> selectedTags.clear()
+
+
+    'click .deleteDoc': ->
+        if confirm "Delete #{' '+tag for tag in @tags}?"
+            Docs.remove @_id
+            Meteor.call 'generateAuthoredCloud', Meteor.userId()

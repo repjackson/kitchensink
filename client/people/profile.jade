@@ -1,72 +1,46 @@
 template(name='profile')
     .ui.container
         .ui.segment
-            i.user.icon
-            |#{user.username}'s Descriptors:
-            each user.tagCloud
-                .ui.small.compact.button.userTag(class=userTagClass) #{this.name}
+            .ui.header My Interest Cloud (click on tags to filter)
+            if selectedTags
+                #clearTags.ui.primary.big.compact.icon.button
+                    i.remove.icon
+            if selectedTags
+                each selectedTags
+                    a.ui.primary.big.compact.button.unselectTag
+                        strong #{this}
+            each globalTags
+                .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
                     small #{this.count}
         .ui.segment
-            .ui.left.icon.input
-                i.lightning.icon
-                input#quickAdd(type='text' autofocus='' placeholder='Quick Add')
-        .ui.segment
-            .ui.header Your Wants
-            // #generatePersonalCloud.ui.icon.button
-                // i.refresh.icon
-            if authoredCloud
-                .ui.segment
-                    .ui.header Authored Cloud
-                    each authoredCloud
-                        .ui.button
-                            |#{this.name}
-                            small #{this.count}
-            each user.upvotedCloud
-                .ui.large.basic.label(class=upvotedCloudTagClass)
-                    |#{this.name}
-                    small #{this.count}
-            // if downvotedCloud
-            //     .ui.header Downvoted Cloud
-            //     each downvotedCloud
-            //         .ui.label
-            //             |#{this.name}
-            //             small #{this.count}
-        .ui.segment
-            .ui.header Top Matched Users
-            .ui.divided.relaxed.list
-                each upVotedMatchCloud
+            .ui.divided.list
+                each myDocs
                     .item
-                        h3.ui.header #{this.matchedUser}
-                        h5.ui.header #{this.totalCount} Common Points
-                        each this.cloudIntersection
-                            .ui.basic.label #{this.tag} #{this.min}
-            // .ui.header Top Matched User List
-            // each matchedUsersList
-            //     .ui.divided.list
-            //         .item
-            //             strong #{this.matchedUser} (#{this.length}):
-            //             each this.cloudIntersection
-            //                 .ui.basic.label #{this}
-                // each people
+                        each tags
+                            .ui.basic.label #{this}
+                        .ui.compact.icon.basic.button.deleteDoc
+                            i.remove.red.icon
+        .ui.segment
+            .ui.header Top Matched People by Interest
+            // .ui.divided.relaxed.list
+                // each upVotedMatchCloud
                 //     .item
-                //         |#{this.username}
-                //         .ui.button.matchTwoUsersAuthoredCloud Calculate Authored Match
-                //         .ui.button.matchTwoUsersUpvotedCloud Calculate Upvoted Match
-                // .ui.header Authored Docs Tag Cloud Matches
-                // each authoredCloudMatches
-                //     .ui.divided.list
-                //         .item
-                //             | #{this.username}
-                //             each userMatchAuthoredCloud
-                //                 .ui.button
-                //                     |#{this.name}
-                //                     small #{this.count}
-                // .ui.header Upvoted Docs Tag Cloud Matches
-                // each upVotedCloudMatches
-                //     .ui.divided.list
-                //         .item
-                //             | #{this.username}
-                //             each userMatchUpvotedCloud
-                //                 .ui.button
-                //                     |#{this.name}
-                //                     small #{this.count}
+                //         h3.ui.header #{this.matchedUser}
+                //         h5.ui.header #{this.totalCount} Common Points
+                //         each this.cloudIntersection
+                //             .ui.basic.label #{this.tag} #{this.min}
+            .ui.divided.list
+                each authoredCloudMatches
+                    .item
+                        | #{this.username}
+                        each userMatchAuthoredCloud
+                            .ui.button
+                                |#{this.name}
+                                small #{this.count}
+            .ui.header Top Matched User List
+            each matchedUsersList
+                .ui.divided.list
+                    .item
+                        strong #{this.matchedUser} (#{this.length}):
+                        each this.cloudIntersection
+                            .ui.basic.label #{this}

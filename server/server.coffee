@@ -6,8 +6,6 @@ Docs.allow
 
 
 Accounts.onCreateUser (options, user) ->
-    user.taggers = []
-    user.userTags = []
     user.tagCloud = []
     user.tagList = []
     user

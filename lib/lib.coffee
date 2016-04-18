@@ -5,18 +5,10 @@
 
 
 Docs.before.insert (userId, doc)->
-    doc.upVoters = [userId]
-    doc.downVoters = []
     doc.timestamp = Date.now()
     doc.authorId = Meteor.userId()
     doc.username = Meteor.user().username
-    doc.points = 1
-    doc.cost = 0
     return
-
-Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
-    doc.tagCount = doc.tags.length
-), fetchPrevious: true
 
 
 

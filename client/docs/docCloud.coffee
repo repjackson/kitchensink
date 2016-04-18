@@ -1,4 +1,4 @@
-@selectedTags = new ReactiveArray []
+# @selectedTags = new ReactiveArray []
 @selectedUsernames = new ReactiveArray []
 
 
