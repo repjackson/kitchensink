@@ -7,19 +7,20 @@ template(name='profile')
                 .ui.small.compact.button.userTag(class=userTagClass) #{this.name}
                     small #{this.count}
         .ui.segment
-            .ui.header Messages
-            +messageList
+            .ui.left.icon.input
+                i.lightning.icon
+                input#quickAdd(type='text' autofocus='' placeholder='Quick Add')
         .ui.segment
-            .ui.header Your Upvoted Tag Cloud
+            .ui.header Your Wants
             // #generatePersonalCloud.ui.icon.button
                 // i.refresh.icon
-            // if authoredCloud
-            //     .ui.segment
-            //         .ui.header Authored Cloud
-            //         each authoredCloud
-            //             .ui.button
-            //                 |#{this.name}
-            //                 small #{this.count}
+            if authoredCloud
+                .ui.segment
+                    .ui.header Authored Cloud
+                    each authoredCloud
+                        .ui.button
+                            |#{this.name}
+                            small #{this.count}
             each user.upvotedCloud
                 .ui.large.basic.label(class=upvotedCloudTagClass)
                     |#{this.name}

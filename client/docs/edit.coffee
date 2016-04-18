@@ -81,28 +81,6 @@ Template.edit.helpers
 
 
 Template.edit.events
-    'click #generateTags': ->
-        text = $('textarea').val()
-        Meteor.call 'generateTags', FlowRouter.getParam('docId'), text
-
-    'click #analyzeBody': ->
-        Docs.update FlowRouter.getParam('docId'),
-            $set: body: $('#body').val()
-        Meteor.call 'analyze', FlowRouter.getParam('docId')
-
-    'keyup #url': (e,t)->
-        docId = FlowRouter.getParam('docId')
-        url = $('#url').val()
-        switch e.which
-            when 13
-                if url.length > 0
-                    Docs.update docId,
-                        $set: url: url
-                    Meteor.call 'fetchUrlTags', docId, url
-
-    'click .docKeyword': ->
-        docId = FlowRouter.getParam('docId')
-        Docs.update docId, $addToSet: tags: @valueOf()
 
     'click #delete': ->
         $('.modal').modal(
@@ -112,36 +90,7 @@ Template.edit.events
                 FlowRouter.go '/docs'
         	).modal 'show'
 
-    'click #personal': ->
-        docId = FlowRouter.getParam('docId')
-        doc = Docs.findOne docId
-        newValue = !doc.personal
-        Docs.update docId,
-            $set:
-                personal: newValue
 
-    'click #auctionable': (e)->
-        docId = FlowRouter.getParam('docId')
-        doc = Docs.findOne docId
-        newValue = !doc.auctionable
-        Docs.update docId,
-            $set:
-                auctionable: newValue
-        Meteor.setTimeout (->
-            $('#auctionDateTimePicker').datetimepicker()
-        ), 200
-
-    'autocompleteselect #userSelection': (event, template, doc)->
-        name =  doc.username.toString()
-        Docs.update FlowRouter.getParam('docId'),
-            $addToSet: mentions: name
-        console.log @
-        $('#userSelection').val('')
-
-    'click .docMention': ->
-        mention = @valueOf()
-        Docs.update FlowRouter.getParam('docId'),
-            $pull: mentions: mention
 
     'keydown #addTag': (e,t)->
         e.preventDefault
@@ -170,24 +119,6 @@ Template.edit.events
                     Docs.update FlowRouter.getParam('docId'),
                         $pop: tags: 1
                     $('#addTag').val(last)
-
-    'click .clearDT': ->
-        tagsWithoutDate = _.difference(@tags, @datearray)
-        Docs.update FlowRouter.getParam('docId'),
-            $set:
-                tags: tagsWithoutDate
-                datearray: []
-                dateTime: null
-        $('#datetimepicker').val('')
-
-    'click .clearAddress': ->
-        tagsWithoutAddress = _.difference(@tags, @addresstags)
-        Docs.update FlowRouter.getParam('docId'),
-            $set:
-                tags: tagsWithoutAddress
-                addresstags: []
-                locationob: null
-        $('#place').val('')
 
 
 

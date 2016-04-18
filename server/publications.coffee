@@ -6,15 +6,6 @@ Meteor.publish 'messages', ->
             authorId: @userId
             toId: @userId
             ]
-Meteor.publish 'importers', -> Importers.find { authorId: @userId}
-
-Meteor.publish 'importer', (id)-> Importers.find id
-
-Meteor.publish 'leaderboard', ->
-    Meteor.users.find {},
-        fields:
-            username: 1
-            points: 1
 
 
 Meteor.publish 'person', (id)->
@@ -63,7 +54,6 @@ Meteor.publish 'people', (selectedUserTags)->
 
 
 Meteor.publish 'docs', (selectedTags, selectedUsernames, viewMode)->
-    Counts.publish(this, 'doc_counter', Docs.find(), { noReady: true })
 
     match = {}
     if selectedTags.length > 0 then match.tags = $all: selectedTags

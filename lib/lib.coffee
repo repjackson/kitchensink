@@ -2,7 +2,6 @@
 @Docs = new Meteor.Collection 'docs'
 @Messages = new Meteor.Collection 'messages'
 @Usernames = new Meteor.Collection 'usernames'
-@Importers = new Meteor.Collection 'importers'
 
 
 Docs.before.insert (userId, doc)->

@@ -1,27 +1,3 @@
-FlowRouter.route '/leaderboard', action: (params) ->
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'leaderboard'
-
-FlowRouter.route '/importers', action: (params) ->
-    analytics.page()
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'importerList'
-
-FlowRouter.route '/importers/:iId', action: (params) ->
-    analytics.page()
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'importerView'
-
-FlowRouter.route '/bulk', action: (params) ->
-    analytics.page()
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'bulk'
-
-
 FlowRouter.route '/people', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
@@ -48,20 +24,9 @@ FlowRouter.route '/mine', action: (params) ->
         cloud: 'docCloud'
         main: 'docs'
 
-FlowRouter.route '/unvoted', action: (params) ->
-    Session.set('view', 'unvoted')
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        cloud: 'docCloud'
-        main: 'docs'
 
 FlowRouter.route '/profile', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         main: 'profile'
-
-FlowRouter.route '/marketplace', action: (params) ->
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'marketplace'
 

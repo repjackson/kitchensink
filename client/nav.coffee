@@ -61,23 +61,6 @@ Template.nav.events
                     $('#globalsearch').val ''
 
 
-    'keyup #quickAdd': (e,t)->
-        e.preventDefault
-        tag = $('#quickAdd').val().toLowerCase()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    splitTags = tag.match(/\S+/g);
-                    $('#quickAdd').val('')
-                    Docs.insert
-                        tags: splitTags
-                    # Meteor.call 'createDoc', splitTags, (err,res)->
-                    #     if err then console.log err
-                    #     else console.log res
-                    selectedTags.clear()
-                    for tag in splitTags
-                        selectedTags.push tag
-                    FlowRouter.go '/'
 
     'click #homeLink': ->
         selectedTags.clear()

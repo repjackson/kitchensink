@@ -12,15 +12,6 @@ template(name='view')
                 each tags
                     .ui.large.compact.button.docTag(class=docTagClass)  #{this}
                 .meta.right.floated
-                    .ui.basic.large.label
-                        | #{points} pts
-                    .ui.huge.icon.button.voteUp(class=voteUpButtonClass)
-                        i.thumbs.up.icon
-                    .ui.huge.icon.button.voteDown(class=voteDownButtonClass)
-                        i.thumbs.down.icon
-                    .ui.basic.button.cloneDoc
-                        i.fork.icon
-                        |Clone
                     if isAuthor
                         .ui.basic.button.editDoc
                             i.blue.pencil.icon
@@ -28,32 +19,14 @@ template(name='view')
                         .ui.icon.basic.button.deleteDoc
                             // |Delete
                             i.red.trash.icon
-            .description
-                if body.length
-                    +markdown
-                        !{body}
-            // .ui.divider
         unless isAuthor
             if currentUser
-                .extra.content
-                    .ui.buttons
-                        .sendPoint.ui.button
-                            i.plus.icon
-                            |Send Point
-                        if canRetrievePoints
-                            .retrievePoint.ui.button
-                                i.minus.icon
-                                |Retrieve Point
-                    if canRetrievePoints
-                        .ui.label #{currentUserDonations} points sent
-                    // .bid.ui.button increment bid
-
                 .extra.content
                     span by
                     .ui.circular.compact.button.authorFilterButton(class=authorFilterButtonClass)
                         i.user.icon
                         |#{username}
-                    span [#{author.points} points] #{when}
+                    |#{when}
                 .extra.content
                     p Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
                     div
@@ -62,8 +35,3 @@ template(name='view')
             else
                 .extra.content
                     p Log in to vote and match with #{username}'s interests
-        if cost
-            .extra.content
-                |For Sale for #{cost} points
-                if canBuy
-                    .ui.button.purchase Purchase for #{cost} points

@@ -19,37 +19,16 @@ template(name='nav')
                     i.file.text.outline.icon
                     // i.large.comment.outline.icon
                     |All
-                a.item(href='/unvoted' class="{{isActivePath '/unvoted'}}")
-                    i.file.text.outline.icon
-                    // i.announcement.icon
-                    |Unvoted
                 a.item(href='/mine' class="{{isActivePath '/mine'}}")
                     i.file.text.outline.icon
                     |Mine
                 a.item(href='/people' class="{{isActivePath '/people'}}")
                     i.users.icon
                     |People
-                a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
-                    |Bulk
-                a.item(href='/importers' class="{{isActivePath '/importers'}}")
-                    |Importer
-                a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
-                    |my points [#{user.points}]
-                .ui.item
-                    .ui.left.icon.input
-                        i.lightning.icon
-                        input#quickAdd(type='text' autofocus='' placeholder='Quick Add')
             .item
                 .ui.left.icon.input
                     i.search.icon
                     input#search(type='text', placeholder="Search")
-            if currentUser
-                a#addDoc.item
-                    i.plus.icon
-                    |Add Doc
-            a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
-                i.shop.icon
-                |Marketplace
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 |#{user.username}'s Profile
