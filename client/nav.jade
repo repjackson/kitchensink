@@ -1,13 +1,18 @@
 template(name='nav')
-    .ui.borderless.menu
+    .ui.menu
+        .ui.header.item Facet
+        a.item(href='/' class="{{isActivePath '/'}}")
+            i.users.icon
+            |Browse People
         if currentUser
-            .ui.item
+            .ui.input.item
+                |I want... &nbsp;
+                input#addWant(type='text' autofocus='')
+            a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
-                |#{user.username}
+                | My Profile (#{user.username})
         +atNavButton
-        .ui.item I want...
-        .ui.input.item
-            input#addWant(type='text' autofocus='')
+
 
 template(name='tagresult')
     .label.label-default #{name}

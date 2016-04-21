@@ -1,18 +1,19 @@
 template(name='profile')
     .ui.container
         .ui.segment
-            .ui.header My Interest Cloud (click on tags to filter)
+            .ui.header Thought Cloud
+            // span Filter:
             if selectedTags
-                #clearTags.ui.primary.big.compact.icon.button
+                #clearTags.ui.primary.compact.icon.button
                     i.remove.icon
             if selectedTags
                 each selectedTags
-                    a.ui.primary.big.compact.button.unselectTag
+                    a.ui.primary.compact.button.unselectTag
                         strong #{this}
             each globalTags
-                .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
+                .ui.compact.basic.button.selectTag #{this.name}
                     small #{this.count}
-        .ui.segment
+            .ui.header Thoughts
             .ui.divided.list
                 each myDocs
                     .item

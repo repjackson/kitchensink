@@ -105,6 +105,8 @@ Template.profile.events
 
 
     'click .deleteDoc': ->
-        if confirm "Delete #{' '+tag for tag in @tags}?"
-            Docs.remove @_id
-            Meteor.call 'generateAuthoredCloud', Meteor.userId()
+        # if confirm "Delete #{' '+tag for tag in @tags}?"
+        Meteor.call 'removeDoc', @_id, (err,res)->
+            if err then console.error err
+            else
+                Meteor.call 'generateAuthoredCloud', Meteor.userId()

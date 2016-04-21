@@ -1,7 +1,7 @@
 @selectedUserTags = new ReactiveArray []
 
 Template.userCloud.onCreated ->
-    @autorun -> Meteor.subscribe('userTags', selectedUserTags.array())
+    @autorun -> Meteor.subscribe('docTags', selectedUserTags.array())
 
 Template.userCloud.helpers
     globalTags: ->

@@ -1,7 +1,5 @@
 @Tags = new Meteor.Collection 'tags'
 @Docs = new Meteor.Collection 'docs'
-@Messages = new Meteor.Collection 'messages'
-@Usernames = new Meteor.Collection 'usernames'
 
 
 Docs.before.insert (userId, doc)->
@@ -10,26 +8,20 @@ Docs.before.insert (userId, doc)->
     doc.username = Meteor.user().username
     return
 
-
+Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
+    doc.tagCount = doc.tags.length
+), fetchPrevious: true
 
 
 Docs.helpers
     author: (doc)-> Meteor.users.findOne @authorId
 
 
-Messages.helpers
-    from: (doc)-> Meteor.users.findOne @fromId
-    to: (doc)-> Meteor.users.findOne @toId
+Meteor.methods
+    removeDoc: (id)->
+        Docs.remove id
 
 
-
-
-# Meteor.users.schema
-#     hasTagged: ['id', 'id']
-#     tagCloud: [
-#         name: 'smart'
-#         count: 4
-#         ]
 
 
 

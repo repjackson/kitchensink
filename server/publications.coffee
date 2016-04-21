@@ -1,20 +1,24 @@
 Meteor.publish 'doc', (id)-> Docs.find id
 
-Meteor.publish 'messages', ->
-    Messages.find
-        $or: [
-            authorId: @userId
-            toId: @userId
-            ]
 
 Meteor.publish 'myDocs', (selectedTags)->
 
     match = {}
     if selectedTags.length > 0 then match.tags = $all: selectedTags
-    # match.authorId = @userId
+    match.authorId = @userId
 
     Docs.find match,
-        sort: timestamp: -1
+        limit: 20
+        sort:
+            timestamp: -1
+            tagCount: 1
+
+Meteor.publish 'personWants', (id)->
+    cursor = Docs.find {authorId: id},
+        fields:
+            tags: 1
+    console.log 'person Wants', cursor.count()
+    cursor
 
 Meteor.publish 'person', (id)->
     Meteor.users.find id,
@@ -34,65 +38,31 @@ Meteor.publish 'me', ->
 
 Meteor.publish 'people', (selectedUserTags)->
     self = @
-    # console.log selectedTags
+    # console.log selectedUserTags
     match = {}
-    if selectedUserTags and selectedUserTags.length > 0 then match.tagList = $all: selectedUserTags
+    if selectedUserTags and selectedUserTags.length > 0 then match.authoredList = $all: selectedUserTags
 
-    Meteor.users.find match,
+    cursor = Meteor.users.find match,
         fields:
-            tagCloud: 1
-            tagList: 1
-            taggers: 1
+            tags: 1
             username: 1
-            upvotedCloud: 1
-            points: 1
-            upVotedCloudMatches: 1
-            upvotedList: 1
+            authoredCloud: 1
+            authoredList: 1
+    # console.log cursor.count()
+    return cursor
 
-Meteor.publish 'docs', (selectedTags, selectedUsernames)->
+
+Meteor.publish 'docs', (selectedTags, authorId)->
 
     match = {}
     if selectedTags.length > 0 then match.tags = $all: selectedTags
-    if selectedUsernames.length > 0 then match.username = $in: selectedUsernames
-    match.tagCount = $gt: 0
+    if authorId then match.authorId = authorId
 
     Docs.find match,
         limit: 10
         sort:
             timestamp: -1
             tagCount: 1
-
-Meteor.publish 'usernames', (selectedTags, selectedUsernames)->
-    self = @
-    # if viewMode is 'mine' or 'unvoted' then return
-
-    match = {}
-    if selectedTags.length > 0 then match.tags = $all: selectedTags
-    if selectedUsernames.length > 0 then match.username = $in: selectedUsernames
-    match.tagCount = $gt: 0
-    switch viewMode
-        when 'mine' then match.authorId = @userId
-        when 'unvoted'
-            match.upVoters = $nin: [@userId]
-            match.downVoters = $nin: [@userId]
-
-
-    cloud = Docs.aggregate [
-        { $match: match }
-        { $project: username: 1 }
-        { $group: _id: '$username', count: $sum: 1 }
-        { $match: _id: $nin: selectedUsernames }
-        { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
-        { $project: _id: 0, text: '$_id', count: 1 }
-        ]
-
-    cloud.forEach (username) ->
-        self.added 'usernames', Random.id(),
-            text: username.text
-            count: username.count
-    self.ready()
-
 
 
 Meteor.publish 'userTags', (selectedTags)->
@@ -120,12 +90,12 @@ Meteor.publish 'userTags', (selectedTags)->
 
     self.ready()
 
-Meteor.publish 'docTags', (selectedTags, selectedUsernames)->
+Meteor.publish 'docTags', (selectedTags)->
     self = @
 
     match = {}
     if selectedTags.length > 0 then match.tags = $all: selectedTags
-    if selectedUsernames.length > 0 then match.username = $in: selectedUsernames
+    match.authorId = $ne: @userId
 
     docCloud = Docs.aggregate [
         { $match: match }
@@ -197,6 +167,5 @@ Meteor.publish 'myTags', (selectedTags)->
             name: tag.name
             count: tag.count
             index: i
-
 
     self.ready()
