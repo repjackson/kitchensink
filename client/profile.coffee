@@ -1,12 +1,9 @@
-@selectedTags = new ReactiveArray []
+@selectedTraits = new ReactiveArray []
 
 
 Template.profile.onCreated ->
-    @autorun -> Meteor.subscribe 'me'
     @autorun -> Meteor.subscribe 'people'
-    @autorun -> Meteor.subscribe 'messages'
-    @autorun -> Meteor.subscribe 'myDocs', selectedTags.array()
-    @autorun -> Meteor.subscribe 'myTags', selectedTags.array()
+    @autorun -> Meteor.subscribe 'myTags', selectedTraits.array()
 
 
 
@@ -34,13 +31,11 @@ Template.profile.helpers
             when @index <= 50 then 'tiny'
         return buttonClass
 
-    selectedTags: -> selectedTags.list()
+    selectedTraits: -> selectedTraits.list()
 
     user: -> Meteor.user()
 
     people: -> Meteor.users.find()
-
-    myDocs: -> Docs.find()
 
     matchedUsersList:->
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
@@ -90,23 +85,16 @@ Template.profile.helpers
 
 
 Template.profile.events
-    # 'click #generatePersonalCloud': ->
-    #     Meteor.call 'generatePersonalCloud', Meteor.userId(), ->
+    'keydown #addTrait': (e,t)->
+        e.preventDefault
+        trait = $('#addTrait').val().toLowerCase().trim()
+        switch e.which
+            when 13
+                if trait.length > 0
+                    Meteor.call 'addTrait', trait, ->
+                        $('#addTrait').val('')
 
-    # 'click .matchTwoUsersAuthoredCloud': ->
-    #     Meteor.call 'matchTwoUsersAuthoredCloud', @_id, ->
-
-    'click .matchTwoUsersUpvotedCloud': ->
-        Meteor.call 'matchTwoUsersUpvotedCloud', @_id, ->
-
-    'click .selectTag': -> selectedTags.push @name
-    'click .unselectTag': -> selectedTags.remove @valueOf()
-    'click #clearTags': -> selectedTags.clear()
-
-
-    'click .deleteDoc': ->
-        # if confirm "Delete #{' '+tag for tag in @tags}?"
-        Meteor.call 'removeDoc', @_id, (err,res)->
-            if err then console.error err
-            else
-                Meteor.call 'generateAuthoredCloud', Meteor.userId()
+    'click .trait': ->
+        trait = @valueOf()
+        Meteor.call 'removeTrait', trait, ->
+            $('#addTrait').val(trait)

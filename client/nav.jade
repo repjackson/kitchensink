@@ -5,9 +5,6 @@ template(name='nav')
             i.users.icon
             |Browse People
         if currentUser
-            .ui.input.item
-                |I want... &nbsp;
-                input#addWant(type='text' autofocus='')
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 | My Profile (#{user.username})

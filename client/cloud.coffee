@@ -1,15 +1,15 @@
-@selectedUserTags = new ReactiveArray []
+@selectedTraits = new ReactiveArray []
 
-Template.userCloud.onCreated ->
-    @autorun -> Meteor.subscribe('docTags', selectedUserTags.array())
+Template.cloud.onCreated ->
+    @autorun -> Meteor.subscribe('traits', selectedTraits.array())
 
-Template.userCloud.helpers
-    globalTags: ->
+Template.cloud.helpers
+    globalTraits: ->
         # userCount = Meteor.users.find().count()
-        # if 0 < userCount < 3 then Tags.find { count: $lt: userCount } else Tags.find()
-        Tags.find()
+        # if 0 < userCount < 3 then Traits.find { count: $lt: userCount } else Traits.find()
+        Traits.find()
 #
-    # globalTagClass: ->
+    # globalTraitClass: ->
     #     buttonClass = switch
     #         when @index <= 20 then 'big'
     #         when @index <= 40 then 'large'
@@ -18,7 +18,7 @@ Template.userCloud.helpers
     #         when @index <= 100 then 'tiny'
     #     return buttonClass
 
-    globalTagClass: ->
+    globalTraitClass: ->
         buttonClass = switch
             when @index <= 10 then 'big'
             when @index <= 20 then 'large'
@@ -27,13 +27,13 @@ Template.userCloud.helpers
             when @index <= 50 then 'tiny'
         return buttonClass
 
-    selectedUserTags: -> selectedUserTags.list()
+    selectedTraits: -> selectedTraits.list()
 
     user: -> Meteor.user()
 
 
 
-Template.userCloud.events
-    'click .selectTag': -> selectedUserTags.push @name
-    'click .unselectTag': -> selectedUserTags.remove @valueOf()
-    'click #clearTags': -> selectedUserTags.clear()
+Template.cloud.events
+    'click .selectTrait': -> selectedTraits.push @name
+    'click .unselectTrait': -> selectedTraits.remove @valueOf()
+    'click #clearTraits': -> selectedTraits.clear()

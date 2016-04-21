@@ -1,27 +1,13 @@
-@Tags = new Meteor.Collection 'tags'
-@Docs = new Meteor.Collection 'docs'
-
-
-Docs.before.insert (userId, doc)->
-    doc.timestamp = Date.now()
-    doc.authorId = Meteor.userId()
-    doc.username = Meteor.user().username
-    return
-
-Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
-    doc.tagCount = doc.tags.length
-), fetchPrevious: true
-
-
-Docs.helpers
-    author: (doc)-> Meteor.users.findOne @authorId
-
+@Traits = new Meteor.Collection 'traits'
 
 Meteor.methods
-    removeDoc: (id)->
-        Docs.remove id
+    removeTrait: (trait)->
+        Meteor.users.update Meteor.userId(),
+            $pull: traits: trait
 
-
+    addTrait: (trait)->
+        Meteor.users.update Meteor.userId(),
+            $addToSet: traits: trait
 
 
 
@@ -87,3 +73,16 @@ AccountsTemplates.configureRoute 'resetPwd'
 AccountsTemplates.configureRoute 'signIn'
 AccountsTemplates.configureRoute 'signUp'
 AccountsTemplates.configureRoute 'verifyEmail'
+
+
+FlowRouter.route '/', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'cloud'
+        main: 'people'
+
+FlowRouter.route '/profile', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'profile'
+

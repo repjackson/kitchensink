@@ -1,0 +1,28 @@
+template(name='profile')
+    .ui.container
+        .ui.segment
+            .ui.header My Desired Traits in a Friend
+            each user.traits
+                .ui.basic.button.trait
+                    i.remove.icon
+                    |#{this}
+            .ui.left.icon.input
+                i.add.icon
+                input#addTrait(type='text' autofocus='' placeholder='Add Trait')
+        .ui.segment
+            .ui.header Top Matched People by Interest
+            .ui.divided.list
+                each authoredCloudMatches
+                    .item
+                        | #{this.username}
+                        each userMatchAuthoredCloud
+                            .ui.button
+                                |#{this.name}
+                                small #{this.count}
+            .ui.header Top Matched User List
+            each matchedUsersList
+                .ui.divided.list
+                    .item
+                        strong #{this.matchedUser} (#{this.length}):
+                        each this.cloudIntersection
+                            .ui.basic.label #{this}

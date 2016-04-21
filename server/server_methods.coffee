@@ -1,21 +1,4 @@
 Meteor.methods
-    generateAuthoredCloud: (uid)->
-        authoredCloud = Docs.aggregate [
-            { $match: authorId: uid }
-            { $project: tags: 1 }
-            { $unwind: '$tags' }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 50 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        authoredList = (tag.name for tag in authoredCloud)
-        Meteor.users.update Meteor.userId(),
-            $set:
-                authoredCloud: authoredCloud
-                authoredList: authoredList
-
-
     matchTwoDocs: (firstId, secondId)->
         firstDoc = Docs.findOne firstId
         secondDoc = Docs.findOne secondId
@@ -61,24 +44,3 @@ Meteor.methods
         # console.log result
         return result
 
-    matchTwoUsersAuthoredCloud: (uId)->
-        username = Meteor.users.findOne(uId).username
-        match = {}
-        match.authorId = $in: [Meteor.userId(), uId]
-
-        userMatchAuthoredCloud = Docs.aggregate [
-            { $match: match }
-            { $project: tags: 1 }
-            { $unwind: '$tags' }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 50 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        # authoredList = (tag.name for tag in userMatchAuthoredCloud)
-        Meteor.users.update Meteor.userId(),
-            $addToSet:
-                authoredCloudMatches:
-                    uId: uId
-                    username: username
-                    userMatchAuthoredCloud: userMatchAuthoredCloud

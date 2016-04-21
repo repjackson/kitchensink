@@ -26,19 +26,6 @@ Template.nav.helpers
 
     user_counter: -> Meteor.users.find().count()
 
-    tagsettings: -> {
-        position: 'bottom'
-        limit: 10
-        rules: [
-            {
-                collection: Tags
-                field: 'name'
-                template: Template.tagresult
-            }
-        ]
-    }
-
-
 
 
 
@@ -61,19 +48,6 @@ Template.nav.events
                     $('#tagDrilldown').val ''
                     $('#globalsearch').val ''
 
-    'keyup #addWant': (e,t)->
-        e.preventDefault
-        tag = $('#addWant').val().toLowerCase()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    splitTags = tag.match(/\S+/g);
-                    $('#addWant').val('')
-                    Docs.insert
-                        tags: splitTags
-                    Meteor.call 'generateAuthoredCloud', Meteor.userId()
-
-
     'click #homeLink': ->
         selectedTags.clear()
 
@@ -91,3 +65,4 @@ Template.nav.events
             when 8
                 if searchTerm is ''
                     selectedTags.pop()
+

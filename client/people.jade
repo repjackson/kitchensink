@@ -1,0 +1,19 @@
+template(name='people')
+    .ui.container
+        each people
+            +person
+
+
+template(name='person')
+    .ui.fluid.card
+        .content
+            .header
+                i.user.icon
+                |#{username}
+            .description
+                h5.ui.header #{username}'s Desired Traits
+                each traits
+                    .ui.large.compact.button.trait(class=traitClass) #{this}
+                // div Your common desired traits with #{username} [Count: #{matchTraitCount}]
+                //     each matchedTraits
+                //         .ui.basic.label #{this}
