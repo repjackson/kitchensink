@@ -1,6 +1,6 @@
 template(name='nav')
     .ui.menu
-        .ui.header.item Facet
+        .ui.header.item Facet: A Human Menu
         a.item(href='/' class="{{isActivePath '/'}}")
             i.users.icon
             |Browse People
@@ -9,8 +9,3 @@ template(name='nav')
                 i.user.icon
                 | My Profile (#{user.username})
         +atNavButton
-
-
-template(name='tagresult')
-    .label.label-default #{name}
-        small (#{count})

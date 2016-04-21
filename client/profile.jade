@@ -1,13 +1,13 @@
 template(name='profile')
     .ui.container
         .ui.segment
-            .ui.header My Desired Traits in a Friend
+            .ui.header I'm looking for someone with...
             each user.traits
                 .ui.basic.button.trait
                     i.remove.icon
                     |#{this}
             .ui.left.icon.input
-                i.add.icon
+                i.add.green.icon
                 input#addTrait(type='text' autofocus='' placeholder='Add Trait')
         .ui.segment
             .ui.header Top Matched People by Interest

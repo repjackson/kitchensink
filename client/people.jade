@@ -14,6 +14,8 @@ template(name='person')
                 h5.ui.header #{username}'s Desired Traits
                 each traits
                     .ui.large.compact.button.trait(class=traitClass) #{this}
-                // div Your common desired traits with #{username} [Count: #{matchTraitCount}]
-                //     each matchedTraits
-                //         .ui.basic.label #{this}
+        unless isUser
+            .extra.content
+                div Your common desired traits with #{username} (#{matchedTraits.length})
+                each matchedTraits
+                    .ui.basic.label #{this}

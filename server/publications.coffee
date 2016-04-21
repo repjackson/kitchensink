@@ -1,4 +1,16 @@
-Meteor.publish 'person', (id)-> Meteor.users.find id
+Meteor.publish 'person', (id)->
+    Meteor.users.find id,
+        fields:
+            traits: 1
+            profile: 1
+            username: 1
+
+Meteor.publish 'me', ->
+    Meteor.users.find @userId,
+        fields:
+            traits: 1
+            profile: 1
+            username: 1
 
 
 Meteor.publish 'people', (selectedTraits)->
@@ -6,7 +18,11 @@ Meteor.publish 'people', (selectedTraits)->
     match = {}
     if selectedTraits and selectedTraits.length > 0 then match.traits = $all: selectedTraits
 
-    Meteor.users.find match
+    Meteor.users.find match,
+        fields:
+            traits: 1
+            profile: 1
+            username: 1
 
 
 Meteor.publish 'traits', (selectedTraits)->
