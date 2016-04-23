@@ -11,11 +11,11 @@ template(name='person')
                 i.user.icon
                 |#{username}
             .description
-                h5.ui.header #{username}'s Desired Traits
-                each traits
-                    .ui.large.compact.button.trait(class=traitClass) #{this}
+                // h5.ui.header #{username}'s tags
+                each tags
+                    .ui.large.compact.button.tag(class=tagClass) #{this}
         unless isUser
             .extra.content
-                div Your common desired traits with #{username} (#{matchedTraits.length})
-                each matchedTraits
+                div Your common tags with #{username} (#{matchedtags.length})
+                each matchedtags
                     .ui.basic.label #{this}

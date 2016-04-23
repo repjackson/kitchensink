@@ -1,13 +1,13 @@
 template(name='cloud')
     .ui.center.aligned.segment
-        .ui.header Browse Desired Traits
-        if selectedTraits
-            #clearTraits.ui.primary.big.compact.icon.button
+        .ui.header Browse Hub Members
+        if selectedtags
+            #cleartags.ui.primary.big.compact.icon.button
                 i.remove.icon
-        if selectedTraits
-            each selectedTraits
-                a.ui.primary.big.compact.button.unselectTrait
+        if selectedtags
+            each selectedtags
+                a.ui.primary.big.compact.button.unselecttag
                     strong #{this}
-        each globalTraits
-            .ui.compact.basic.button.selectTrait(class=globalTraitClass) #{this.name}
+        each globaltags
+            .ui.compact.basic.button.selecttag(class=globaltagClass) #{this.name}
                 small #{this.count}

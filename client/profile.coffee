@@ -1,9 +1,9 @@
-@selectedTraits = new ReactiveArray []
+@selectedtags = new ReactiveArray []
 
 
 Template.profile.onCreated ->
     @autorun -> Meteor.subscribe 'people'
-    @autorun -> Meteor.subscribe 'myTags', selectedTraits.array()
+    @autorun -> Meteor.subscribe 'myTags', selectedtags.array()
 
 
 
@@ -31,7 +31,7 @@ Template.profile.helpers
             when @index <= 50 then 'tiny'
         return buttonClass
 
-    selectedTraits: -> selectedTraits.list()
+    selectedtags: -> selectedtags.list()
 
     user: -> Meteor.user()
 
@@ -39,16 +39,14 @@ Template.profile.helpers
 
     matchedUsersList:->
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
-        userMatchClouds = []
+        userMatches = []
         for user in users
-            # console.log user.upvotedCloud
-            # console.log user.upvotedList
-            upvotedIntersection = _.intersection(user.upvotedList, Meteor.user().upvotedList)
-            userMatchClouds.push
+            tagIntersection = _.intersection(user.tags, Meteor.user().tags)
+            userMatches.push
                 matchedUser: user.username
-                cloudIntersection: upvotedIntersection
-                length: upvotedIntersection.length
-        sortedList = _.sortBy(userMatchClouds, 'length').reverse()
+                tagIntersection: tagIntersection
+                length: tagIntersection.length
+        sortedList = _.sortBy(userMatches, 'length').reverse()
         return sortedList
 
     upVotedMatchCloud: ->
@@ -85,16 +83,25 @@ Template.profile.helpers
 
 
 Template.profile.events
-    'keydown #addTrait': (e,t)->
+    'keydown #addtag': (e,t)->
         e.preventDefault
-        trait = $('#addTrait').val().toLowerCase().trim()
+        tag = $('#addtag').val().toLowerCase().trim()
         switch e.which
             when 13
-                if trait.length > 0
-                    Meteor.call 'addTrait', trait, ->
-                        $('#addTrait').val('')
+                if tag.length > 0
+                    Meteor.call 'addtag', tag, ->
+                        $('#addtag').val('')
 
-    'click .trait': ->
-        trait = @valueOf()
-        Meteor.call 'removeTrait', trait, ->
-            $('#addTrait').val(trait)
+    'keydown #username': (e,t)->
+        e.preventDefault
+        username = $('#username').val().trim()
+        switch e.which
+            when 13
+                if username.length > 0
+                    Meteor.call 'update_username', username, ->
+                        # alert "updated username to #{username}"
+
+    'click .tag': ->
+        tag = @valueOf()
+        Meteor.call 'removetag', tag, ->
+            $('#addtag').val(tag)

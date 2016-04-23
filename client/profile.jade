@@ -1,28 +1,23 @@
 template(name='profile')
     .ui.container
         .ui.segment
-            .ui.header I'm looking for someone with...
-            each user.traits
-                .ui.basic.button.trait
+            .ui.header Your Name
+            .ui.left.icon.input
+                i.user.icon
+                input#username(type='text' value=user.username)
+            .ui.header Your Tags
+            each user.tags
+                .ui.basic.button.tag
                     i.remove.icon
                     |#{this}
             .ui.left.icon.input
                 i.add.green.icon
-                input#addTrait(type='text' autofocus='' placeholder='Add Trait')
+                input#addtag(type='text' autofocus='' placeholder='Add tag')
         .ui.segment
-            .ui.header Top Matched People by Interest
-            .ui.divided.list
-                each authoredCloudMatches
-                    .item
-                        | #{this.username}
-                        each userMatchAuthoredCloud
-                            .ui.button
-                                |#{this.name}
-                                small #{this.count}
-            .ui.header Top Matched User List
+            .ui.header Top Matched People
             each matchedUsersList
                 .ui.divided.list
                     .item
                         strong #{this.matchedUser} (#{this.length}):
-                        each this.cloudIntersection
+                        each this.tagIntersection
                             .ui.basic.label #{this}

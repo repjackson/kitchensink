@@ -1,50 +1,50 @@
 Meteor.publish 'person', (id)->
     Meteor.users.find id,
         fields:
-            traits: 1
+            tags: 1
             profile: 1
             username: 1
 
 Meteor.publish 'me', ->
     Meteor.users.find @userId,
         fields:
-            traits: 1
+            tags: 1
             profile: 1
             username: 1
 
 
-Meteor.publish 'people', (selectedTraits)->
+Meteor.publish 'people', (selectedtags)->
     self = @
     match = {}
-    if selectedTraits and selectedTraits.length > 0 then match.traits = $all: selectedTraits
+    if selectedtags and selectedtags.length > 0 then match.tags = $all: selectedtags
 
     Meteor.users.find match,
         fields:
-            traits: 1
+            tags: 1
             profile: 1
             username: 1
 
 
-Meteor.publish 'traits', (selectedTraits)->
+Meteor.publish 'tags', (selectedtags)->
     self = @
     match = {}
-    if selectedTraits.length > 0 then match.traits = $all: selectedTraits
+    if selectedtags.length > 0 then match.tags = $all: selectedtags
 
-    traitCloud = Meteor.users.aggregate [
+    tagCloud = Meteor.users.aggregate [
         { $match: match }
-        { $project: "traits": 1 }
-        { $unwind: "$traits" }
-        { $group: _id: "$traits", count: $sum: 1 }
-        { $match: _id: $nin: selectedTraits }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selectedtags }
         { $sort: count: -1, _id: 1 }
         { $limit: 50 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
 
-    traitCloud.forEach (trait, i) ->
-        self.added 'traits', Random.id(),
-            name: trait.name
-            count: trait.count
+    tagCloud.forEach (tag, i) ->
+        self.added 'tags', Random.id(),
+            name: tag.name
+            count: tag.count
             index: i
 
     self.ready()

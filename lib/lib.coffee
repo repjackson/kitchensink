@@ -1,13 +1,17 @@
-@Traits = new Meteor.Collection 'traits'
+@Tags = new Meteor.Collection 'tags'
 
 Meteor.methods
-    removeTrait: (trait)->
+    removetag: (tag)->
         Meteor.users.update Meteor.userId(),
-            $pull: traits: trait
+            $pull: tags: tag
 
-    addTrait: (trait)->
+    addtag: (tag)->
         Meteor.users.update Meteor.userId(),
-            $addToSet: traits: trait
+            $addToSet: tags: tag
+
+    update_username: (username)->
+        Meteor.users.update Meteor.userId(),
+            $set: username: username
 
 
 

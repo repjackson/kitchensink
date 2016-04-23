@@ -1,5 +1,5 @@
 Template.people.onCreated ->
-    @autorun -> Meteor.subscribe('people', selectedTraits.array())
+    @autorun -> Meteor.subscribe('people', selectedtags.array())
     @autorun -> Meteor.subscribe('me')
 
 Template.people.helpers
@@ -14,14 +14,13 @@ Template.person.onCreated ->
 Template.person.helpers
     isUser: -> @_id is Meteor.userId()
 
-    traitClass: ->
-        if @valueOf() in selectedTraits.array() then 'primary' else 'basic'
+    tagClass: ->
+        if @valueOf() in selectedtags.array() then 'primary' else 'basic'
 
-    matchedTraits: ->
-        console.log Meteor.user().traits
-        _.intersection @traits, Meteor.user().traits
+    matchedtags: ->
+        _.intersection @tags, Meteor.user().tags
 
 
 Template.person.events
-    'click .trait': ->
-        if @valueOf() in selectedTraits.array() then selectedTraits.remove @valueOf() else selectedTraits.push @valueOf()
+    'click .tag': ->
+        if @valueOf() in selectedtags.array() then selectedtags.remove @valueOf() else selectedtags.push @valueOf()
