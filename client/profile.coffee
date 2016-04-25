@@ -98,7 +98,11 @@ Template.profile.events
         switch e.which
             when 13
                 if username.length > 0
-                    Meteor.call 'update_username', username, ->
+                    Meteor.call 'update_username', username, (err,res)->
+                        if err
+                            alert 'username exists'
+                            $('#username').val(Meteor.user().username)
+
                         # alert "updated username to #{username}"
 
     'click .tag': ->

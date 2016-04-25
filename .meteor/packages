@@ -30,3 +30,6 @@ useraccounts:flow-routing
 zimme:active-route
 mobile-experience
 standard-minifiers
+dburles:collection-helpers
+momentjs:moment
+mizzao:autocomplete

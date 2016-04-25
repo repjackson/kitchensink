@@ -10,4 +10,8 @@ template(name='nav')
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 | My Profile (#{user.username})
+            a.item(href='/messages' class="{{isActivePath '/messages'}}")
+                i.mail.icon
+                // | Messages (#{user.unreadcount})
+                | Messages
         +atNavButton

@@ -1,4 +1,11 @@
 @Tags = new Meteor.Collection 'tags'
+@Messages = new Meteor.Collection 'messages'
+
+Messages.helpers
+    author: -> Meteor.users.findOne @authorId
+    recipient: -> Meteor.users.findOne @recipientId
+
+
 
 Meteor.methods
     removetag: (tag)->
@@ -10,9 +17,18 @@ Meteor.methods
             $addToSet: tags: tag
 
     update_username: (username)->
-        Meteor.users.update Meteor.userId(),
-            $set: username: username
+        existing_user = Meteor.users.findOne username:username
+        if existing_user then throw new Meteor.Error 500, 'username exists'
+        else
+            Meteor.users.update Meteor.userId(),
+                $set: username: username
 
+    send_message: (body, recipientId) ->
+        Messages.insert
+            timestamp: Date.now()
+            authorId: Meteor.userId()
+            body: body
+            recipientId: recipientId
 
 
 AccountsTemplates.configure
@@ -89,4 +105,9 @@ FlowRouter.route '/profile', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         main: 'profile'
+
+FlowRouter.route '/messages', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'messagePage'
 

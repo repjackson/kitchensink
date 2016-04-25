@@ -5,6 +5,7 @@ template(name='profile')
             .ui.left.icon.input
                 i.user.icon
                 input#username(type='text' value=user.username)
+        .ui.segment
             .ui.header Your Tags
             each user.tags
                 .ui.basic.button.tag

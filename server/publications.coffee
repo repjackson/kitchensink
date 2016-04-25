@@ -12,6 +12,23 @@ Meteor.publish 'me', ->
             profile: 1
             username: 1
 
+Meteor.publish 'sent_messages', ->
+    Messages.find
+        authorId: @userId
+
+
+Meteor.publish 'conversationMessages', (otherUser) ->
+    Messages.find
+        $and: [
+            authorId: @userId
+            recipientId: otherUser
+            ]
+
+Meteor.publish 'received_messages', ->
+    Messages.find
+        recipientId: @userId
+
+
 
 Meteor.publish 'people', (selectedtags)->
     self = @

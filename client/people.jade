@@ -14,8 +14,17 @@ template(name='person')
                 // h5.ui.header #{username}'s tags
                 each tags
                     .ui.large.compact.button.tag(class=tagClass) #{this}
-        unless isUser
-            .extra.content
-                div Your common tags with #{username} (#{matchedtags.length})
-                each matchedtags
-                    .ui.basic.label #{this}
+        if currentUser
+            unless isUser
+                .extra.content
+                    div Your common tags with #{username} (#{matchedtags.length})
+                    each matchedtags
+                        .ui.basic.label #{this}
+                .extra.content
+                    div Send message to #{username}
+                        .ui.small.input
+                            input#text(type='sendMessage')
+                    .ui.divided.list
+                        each conversationMessages
+                            .item
+                                |#{this.body} #{this.timestamp}

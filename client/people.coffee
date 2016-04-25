@@ -3,11 +3,13 @@ Template.people.onCreated ->
     @autorun -> Meteor.subscribe('me')
 
 Template.people.helpers
-    # people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
-    people: -> Meteor.users.find()
+    people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
+    # people: -> Meteor.users.find()
 
 
 Template.person.onCreated ->
+    @autorun -> Meteor.subscribe('conversationMessages', Template.currentData()._id)
+    console.log Template.currentData()
     # Meteor.subscribe 'person', @data._id
 
 
@@ -19,6 +21,9 @@ Template.person.helpers
 
     matchedtags: ->
         _.intersection @tags, Meteor.user().tags
+
+    conversationMessages: ->
+        Messages.find()
 
 
 Template.person.events
