@@ -1,7 +1,7 @@
 @selectedtags = new ReactiveArray []
 
 Template.cloud.onCreated ->
-    @autorun -> Meteor.subscribe('tags', selectedtags.array())
+    @autorun -> Meteor.subscribe('people_tags', selectedtags.array())
 
 Template.cloud.helpers
     globaltags: ->

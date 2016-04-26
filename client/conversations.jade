@@ -1,19 +1,30 @@
-template(name='people')
+template(name='conversations')
     .ui.container
-        each people
-            +person
+        #create_conversation.ui.basic.labeled.icon.button
+            i.plus.icon
+            |Create Conversation
+        each conversations
+            +conversation
 
 
-template(name='person')
+template(name='conversation')
     .ui.fluid.card
         .content
             .header
-                i.user.icon
-                |#{username}
+                if isOwner
+                    each tags
+                        .ui.basic.button.tag
+                            i.remove.icon
+                            |#{this}
+                    .ui.left.icon.input
+                        i.add.green.icon
+                        input#addtag(type='text' autofocus='' placeholder='Add tag')
+                else
+                    i.tags.icon
+                    each tags
+                        .ui.large.compact.button.tag(class=tagClass) #{this}
             .description
                 // h5.ui.header #{username}'s tags
-                each tags
-                    .ui.large.compact.button.tag(class=tagClass) #{this}
         if currentUser
             unless isUser
                 .extra.content

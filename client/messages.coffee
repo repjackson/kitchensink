@@ -35,5 +35,3 @@ Template.sent_messages.events
         Meteor.call 'send_message', body, recipientId
 
 
-Template.message.helpers
-    when: -> moment(@timestamp).fromNow()

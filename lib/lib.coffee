@@ -1,13 +1,20 @@
 @Tags = new Meteor.Collection 'tags'
 @Messages = new Meteor.Collection 'messages'
+@Conversations = new Meteor.Collection 'conversations'
+
 
 Messages.helpers
     author: -> Meteor.users.findOne @authorId
     recipient: -> Meteor.users.findOne @recipientId
+    when: -> moment(@timestamp).fromNow()
 
 
 
 Meteor.methods
+    create_conversation: ->
+        Conversations.insert({})
+
+
     removetag: (tag)->
         Meteor.users.update Meteor.userId(),
             $pull: tags: tag
@@ -111,3 +118,12 @@ FlowRouter.route '/messages', action: (params) ->
         nav: 'nav'
         main: 'messagePage'
 
+FlowRouter.route '/conversations', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'conversation_cloud'
+        main: 'conversations'
+
+# FlowRouter.route '/editConversation/:docId', action: (params) ->
+#     BlazeLayout.render 'layout',
+#         main: 'conversation'

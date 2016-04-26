@@ -42,12 +42,39 @@ Meteor.publish 'people', (selectedtags)->
             username: 1
 
 
-Meteor.publish 'tags', (selectedtags)->
+Meteor.publish 'people_tags', (selectedtags)->
     self = @
     match = {}
     if selectedtags.length > 0 then match.tags = $all: selectedtags
+    match.authorId = $ne: @userId
 
     tagCloud = Meteor.users.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selectedtags }
+        { $sort: count: -1, _id: 1 }
+        { $limit: 50 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+
+    tagCloud.forEach (tag, i) ->
+        self.added 'tags', Random.id(),
+            name: tag.name
+            count: tag.count
+            index: i
+
+    self.ready()
+
+
+Meteor.publish 'conversation_tags', (selectedtags)->
+    self = @
+    match = {}
+    if selectedtags.length > 0 then match.tags = $all: selectedtags
+    # match.authorId = $ne: @userId
+
+    tagCloud = Conversations.aggregate [
         { $match: match }
         { $project: "tags": 1 }
         { $unwind: "$tags" }

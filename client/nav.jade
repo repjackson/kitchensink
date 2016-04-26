@@ -7,6 +7,9 @@ template(name='nav')
             i.users.icon
             |Browse People
         if currentUser
+            a.item(href='/conversations' class="{{isActivePath '/conversations'}}")
+                i.comments.icon
+                | Conversations
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 | My Profile (#{user.username})

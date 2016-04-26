@@ -9,7 +9,7 @@ Template.people.helpers
 
 Template.person.onCreated ->
     @autorun -> Meteor.subscribe('conversationMessages', Template.currentData()._id)
-    console.log Template.currentData()
+    # console.log Template.currentData()
     # Meteor.subscribe 'person', @data._id
 
 
