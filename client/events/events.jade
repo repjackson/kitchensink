@@ -10,7 +10,7 @@ template(name='event')
             .header
                 |Event Topics:
                 each tags
-                    .ui.large.compact.button.tag(class=tagClass) #{this}
+                    .ui.compact.button.tag(class=tagClass) #{this}
                 div
                     |Attendees: &nbsp;
                     .ui.horizontal.list
@@ -21,33 +21,34 @@ template(name='event')
                     .ui.left.icon.small.input
                         i.calendar.outline.icon
                         input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
-                        .ui.icon.basic.button
-                            i.link.red.remove.icon.clearDT
+                        .ui.icon.basic.button.clearDT
+                            i.red.remove.icon
                 else
                     p Date: #{dateTime}
-                .ui.segment
+                .ui.basic.segment
                     .ui.divided.list
                         each eventMessages
                             .item
                                 strong #{this.author.username}:
                                 |#{this.text}
                                 .meta #{this.when}
-                if attending
-                    .ui.small.left.icon.input
-                        i.plus.icon
-                        input.addMessage(type='text' placeholder='Add Message')
+                    if attending
+                        .ui.small.left.icon.transparent.input
+                            i.plus.icon
+                            input.addMessage(type='text' placeholder='Add Message')
         .extra.content
             if isHost
                 .ui.basic.button.cancelEvent
                     i.red.remove.icon
-                    |Cancel Event
+                    |Cancel
             if currentUser
                 if attending
                     .ui.basic.button.leave_event
                         i.red.minus.icon
-                        |Leave Event
+                        |Leave
                 else
                     .ui.button.basic.join_event
                         i.green.plus.icon
-                        |Join Event
-
+                        |Join
+            else
+                p Sign in to attend

@@ -19,21 +19,31 @@ template(name='conversation')
                         each participants
                             .item #{this}
             .description
-                .ui.segment
+                .ui.basic.segment
                     .ui.divided.list
                         each conversationMessages
                             .item
                                 strong #{this.author.username}:
                                 |#{this.text}
                                 .meta #{this.when}
+                    if inConversation
+                        .ui.small.left.icon.transparent.input
+                            i.plus.icon
+                            input.addMessage(type='text' placeholder='Add Message')
         if currentUser
             .extra.content
+                if isOwner
+                    .ui.basic.button.closeConversation
+                        i.red.remove.icon
+                        |Close
                 if inConversation
-                    .ui.small.left.icon.input
-                        i.plus.icon
-                        input.addMessage(type='text' placeholder='Add Message')
+                    .ui.basic.button.leaveConversation
+                        i.red.minus.icon
+                        |Leave
                 else
-                    .ui.button.joinConversation Join Conversation
+                    .ui.basic.button.joinConversation
+                        i.green.plus.icon
+                        |Join
                 .ui.basic.floated.right.button.createEvent
                     i.green.calendar.icon
                     |Create Event from Discussion

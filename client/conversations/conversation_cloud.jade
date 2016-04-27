@@ -2,11 +2,11 @@ template(name='conversation_cloud')
     .ui.center.aligned.segment
         .ui.header Browse Conversation Topics
         if selectedConversationTags
-            #cleartags.ui.primary.big.compact.icon.button
+            #cleartags.ui.secondary.big.compact.icon.button
                 i.remove.icon
         if selectedConversationTags
             each selectedConversationTags
-                a.ui.primary.big.compact.button.unselecttag
+                a.ui.secondary.big.compact.button.unselecttag
                     strong #{this}
         each globaltags
             .ui.compact.basic.button.selecttag(class=globaltagClass) #{this.name}

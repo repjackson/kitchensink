@@ -12,17 +12,20 @@ Template.conversation.onCreated ->
 
 Template.conversation.helpers
     tagClass: ->
-        if @valueOf() in selectedConversationTags.array() then 'primary' else 'basic'
+        if @valueOf() in selectedConversationTags.array() then 'secondary' else 'basic'
 
     inConversation: -> if Meteor.userId() in @participantIds then true else false
 
     conversationMessages: -> Messages.find({conversationId: @_id})
 
+    isOwner: -> @authorId is Meteor.userId()
+
 Template.conversation.events
     'click .tag': ->
         if @valueOf() in selectedConversationTags.array() then selectedConversationTags.remove @valueOf() else selectedConversationTags.push @valueOf()
 
-    'click .joinConversation': -> console.log @
+    'click .joinConversation': -> Meteor.call 'joinConversation', @_id
+    'click .leaveConversation': -> Meteor.call 'leaveConversation', @_id
 
     'keydown .addMessage': (e,t)->
         e.preventDefault
@@ -39,3 +42,7 @@ Template.conversation.events
             FlowRouter.go '/events'
             selectedEventTags.clear()
             selectedEventTags.push(tag) for tag in tags
+
+    'click .closeConversation': ->
+        if confirm 'Close conversation?'
+            Meteor.call 'closeConversation', @_id

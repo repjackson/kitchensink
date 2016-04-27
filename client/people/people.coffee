@@ -3,8 +3,8 @@ Template.people.onCreated ->
     @autorun -> Meteor.subscribe('me')
 
 Template.people.helpers
-    people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
-    # people: -> Meteor.users.find()
+    # people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
+    people: -> Meteor.users.find()
 
 
 Template.person.onCreated ->
@@ -17,7 +17,7 @@ Template.person.helpers
     isUser: -> @_id is Meteor.userId()
 
     tagClass: ->
-        if @valueOf() in selectedtags.array() then 'primary' else 'basic'
+        if @valueOf() in selectedtags.array() then 'secondary' else 'basic'
 
     matchedtags: ->
         _.intersection @tags, Meteor.user().tags

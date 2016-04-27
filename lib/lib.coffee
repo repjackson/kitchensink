@@ -34,6 +34,7 @@ Meteor.methods
         else
             Conversations.insert
                 tags: tags
+                authorId: Meteor.userId()
                 participantIds: [Meteor.userId(), otherUserId]
 
     create_event: (tags)->
@@ -49,6 +50,19 @@ Meteor.methods
             text: text
             eventId: eventId
 
+    closeConversation: (id)->
+        Conversations.remove id
+        Messages.remove conversationId: id
+
+    joinConversation: (id)->
+        Conversations.update id,
+            $addToSet:
+                participantIds: Meteor.userId()
+
+    leaveConversation: (id)->
+        Conversations.update id,
+            $pull:
+                participantIds: Meteor.userId()
 
     join_event: (id)->
         Events.update id,

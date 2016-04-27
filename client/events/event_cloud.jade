@@ -2,11 +2,11 @@ template(name='event_cloud')
     .ui.center.aligned.segment
         .ui.header Browse Event Tags
         if selectedEventTags
-            #cleartags.ui.primary.big.compact.icon.button
+            #cleartags.ui.secondary.big.compact.icon.button
                 i.remove.icon
         if selectedEventTags
             each selectedEventTags
-                a.ui.primary.big.compact.button.unselecttag
+                a.ui.secondary.big.compact.button.unselecttag
                     strong #{this}
         each globaltags
             .ui.compact.basic.button.selecttag(class=globaltagClass) #{this.name}

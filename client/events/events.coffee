@@ -12,7 +12,7 @@ Template.event.onCreated ->
 
 Template.event.helpers
     tagClass: ->
-        if @valueOf() in selectedEventTags.array() then 'primary' else 'basic'
+        if @valueOf() in selectedEventTags.array() then 'secondary' else 'basic'
 
     attending: -> if Meteor.userId() in @attendeeIds then true else false
 
@@ -87,5 +87,5 @@ Template.event.events
                         t.find('.addMessage').value = ''
 
     'click .cancelEvent': ->
-        if confirm 'Cancel event mother fucker?'
+        if confirm 'Cancel event?'
             Events.remove @_id

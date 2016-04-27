@@ -1,9 +1,10 @@
 Events.allow
-    update: (userId, doc, fieldNames, modifier) ->
-        doc.hostId is Meteor.userId()
+    update: (userId, doc, fieldNames, modifier) -> doc.hostId is Meteor.userId()
+    remove: (userId, doc)-> doc.hostId is userId
 
-    remove: (userId, doc)->
-        doc.hostId is userId
+Conversations.allow
+    update: (userId, doc, fieldNames, modifier) -> doc.authorId is Meteor.userId()
+    remove: (userId, doc)-> doc.authorId is userId
 
 
 
@@ -66,6 +67,7 @@ Meteor.publish 'conversations', (selectedtags)->
     Conversations.find match,
         fields:
             tags: 1
+            authorId: 1
             participantIds: 1
 
 Meteor.publish 'events', (selectedtags)->

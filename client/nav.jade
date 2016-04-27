@@ -1,8 +1,8 @@
 template(name='nav')
-    .ui.menu
-        .ui.header.item
-            i.comments.outline.icon
-            |Hub Collider
+    .ui.inverted.borderless.menu
+        // .ui.header.item
+        //     i.unlink.icon
+        //     |Hub Collider
         a.item(href='/' class="{{isActivePath '/'}}")
             i.users.icon
             |People
@@ -12,12 +12,13 @@ template(name='nav')
         a.item(href='/events' class="{{isActivePath '/events'}}")
             i.calendar.icon
             | Events
-        if currentUser
-            a.item(href='/profile' class="{{isActivePath '/profile'}}")
-                i.user.icon
-                | Profile (#{user.username})
-            // a.item(href='/messages' class="{{isActivePath '/messages'}}")
-            //     i.mail.icon
-            //     // | Messages (#{user.unreadcount})
-            //     | Messages
-        +atNavButton
+        .right.menu
+            if currentUser
+                a.item(href='/profile' class="{{isActivePath '/profile'}}")
+                    i.user.icon
+                    | Profile (#{user.username})
+                // a.item(href='/messages' class="{{isActivePath '/messages'}}")
+                //     i.mail.icon
+                //     // | Messages (#{user.unreadcount})
+                //     | Messages
+            +atNavButton
