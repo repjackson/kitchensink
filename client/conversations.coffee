@@ -1,11 +1,3 @@
-Template.conversations.events
-    'click #create_conversation': ->
-        Meteor.call 'create_conversation', (err, id)->
-            if err
-                console.log err
-            else
-                FlowRouter.go "/editConversation/#{id}"
-
 Template.conversations.onCreated ->
     @autorun -> Meteor.subscribe('conversations', selectedConversationTags.array())
 
@@ -15,15 +7,16 @@ Template.conversations.helpers
 
 # Single
 Template.conversation.onCreated ->
-    @autorun -> Meteor.subscribe('conversationMessages', @_id)
+    @autorun -> Meteor.subscribe('conversationMessages', Template.currentData()._id)
+    @autorun -> Meteor.subscribe('usernames')
 
 Template.conversation.helpers
     tagClass: ->
         if @valueOf() in selectedConversationTags.array() then 'primary' else 'basic'
 
-    inConversation: -> if Meteor.userId() in @participants then true else false
+    inConversation: -> if Meteor.userId() in @participantIds then true else false
 
-    conversationMessages: -> Messages.find(conversationId: @_id)
+    conversationMessages: -> Messages.find({conversationId: @_id})
 
 Template.conversation.events
     'click .tag': ->
@@ -35,6 +28,7 @@ Template.conversation.events
         e.preventDefault
         switch e.which
             when 13
-                text = $('.addMessage').val().trim()
+                text = t.find('.addMessage').value.trim()
                 if text.length > 0
                     Meteor.call 'add_message', text, @_id, (err,res)->
+                        t.find('.addMessage').value = ''

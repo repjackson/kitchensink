@@ -10,11 +10,19 @@ Messages.helpers
     when: -> moment(@timestamp).fromNow()
 
 
+Conversations.helpers
+    participants: ->
+        participantArray = []
+        for id in @participantIds
+            participantArray.push(Meteor.users.findOne(id)?.username)
+        participantArray
+
+
 Meteor.methods
     create_conversation: (tags, otherUserId)->
         Conversations.insert
             tags: tags
-            participants: [Meteor.userId(), otherUserId]
+            participantIds: [Meteor.userId(), otherUserId]
 
     removetag: (tag)->
         Meteor.users.update Meteor.userId(),

@@ -5,6 +5,11 @@ Meteor.publish 'person', (id)->
             profile: 1
             username: 1
 
+Meteor.publish 'usernames', ->
+    Meteor.users.find {},
+        fields:
+            username: 1
+
 Meteor.publish 'me', ->
     Meteor.users.find @userId,
         fields:
@@ -46,7 +51,7 @@ Meteor.publish 'conversations', (selectedtags)->
     Conversations.find match,
         fields:
             tags: 1
-            participants: 1
+            participantIds: 1
 
 
 Meteor.publish 'people_tags', (selectedtags)->

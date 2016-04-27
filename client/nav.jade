@@ -5,16 +5,16 @@ template(name='nav')
             |Hub Collider
         a.item(href='/' class="{{isActivePath '/'}}")
             i.users.icon
-            |Browse People
+            |People
         if currentUser
             a.item(href='/conversations' class="{{isActivePath '/conversations'}}")
                 i.comments.icon
                 | Conversations
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
-                | My Profile (#{user.username})
-            a.item(href='/messages' class="{{isActivePath '/messages'}}")
-                i.mail.icon
-                // | Messages (#{user.unreadcount})
-                | Messages
+                | Profile (#{user.username})
+            // a.item(href='/messages' class="{{isActivePath '/messages'}}")
+            //     i.mail.icon
+            //     // | Messages (#{user.unreadcount})
+            //     | Messages
         +atNavButton

@@ -8,19 +8,26 @@ template(name='conversation')
     .ui.fluid.card
         .content
             .header
-                i.tags.icon
+                |Conversation Topics:
                 each tags
                     .ui.large.compact.button.tag(class=tagClass) #{this}
+                div
+                    |Participants: &nbsp;
+                    .ui.horizontal.list
+                        each participants
+                            .item #{this}
             .description
-                .ui.divided.list
-                    each conversationMessages
-                        .item
-                            strong #{this.username}
-                            |#{this.text} #{this.when}
-            .extra.content
-                if inConversation
-                    .ui.small.input
-                        input.addMessage(type='text' placeholder='Add Message')
-                else
-                    .ui.button.joinConversation Join Conversation
+                .ui.segment
+                    .ui.divided.list
+                        each conversationMessages
+                            .item
+                                strong #{this.author.username}:
+                                |#{this.text}
+                                .meta #{this.when}
+        .extra.content
+            if inConversation
+                .ui.small.input
+                    input.addMessage(type='text' placeholder='Add Message')
+            else
+                .ui.button.joinConversation Join Conversation
 

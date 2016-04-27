@@ -10,18 +10,19 @@ template(name='person')
             .header
                 i.user.icon
                 |#{username}
+                .ui.small.basic.compact.button.converseWithUser
+                    i.comment.icon
+                    |Converse with #{username}
             .description
                 // h5.ui.header #{username}'s tags
                 each tags
-                    .ui.large.compact.button.tag(class=tagClass) #{this}
+                    .ui.compact.button.tag(class=tagClass) #{this}
         if currentUser
             unless isUser
                 .extra.content
                     div Your common tags with #{username} (#{matchedtags.length})
                     each matchedtags
                         .ui.basic.label #{this}
-                .extra.content
-                    .ui.button.converseWithUser Converse with User
                     // div Message #{username}:
                     //     .ui.small.input
                     //         input#text(type='sendMessage')
