@@ -10,9 +10,10 @@ template(name='person')
             .header
                 i.user.icon
                 |#{username}
-                .ui.small.basic.compact.button.converseWithUser
-                    i.comment.icon
-                    |Converse with #{username}
+                if currentUser
+                    .ui.small.basic.compact.button.converseWithUser
+                        i.comment.icon
+                        |Converse with #{username}
             .description
                 // h5.ui.header #{username}'s tags
                 each tags

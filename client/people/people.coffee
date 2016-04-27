@@ -33,9 +33,6 @@ Template.person.events
     'click .converseWithUser': ->
         intersection = _.intersection @tags, Meteor.user().tags
         Meteor.call 'create_conversation', intersection, @_id, (err, res)->
-            console.log res
-            console.log intersection
-
-        # selectedConversationTags.clear()
-        # selectedConversationTags.push(tag) for tag in intersection
-        # FlowRouter.go '/conversations'
+            FlowRouter.go '/conversations'
+            selectedConversationTags.clear()
+            selectedConversationTags.push(tag) for tag in intersection

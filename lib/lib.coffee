@@ -2,6 +2,8 @@
 @Conversationtags = new Meteor.Collection 'conversation_tags'
 @Messages = new Meteor.Collection 'messages'
 @Conversations = new Meteor.Collection 'conversations'
+@Events = new Meteor.Collection 'events'
+@Eventtags = new Meteor.Collection 'event_tags'
 
 
 Messages.helpers
@@ -17,12 +19,46 @@ Conversations.helpers
             participantArray.push(Meteor.users.findOne(id)?.username)
         participantArray
 
+Events.helpers
+    attendees: ->
+        attendeeArray = []
+        for id in @attendeeIds
+            attendeeArray.push(Meteor.users.findOne(id)?.username)
+        attendeeArray
+
 
 Meteor.methods
     create_conversation: (tags, otherUserId)->
-        Conversations.insert
+        existingConversation = Conversations.findOne tags: tags
+        if existingConversation then return
+        else
+            Conversations.insert
+                tags: tags
+                participantIds: [Meteor.userId(), otherUserId]
+
+    create_event: (tags)->
+        Events.insert
             tags: tags
-            participantIds: [Meteor.userId(), otherUserId]
+            hostId: Meteor.userId()
+            attendeeIds: [Meteor.userId()]
+
+    add_event_message: (text, eventId)->
+        Messages.insert
+            timestamp: Date.now()
+            authorId: Meteor.userId()
+            text: text
+            eventId: eventId
+
+
+    join_event: (id)->
+        Events.update id,
+            $addToSet:
+                attendeeIds: Meteor.userId()
+
+    leave_event: (id)->
+        Events.update id,
+            $pull:
+                attendeeIds: Meteor.userId()
 
     removetag: (tag)->
         Meteor.users.update Meteor.userId(),
@@ -139,6 +175,12 @@ FlowRouter.route '/conversations', action: (params) ->
         nav: 'nav'
         cloud: 'conversation_cloud'
         main: 'conversations'
+
+FlowRouter.route '/events', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'event_cloud'
+        main: 'events'
 
 # FlowRouter.route '/editConversation/:docId', action: (params) ->
 #     BlazeLayout.render 'layout',

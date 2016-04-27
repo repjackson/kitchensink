@@ -32,3 +32,10 @@ Template.conversation.events
                 if text.length > 0
                     Meteor.call 'add_message', text, @_id, (err,res)->
                         t.find('.addMessage').value = ''
+
+    'click .createEvent': ->
+        tags = @tags
+        Meteor.call 'create_event', tags, (err, res)->
+            FlowRouter.go '/events'
+            selectedEventTags.clear()
+            selectedEventTags.push(tag) for tag in tags

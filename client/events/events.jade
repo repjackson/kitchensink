@@ -1,0 +1,53 @@
+template(name='events')
+    .ui.container
+        each events
+            +event
+
+
+template(name='event')
+    .ui.fluid.card
+        .content
+            .header
+                |Event Topics:
+                each tags
+                    .ui.large.compact.button.tag(class=tagClass) #{this}
+                div
+                    |Attendees: &nbsp;
+                    .ui.horizontal.list
+                        each attendees
+                            .item #{this}
+            .description
+                if isHost
+                    .ui.left.icon.small.input
+                        i.calendar.outline.icon
+                        input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
+                        .ui.icon.basic.button
+                            i.link.red.remove.icon.clearDT
+                else
+                    p Date: #{dateTime}
+                .ui.segment
+                    .ui.divided.list
+                        each eventMessages
+                            .item
+                                strong #{this.author.username}:
+                                |#{this.text}
+                                .meta #{this.when}
+                if attending
+                    .ui.small.left.icon.input
+                        i.plus.icon
+                        input.addMessage(type='text' placeholder='Add Message')
+        .extra.content
+            if isHost
+                .ui.basic.button.cancelEvent
+                    i.red.remove.icon
+                    |Cancel Event
+            if currentUser
+                if attending
+                    .ui.basic.button.leave_event
+                        i.red.minus.icon
+                        |Leave Event
+                else
+                    .ui.button.basic.join_event
+                        i.green.plus.icon
+                        |Join Event
+

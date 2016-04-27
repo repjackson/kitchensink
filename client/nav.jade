@@ -6,10 +6,13 @@ template(name='nav')
         a.item(href='/' class="{{isActivePath '/'}}")
             i.users.icon
             |People
+        a.item(href='/conversations' class="{{isActivePath '/conversations'}}")
+            i.comments.icon
+            | Conversations
+        a.item(href='/events' class="{{isActivePath '/events'}}")
+            i.calendar.icon
+            | Events
         if currentUser
-            a.item(href='/conversations' class="{{isActivePath '/conversations'}}")
-                i.comments.icon
-                | Conversations
             a.item(href='/profile' class="{{isActivePath '/profile'}}")
                 i.user.icon
                 | Profile (#{user.username})

@@ -9,8 +9,10 @@ template(name='conversation')
         .content
             .header
                 |Conversation Topics:
+                // .ui.horizontal.list
                 each tags
                     .ui.large.compact.button.tag(class=tagClass) #{this}
+                    // .item.tag(class=tagClass) #{this}
                 div
                     |Participants: &nbsp;
                     .ui.horizontal.list
@@ -24,10 +26,15 @@ template(name='conversation')
                                 strong #{this.author.username}:
                                 |#{this.text}
                                 .meta #{this.when}
-        .extra.content
-            if inConversation
-                .ui.small.input
-                    input.addMessage(type='text' placeholder='Add Message')
-            else
-                .ui.button.joinConversation Join Conversation
+        if currentUser
+            .extra.content
+                if inConversation
+                    .ui.small.left.icon.input
+                        i.plus.icon
+                        input.addMessage(type='text' placeholder='Add Message')
+                else
+                    .ui.button.joinConversation Join Conversation
+                .ui.basic.floated.right.button.createEvent
+                    i.green.calendar.icon
+                    |Create Event from Discussion
 
