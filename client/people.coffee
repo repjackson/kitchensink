@@ -29,3 +29,13 @@ Template.person.helpers
 Template.person.events
     'click .tag': ->
         if @valueOf() in selectedtags.array() then selectedtags.remove @valueOf() else selectedtags.push @valueOf()
+
+    'click .converseWithUser': ->
+        intersection = _.intersection @tags, Meteor.user().tags
+        Meteor.call 'create_conversation', intersection, @_id, (err, res)->
+            console.log res
+            console.log intersection
+
+        # selectedConversationTags.clear()
+        # selectedConversationTags.push(tag) for tag in intersection
+        # FlowRouter.go '/conversations'

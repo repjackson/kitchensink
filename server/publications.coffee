@@ -17,12 +17,9 @@ Meteor.publish 'sent_messages', ->
         authorId: @userId
 
 
-Meteor.publish 'conversationMessages', (otherUser) ->
+Meteor.publish 'conversationMessages', (conversationId) ->
     Messages.find
-        $and: [
-            authorId: @userId
-            recipientId: otherUser
-            ]
+        conversationId: conversationId
 
 Meteor.publish 'received_messages', ->
     Messages.find
@@ -40,6 +37,16 @@ Meteor.publish 'people', (selectedtags)->
             tags: 1
             profile: 1
             username: 1
+
+Meteor.publish 'conversations', (selectedtags)->
+    self = @
+    match = {}
+    if selectedtags and selectedtags.length > 0 then match.tags = $all: selectedtags
+
+    Conversations.find match,
+        fields:
+            tags: 1
+            participants: 1
 
 
 Meteor.publish 'people_tags', (selectedtags)->
@@ -60,7 +67,7 @@ Meteor.publish 'people_tags', (selectedtags)->
         ]
 
     tagCloud.forEach (tag, i) ->
-        self.added 'tags', Random.id(),
+        self.added 'people_tags', Random.id(),
             name: tag.name
             count: tag.count
             index: i
@@ -86,7 +93,7 @@ Meteor.publish 'conversation_tags', (selectedtags)->
         ]
 
     tagCloud.forEach (tag, i) ->
-        self.added 'tags', Random.id(),
+        self.added 'conversation_tags', Random.id(),
             name: tag.name
             count: tag.count
             index: i

@@ -1,4 +1,5 @@
-@Tags = new Meteor.Collection 'tags'
+@Peopletags = new Meteor.Collection 'people_tags'
+@Conversationtags = new Meteor.Collection 'conversation_tags'
 @Messages = new Meteor.Collection 'messages'
 @Conversations = new Meteor.Collection 'conversations'
 
@@ -9,11 +10,11 @@ Messages.helpers
     when: -> moment(@timestamp).fromNow()
 
 
-
 Meteor.methods
-    create_conversation: ->
-        Conversations.insert({})
-
+    create_conversation: (tags, otherUserId)->
+        Conversations.insert
+            tags: tags
+            participants: [Meteor.userId(), otherUserId]
 
     removetag: (tag)->
         Meteor.users.update Meteor.userId(),
@@ -36,6 +37,13 @@ Meteor.methods
             authorId: Meteor.userId()
             body: body
             recipientId: recipientId
+
+    add_message: (text, conversationId) ->
+        Messages.insert
+            timestamp: Date.now()
+            authorId: Meteor.userId()
+            text: text
+            conversationId: conversationId
 
 
 AccountsTemplates.configure

@@ -7,7 +7,7 @@ Template.cloud.helpers
     globaltags: ->
         # userCount = Meteor.users.find().count()
         # if 0 < userCount < 3 then tags.find { count: $lt: userCount } else tags.find()
-        Tags.find()
+        Peopletags.find()
 #
     # globaltagClass: ->
     #     buttonClass = switch

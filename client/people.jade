@@ -21,10 +21,11 @@ template(name='person')
                     each matchedtags
                         .ui.basic.label #{this}
                 .extra.content
-                    div Message #{username}:
-                        .ui.small.input
-                            input#text(type='sendMessage')
-                    .ui.divided.list
-                        each conversationMessages
-                            .item
-                                |#{this.body} #{this.when}
+                    .ui.button.converseWithUser Converse with User
+                    // div Message #{username}:
+                    //     .ui.small.input
+                    //         input#text(type='sendMessage')
+                    // .ui.divided.list
+                    //     each conversationMessages
+                    //         .item
+                    //             |#{this.body} #{this.when}
