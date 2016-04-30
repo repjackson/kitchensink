@@ -17,6 +17,11 @@ Meteor.publish 'docs', (selectedTags)->
 
 Meteor.publish 'doc', (id)-> Docs.find id
 
+Meteor.publish 'me', ->
+    Meteor.users.find @userId,
+        fields:
+            username: 1
+            bookmarks: 1
 
 Meteor.publish 'tags', (selectedTags)->
     self = @

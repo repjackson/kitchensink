@@ -37,3 +37,8 @@ Template.view.events
 
     'click .authorFilterButton': ->
         if @username in selectedUsernames.array() then selectedUsernames.remove @username else selectedUsernames.push @username
+
+    'click .cloneDoc': ->
+        id = Docs.insert
+            tags: @tags
+        FlowRouter.go "/edit/#{id}"

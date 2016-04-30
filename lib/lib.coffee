@@ -23,8 +23,15 @@ Meteor.methods
     createDoc: (tags=[])->
         Docs.insert
             tags: tags
+
+
     deleteDoc: (id)->
         Docs.remove id
+
+    addBookmark: (tags)->
+        Meteor.users.update Meteor.userId(),
+            $addToSet:
+                bookmarks: tags
 
     removetag: (tag, docId)->
         Docs.update docId,

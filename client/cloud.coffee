@@ -31,3 +31,6 @@ Template.cloud.events
     'click .selectTag': -> selectedTags.push @name
     'click .unselectTag': -> selectedTags.remove @valueOf()
     'click #clearTags': -> selectedTags.clear()
+
+    'click #bookmarkSelection': ->
+        Meteor.call 'addBookmark', selectedTags.array()

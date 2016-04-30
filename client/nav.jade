@@ -3,10 +3,24 @@ template(name='nav')
         a.ui.header.item(href='/' class="{{isActivePath '/'}}")
             |Facet
         if currentUser
-            a#addDoc.item
-                i.plus.icon
-                |Add Doc
-
+            .ui.simple.dropdown.link.item
+                span.text Add
+                i.dropdown.icon
+                .menu
+                    #addDoc.item Blank
+                    .header From Bookmarks
+                    each user.bookmarks
+                        .item.addFromBookmark
+                            each this
+                                .ui.label #{this}
+            .ui.simple.dropdown.link.item
+                span.text Bookmarks
+                i.dropdown.icon
+                .menu
+                    each user.bookmarks
+                        .item.selectBookmark
+                            each this
+                                .ui.label #{this}
         .right.menu
             // if currentUser
             //     a.item(href='/profile' class="{{isActivePath '/profile'}}")
