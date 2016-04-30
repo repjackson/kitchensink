@@ -1,0 +1,21 @@
+template(name='docs')
+    .ui.container
+        .ui.cards
+            each docs
+                +view
+
+template(name='view')
+    .ui.fluid.card
+        .content
+            .header
+                each tags
+                    .ui.large.compact.button.docTag(class=docTagClass)  #{this}
+            if isAuthor
+                .ui.basic.button.editDoc
+                    i.blue.pencil.icon
+                    |Edit
+                .ui.icon.basic.button.deleteDoc
+                    // |Delete
+                    i.red.trash.icon
+        .extra.content
+            span by #{username} #{when}

@@ -1,107 +1,38 @@
-@Peopletags = new Meteor.Collection 'people_tags'
-@Conversationtags = new Meteor.Collection 'conversation_tags'
-@Messages = new Meteor.Collection 'messages'
-@Conversations = new Meteor.Collection 'conversations'
-@Events = new Meteor.Collection 'events'
-@Eventtags = new Meteor.Collection 'event_tags'
+@Tags = new Meteor.Collection 'tags'
+@Docs = new Meteor.Collection 'docs'
 
 
-Messages.helpers
-    author: -> Meteor.users.findOne @authorId
-    recipient: -> Meteor.users.findOne @recipientId
-    when: -> moment(@timestamp).fromNow()
+Docs.before.insert (userId, doc)->
+    doc.timestamp = Date.now()
+    doc.authorId = Meteor.userId()
+    doc.username = Meteor.user().username
+    return
+
+Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
+    doc.tagCount = doc.tags.length
+), fetchPrevious: true
 
 
-Conversations.helpers
-    participants: ->
-        participantArray = []
-        for id in @participantIds
-            participantArray.push(Meteor.users.findOne(id)?.username)
-        participantArray
 
-Events.helpers
-    attendees: ->
-        attendeeArray = []
-        for id in @attendeeIds
-            attendeeArray.push(Meteor.users.findOne(id)?.username)
-        attendeeArray
+
+Docs.helpers
+    author: (doc)-> Meteor.users.findOne @authorId
 
 
 Meteor.methods
-    create_conversation: (tags, otherUserId)->
-        existingConversation = Conversations.findOne tags: tags
-        if existingConversation then return
-        else
-            Conversations.insert
-                tags: tags
-                authorId: Meteor.userId()
-                participantIds: [Meteor.userId(), otherUserId]
-
-    create_event: (tags)->
-        Events.insert
+    createDoc: (tags=[])->
+        Docs.insert
             tags: tags
-            hostId: Meteor.userId()
-            attendeeIds: [Meteor.userId()]
+    deleteDoc: (id)->
+        Docs.remove id
 
-    add_event_message: (text, eventId)->
-        Messages.insert
-            timestamp: Date.now()
-            authorId: Meteor.userId()
-            text: text
-            eventId: eventId
+    removetag: (tag, docId)->
+        Docs.update docId,
+            $pull: tag
 
-    closeConversation: (id)->
-        Conversations.remove id
-        Messages.remove conversationId: id
-
-    joinConversation: (id)->
-        Conversations.update id,
-            $addToSet:
-                participantIds: Meteor.userId()
-
-    leaveConversation: (id)->
-        Conversations.update id,
-            $pull:
-                participantIds: Meteor.userId()
-
-    join_event: (id)->
-        Events.update id,
-            $addToSet:
-                attendeeIds: Meteor.userId()
-
-    leave_event: (id)->
-        Events.update id,
-            $pull:
-                attendeeIds: Meteor.userId()
-
-    removetag: (tag)->
-        Meteor.users.update Meteor.userId(),
-            $pull: tags: tag
-
-    addtag: (tag)->
-        Meteor.users.update Meteor.userId(),
+    addtag: (tag, docId)->
+        Docs.update docId,
             $addToSet: tags: tag
-
-    update_username: (username)->
-        existing_user = Meteor.users.findOne username:username
-        if existing_user then throw new Meteor.Error 500, 'username exists'
-        else
-            Meteor.users.update Meteor.userId(),
-                $set: username: username
-
-    send_message: (body, recipientId) ->
-        Messages.insert
-            timestamp: Date.now()
-            authorId: Meteor.userId()
-            body: body
-            recipientId: recipientId
-
-    add_message: (text, conversationId) ->
-        Messages.insert
-            timestamp: Date.now()
-            authorId: Meteor.userId()
-            text: text
-            conversationId: conversationId
 
 
 AccountsTemplates.configure
@@ -172,30 +103,9 @@ FlowRouter.route '/', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         cloud: 'cloud'
-        main: 'people'
+        main: 'docs'
 
-FlowRouter.route '/profile', action: (params) ->
+FlowRouter.route '/edit/:docId', action: (params) ->
     BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'profile'
+        main: 'edit'
 
-FlowRouter.route '/messages', action: (params) ->
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'messagePage'
-
-FlowRouter.route '/conversations', action: (params) ->
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        cloud: 'conversation_cloud'
-        main: 'conversations'
-
-FlowRouter.route '/events', action: (params) ->
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        cloud: 'event_cloud'
-        main: 'events'
-
-# FlowRouter.route '/editConversation/:docId', action: (params) ->
-#     BlazeLayout.render 'layout',
-#         main: 'conversation'

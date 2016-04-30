@@ -1,0 +1,26 @@
+template(name='edit')
+    with doc
+        .ui.container
+            .ui.segment
+                each tags
+                    .ui.button.docTag
+                        i.minus.icon
+                        |#{this}
+                .ui.form
+                    .field
+                        .ui.left.icon.input
+                            i.add.icon
+                            input#addTag(type='text' autofocus='' placeholder='Add Tag')
+                .ui.hidden.divider
+                if tags.length
+                    #saveDoc.ui.green.button Save
+                #deleteDoc.ui.red.button Delete
+
+        // .ui.modal
+        //     .header Confirm Delete
+        //     .content
+        //       .meta Confirm?
+        //       .description #{body}
+        //     .actions
+        //       .ui.button.cancel Cancel
+        //       .ui.red.button.approve Delete

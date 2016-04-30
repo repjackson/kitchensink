@@ -30,14 +30,6 @@ Template.nav.helpers
 
 
 Template.nav.events
-    'click .toggleSidebar': ->
-        $('.ui.sidebar').sidebar 'toggle'
-
-
-    'autocompleteselect #tagDrilldown': (event, template, doc)->
-        selected_tags.push doc.name.toString()
-        $('#tagDrilldown').val('')
-
     'keyup #tagDrilldown': (event, template)->
         event.preventDefault()
         if event.which is 13
@@ -66,3 +58,9 @@ Template.nav.events
                 if searchTerm is ''
                     selectedTags.pop()
 
+    'click #addDoc': ->
+        Meteor.call 'createDoc', (err, id)->
+            if err
+                console.log err
+            else
+                FlowRouter.go "/edit/#{id}"

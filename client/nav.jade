@@ -1,24 +1,15 @@
 template(name='nav')
-    .ui.inverted.borderless.menu
-        // .ui.header.item
-        //     i.unlink.icon
-        //     |Hub Collider
-        a.item(href='/' class="{{isActivePath '/'}}")
-            i.users.icon
-            |People
-        a.item(href='/conversations' class="{{isActivePath '/conversations'}}")
-            i.comments.icon
-            | Conversations
-        a.item(href='/events' class="{{isActivePath '/events'}}")
-            i.calendar.icon
-            | Events
+    .ui.inverted.menu
+        a.ui.header.item(href='/' class="{{isActivePath '/'}}")
+            |Facet
+        if currentUser
+            a#addDoc.item
+                i.plus.icon
+                |Add Doc
+
         .right.menu
-            if currentUser
-                a.item(href='/profile' class="{{isActivePath '/profile'}}")
-                    i.user.icon
-                    | Profile (#{user.username})
-                // a.item(href='/messages' class="{{isActivePath '/messages'}}")
-                //     i.mail.icon
-                //     // | Messages (#{user.unreadcount})
-                //     | Messages
+            // if currentUser
+            //     a.item(href='/profile' class="{{isActivePath '/profile'}}")
+            //         i.user.icon
+            //         | Profile (#{user.username})
             +atNavButton
