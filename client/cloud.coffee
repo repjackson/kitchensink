@@ -6,9 +6,9 @@ Template.cloud.onCreated ->
 
 Template.cloud.helpers
     globalTags: ->
-        # docCount = Docs.find().count()
-        # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
-        Tags.find()
+        docCount = Docs.find().count()
+        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
+        # Tags.find()
 
 
     globalTagClass: ->
@@ -24,13 +24,29 @@ Template.cloud.helpers
 
     user: -> Meteor.user()
 
-
-
-
 Template.cloud.events
-    'click .selectTag': -> selectedTags.push @name
-    'click .unselectTag': -> selectedTags.remove @valueOf()
-    'click #clearTags': -> selectedTags.clear()
+    'click .selectTag': ->
+        selectedTags.push @name
+        FlowRouter.setQueryParams( filter: selectedTags.array() )
+        console.log FlowRouter.getQueryParam('filter');
+
+    'click .unselectTag': ->
+        selectedTags.remove @valueOf()
+        FlowRouter.setQueryParams( filter: selectedTags.array() )
+        console.log FlowRouter.getQueryParam('filter');
+
+    'click #clearTags': ->
+        selectedTags.clear()
+        FlowRouter.setQueryParams( filter: null )
+        console.log FlowRouter.getQueryParam('filter');
 
     'click #bookmarkSelection': ->
-        Meteor.call 'addBookmark', selectedTags.array()
+        if confirm 'Bookmark Selection?'
+            Meteor.call 'addBookmark', selectedTags.array(), (err,res)->
+                alert "Selection bookmarked"
+
+    'click #newFromSelection': ->
+        if confirm 'Create new document from selection?'
+            Meteor.call 'createDoc', selectedTags.array(), (err,id)->
+                if err then console.log err
+                else FlowRouter.go "/edit/#{id}"

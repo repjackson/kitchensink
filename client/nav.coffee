@@ -10,6 +10,9 @@ Template.nav.helpers
 
 
 Template.nav.events
+    'click #home': ->
+        selectedTags.clear()
+
     'click #addDoc': ->
         Meteor.call 'createDoc', (err, id)->
             if err then console.log err

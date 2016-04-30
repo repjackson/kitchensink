@@ -6,11 +6,9 @@ template(name='edit')
                     .ui.button.docTag
                         i.minus.icon
                         |#{this}
-                .ui.form
-                    .field
-                        .ui.left.icon.input
-                            i.add.icon
-                            input#addTag(type='text' autofocus='' placeholder='Add Tag')
+                .ui.left.icon.input
+                    i.add.icon
+                    input#addTag(type='text' autofocus='' placeholder='Add Tag')
                 .ui.hidden.divider
                 if tags.length
                     #saveDoc.ui.green.button Save

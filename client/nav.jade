@@ -4,6 +4,7 @@ template(name='nav')
             |Facet
         if currentUser
             .ui.simple.dropdown.link.item
+                i.plus.icon
                 span.text Add
                 i.dropdown.icon
                 .menu
@@ -14,6 +15,7 @@ template(name='nav')
                             each this
                                 .ui.label #{this}
             .ui.simple.dropdown.link.item
+                i.bookmark.icon
                 span.text Bookmarks
                 i.dropdown.icon
                 .menu

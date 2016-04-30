@@ -14,22 +14,13 @@ Template.view.helpers
 
     when: -> moment(@timestamp).fromNow()
 
-    docTagClass: ->
-        if @valueOf() in selectedTags.array() then 'primary' else 'basic'
-
-
-    authorFilterButtonClass: ->
-        if @username in selectedUsernames.array() then 'primary' else 'basic'
-
-
-    author: -> Meteor.users.findOne(@authorId)
+    docTagClass: -> if @valueOf() in selectedTags.array() then 'active' else 'compact'
 
 
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"
 
     'click .docTag': -> if @valueOf() in selectedTags.array() then selectedTags.remove @valueOf() else selectedTags.push @valueOf()
-
 
     'click .deleteDoc': ->
         if confirm 'Delete?'
@@ -39,6 +30,7 @@ Template.view.events
         if @username in selectedUsernames.array() then selectedUsernames.remove @username else selectedUsernames.push @username
 
     'click .cloneDoc': ->
-        id = Docs.insert
-            tags: @tags
-        FlowRouter.go "/edit/#{id}"
+        if confirm 'Clone?'
+            id = Docs.insert
+                tags: @tags
+            FlowRouter.go "/edit/#{id}"
