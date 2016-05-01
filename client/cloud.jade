@@ -2,16 +2,16 @@ template(name='cloud')
     .ui.center.aligned.bottom.attached.segment
         if selectedTags
             if currentUser
-                #bookmarkSelection.ui.circular.active.icon.button
+                #bookmarkSelection.ui.active.icon.button
                     i.bookmark.icon
-                #newFromSelection.ui.circular.active.icon.button
+                #newFromSelection.ui.active.icon.button
                     i.plus.icon
-            #clearTags.ui.active.circular.big.icon.button
+            #clearTags.ui.active.big.icon.button
                 i.remove.icon
         if selectedTags
             each selectedTags
-                a.ui.active.big.circular.button.unselectTag
+                a.ui.active.big.button.unselectTag
                     strong #{this}
         each globalTags
-            .ui.compact.button.circular.selectTag(class=globalTagClass) #{this.name}
+            .ui.compact.button.selectTag(class=globalTagClass) #{this.name}
                 small #{this.count}

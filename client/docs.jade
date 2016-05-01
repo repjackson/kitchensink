@@ -9,17 +9,28 @@ template(name='view')
         .content
             .header
                 each tags
-                    .ui.circular.button.docTag(class=docTagClass)  #{this}
+                    .ui.button.docTag(class=docTagClass)  #{this}
+                .meta.right.floated
+                    .ui.basic.large.label
+                        | #{points} pts
+                    .ui.huge.icon.button.voteUp(class=voteUpButtonClass)
+                        i.thumbs.up.icon
+                    .ui.huge.icon.button.voteDown(class=voteDownButtonClass)
+                        i.thumbs.down.icon
+            .description
+                if body.length
+                    +markdown
+                        !{body}
         .extra.content
-            span by #{username} #{when}
+            span by #{username} [#{author.points}] #{when}
             if currentUser
-                .ui.icon.circular.button.cloneDoc
+                .ui.basic.button.cloneDoc
                     i.fork.icon
-                    // |Clone
-            if isAuthor
-                .ui.icon.circular.button.editDoc
-                    i.pencil.icon
-                    // |Edit
-                .ui.icon.circular.button.deleteDoc
-                    // |Delete
-                    i.trash.icon
+                    |Clone
+                if isAuthor
+                    .ui.basic.button.editDoc
+                        i.blue.pencil.icon
+                        |Edit
+                    .ui.icon.basic.button.deleteDoc
+                        // |Delete
+                        i.red.trash.icon

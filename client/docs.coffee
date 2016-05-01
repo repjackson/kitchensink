@@ -14,7 +14,22 @@ Template.view.helpers
 
     when: -> moment(@timestamp).fromNow()
 
-    docTagClass: -> if @valueOf() in selectedTags.array() then 'active' else 'compact'
+    voteUpButtonClass: ->
+        if not Meteor.userId() then 'disabled basic'
+        else if Meteor.userId() in @upVoters then 'green'
+        else 'basic'
+
+    voteDownButtonClass: ->
+        if not Meteor.userId() then 'disabled basic'
+        else if Meteor.userId() in @downVoters then 'red'
+        else 'basic'
+
+    docTagClass: ->
+        result = ''
+        if @valueOf() in selectedTags.array() then result += ' primary' else result += ' basic'
+        if Meteor.userId() in Template.parentData(1).upVoters then result += ' green'
+        else if Meteor.userId() in Template.parentData(1).downVoters then result += ' red'
+        return result
 
 
 Template.view.events
@@ -34,3 +49,14 @@ Template.view.events
             id = Docs.insert
                 tags: @tags
             FlowRouter.go "/edit/#{id}"
+
+    'click .voteDown': ->
+        if Meteor.userId()
+            # if @points is 0 or (@points is 1 and Meteor.userId() in @upVoters)
+            #     if confirm 'Confirm downvote? This will delete the doc.'
+            #         Meteor.call 'voteDown', @_id
+            # else
+            Meteor.call 'voteDown', @_id
+
+    'click .voteUp': -> if Meteor.userId() then Meteor.call 'voteUp', @_id
+

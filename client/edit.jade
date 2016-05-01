@@ -10,9 +10,13 @@ template(name='edit')
                     i.add.icon
                     input#addTag(type='text' autofocus='' placeholder='Add Tag')
                 .ui.hidden.divider
+                .ui.input
+                    textarea#body
+                        |#{body}
+
+                .ui.hidden.divider
                 if tags.length
-                    #saveDoc.ui.green.button Save
-                #deleteDoc.ui.red.button Delete
+                    #saveDoc.ui.button Save
 
         // .ui.modal
         //     .header Confirm Delete
