@@ -13,10 +13,14 @@ template(name='edit')
                 .ui.input
                     textarea#body
                         |#{body}
-
                 .ui.hidden.divider
                 if tags.length
-                    #saveDoc.ui.button Save
+                    #saveDoc.ui.large.green.button
+                        |Save
+                        i.check.icon
+                #deleteDoc.ui.large.red.button
+                    i.remove.icon
+                    |Delete
 
         // .ui.modal
         //     .header Confirm Delete

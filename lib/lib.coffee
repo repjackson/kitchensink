@@ -3,8 +3,8 @@
 
 
 Docs.before.insert (userId, doc)->
-    doc.upVoters = [userId]
-    doc.downVoters = []
+    doc.up_voters = [userId]
+    doc.down_voters = []
     doc.timestamp = Date.now()
     doc.authorId = Meteor.userId()
     doc.username = Meteor.user().username
@@ -13,6 +13,7 @@ Docs.before.insert (userId, doc)->
 
 Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
     doc.tagCount = doc.tags.length
+    Meteor.call 'generatePersonalCloud', Meteor.userId()
 ), fetchPrevious: true
 
 
@@ -24,12 +25,20 @@ Docs.helpers
 
 Meteor.methods
     createDoc: (tags=[])->
+        Meteor.users.update Meteor.userId(),
+            $inc: points: 1
         Docs.insert
             tags: tags
 
-
     deleteDoc: (id)->
         Docs.remove id
+
+    update_username: (username)->
+        existing_user = Meteor.users.findOne username:username
+        if existing_user then throw new Meteor.Error 500, 'username exists'
+        else
+            Meteor.users.update Meteor.userId(),
+                $set: username: username
 
     addBookmark: (tags)->
         Meteor.users.update Meteor.userId(),
@@ -44,52 +53,53 @@ Meteor.methods
         Docs.update docId,
             $addToSet: tags: tag
 
-    voteUp: (id)->
+    vote_up: (id)->
         doc = Docs.findOne id
-        if Meteor.userId() in doc.upVoters #undo upvote
+        if Meteor.userId() in doc.up_voters #undo upvote
             Docs.update id,
-                $pull: upVoters: Meteor.userId()
+                $pull: up_voters: Meteor.userId()
                 $inc: points: -1
             Meteor.users.update doc.authorId, $inc: points: -1
 
-        else if Meteor.userId() in doc.downVoters #switch downvote to upvote
+        else if Meteor.userId() in doc.down_voters #switch downvote to upvote
             Docs.update id,
-                $pull: downVoters: Meteor.userId()
-                $addToSet: upVoters: Meteor.userId()
+                $pull: down_voters: Meteor.userId()
+                $addToSet: up_voters: Meteor.userId()
                 $inc: points: 2
             Meteor.users.update doc.authorId, $inc: points: 2
 
         else #clean upvote
             Docs.update id,
-                $addToSet: upVoters: Meteor.userId()
+                $addToSet: up_voters: Meteor.userId()
                 $inc: points: 1
             Meteor.users.update doc.authorId, $inc: points: 1
         Meteor.call 'generatePersonalCloud', Meteor.userId()
 
 
-    voteDown: (id)->
+    vote_down: (id)->
         doc = Docs.findOne id
-        # if doc.points is 0 or doc.points is 1 and Meteor.userId() in doc.upVoters
+        # if doc.points is 0 or doc.points is 1 and Meteor.userId() in doc.up_voters
         #     Docs.remove id
-        if Meteor.userId() in doc.downVoters #undo downvote
+        if Meteor.userId() in doc.down_voters #undo downvote
             Docs.update id,
-                $pull: downVoters: Meteor.userId()
+                $pull: down_voters: Meteor.userId()
                 $inc: points: 1
             Meteor.users.update doc.authorId, $inc: points: 1
 
-        else if Meteor.userId() in doc.upVoters #switch upvote to downvote
+        else if Meteor.userId() in doc.up_voters #switch upvote to downvote
             Docs.update id,
-                $pull: upVoters: Meteor.userId()
-                $addToSet: downVoters: Meteor.userId()
+                $pull: up_voters: Meteor.userId()
+                $addToSet: down_voters: Meteor.userId()
                 $inc: points: -2
             Meteor.users.update doc.authorId, $inc: points: -2
 
         else #clean downvote
             Docs.update id,
-                $addToSet: downVoters: Meteor.userId()
+                $addToSet: down_voters: Meteor.userId()
                 $inc: points: -1
             Meteor.users.update doc.authorId, $inc: points: -1
         Meteor.call 'generatePersonalCloud', Meteor.userId()
+
     sendPoint: (id)->
         doc = Docs.findOne id
         # check if current user has sent points
@@ -227,3 +237,7 @@ FlowRouter.route '/edit/:docId', action: (params) ->
     BlazeLayout.render 'layout',
         main: 'edit'
 
+FlowRouter.route '/profile', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'profile'

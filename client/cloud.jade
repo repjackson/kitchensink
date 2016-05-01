@@ -1,5 +1,20 @@
 template(name='cloud')
     .ui.center.aligned.bottom.attached.segment
+        .ui.left.icon.input
+            i.search.icon
+            input#search(type='text' placeholder="Search/'clear'" autofocus='')
+        if $.Session.get 'selected_user'
+            .ui.button.active.selected_user_button
+                i.user.icon
+                |by #{selected_user}
+        if $.Session.get 'upvoted_cloud'
+            .ui.button.active.upvoted_cloud_button
+                i.thumbs.up.icon
+                |by #{upvoted_cloud}
+        if $.Session.get 'downvoted_cloud'
+            .ui.button.active.downvoted_cloud_button
+                i.thumbs.down.icon
+                |by #{downvoted_cloud}
         if selectedTags
             if currentUser
                 #bookmarkSelection.ui.active.icon.button
@@ -15,3 +30,4 @@ template(name='cloud')
         each globalTags
             .ui.compact.button.selectTag(class=globalTagClass) #{this.name}
                 small #{this.count}
+

@@ -1,0 +1,24 @@
+template(name='profile')
+    .ui.container
+        .ui.segment
+            .ui.header Your Name
+            .ui.left.icon.input
+                i.user.icon
+                input#username(type='text' value=user.username)
+        .ui.segment
+            .ui.header Tag Yourself
+            each user.tags
+                .ui.basic.button.tag
+                    i.remove.icon
+                    |#{this}
+            .ui.left.icon.input
+                i.add.green.icon
+                input#addtag(type='text' autofocus='')
+        .ui.segment
+            .ui.header Matched People
+            each matchedUsersList
+                .ui.divided.list
+                    .item
+                        strong #{this.matchedUser} (#{this.length}):
+                        each this.tagIntersection
+                            .ui.basic.label #{this}

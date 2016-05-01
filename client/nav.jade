@@ -3,6 +3,15 @@ template(name='nav')
         a.ui.header.item(href='/' class="{{isActivePath '/'}}")
             |Facet
         if currentUser
+            a#mine.ui.item
+                i.user.icon
+                |Mine
+            a#my_upvoted.ui.item
+                i.thumbs.up.icon
+                |My Upvoted
+            a#my_downvoted.ui.item
+                i.thumbs.down.icon
+                |My Downvoted
             .ui.simple.dropdown.link.item
                 i.plus.icon
                 span.text Add
@@ -24,8 +33,8 @@ template(name='nav')
                             each this
                                 .ui.label #{this}
         .right.menu
-            // if currentUser
-            //     a.item(href='/profile' class="{{isActivePath '/profile'}}")
-            //         i.user.icon
-            //         | Profile (#{user.username})
+            if currentUser
+                a.item(href='/profile' class="{{isActivePath '/profile'}}")
+                    i.user.icon
+                    | #{user.username} [#{user.points}]
             +atNavButton

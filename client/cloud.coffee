@@ -2,13 +2,13 @@
 
 
 Template.cloud.onCreated ->
-    @autorun -> Meteor.subscribe('tags', selectedTags.array())
+    @autorun -> Meteor.subscribe 'tags', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud')
 
 Template.cloud.helpers
     globalTags: ->
-        docCount = Docs.find().count()
-        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
-        # Tags.find()
+        # docCount = Docs.find().count()
+        # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
+        Tags.find()
 
 
     globalTagClass: ->
@@ -23,22 +23,27 @@ Template.cloud.helpers
     selectedTags: -> selectedTags.list()
 
     user: -> Meteor.user()
+    selected_user: -> if Session.get 'selected_user' then Meteor.users.findOne(Session.get('selected_user'))?.username
+
+    upvoted_cloud: -> if Session.get 'upvoted_cloud' then Meteor.users.findOne(Session.get('upvoted_cloud'))?.username
+
+    downvoted_cloud: -> if Session.get 'downvoted_cloud' then Meteor.users.findOne(Session.get('downvoted_cloud'))?.username
 
 Template.cloud.events
     'click .selectTag': ->
         selectedTags.push @name
         FlowRouter.setQueryParams( filter: selectedTags.array() )
-        console.log FlowRouter.getQueryParam('filter');
+        # console.log FlowRouter.getQueryParam('filter');
 
     'click .unselectTag': ->
         selectedTags.remove @valueOf()
         FlowRouter.setQueryParams( filter: selectedTags.array() )
-        console.log FlowRouter.getQueryParam('filter');
+        # console.log FlowRouter.getQueryParam('filter');
 
     'click #clearTags': ->
         selectedTags.clear()
         FlowRouter.setQueryParams( filter: null )
-        console.log FlowRouter.getQueryParam('filter');
+        # console.log FlowRouter.getQueryParam('filter');
 
     'click #bookmarkSelection': ->
         if confirm 'Bookmark Selection?'
@@ -50,3 +55,7 @@ Template.cloud.events
             Meteor.call 'createDoc', selectedTags.array(), (err,id)->
                 if err then console.log err
                 else FlowRouter.go "/edit/#{id}"
+
+    'click .selected_user_button': -> Session.set 'selected_user', null
+    'click .upvoted_cloud_button': -> Session.set 'upvoted_cloud', null
+    'click .downvoted_cloud_button': -> Session.set 'downvoted_cloud', null

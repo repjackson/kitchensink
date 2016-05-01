@@ -13,9 +13,9 @@ template(name='view')
                 .meta.right.floated
                     .ui.basic.large.label
                         | #{points} pts
-                    .ui.huge.icon.button.voteUp(class=voteUpButtonClass)
+                    .ui.huge.icon.button.vote_up(class=vote_upButtonClass)
                         i.thumbs.up.icon
-                    .ui.huge.icon.button.voteDown(class=voteDownButtonClass)
+                    .ui.huge.icon.button.vote_down(class=vote_downButtonClass)
                         i.thumbs.down.icon
             .description
                 if body.length
@@ -34,3 +34,32 @@ template(name='view')
                     .ui.icon.basic.button.deleteDoc
                         // |Delete
                         i.red.trash.icon
+        .footer
+            .ui.segment
+                .ui.segment
+                    .select_user.ui.button(class=select_user_button_class)
+                        i.user.icon
+                        |by #{author.username}
+                    |Authored Tags
+                    each author.authored_cloud
+                        .ui.small.label
+                            |#{this.name}
+                            small #{this.count}
+                .ui.segment
+                    .author_upvotes.ui.button(class=author_upvotes_button_class)
+                        i.thumbs.up.icon
+                        |by #{author.username}
+                    |Upvoted Tags
+                    each author.upvoted_cloud
+                        .ui.small.label
+                            |#{this.name}
+                            small #{this.count}
+                .ui.segment
+                    .author_downvotes.ui.button(class=author_downvotes_button_class)
+                        i.thumbs.down.icon
+                        |by #{author.username}
+                    |Downvoted Tags
+                    each author.downvoted_cloud
+                        .ui.small.label
+                            |#{this.name}
+                            small #{this.count}
