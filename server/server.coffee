@@ -4,13 +4,16 @@ Docs.allow
     remove: (userId, doc)-> doc.authorId is Meteor.userId()
 
 
-Meteor.publish 'docs', (selectedtags, selected_user, user_upvotes, user_downvotes)->
+Meteor.publish 'docs', (selectedtags, selected_user, user_upvotes, user_downvotes, unvoted)->
     match = {}
     match.tagCount = $gt: 0
     if user_upvotes then match.up_voters = $in: [user_upvotes]
     if user_downvotes then match.down_voters = $in: [user_downvotes]
     if selected_user then match.authorId = selected_user
     if selectedtags.length > 0 then match.tags = $all: selectedtags
+    if unvoted is true
+        match.up_voters = $nin: [@userId]
+        match.down_voters = $nin: [@userId]
 
     Docs.find match,
         limit: 10
@@ -157,7 +160,7 @@ Meteor.publish 'me', ->
             authored_list: 1
             bookmarks: 1
 
-Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvotes)->
+Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvotes, unvoted)->
     self = @
 
     match = {}
@@ -165,6 +168,10 @@ Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvote
     if user_upvotes then match.up_voters = $in: [user_upvotes]
     if user_downvotes then match.down_voters = $in: [user_downvotes]
     if selected_user then match.authorId = selected_user
+    if unvoted is true
+        match.up_voters = $nin: [@userId]
+        match.down_voters = $nin: [@userId]
+
 
     cloud = Docs.aggregate [
         { $match: match }

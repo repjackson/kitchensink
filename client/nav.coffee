@@ -11,6 +11,7 @@ Meteor.startup ->
     Session.setDefault 'selected_user', null
     Session.setDefault 'upvoted_cloud', null
     Session.setDefault 'downvoted_cloud', null
+    Session.setDefault 'unvoted', null
 
 
 Template.nav.events
@@ -19,6 +20,7 @@ Template.nav.events
         Session.set 'selected_user', null
         Session.set 'downvoted_cloud', null
         Session.set 'upvoted_cloud', null
+        Session.setDefault 'unvoted', null
 
 
     'click .toggleSidebar': ->

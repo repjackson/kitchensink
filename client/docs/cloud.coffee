@@ -3,7 +3,7 @@
 
 
 Template.cloud.onCreated ->
-    @autorun -> Meteor.subscribe 'tags', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud')
+    @autorun -> Meteor.subscribe 'tags', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
     @autorun -> Meteor.subscribe('usernames', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
 
 
@@ -22,6 +22,8 @@ Template.cloud.helpers
             when @index <= 40 then 'small'
             when @index <= 50 then 'tiny'
         return buttonClass
+
+    unvoted_button_class: -> if Session.equals('unvoted', true) then 'grey' else 'basic'
 
     selectedTags: -> selectedTags.list()
 
@@ -98,6 +100,9 @@ Template.cloud.events
         Session.set 'selected_user', null
         Session.set 'upvoted_cloud', null
         Session.set 'downvoted_cloud', Meteor.userId()
+
+    'click #unvoted': ->
+        if Session.equals('unvoted', true) then Session.set('unvoted', false) else Session.set('unvoted', true)
 
     'click #addDoc': ->
         Meteor.call 'createDoc', (err, id)->

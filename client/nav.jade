@@ -18,7 +18,7 @@ template(name='nav')
                 i.users.icon
                 |People
             a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
-                |My Points [#{user.points}]
+                |Leaderboard
             .right.menu
                 if currentUser
                     a.item(href='/profile' class="{{isActivePath '/profile'}}")

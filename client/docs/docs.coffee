@@ -1,5 +1,5 @@
 Template.docs.onCreated ->
-    @autorun -> Meteor.subscribe 'docs', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud')
+    @autorun -> Meteor.subscribe 'docs', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
 
 Template.docs.helpers
     # docs: -> Docs.find({}, limit: 1)

@@ -2,15 +2,18 @@ template(name='cloud')
     .ui.center.aligned.bottom.attached.segment
         if currentUser
             div
-                a#mine.ui.basic.button
+                #mine.ui.basic.button
                     i.user.icon
                     |Mine
-                a#my_upvoted.ui.basic.button
+                #my_upvoted.ui.basic.button
                     i.thumbs.up.icon
                     |My Upvoted
-                a#my_downvoted.ui.basic.button
+                #my_downvoted.ui.basic.button
                     i.thumbs.down.icon
                     |My Downvoted
+                #unvoted.ui.button(class=unvoted_button_class)
+                    i.edit.icon
+                    |Unvoted
             .ui.simple.dropdown.basic.button
                 i.plus.icon
                 span.text Add Doc

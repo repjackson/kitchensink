@@ -232,6 +232,14 @@ AccountsTemplates.configureRoute 'signIn'
 AccountsTemplates.configureRoute 'signUp'
 AccountsTemplates.configureRoute 'verifyEmail'
 
+FlowRouter.route '/',
+  triggersEnter: [ (context, redirect) ->
+    redirect '/docs'
+ ]
+  action: (_params) ->
+    throw new Error('this should not get called')
+
+
 
 FlowRouter.route '/docs', action: (params) ->
     BlazeLayout.render 'layout',
