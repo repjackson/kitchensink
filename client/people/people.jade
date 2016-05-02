@@ -11,10 +11,15 @@ template(name='person')
                 i.user.icon
                 |#{username}
             .description
+                h4.ui.header Self Tags
                 each tags
-                    .ui.large.compact.button.userTag(class=userTagClass)
-                        |#{this}
-                        // small #{this.count}
+                    .ui.compact.button.userTag(class=userTagClass) #{this}
+                h4.ui.header Other's Tags
+                each tagCloud
+                    .ui.compact.button.userTag(class=userTagClass)
+                        |#{this.name}
+                        small #{this.count}
+
         unless isUser
             if currentUser
                 .extra.content

@@ -44,6 +44,9 @@ Meteor.publish 'person', (id)->
             authored_cloud: 1
             authored_list: 1
             bookmarks: 1
+            tagCloud: 1
+            taggers: 1
+            userTags: 1
 
 Meteor.publish 'people', ->
     Meteor.users.find {},
@@ -59,6 +62,9 @@ Meteor.publish 'people', ->
             authored_cloud: 1
             authored_list: 1
             bookmarks: 1
+            tagCloud: 1
+            taggers: 1
+            userTags: 1
 
 Meteor.publish 'filtered_people', (selectedUserTags)->
     self = @
@@ -68,14 +74,20 @@ Meteor.publish 'filtered_people', (selectedUserTags)->
 
     Meteor.users.find match,
         fields:
-            tagCloud: 1
-            tagList: 1
-            taggers: 1
+            tags: 1
             username: 1
-            upvotedCloud: 1
             points: 1
             upVotedCloudMatches: 1
-            upvotedList: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
+            bookmarks: 1
+            tagCloud: 1
+            taggers: 1
+            userTags: 1
 
 
 
@@ -159,6 +171,9 @@ Meteor.publish 'me', ->
             authored_cloud: 1
             authored_list: 1
             bookmarks: 1
+            tagCloud: 1
+            taggers: 1
+            userTags: 1
 
 Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvotes, unvoted)->
     self = @
@@ -193,53 +208,4 @@ Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvote
     self.ready()
 
 
-
-Meteor.methods
-    generatePersonalCloud: (uid)->
-        authored_cloud = Docs.aggregate [
-            { $match: authorId: Meteor.userId() }
-            { $project: tags: 1 }
-            { $unwind: '$tags' }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        authored_list = (tag.name for tag in authored_cloud)
-        Meteor.users.update Meteor.userId(),
-            $set:
-                authored_cloud: authored_cloud
-                authored_list: authored_list
-
-
-        upvoted_cloud = Docs.aggregate [
-            { $match: up_voters: $in: [Meteor.userId()] }
-            { $project: tags: 1 }
-            { $unwind: '$tags' }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        upvoted_list = (tag.name for tag in upvoted_cloud)
-        Meteor.users.update Meteor.userId(),
-            $set:
-                upvoted_cloud: upvoted_cloud
-                upvoted_list: upvoted_list
-
-
-        downvoted_cloud = Docs.aggregate [
-            { $match: down_voters: $in: [Meteor.userId()] }
-            { $project: tags: 1 }
-            { $unwind: '$tags' }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        downvoted_list = (tag.name for tag in downvoted_cloud)
-        Meteor.users.update Meteor.userId(),
-            $set:
-                downvoted_cloud: downvoted_cloud
-                downvoted_list: downvoted_list
 
