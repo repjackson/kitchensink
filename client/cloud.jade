@@ -1,33 +1,48 @@
 template(name='cloud')
     .ui.center.aligned.bottom.attached.segment
+        .ui.form
+            .inline.fields
+                // label How often do you use checkboxes?
+                .field
+                    .ui.radio.checkbox
+                        input(type='radio', name='frequency', checked='checked')
+                        label My Docs
+                .field
+                    .ui.radio.checkbox
+                        input(type='radio', name='frequency')
+                        label My Upvoted
+                .field
+                    .ui.radio.checkbox
+                        input(type='radio', name='frequency')
+                        label My Downvoted
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
         if $.Session.get 'selected_user'
-            .ui.button.active.selected_user_button
+            .ui.button.grey.selected_user_button
                 i.user.icon
                 |by #{selected_user}
         if $.Session.get 'upvoted_cloud'
-            .ui.button.active.upvoted_cloud_button
+            .ui.button.grey.upvoted_cloud_button
                 i.thumbs.up.icon
-                |by #{upvoted_cloud}
+                | #{upvoted_cloud}
         if $.Session.get 'downvoted_cloud'
-            .ui.button.active.downvoted_cloud_button
+            .ui.button.grey.downvoted_cloud_button
                 i.thumbs.down.icon
-                |by #{downvoted_cloud}
+                | #{downvoted_cloud}
         if selectedTags
             if currentUser
-                #bookmarkSelection.ui.active.icon.button
+                #bookmarkSelection.ui.grey.icon.button
                     i.bookmark.icon
-                #newFromSelection.ui.active.icon.button
+                #newFromSelection.ui.grey.icon.button
                     i.plus.icon
-            #clearTags.ui.active.big.icon.button
+            #clearTags.ui.grey.big.icon.button
                 i.remove.icon
         if selectedTags
             each selectedTags
-                a.ui.active.big.button.unselectTag
+                a.ui.grey.big.button.unselectTag
                     strong #{this}
         each globalTags
-            .ui.compact.button.selectTag(class=globalTagClass) #{this.name}
+            .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
                 small #{this.count}
 

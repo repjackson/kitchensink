@@ -6,7 +6,7 @@
     "breadcrumb": false,
     "button": true,
     "card": true,
-    "checkbox": false,
+    "checkbox": true,
     "colorize": false,
     "comment": true,
     "container": true,

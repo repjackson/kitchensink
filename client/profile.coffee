@@ -4,7 +4,7 @@
 Template.profile.onCreated ->
     @autorun -> Meteor.subscribe 'people'
     @autorun -> Meteor.subscribe 'myTags', selectedtags.array()
-
+    @autorun -> Meteor.subscribe 'me'
 
 
 Template.profile.helpers
@@ -83,15 +83,6 @@ Template.profile.helpers
 
 
 Template.profile.events
-    'keydown #addtag': (e,t)->
-        e.preventDefault
-        tag = $('#addtag').val().toLowerCase().trim()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    Meteor.call 'addtag', tag, ->
-                        $('#addtag').val('')
-
     'keydown #username': (e,t)->
         e.preventDefault
         username = $('#username').val().trim()
@@ -105,7 +96,16 @@ Template.profile.events
                         else
                             alert "Updated username to #{username}"
 
+    'keydown #addtag': (e,t)->
+        e.preventDefault
+        tag = $('#addtag').val().toLowerCase().trim()
+        switch e.which
+            when 13
+                if tag.length > 0
+                    Meteor.call 'add_user_tag', tag, ->
+                        $('#addtag').val('')
+
     'click .tag': ->
         tag = @valueOf()
-        Meteor.call 'removetag', tag, ->
+        Meteor.call 'remove_user_tag', tag, ->
             $('#addtag').val(tag)

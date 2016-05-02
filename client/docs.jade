@@ -34,32 +34,42 @@ template(name='view')
                     .ui.icon.basic.button.deleteDoc
                         // |Delete
                         i.red.trash.icon
-        .footer
-            .ui.segment
-                .ui.segment
-                    .select_user.ui.button(class=select_user_button_class)
-                        i.user.icon
-                        |by #{author.username}
-                    |Authored Tags
-                    each author.authored_cloud
-                        .ui.small.label
-                            |#{this.name}
-                            small #{this.count}
-                .ui.segment
-                    .author_upvotes.ui.button(class=author_upvotes_button_class)
-                        i.thumbs.up.icon
-                        |by #{author.username}
-                    |Upvoted Tags
-                    each author.upvoted_cloud
-                        .ui.small.label
-                            |#{this.name}
-                            small #{this.count}
-                .ui.segment
-                    .author_downvotes.ui.button(class=author_downvotes_button_class)
-                        i.thumbs.down.icon
-                        |by #{author.username}
-                    |Downvoted Tags
-                    each author.downvoted_cloud
-                        .ui.small.label
-                            |#{this.name}
-                            small #{this.count}
+                else
+                    .send_point.ui.button
+                        i.plus.icon
+                        |Send Point
+                    if canRetrievePoints
+                        .retrieve_point.ui.button
+                            i.minus.icon
+                            |Retrieve Point
+                    if canRetrievePoints
+                        .ui.label #{currentUserDonations} points sent
+                    // .bid.btn.btn-primary increment bid
+
+        .extra.content
+            .select_user.ui.button(class=select_user_button_class)
+                i.user.icon
+                |by #{author.username}
+            |Authored Tags
+            each author.authored_cloud
+                .ui.small.label(class=cloud_label_class)
+                    |#{this.name}
+                    small #{this.count}
+        .extra.content
+            .author_upvotes.ui.button(class=author_upvotes_button_class)
+                i.thumbs.up.icon
+                | #{author.username}
+            |Upvoted Tags
+            each author.upvoted_cloud
+                .ui.small.label(class=cloud_label_class)
+                    |#{this.name}
+                    small #{this.count}
+        .extra.content
+            .author_downvotes.ui.button(class=author_downvotes_button_class)
+                i.thumbs.down.icon
+                | #{author.username}
+            |Downvoted Tags
+            each author.downvoted_cloud
+                .ui.small.label(class=cloud_label_class)
+                    |#{this.name}
+                    small #{this.count}

@@ -26,14 +26,25 @@ Template.view.helpers
 
     docTagClass: ->
         result = ''
-        if @valueOf() in selectedTags.array() then result += ' primary' else result += ' basic'
+        if @valueOf() in selectedTags.array() then result += ' grey' else result += ' basic'
         if Meteor.userId() in Template.parentData(1).up_voters then result += ' green'
         else if Meteor.userId() in Template.parentData(1).down_voters then result += ' red'
         return result
 
-    select_user_button_class: -> if Session.equals 'selected_user', @authorId then 'active' else ''
-    author_downvotes_button_class: -> if Session.equals 'downvoted_cloud', @authorId then 'active' else ''
-    author_upvotes_button_class: -> if Session.equals 'upvoted_cloud', @authorId then 'active' else ''
+    select_user_button_class: -> if Session.equals 'selected_user', @authorId then 'grey' else 'basic'
+    author_downvotes_button_class: -> if Session.equals 'downvoted_cloud', @authorId then 'grey' else 'basic'
+    author_upvotes_button_class: -> if Session.equals 'upvoted_cloud', @authorId then 'grey' else 'basic'
+
+    cloud_label_class: -> if @name in selectedTags.array() then 'grey' else 'basic'
+
+    currentUserDonations: ->
+        if @donators and Meteor.userId() in @donators
+            result = _.find @donations, (donation)->
+                donation.user is Meteor.userId()
+            result.amount
+        else return 0
+    canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
+
 
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"
@@ -51,6 +62,7 @@ Template.view.events
         # if confirm 'Clone?'
         id = Docs.insert
             tags: @tags
+            body: @body
         FlowRouter.go "/edit/#{id}"
 
     'click .vote_down': ->
@@ -63,6 +75,22 @@ Template.view.events
 
     'click .vote_up': -> if Meteor.userId() then Meteor.call 'vote_up', @_id
 
-    'click .select_user': -> if Session.equals('selected_user', @authorId) then Session.set('selected_user', null) else Session.set('selected_user', @authorId)
-    'click .author_upvotes': -> if Session.equals('upvoted_cloud', @authorId) then Session.set('upvoted_cloud', null) else Session.set('upvoted_cloud', @authorId)
-    'click .author_downvotes': -> if Session.equals('downvoted_cloud', @authorId) then Session.set('downvoted_cloud', null) else Session.set('downvoted_cloud', @authorId)
+
+    'click .select_user': ->
+        if Session.equals('selected_user', @authorId) then Session.set('selected_user', null) else Session.set('selected_user', @authorId)
+        Session.set 'downvoted_cloud', null
+        Session.set 'upvoted_cloud', null
+
+    'click .author_upvotes': ->
+        if Session.equals('upvoted_cloud', @authorId) then Session.set('upvoted_cloud', null) else Session.set('upvoted_cloud', @authorId)
+        Session.set 'selected_user', null
+        Session.set 'downvoted_cloud', null
+
+    'click .author_downvotes': ->
+        if Session.equals('downvoted_cloud', @authorId) then Session.set('downvoted_cloud', null) else Session.set('downvoted_cloud', @authorId)
+        Session.set 'selected_user', null
+        Session.set 'upvoted_cloud', null
+
+
+    'click .send_point': -> Meteor.call 'send_point', @_id
+    'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id

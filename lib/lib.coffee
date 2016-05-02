@@ -100,7 +100,7 @@ Meteor.methods
             Meteor.users.update doc.authorId, $inc: points: -1
         Meteor.call 'generatePersonalCloud', Meteor.userId()
 
-    sendPoint: (id)->
+    send_point: (id)->
         doc = Docs.findOne id
         # check if current user has sent points
         if doc.donators and Meteor.userId() in doc.donators
@@ -121,9 +121,9 @@ Meteor.methods
                         user: Meteor.userId()
                         amount: 1
             Meteor.users.update Meteor.userId(), $inc: points: -1
+        Meteor.users.update doc.authorId, $inc: points: 1
 
-
-    retrievePoint: (id)->
+    retrieve_point: (id)->
         doc = Docs.findOne id
         currentId = Meteor.userId()
         # check if current user has sent points
@@ -139,7 +139,6 @@ Meteor.methods
                     $inc: points: -1
 
                 Meteor.users.update Meteor.userId(), $inc: points: 1
-
             else
                 Docs.update {
                     _id: id
@@ -147,7 +146,6 @@ Meteor.methods
                     }, $inc: "donations.$.amount": -1, points: -1
 
                 Meteor.users.update Meteor.userId(), $inc: points: 1
-
         else
             Docs.update id,
                 $addToSet:
@@ -156,10 +154,17 @@ Meteor.methods
                         user: Meteor.userId()
                         amount: 1
                 $inc: points: -1
-
             Meteor.users.update Meteor.userId(), $inc: points: 1
+        Meteor.users.update doc.authorId, $inc: points: -1
 
+# users
+    add_user_tag: (tag)->
+        Meteor.users.update Meteor.userId(),
+            $addToSet: tags: tag
 
+    remove_user_tag: (tag)->
+        Meteor.users.update Meteor.userId(),
+            $pull: tags: tag
 
 
 

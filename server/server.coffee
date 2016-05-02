@@ -41,6 +41,19 @@ Meteor.publish 'person', (id)->
             authored_cloud: 1
             authored_list: 1
 
+Meteor.publish 'people', ->
+    Meteor.users.find {},
+        fields:
+            tags: 1
+            username: 1
+            points: 1
+            upVotedCloudMatches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
 
 
 Meteor.publish 'doc', (id)-> Docs.find id
@@ -48,8 +61,16 @@ Meteor.publish 'doc', (id)-> Docs.find id
 Meteor.publish 'me', ->
     Meteor.users.find @userId,
         fields:
+            tags: 1
             username: 1
-            bookmarks: 1
+            points: 1
+            upVotedCloudMatches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
 
 Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvotes)->
     self = @

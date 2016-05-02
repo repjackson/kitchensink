@@ -30,6 +30,23 @@ Template.cloud.helpers
     downvoted_cloud: -> if Session.get 'downvoted_cloud' then Meteor.users.findOne(Session.get('downvoted_cloud'))?.username
 
 Template.cloud.events
+    'keyup #search': (e,t)->
+        e.preventDefault()
+        val = $('#search').val()
+        switch e.which
+            when 13 #enter
+                switch val
+                    when 'clear'
+                        selectedTags.clear()
+                        $('#search').val ''
+                    else
+                        unless val.length is 0
+                            selectedTags.push val.toString()
+                            $('#search').val ''
+            when 8
+                if val.length is 0
+                    selectedTags.pop()
+
     'click .selectTag': ->
         selectedTags.push @name
         FlowRouter.setQueryParams( filter: selectedTags.array() )
