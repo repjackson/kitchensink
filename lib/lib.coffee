@@ -1,5 +1,6 @@
 @Tags = new Meteor.Collection 'tags'
 @Docs = new Meteor.Collection 'docs'
+@Usernames = new Meteor.Collection 'usernames'
 
 
 Docs.before.insert (userId, doc)->
@@ -232,7 +233,7 @@ AccountsTemplates.configureRoute 'signUp'
 AccountsTemplates.configureRoute 'verifyEmail'
 
 
-FlowRouter.route '/', action: (params) ->
+FlowRouter.route '/docs', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         cloud: 'cloud'
@@ -246,3 +247,21 @@ FlowRouter.route '/profile', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         main: 'profile'
+
+FlowRouter.route '/unvoted', action: (params) ->
+    Session.set('view', 'unvoted')
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'docCloud'
+        main: 'docs'
+
+FlowRouter.route '/people', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        cloud: 'userCloud'
+        main: 'people'
+
+FlowRouter.route '/leaderboard', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'leaderboard'

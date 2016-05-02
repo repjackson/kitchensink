@@ -1,0 +1,6 @@
+template(name='leaderboard')
+    .ui.container
+        .ui.segment
+            .ui.header Leaderboard
+            each users
+                p #{username} [#{points}]

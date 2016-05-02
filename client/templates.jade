@@ -23,7 +23,32 @@ head
 
 
 template(name='layout')
-    +Template.dynamic template=nav
-    +Template.dynamic template=cloud
-    +Template.dynamic template=main
+    .ui.sidebar.inverted.vertical.menu
+        if currentUser
+            a.item(href='/docs' class="{{isActivePath '/docs'}}")
+                i.file.outline.icon
+                |Documents
+            a.item(href='/people' class="{{isActivePath '/people'}}")
+                i.users.icon
+                |People
+            // a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
+            //     i.documents.icon
+            //     |Bulk
+            // a.item(href='/importers' class="{{isActivePath '/importers'}}")
+            //     i.down.arrow.icon
+            //     |Importer
+        // .item
+        //     .ui.left.icon.input
+        //         i.search.icon
+        //         input#search(type='text', placeholder="Search")
+        // a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
+        //     i.shop.icon
+        //     |Marketplace
+        a.item(href='/profile' class="{{isActivePath '/profile'}}")
+            i.user.icon
+            |Profile
+    .pusher
+        +Template.dynamic template=nav
+        +Template.dynamic template=cloud
+        +Template.dynamic template=main
 

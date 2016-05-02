@@ -1,8 +1,11 @@
 @selectedTags = new ReactiveArray []
+@selectedUsernames = new ReactiveArray []
 
 
 Template.cloud.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud')
+    @autorun -> Meteor.subscribe('usernames', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
+
 
 Template.cloud.helpers
     globalTags: ->
@@ -28,6 +31,10 @@ Template.cloud.helpers
     upvoted_cloud: -> if Session.get 'upvoted_cloud' then Meteor.users.findOne(Session.get('upvoted_cloud'))?.username
 
     downvoted_cloud: -> if Session.get 'downvoted_cloud' then Meteor.users.findOne(Session.get('downvoted_cloud'))?.username
+
+    globalUsernames: -> Usernames.find()
+    selectedUsernames: -> selectedUsernames.list()
+
 
 Template.cloud.events
     'keyup #search': (e,t)->
@@ -106,3 +113,6 @@ Template.cloud.events
             if err then console.log err
             else FlowRouter.go "/edit/#{id}"
 
+    'click .selectUsername': -> selectedUsernames.push @text
+    'click .unselectUsername': -> selectedUsernames.remove @valueOf()
+    'click #clearUsernames': -> selectedUsernames.clear()

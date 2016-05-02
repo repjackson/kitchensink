@@ -11,29 +11,29 @@ template(name='cloud')
                 a#my_downvoted.ui.basic.button
                     i.thumbs.down.icon
                     |My Downvoted
+            .ui.simple.dropdown.basic.button
+                i.plus.icon
+                span.text Add Doc
+                i.dropdown.icon
+                .menu
+                    #addDoc.item Blank
+                    .header From Bookmarks
+                    each user.bookmarks
+                        .item.addFromBookmark
+                            each this
+                                .ui.label #{this}
+            .ui.simple.dropdown.basic.button
+                i.bookmark.icon
+                span.text Selection Bookmarks
+                i.dropdown.icon
+                .menu
+                    each user.bookmarks
+                        .item.selectBookmark
+                            each this
+                                .ui.label #{this}
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
-        .ui.simple.dropdown.basic.button
-            i.plus.icon
-            span.text Add
-            i.dropdown.icon
-            .menu
-                #addDoc.item Blank
-                .header From Bookmarks
-                each user.bookmarks
-                    .item.addFromBookmark
-                        each this
-                            .ui.label #{this}
-        .ui.simple.dropdown.basic.button
-            i.bookmark.icon
-            span.text Bookmarks
-            i.dropdown.icon
-            .menu
-                each user.bookmarks
-                    .item.selectBookmark
-                        each this
-                            .ui.label #{this}
         if selectedTags
             if currentUser
                 div
@@ -43,8 +43,7 @@ template(name='cloud')
                     #newFromSelection.ui.basic.button
                         i.plus.icon
                         |Add Doc from Selection
-
-    .ui.center.aligned.bottom.attached.segment
+        .ui.divider
         if $.Session.get 'selected_user'
             .ui.button.grey.selected_user_button
                 i.user.icon
@@ -67,3 +66,17 @@ template(name='cloud')
             .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
                 small #{this.count}
 
+        .ui.hidden.divider
+        |By Author:
+        if selectedUsernames
+            #clearUsernames.ui.circular.primary.icon.button
+                i.remove.icon
+            each selectedUsernames
+                a.ui.primary.circular.button.unselectUsername
+                    i.user.icon
+                    strong #{this}
+        each globalUsernames
+            .ui.basic.circular.button.selectUsername
+                i.user.icon
+                |#{this.text}
+                small #{this.count}

@@ -21,3 +21,5 @@ Template.nav.events
         Session.set 'upvoted_cloud', null
 
 
+    'click .toggleSidebar': ->
+        $('.ui.sidebar').sidebar 'toggle'
