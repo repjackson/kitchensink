@@ -43,8 +43,10 @@ Template.view.helpers
                 donation.user is Meteor.userId()
             result.amount
         else return 0
+
     canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
 
+    send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'
 
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"

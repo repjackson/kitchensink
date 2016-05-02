@@ -35,22 +35,22 @@ template(name='view')
                         // |Delete
                         i.red.trash.icon
                 else
-                    .send_point.ui.button
-                        i.plus.icon
+                    .send_point.ui.basic.button(class=send_point_button_class)
+                        i.share.icon
                         |Send Point
                     if canRetrievePoints
-                        .retrieve_point.ui.button
-                            i.minus.icon
+                        .retrieve_point.ui.basic.button
+                            i.reply.icon
                             |Retrieve Point
                     if canRetrievePoints
-                        .ui.label #{currentUserDonations} points sent
+                        .ui.basic.label #{currentUserDonations} points sent
                     // .bid.btn.btn-primary increment bid
 
         .extra.content
             .select_user.ui.button(class=select_user_button_class)
                 i.user.icon
                 |by #{author.username}
-            |Authored Tags
+            |#{author.username}'s Authored Tags
             each author.authored_cloud
                 .ui.small.label(class=cloud_label_class)
                     |#{this.name}
@@ -59,7 +59,7 @@ template(name='view')
             .author_upvotes.ui.button(class=author_upvotes_button_class)
                 i.thumbs.up.icon
                 | #{author.username}
-            |Upvoted Tags
+            |#{author.username}'s Upvoted Tags
             each author.upvoted_cloud
                 .ui.small.label(class=cloud_label_class)
                     |#{this.name}
@@ -68,7 +68,7 @@ template(name='view')
             .author_downvotes.ui.button(class=author_downvotes_button_class)
                 i.thumbs.down.icon
                 | #{author.username}
-            |Downvoted Tags
+            |#{author.username}'s Downvoted Tags
             each author.downvoted_cloud
                 .ui.small.label(class=cloud_label_class)
                     |#{this.name}

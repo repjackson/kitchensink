@@ -63,16 +63,46 @@ Template.cloud.events
         # console.log FlowRouter.getQueryParam('filter');
 
     'click #bookmarkSelection': ->
-        if confirm 'Bookmark Selection?'
-            Meteor.call 'addBookmark', selectedTags.array(), (err,res)->
-                alert "Selection bookmarked"
+        # if confirm 'Bookmark Selection?'
+        Meteor.call 'addBookmark', selectedTags.array(), (err,res)->
+            alert "Selection bookmarked"
 
     'click #newFromSelection': ->
-        if confirm 'Create new document from selection?'
-            Meteor.call 'createDoc', selectedTags.array(), (err,id)->
-                if err then console.log err
-                else FlowRouter.go "/edit/#{id}"
+        # if confirm 'Create new document from selection?'
+        Meteor.call 'createDoc', selectedTags.array(), (err,id)->
+            if err then console.log err
+            else FlowRouter.go "/edit/#{id}"
 
     'click .selected_user_button': -> Session.set 'selected_user', null
     'click .upvoted_cloud_button': -> Session.set 'upvoted_cloud', null
     'click .downvoted_cloud_button': -> Session.set 'downvoted_cloud', null
+
+    'click #mine': ->
+        Session.set 'downvoted_cloud', null
+        Session.set 'upvoted_cloud', null
+        Session.set 'selected_user', Meteor.userId()
+
+    'click #my_upvoted': ->
+        Session.set 'selected_user', null
+        Session.set 'downvoted_cloud', null
+        Session.set 'upvoted_cloud', Meteor.userId()
+
+    'click #my_downvoted': ->
+        Session.set 'selected_user', null
+        Session.set 'upvoted_cloud', null
+        Session.set 'downvoted_cloud', Meteor.userId()
+
+    'click #addDoc': ->
+        Meteor.call 'createDoc', (err, id)->
+            if err then console.log err
+            else FlowRouter.go "/edit/#{id}"
+
+    'click .selectBookmark': ->
+        selectedTags.clear()
+        selectedTags.push(tag) for tag in @
+
+    'click .addFromBookmark': ->
+        Meteor.call 'createDoc', @, (err,id)->
+            if err then console.log err
+            else FlowRouter.go "/edit/#{id}"
+

@@ -2,36 +2,6 @@ template(name='nav')
     .ui.inverted.menu
         a.ui.header.item(href='/' class="{{isActivePath '/'}}")
             |Facet
-        if currentUser
-            a#mine.ui.item
-                i.user.icon
-                |Mine
-            a#my_upvoted.ui.item
-                i.thumbs.up.icon
-                |My Upvoted
-            a#my_downvoted.ui.item
-                i.thumbs.down.icon
-                |My Downvoted
-            .ui.simple.dropdown.link.item
-                i.plus.icon
-                span.text Add
-                i.dropdown.icon
-                .menu
-                    #addDoc.item Blank
-                    .header From Bookmarks
-                    each user.bookmarks
-                        .item.addFromBookmark
-                            each this
-                                .ui.label #{this}
-            .ui.simple.dropdown.link.item
-                i.bookmark.icon
-                span.text Bookmarks
-                i.dropdown.icon
-                .menu
-                    each user.bookmarks
-                        .item.selectBookmark
-                            each this
-                                .ui.label #{this}
         .right.menu
             if currentUser
                 a.item(href='/profile' class="{{isActivePath '/profile'}}")

@@ -40,6 +40,7 @@ Meteor.publish 'person', (id)->
             upvoted_list: 1
             authored_cloud: 1
             authored_list: 1
+            bookmarks: 1
 
 Meteor.publish 'people', ->
     Meteor.users.find {},
@@ -54,6 +55,7 @@ Meteor.publish 'people', ->
             upvoted_list: 1
             authored_cloud: 1
             authored_list: 1
+            bookmarks: 1
 
 
 Meteor.publish 'doc', (id)-> Docs.find id
@@ -71,6 +73,7 @@ Meteor.publish 'me', ->
             upvoted_list: 1
             authored_cloud: 1
             authored_list: 1
+            bookmarks: 1
 
 Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvotes)->
     self = @

@@ -1,23 +1,50 @@
 template(name='cloud')
     .ui.center.aligned.bottom.attached.segment
-        .ui.form
-            .inline.fields
-                // label How often do you use checkboxes?
-                .field
-                    .ui.radio.checkbox
-                        input(type='radio', name='frequency', checked='checked')
-                        label My Docs
-                .field
-                    .ui.radio.checkbox
-                        input(type='radio', name='frequency')
-                        label My Upvoted
-                .field
-                    .ui.radio.checkbox
-                        input(type='radio', name='frequency')
-                        label My Downvoted
+        if currentUser
+            div
+                a#mine.ui.basic.button
+                    i.user.icon
+                    |Mine
+                a#my_upvoted.ui.basic.button
+                    i.thumbs.up.icon
+                    |My Upvoted
+                a#my_downvoted.ui.basic.button
+                    i.thumbs.down.icon
+                    |My Downvoted
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
+        .ui.simple.dropdown.basic.button
+            i.plus.icon
+            span.text Add
+            i.dropdown.icon
+            .menu
+                #addDoc.item Blank
+                .header From Bookmarks
+                each user.bookmarks
+                    .item.addFromBookmark
+                        each this
+                            .ui.label #{this}
+        .ui.simple.dropdown.basic.button
+            i.bookmark.icon
+            span.text Bookmarks
+            i.dropdown.icon
+            .menu
+                each user.bookmarks
+                    .item.selectBookmark
+                        each this
+                            .ui.label #{this}
+        if selectedTags
+            if currentUser
+                div
+                    #bookmarkSelection.ui.basic.button
+                        i.bookmark.icon
+                        |Bookmark Selection
+                    #newFromSelection.ui.basic.button
+                        i.plus.icon
+                        |Add Doc from Selection
+
+    .ui.center.aligned.bottom.attached.segment
         if $.Session.get 'selected_user'
             .ui.button.grey.selected_user_button
                 i.user.icon
@@ -31,14 +58,8 @@ template(name='cloud')
                 i.thumbs.down.icon
                 | #{downvoted_cloud}
         if selectedTags
-            if currentUser
-                #bookmarkSelection.ui.grey.icon.button
-                    i.bookmark.icon
-                #newFromSelection.ui.grey.icon.button
-                    i.plus.icon
             #clearTags.ui.grey.big.icon.button
                 i.remove.icon
-        if selectedTags
             each selectedTags
                 a.ui.grey.big.button.unselectTag
                     strong #{this}
