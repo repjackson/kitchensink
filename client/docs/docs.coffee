@@ -44,6 +44,33 @@ Template.view.helpers
             result.amount
         else return 0
 
+    upVotedMatchCloud: ->
+        myUpVotedCloud = Meteor.user().upvotedCloud
+        myUpVotedList = Meteor.user().upvotedList
+        # console.log 'myUpVotedCloud', myUpVotedCloud
+        # console.log @
+        otherUser = Meteor.users.findOne @authorId
+        otherUpVotedCloud = otherUser?.upvotedCloud
+        otherUpVotedList = otherUser?.upvotedList
+        # console.log 'otherCloud', otherUpVotedCloud
+        intersection = _.intersection(myUpVotedList, otherUpVotedList)
+        intersectionCloud = []
+        totalCount = 0
+        for tag in intersection
+            myTagObject = _.findWhere myUpVotedCloud, name: tag
+            hisTagObject = _.findWhere otherUpVotedCloud, name: tag
+            # console.log hisTagObject.count
+            min = Math.min(myTagObject.count, hisTagObject.count)
+            totalCount += min
+            intersectionCloud.push
+                tag: tag
+                min: min
+        sortedCloud = _.sortBy(intersectionCloud, 'min').reverse()
+        result = {}
+        result.cloud = sortedCloud
+        result.totalCount = totalCount
+        return result
+
     canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
 
     send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'

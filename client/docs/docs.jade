@@ -45,7 +45,14 @@ template(name='view')
                     if canRetrievePoints
                         .ui.basic.label #{currentUserDonations} points sent
                     // .bid.btn.btn-primary increment bid
-
+                .extra.content
+                    p Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
+                    div
+                        each upVotedMatchCloud.cloud
+                            .ui.basic.label #{this.tag} #{this.min}
+            else
+                .extra.content
+                    p Log in to vote and match with #{username}'s interests
         .extra.content
             .select_user.ui.button(class=select_user_button_class)
                 i.user.icon

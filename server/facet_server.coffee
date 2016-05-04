@@ -206,6 +206,3 @@ Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvote
             index: i
 
     self.ready()
-
-
-
