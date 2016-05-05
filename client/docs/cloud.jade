@@ -48,38 +48,38 @@ template(name='cloud')
                         |Add Doc from Selection
         .ui.divider
         if $.Session.get 'selected_user'
-            .ui.button.grey.selected_user_button
+            .ui.button.primary.selected_user_button
                 i.user.icon
                 |by #{selected_user}
         if $.Session.get 'upvoted_cloud'
-            .ui.button.grey.upvoted_cloud_button
+            .ui.button.primary.upvoted_cloud_button
                 i.thumbs.up.icon
                 | #{upvoted_cloud}
         if $.Session.get 'downvoted_cloud'
-            .ui.button.grey.downvoted_cloud_button
+            .ui.button.primary.downvoted_cloud_button
                 i.thumbs.down.icon
                 | #{downvoted_cloud}
         if selectedTags
-            #clearTags.ui.grey.big.icon.button
+            #clearTags.ui.primary.big.icon.button
                 i.remove.icon
             each selectedTags
-                a.ui.grey.big.button.unselectTag
+                a.ui.primary.big.button.unselectTag
                     strong #{this}
         each globalTags
             .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
                 small #{this.count}
 
-        .ui.hidden.divider
-        |By Author:
-        if selectedUsernames
-            #clearUsernames.ui.circular.primary.icon.button
-                i.remove.icon
-            each selectedUsernames
-                a.ui.primary.circular.button.unselectUsername
-                    i.user.icon
-                    strong #{this}
-        each globalUsernames
-            .ui.basic.circular.button.selectUsername
-                i.user.icon
-                |#{this.text}
-                small #{this.count}
+        // .ui.hidden.divider
+        // |By Author:
+        // if selectedUsernames
+        //     #clearUsernames.ui.circular.primary.icon.button
+        //         i.remove.icon
+        //     each selectedUsernames
+        //         a.ui.primary.circular.button.unselectUsername
+        //             i.user.icon
+        //             strong #{this}
+        // each globalUsernames
+        //     .ui.basic.circular.button.selectUsername
+        //         i.user.icon
+        //         |#{this.text}
+        //         small #{this.count}

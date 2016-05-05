@@ -1,27 +1,17 @@
 template(name='nav')
-    .ui.borderless.inverted.menu.grid
-        .mobile.only.row
-            a.item.toggleSidebar
-                i.sidebar.icon
-            .item
-                |Facet
-        // .tablet.only.row
-        //     a.item.toggleSidebar
-        //         i.sidebar.icon
-        //     .item
-        //         |Facet
-        .computer.tablet.only.row
-            a.item(href='/' class="{{isActivePath '/docs'}}")
-                i.file.outline.icon
-                |Documents
-            a.item(href='/people' class="{{isActivePath '/people'}}")
-                i.users.icon
-                |People
-            a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
-                |Leaderboard
-            .right.menu
-                if currentUser
-                    a.item(href='/profile' class="{{isActivePath '/profile'}}")
-                        i.user.icon
-                        | #{user.username} [#{user.points}]
-                +atNavButton
+    .ui.borderless.inverted.menu
+        .ui.header.item Facet
+        a.item(href='/' class="{{isActivePath '/docs'}}")
+            i.file.outline.icon
+            |Documents
+        a.item(href='/people' class="{{isActivePath '/people'}}")
+            i.users.icon
+            |People
+        a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
+            |Leaderboard
+        .right.menu
+            if currentUser
+                a.item(href='/profile' class="{{isActivePath '/profile'}}")
+                    i.user.icon
+                    | #{user.username} [#{user.points}]
+            +atNavButton

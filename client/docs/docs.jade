@@ -34,49 +34,49 @@ template(name='view')
                     .ui.icon.basic.button.deleteDoc
                         // |Delete
                         i.red.trash.icon
-                else
-                    .send_point.ui.basic.button(class=send_point_button_class)
-                        i.share.icon
-                        |Send Point
-                    if canRetrievePoints
-                        .retrieve_point.ui.basic.button
-                            i.reply.icon
-                            |Retrieve Point
-                    if canRetrievePoints
-                        .ui.basic.label #{currentUserDonations} points sent
+                // else
+                //     .send_point.ui.basic.button(class=send_point_button_class)
+                //         i.share.icon
+                //         |Send Point
+                //     if canRetrievePoints
+                //         .retrieve_point.ui.basic.button
+                //             i.reply.icon
+                //             |Retrieve Point
+                //     if canRetrievePoints
+                //         .ui.basic.label #{currentUserDonations} points sent
                     // .bid.btn.btn-primary increment bid
-                .extra.content
-                    p Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
-                    div
-                        each upVotedMatchCloud.cloud
-                            .ui.basic.label #{this.tag} #{this.min}
-            else
-                .extra.content
-                    p Log in to vote and match with #{username}'s interests
-        .extra.content
-            .select_user.ui.button(class=select_user_button_class)
-                i.user.icon
-                |by #{author.username}
-            |#{author.username}'s Authored Tags
-            each author.authored_cloud
-                .ui.small.label(class=cloud_label_class)
-                    |#{this.name}
-                    small #{this.count}
-        .extra.content
-            .author_upvotes.ui.button(class=author_upvotes_button_class)
-                i.thumbs.up.icon
-                | #{author.username}
-            |#{author.username}'s Upvoted Tags
-            each author.upvoted_cloud
-                .ui.small.label(class=cloud_label_class)
-                    |#{this.name}
-                    small #{this.count}
-        .extra.content
-            .author_downvotes.ui.button(class=author_downvotes_button_class)
-                i.thumbs.down.icon
-                | #{author.username}
-            |#{author.username}'s Downvoted Tags
-            each author.downvoted_cloud
-                .ui.small.label(class=cloud_label_class)
-                    |#{this.name}
-                    small #{this.count}
+            //     .extra.content
+            //         p Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
+            //         div
+            //             each upVotedMatchCloud.cloud
+            //                 .ui.basic.label #{this.tag} #{this.min}
+            // else
+            //     .extra.content
+            //         p Log in to vote and match with #{username}'s interests
+        // .extra.content
+        //     .select_user.ui.button(class=select_user_button_class)
+        //         i.user.icon
+        //         |by #{author.username}
+        //     |#{author.username}'s Authored Tags
+        //     each author.authored_cloud
+        //         .ui.small.label(class=cloud_label_class)
+        //             |#{this.name}
+        //             small #{this.count}
+        // .extra.content
+        //     .author_upvotes.ui.button(class=author_upvotes_button_class)
+        //         i.thumbs.up.icon
+        //         | #{author.username}
+        //     |#{author.username}'s Upvoted Tags
+        //     each author.upvoted_cloud
+        //         .ui.small.label(class=cloud_label_class)
+        //             |#{this.name}
+        //             small #{this.count}
+        // .extra.content
+        //     .author_downvotes.ui.button(class=author_downvotes_button_class)
+        //         i.thumbs.down.icon
+        //         | #{author.username}
+        //     |#{author.username}'s Downvoted Tags
+        //     each author.downvoted_cloud
+        //         .ui.small.label(class=cloud_label_class)
+        //             |#{this.name}
+        //             small #{this.count}
