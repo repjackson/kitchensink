@@ -243,7 +243,7 @@ FlowRouter.route '/',
 
 FlowRouter.route '/docs', action: (params) ->
     BlazeLayout.render 'layout',
-        nav: 'nav'
+        # nav: 'nav'
         cloud: 'cloud'
         main: 'docs'
 

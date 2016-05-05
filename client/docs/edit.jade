@@ -9,7 +9,24 @@ template(name='edit')
                 .ui.left.icon.input
                     i.add.icon
                     input#addTag(type='text' autofocus='' placeholder='Add Tag')
-                .ui.hidden.divider
+                .ui.segment
+                    h3.ui.header
+                        |Suggested Tags
+                        #suggest_tags.ui.basic.compact.button
+                            i.wizard.icon
+                            |Suggest Tags from Body
+                        if unique_suggested_tags
+                            #add_all_suggested_tags.ui.compact.button
+                                i.up.arrow.icon
+                                |Add All Suggested Tags
+                            #clear_suggested_tags.ui.basic.compact.button
+                                i.remove.icon
+                                |Clear Suggested Tags
+                    .ui.divider
+                    each unique_suggested_tags
+                        .ui.compact.basic.large.button.add_suggested_tag
+                            i.plus.icon
+                            |#{this}
                 .ui.input
                     textarea#body
                         |#{body}

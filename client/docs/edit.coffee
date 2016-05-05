@@ -18,6 +18,7 @@ Template.edit.helpers
         docId = FlowRouter.getParam('docId')
         Docs.findOne docId
 
+    unique_suggested_tags: -> _.difference(@suggested_tags, @tags)
 
 
 Template.edit.events
@@ -75,3 +76,23 @@ Template.edit.events
                 if err then console.error err
                 else
                     FlowRouter.go '/'
+
+    'click #suggest_tags': ->
+        body = $('#body').val()
+        Meteor.call 'suggest_tags', @_id, body
+
+
+    'click .add_suggested_tag': ->
+        tag = @valueOf()
+        Docs.update FlowRouter.getParam('docId'),
+            $addToSet: tags: tag
+            , ->
+
+    'click #add_all_suggested_tags': ->
+        Docs.update FlowRouter.getParam('docId'), $addToSet: tags: $each: @suggested_tags
+
+    'click #clear_doc_tags': ->
+        Docs.update FlowRouter.getParam('docId'), $set: tags: []
+
+    'click #clear_suggested_tags': ->
+        Docs.update FlowRouter.getParam('docId'), $set: suggested_tags: []

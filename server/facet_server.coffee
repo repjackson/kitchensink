@@ -16,7 +16,7 @@ Meteor.publish 'docs', (selectedtags, selected_user, user_upvotes, user_downvote
         match.down_voters = $nin: [@userId]
 
     Docs.find match,
-        limit: 1
+        limit: 5
         sort:
             tagCount: 1
             timestamp: -1
