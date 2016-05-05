@@ -9,14 +9,14 @@ template(name='view')
         .content
             .header
                 each tags
-                    .ui.button.docTag(class=docTagClass)  #{this}
-                .meta.right.floated
-                    .ui.basic.large.label
-                        | #{points} pts
-                    .ui.huge.icon.button.vote_up(class=vote_upButtonClass)
-                        i.thumbs.up.icon
-                    .ui.huge.icon.button.vote_down(class=vote_downButtonClass)
-                        i.thumbs.down.icon
+                    .ui.compact.button.doc_tag(class=doc_tag_class)  #{this}
+                // .meta.right.floated
+                //     .ui.basic.large.label
+                //         | #{points} pts
+                //     .ui.huge.icon.button.vote_up(class=vote_upButtonClass)
+                //         i.thumbs.up.icon
+                //     .ui.huge.icon.button.vote_down(class=vote_downButtonClass)
+                //         i.thumbs.down.icon
             .description
                 if body.length
                     +markdown
@@ -24,14 +24,14 @@ template(name='view')
         .extra.content
             span by #{username} [#{author.points}] #{when}
             if currentUser
-                .ui.basic.button.cloneDoc
-                    i.fork.icon
-                    |Clone
+                // .ui.basic.compact.button.cloneDoc
+                //     i.fork.icon
+                //     |Clone
                 if isAuthor
-                    .ui.basic.button.editDoc
+                    .ui.basic.compact.button.editDoc
                         i.blue.pencil.icon
                         |Edit
-                    .ui.icon.basic.button.deleteDoc
+                    .ui.icon.basic.compact.button.deleteDoc
                         // |Delete
                         i.red.trash.icon
                 // else

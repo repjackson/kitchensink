@@ -24,18 +24,18 @@ Template.view.helpers
         else if Meteor.userId() in @down_voters then 'red'
         else 'basic'
 
-    docTagClass: ->
+    doc_tag_class: ->
         result = ''
-        if @valueOf() in selectedTags.array() then result += ' grey' else result += ' basic'
-        if Meteor.userId() in Template.parentData(1).up_voters then result += ' green'
-        else if Meteor.userId() in Template.parentData(1).down_voters then result += ' red'
+        if @valueOf() in selectedTags.array() then result += ' primary' else result += ' basic'
+        # if Meteor.userId() in Template.parentData(1).up_voters then result += ' green'
+        # else if Meteor.userId() in Template.parentData(1).down_voters then result += ' red'
         return result
 
-    select_user_button_class: -> if Session.equals 'selected_user', @authorId then 'grey' else 'basic'
-    author_downvotes_button_class: -> if Session.equals 'downvoted_cloud', @authorId then 'grey' else 'basic'
-    author_upvotes_button_class: -> if Session.equals 'upvoted_cloud', @authorId then 'grey' else 'basic'
+    select_user_button_class: -> if Session.equals 'selected_user', @authorId then 'primary' else 'basic'
+    author_downvotes_button_class: -> if Session.equals 'downvoted_cloud', @authorId then 'primary' else 'basic'
+    author_upvotes_button_class: -> if Session.equals 'upvoted_cloud', @authorId then 'primary' else 'basic'
 
-    cloud_label_class: -> if @name in selectedTags.array() then 'grey' else 'basic'
+    cloud_label_class: -> if @name in selectedTags.array() then 'primary' else 'basic'
 
     currentUserDonations: ->
         if @donators and Meteor.userId() in @donators
@@ -78,7 +78,7 @@ Template.view.helpers
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"
 
-    'click .docTag': -> if @valueOf() in selectedTags.array() then selectedTags.remove @valueOf() else selectedTags.push @valueOf()
+    'click .doc_tag': -> if @valueOf() in selectedTags.array() then selectedTags.remove @valueOf() else selectedTags.push @valueOf()
 
     'click .deleteDoc': ->
         if confirm 'Delete?'
