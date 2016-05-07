@@ -20,31 +20,28 @@ Template.person.helpers
     hasTagged: ->
         if @taggers and Meteor.userId() in @taggers then true else false
 
-    # upVotedMatchCloud: ->
-    #     myUpVotedCloud = Meteor.user().upvotedCloud
-    #     myUpVotedList = Meteor.user().upvotedList
-    #     # console.log 'myUpVotedCloud', myUpVotedCloud
-    #     otherUser = Meteor.users.findOne @authorId
-    #     otherUpVotedCloud = otherUser.upvotedCloud
-    #     otherUpVotedList = otherUser.upvotedList
-    #     # console.log 'otherCloud', otherUpVotedCloud
-    #     intersection = _.intersection(myUpVotedList, otherUpVotedList)
-    #     intersectionCloud = []
-    #     totalCount = 0
-    #     for tag in intersection
-    #         myTagObject = _.findWhere myUpVotedCloud, name: tag
-    #         hisTagObject = _.findWhere otherUpVotedCloud, name: tag
-    #         # console.log hisTagObject.count
-    #         min = Math.min(myTagObject.count, hisTagObject.count)
-    #         totalCount += min
-    #         intersectionCloud.push
-    #             tag: tag
-    #             min: min
-    #     sortedCloud = _.sortBy(intersectionCloud, 'min').reverse()
-    #     result = {}
-    #     result.cloud = sortedCloud
-    #     result.totalCount = totalCount
-    #     return result
+    upVotedMatchCloud: ->
+        my_upvoted_cloud = Meteor.user().upvoted_cloud
+        my_upvoted_list = Meteor.user().upvoted_list
+        otherUser = Meteor.users.findOne @authorId
+        other_upvoted_cloud = otherUser?.upvoted_cloud
+        other_upvoted_list = otherUser?.upvoted_list
+        intersection = _.intersection(my_upvoted_list, other_upvoted_list)
+        intersectionCloud = []
+        totalCount = 0
+        for tag in intersection
+            myTagObject = _.findWhere my_upvoted_cloud, name: tag
+            hisTagObject = _.findWhere other_upvoted_cloud, name: tag
+            min = Math.min(myTagObject.count, hisTagObject.count)
+            totalCount += min
+            intersectionCloud.push
+                tag: tag
+                min: min
+        sortedCloud = _.sortBy(intersectionCloud, 'min').reverse()
+        result = {}
+        result.cloud = sortedCloud
+        result.totalCount = totalCount
+        return result
 
 Template.person.events
     'click .userTag': ->

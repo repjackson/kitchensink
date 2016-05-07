@@ -2,7 +2,11 @@ Template.docs.onCreated ->
     @autorun -> Meteor.subscribe 'docs', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
 
 Template.docs.helpers
-    docs: -> Docs.find({}, limit: 1)
+    docs: -> Docs.find {},
+        limit: 5
+        sort:
+            tagCount: 1
+            timestamp: -1
     # docs: -> Docs.find()
 
 
@@ -37,43 +41,43 @@ Template.view.helpers
 
     cloud_label_class: -> if @name in selectedTags.array() then 'primary' else 'basic'
 
-    currentUserDonations: ->
-        if @donators and Meteor.userId() in @donators
-            result = _.find @donations, (donation)->
-                donation.user is Meteor.userId()
-            result.amount
-        else return 0
+    # currentUserDonations: ->
+    #     if @donators and Meteor.userId() in @donators
+    #         result = _.find @donations, (donation)->
+    #             donation.user is Meteor.userId()
+    #         result.amount
+    #     else return 0
 
     upVotedMatchCloud: ->
-        myUpVotedCloud = Meteor.user().upvotedCloud
-        myUpVotedList = Meteor.user().upvotedList
-        # console.log 'myUpVotedCloud', myUpVotedCloud
+        my_upvoted_cloud = Meteor.user().upvoted_cloud
+        myupvoted_list = Meteor.user().upvoted_list
+        # console.log 'my_upvoted_cloud', my_upvoted_cloud
         # console.log @
         otherUser = Meteor.users.findOne @authorId
-        otherUpVotedCloud = otherUser?.upvotedCloud
-        otherUpVotedList = otherUser?.upvotedList
-        # console.log 'otherCloud', otherUpVotedCloud
-        intersection = _.intersection(myUpVotedList, otherUpVotedList)
-        intersectionCloud = []
+        other_upvoted_cloud = otherUser?.upvoted_cloud
+        other_upvoted_list = otherUser?.upvoted_list
+        # console.log 'otherCloud', other_upvoted_cloud
+        intersection = _.intersection(myupvoted_list, other_upvoted_list)
+        intersection_cloud = []
         totalCount = 0
         for tag in intersection
-            myTagObject = _.findWhere myUpVotedCloud, name: tag
-            hisTagObject = _.findWhere otherUpVotedCloud, name: tag
+            myTagObject = _.findWhere my_upvoted_cloud, name: tag
+            hisTagObject = _.findWhere other_upvoted_cloud, name: tag
             # console.log hisTagObject.count
             min = Math.min(myTagObject.count, hisTagObject.count)
             totalCount += min
-            intersectionCloud.push
+            intersection_cloud.push
                 tag: tag
                 min: min
-        sortedCloud = _.sortBy(intersectionCloud, 'min').reverse()
+        sortedCloud = _.sortBy(intersection_cloud, 'min').reverse()
         result = {}
         result.cloud = sortedCloud
         result.totalCount = totalCount
         return result
 
-    canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
+    # canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
 
-    send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'
+    # send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'
 
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"

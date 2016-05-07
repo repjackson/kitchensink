@@ -53,19 +53,16 @@ Template.profile.helpers
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
         userMatchClouds = []
         for user in users
-            myUpVotedCloud = Meteor.user().upvotedCloud
-            myUpVotedList = Meteor.user().upvotedList
-            # console.log 'myUpVotedCloud', myUpVotedCloud
-            otherUpVotedCloud = user.upvotedCloud
-            otherUpVotedList = user.upvotedList
-            # console.log 'otherCloud', otherUpVotedCloud
-            intersection = _.intersection(myUpVotedList, otherUpVotedList)
+            my_upvoted_cloud = Meteor.user()._upvoted_cloud
+            my_upvoted_list = Meteor.user().upvoted_list
+            other_upvoted_cloud = user.upvoted_cloud
+            other_upvoted_list = user.upvoted_list
+            intersection = _.intersection(myupvoted_list, otherupvoted_list)
             intersectionCloud = []
             totalCount = 0
             for tag in intersection
-                myTagObject = _.findWhere myUpVotedCloud, name: tag
-                hisTagObject = _.findWhere otherUpVotedCloud, name: tag
-                # console.log hisTagObject.count
+                myTagObject = _.findWhere my_upvoted_cloud, name: tag
+                hisTagObject = _.findWhere other_upvoted_cloud, name: tag
                 min = Math.min(myTagObject.count, hisTagObject.count)
                 totalCount += min
                 intersectionCloud.push

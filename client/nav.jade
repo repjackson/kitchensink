@@ -1,17 +1,18 @@
 template(name='nav')
     .ui.borderless.inverted.menu
         .ui.header.item Facet
-        // a.item(href='/' class="{{isActivePath '/docs'}}")
-        //     i.file.outline.icon
-        //     |Documents
-        // a.item(href='/people' class="{{isActivePath '/people'}}")
-        //     i.users.icon
-        //     |People
-        // a.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}")
-        //     |Leaderboard
-        // .right.menu
-        //     // if currentUser
-        //     //     a.item(href='/profile' class="{{isActivePath '/profile'}}")
-        //     //         i.user.icon
-        //     //         | #{user.username} [#{user.points}]
-        //     +atNavButton
+        a.item(href='/' class="{{isActivePath '/docs'}}")
+            i.file.outline.icon
+            |Documents
+        a.item(href='/people' class="{{isActivePath '/people'}}")
+            i.users.icon
+            |People
+        a.item(href='/store' class="{{isActivePath '/store'}}")
+            i.cart.icon
+            |Store
+        .right.menu
+            if currentUser
+                a.item(href='/profile' class="{{isActivePath '/profile'}}")
+                    i.user.icon
+                    | #{user.username} [#{currentUser.points}]
+            +atNavButton

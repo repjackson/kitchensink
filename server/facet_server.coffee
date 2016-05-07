@@ -21,6 +21,13 @@ Meteor.publish 'docs', (selectedtags, selected_user, user_upvotes, user_downvote
             tagCount: 1
             timestamp: -1
 
+Meteor.publish 'store', ->
+    Docs.find {tags: $in: ['store']},
+        limit: 5
+        sort:
+            tagCount: 1
+            timestamp: -1
+
 Accounts.onCreateUser (options, user) ->
     user.taggers = []
     user.userTags = []
@@ -112,7 +119,7 @@ Meteor.publish 'usernames', (selectedTags, selectedUsernames, viewMode)->
         { $group: _id: '$username', count: $sum: 1 }
         { $match: _id: $nin: selectedUsernames }
         { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
+        { $limit: 25 }
         { $project: _id: 0, text: '$_id', count: 1 }
         ]
 
@@ -195,7 +202,7 @@ Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvote
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selectedTags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
+        { $limit: 25 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
 

@@ -29,12 +29,12 @@ template(name='person')
                             .ui.basic.compact.button.removeMyTag
                                 i.remove.icon
                                 |#{this}
-                        .ui.left.icon.input
+                        .ui.left.small.icon.input
                             i.tag.icon
                             input.addTag(type='text' placeholder='Add Tag')
                     else
                         .ui.basic.button.tagUser Describe Person
-                    // | Common tags with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
-                    // div
-                    //     each upVotedMatchCloud.cloud
-                    //         .ui.basic.label #{this.tag} #{this.min}
+                    | Common tags with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
+                    div
+                        each upVotedMatchCloud.cloud
+                            .ui.basic.label #{this.tag} #{this.min}

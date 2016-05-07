@@ -9,41 +9,28 @@ template(name='edit')
                 .ui.left.icon.input
                     i.add.icon
                     input#addTag(type='text' autofocus='' placeholder='Add Tag')
-                .ui.segment
-                    h3.ui.header
-                        |Suggested Tags
-                        #suggest_tags.ui.basic.compact.button
-                            i.wizard.icon
-                            |Suggest Tags from Body
-                        if unique_suggested_tags
-                            #add_all_suggested_tags.ui.compact.button
-                                i.up.arrow.icon
-                                |Add All Suggested Tags
-                            #clear_suggested_tags.ui.basic.compact.button
-                                i.remove.icon
-                                |Clear Suggested Tags
-                    .ui.divider
-                    each unique_suggested_tags
-                        .ui.compact.basic.large.button.add_suggested_tag
-                            i.plus.icon
-                            |#{this}
+                .ui.hidden.divider
                 .ui.input
                     textarea#body
                         |#{body}
+                .ui.hidden.divider
+                label Cost (if document is for sale)
+                .ui.left.icon.input
+                    input#cost(type='number' min='0' value=cost)
                 .ui.hidden.divider
                 if tags.length
                     #saveDoc.ui.large.green.button
                         i.check.icon
                         |Save
-                #deleteDoc.ui.large.red.button
+                #delete.ui.red.button
                     i.remove.icon
                     |Delete
 
-        // .ui.modal
-        //     .header Confirm Delete
-        //     .content
-        //       .meta Confirm?
-        //       .description #{body}
-        //     .actions
-        //       .ui.button.cancel Cancel
-        //       .ui.red.button.approve Delete
+        .ui.modal
+            .header Confirm Delete
+            .content
+              .meta Confirm?
+              .description #{body}
+            .actions
+              .ui.button.cancel Cancel
+              .ui.red.button.approve Delete
