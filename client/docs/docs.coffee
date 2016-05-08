@@ -16,7 +16,11 @@ Template.view.onCreated ->
 Template.view.helpers
     isAuthor: -> @authorId is Meteor.userId()
 
+    is_for_sale: -> @cost > 0
+
     when: -> moment(@timestamp).fromNow()
+
+    user: -> Meteor.user()
 
     vote_upButtonClass: ->
         if not Meteor.userId() then 'disabled basic'
@@ -75,6 +79,9 @@ Template.view.helpers
         result.totalCount = totalCount
         return result
 
+    can_buy: -> @cost > 0 and Meteor.user().points > @cost
+
+
     # canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
 
     # send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'
@@ -109,21 +116,27 @@ Template.view.events
     'click .vote_up': -> if Meteor.userId() then Meteor.call 'vote_up', @_id
 
 
-    'click .select_user': ->
-        if Session.equals('selected_user', @authorId) then Session.set('selected_user', null) else Session.set('selected_user', @authorId)
-        Session.set 'downvoted_cloud', null
-        Session.set 'upvoted_cloud', null
+    # 'click .select_user': ->
+    #     if Session.equals('selected_user', @authorId) then Session.set('selected_user', null) else Session.set('selected_user', @authorId)
+    #     Session.set 'downvoted_cloud', null
+    #     Session.set 'upvoted_cloud', null
 
-    'click .author_upvotes': ->
-        if Session.equals('upvoted_cloud', @authorId) then Session.set('upvoted_cloud', null) else Session.set('upvoted_cloud', @authorId)
-        Session.set 'selected_user', null
-        Session.set 'downvoted_cloud', null
+    # 'click .author_upvotes': ->
+    #     if Session.equals('upvoted_cloud', @authorId) then Session.set('upvoted_cloud', null) else Session.set('upvoted_cloud', @authorId)
+    #     Session.set 'selected_user', null
+    #     Session.set 'downvoted_cloud', null
 
-    'click .author_downvotes': ->
-        if Session.equals('downvoted_cloud', @authorId) then Session.set('downvoted_cloud', null) else Session.set('downvoted_cloud', @authorId)
-        Session.set 'selected_user', null
-        Session.set 'upvoted_cloud', null
+    # 'click .author_downvotes': ->
+    #     if Session.equals('downvoted_cloud', @authorId) then Session.set('downvoted_cloud', null) else Session.set('downvoted_cloud', @authorId)
+    #     Session.set 'selected_user', null
+    #     Session.set 'upvoted_cloud', null
 
 
-    'click .send_point': -> Meteor.call 'send_point', @_id
-    'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id
+    # 'click .send_point': -> Meteor.call 'send_point', @_id
+    # 'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id
+
+
+    'click .buy_item': (e,t)->
+        if confirm "Buy for #{this.cost} points?"
+            Meteor.call 'buy_item', @_id
+

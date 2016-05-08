@@ -77,7 +77,6 @@ Meteor.methods
             Meteor.users.update doc.authorId, $inc: points: 1
         Meteor.call 'generatePersonalCloud', Meteor.userId()
 
-
     vote_down: (id)->
         doc = Docs.findOne id
         # if doc.points is 0 or doc.points is 1 and Meteor.userId() in doc.up_voters
@@ -102,62 +101,73 @@ Meteor.methods
             Meteor.users.update doc.authorId, $inc: points: -1
         Meteor.call 'generatePersonalCloud', Meteor.userId()
 
-    send_point: (id)->
+    buy_item: (id)->
         doc = Docs.findOne id
-        # check if current user has sent points
-        if doc.donators and Meteor.userId() in doc.donators
-            Docs.update {
-                _id: id
-                "donations.user": Meteor.userId()
-                },
-                    $inc:
-                        "donations.$.amount": 1
-                        points: 1
-            Meteor.users.update Meteor.userId(), $inc: points: -1
+        Meteor.users.update Meteor.userId(),
+            $inc: points: -doc.cost
+        Meteor.users.update doc.authorId,
+            $inc: points: doc.cost
+        Docs.update id,
+            $set:
+                bought: true
+                buyerId: Meteor.userId()
 
-        else
-            Docs.update id,
-                $addToSet:
-                    donators: Meteor.userId()
-                    donations:
-                        user: Meteor.userId()
-                        amount: 1
-            Meteor.users.update Meteor.userId(), $inc: points: -1
-        Meteor.users.update doc.authorId, $inc: points: 1
+    # send_point: (id)->
+    #     doc = Docs.findOne id
+    #     # check if current user has sent points
+    #     if doc.donators and Meteor.userId() in doc.donators
+    #         Docs.update {
+    #             _id: id
+    #             "donations.user": Meteor.userId()
+    #             },
+    #                 $inc:
+    #                     "donations.$.amount": 1
+    #                     points: 1
+    #         Meteor.users.update Meteor.userId(), $inc: points: -1
 
-    retrieve_point: (id)->
-        doc = Docs.findOne id
-        currentId = Meteor.userId()
-        # check if current user has sent points
-        if doc.donators and Meteor.userId() in doc.donators
-            donationEntry = _.find doc.donations, (donation)->
-                donation.user is currentId
-            if donationEntry.amount is 1
-                Docs.update {
-                    _id: id
-                    "donations.user": Meteor.userId()
-                    },
-                    $pull: { donations: {user: Meteor.userId()}, donators: Meteor.userId()}
-                    $inc: points: -1
+    #     else
+    #         Docs.update id,
+    #             $addToSet:
+    #                 donators: Meteor.userId()
+    #                 donations:
+    #                     user: Meteor.userId()
+    #                     amount: 1
+    #         Meteor.users.update Meteor.userId(), $inc: points: -1
+    #     Meteor.users.update doc.authorId, $inc: points: 1
 
-                Meteor.users.update Meteor.userId(), $inc: points: 1
-            else
-                Docs.update {
-                    _id: id
-                    "donations.user": Meteor.userId()
-                    }, $inc: "donations.$.amount": -1, points: -1
+    # retrieve_point: (id)->
+    #     doc = Docs.findOne id
+    #     currentId = Meteor.userId()
+    #     # check if current user has sent points
+    #     if doc.donators and Meteor.userId() in doc.donators
+    #         donationEntry = _.find doc.donations, (donation)->
+    #             donation.user is currentId
+    #         if donationEntry.amount is 1
+    #             Docs.update {
+    #                 _id: id
+    #                 "donations.user": Meteor.userId()
+    #                 },
+    #                 $pull: { donations: {user: Meteor.userId()}, donators: Meteor.userId()}
+    #                 $inc: points: -1
 
-                Meteor.users.update Meteor.userId(), $inc: points: 1
-        else
-            Docs.update id,
-                $addToSet:
-                    donators: Meteor.userId()
-                    donations:
-                        user: Meteor.userId()
-                        amount: 1
-                $inc: points: -1
-            Meteor.users.update Meteor.userId(), $inc: points: 1
-        Meteor.users.update doc.authorId, $inc: points: -1
+    #             Meteor.users.update Meteor.userId(), $inc: points: 1
+    #         else
+    #             Docs.update {
+    #                 _id: id
+    #                 "donations.user": Meteor.userId()
+    #                 }, $inc: "donations.$.amount": -1, points: -1
+
+    #             Meteor.users.update Meteor.userId(), $inc: points: 1
+    #     else
+    #         Docs.update id,
+    #             $addToSet:
+    #                 donators: Meteor.userId()
+    #                 donations:
+    #                     user: Meteor.userId()
+    #                     amount: 1
+    #             $inc: points: -1
+    #         Meteor.users.update Meteor.userId(), $inc: points: 1
+    #     Meteor.users.update doc.authorId, $inc: points: -1
 
 # users
     add_user_tag: (tag)->
@@ -275,7 +285,9 @@ FlowRouter.route '/leaderboard', action: (params) ->
         nav: 'nav'
         main: 'leaderboard'
 
-FlowRouter.route '/store', action: (params) ->
-    BlazeLayout.render 'layout',
-        nav: 'nav'
-        main: 'store'
+# FlowRouter.route '/store', action: (params) ->
+#     selectedTags.clear()
+#     selectedTags.push('store')
+#     # BlazeLayout.render 'layout',
+#     #     nav: 'nav'
+#     #     main: 'store'

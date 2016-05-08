@@ -75,7 +75,7 @@ Template.edit.events
 
     'click #saveDoc': ->
         body = $('#body').val()
-        cost = $('#cost').val()
+        cost = parseInt($('#cost').val())
         Docs.update FlowRouter.getParam('docId'),
             $set:
                 body: body

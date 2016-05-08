@@ -25,3 +25,7 @@ Template.nav.events
 
     'click .toggleSidebar': ->
         $('.ui.sidebar').sidebar 'toggle'
+
+    'click #store_menu_item': ->
+        selectedTags.clear()
+        selectedTags.push('store')
