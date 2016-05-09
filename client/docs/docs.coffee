@@ -11,6 +11,7 @@ Template.docs.helpers
 
 
 Template.view.onCreated ->
+    # console.log @data.authorId
     Meteor.subscribe 'person', @data.authorId
 
 Template.view.helpers

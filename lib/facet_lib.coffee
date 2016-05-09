@@ -8,7 +8,6 @@ Docs.before.insert (userId, doc)->
     doc.down_voters = []
     doc.timestamp = Date.now()
     doc.authorId = Meteor.userId()
-    doc.username = Meteor.user().username
     doc.points = 1
     doc.cost = 0
     return
@@ -22,7 +21,8 @@ Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
 
 
 Docs.helpers
-    author: (doc)-> Meteor.users.findOne @authorId
+    author: ->
+        Meteor.users.findOne @authorId
 
 
 Meteor.methods

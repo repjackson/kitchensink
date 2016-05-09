@@ -21,6 +21,21 @@ Template.nav.events
         Session.set 'downvoted_cloud', null
         Session.set 'upvoted_cloud', null
         Session.setDefault 'unvoted', null
+        FlowRouter.go '/'
+
+    'click #addDoc': ->
+        Meteor.call 'createDoc', (err, id)->
+            if err then console.log err
+            else FlowRouter.go "/edit/#{id}"
+
+    'click .selectBookmark': ->
+        selectedTags.clear()
+        selectedTags.push(tag) for tag in @
+
+    'click .addFromBookmark': ->
+        Meteor.call 'createDoc', @, (err,id)->
+            if err then console.log err
+            else FlowRouter.go "/edit/#{id}"
 
 
     'click .toggleSidebar': ->
@@ -29,3 +44,10 @@ Template.nav.events
     'click #store_menu_item': ->
         selectedTags.clear()
         selectedTags.push('store')
+        FlowRouter.go '/'
+
+    'click #newFromSelection': ->
+        # if confirm 'Create new document from selection?'
+        Meteor.call 'createDoc', selectedTags.array(), (err,id)->
+            if err then console.log err
+            else FlowRouter.go "/edit/#{id}"

@@ -14,11 +14,11 @@ template(name='view')
                 +markdown
                     !{body}
         .extra.content
-            span by #{username} [#{author.points}] #{when}
+            span by #{author.username} [#{author.points}] #{when}
             if currentUser
-                // .ui.basic.compact.button.cloneDoc
-                //     i.fork.icon
-                //     |Clone
+                .ui.basic.compact.button.cloneDoc
+                    i.fork.icon
+                    |Clone
                 if isAuthor
                     .ui.basic.compact.button.editDoc
                         i.blue.pencil.icon
@@ -34,17 +34,17 @@ template(name='view')
             .ui.large.icon.button.vote_down(class=vote_downButtonClass)
                 i.thumbs.down.icon
         .extra.content
-                if is_for_sale
-                    span For Sale for #{cost} points
-                if currentUser
-                    unless isAuthor
-                        if can_buy
-                            .ui.button.buy_item Buy for #{cost}
-                        .ui.divider
-                        p Common interests with #{username} (Match Points: #{upVotedMatchCloud.totalCount})
-                        div
-                            each upVotedMatchCloud.cloud
-                                .ui.basic.label #{this.tag} #{this.min}
+            if is_for_sale
+                span For Sale for #{cost} points
+            if currentUser
+                unless isAuthor
+                    if can_buy
+                        .ui.button.buy_item Buy for #{cost}
+                    .ui.divider
+                    p Common interests with #{author.username} (Match Points: #{upVotedMatchCloud.totalCount})
+                    div
+                        each upVotedMatchCloud.cloud
+                            .ui.basic.label #{this.tag} #{this.min}
         // .extra.content
         //     .select_user.ui.button(class=select_user_button_class)
         //         i.user.icon

@@ -19,13 +19,12 @@ template(name='edit')
                     input#cost(type='number' min='0' value=cost)
                 .ui.hidden.divider
                 if tags.length
-                    #saveDoc.ui.large.green.button
+                    #saveDoc.ui.large.green.basic.button
                         i.check.icon
                         |Save
-                #delete.ui.red.button
+                #delete.ui.red.right.floated.basic.button
                     i.remove.icon
                     |Delete
-
         .ui.modal
             .header Confirm Delete
             .content
