@@ -46,12 +46,12 @@ Template.view.helpers
 
     cloud_label_class: -> if @name in selectedTags.array() then 'primary' else 'basic'
 
-    # currentUserDonations: ->
-    #     if @donators and Meteor.userId() in @donators
-    #         result = _.find @donations, (donation)->
-    #             donation.user is Meteor.userId()
-    #         result.amount
-    #     else return 0
+    currentUserDonations: ->
+        if @donators and Meteor.userId() in @donators
+            result = _.find @donations, (donation)->
+                donation.user is Meteor.userId()
+            result.amount
+        else return 0
 
     upVotedMatchCloud: ->
         my_upvoted_cloud = Meteor.user().upvoted_cloud
@@ -83,9 +83,9 @@ Template.view.helpers
     can_buy: -> @cost > 0 and Meteor.user().points > @cost
 
 
-    # canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
+    canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
 
-    # send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'
+    send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'
 
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"
@@ -141,3 +141,5 @@ Template.view.events
         if confirm "Buy for #{this.cost} points?"
             Meteor.call 'buy_item', @_id
 
+    'click .send_point': -> Meteor.call 'send_point', @_id
+    'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id

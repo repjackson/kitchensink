@@ -26,6 +26,18 @@ template(name='view')
                     .ui.icon.basic.compact.button.deleteDoc
                         // |Delete
                         i.red.trash.icon
+                else
+                    .send_point.ui.basic.button(class=send_point_button_class)
+                        i.share.icon
+                        |Send Point
+                    if canRetrievePoints
+                        .retrieve_point.ui.basic.button
+                            i.reply.icon
+                            |Retrieve Point
+                    if canRetrievePoints
+                        .ui.basic.label #{currentUserDonations} points sent
+                    // .bid.btn.btn-primary increment bid
+
         .extra.content
             .ui.basic.large.label
                 | #{points} pts

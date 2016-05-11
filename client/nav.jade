@@ -4,39 +4,39 @@ template(name='nav')
         a.item(href='/' class="{{isActivePath '/docs'}}")
             i.file.icon
             |Documents
-        a.item(href='/people' class="{{isActivePath '/people'}}")
-            i.users.icon
-            |People
         a#store_menu_item.item
             i.cart.icon
             |Store
+        a.item(href='/people' class="{{isActivePath '/people'}}")
+            i.users.icon
+            |People
         .right.menu
-            .ui.simple.dropdown.item
-                i.plus.icon
-                span.text Add Doc
-                i.dropdown.icon
-                .menu
-                    #newFromSelection.item
-                        i.external.square.icon
-                        |From Selection
-                    #addDoc.item
-                        i.file.outline.icon
-                        |Blank
-                    .header From Bookmarks
-                    each user.bookmarks
-                        .item.addFromBookmark
-                            each this
-                                .ui.label #{this}
-            .ui.simple.dropdown.item
-                i.bookmark.icon
-                span.text Bookmarks
-                i.dropdown.icon
-                .menu
-                    each user.bookmarks
-                        .item.selectBookmark
-                            each this
-                                .ui.label #{this}
             if currentUser
+                .ui.simple.dropdown.item
+                    i.plus.icon
+                    span.text Add Doc
+                    i.dropdown.icon
+                    .menu
+                        #newFromSelection.item
+                            i.external.square.icon
+                            |From Selection
+                        #addDoc.item
+                            i.file.outline.icon
+                            |Blank
+                        .header From Bookmarks
+                        each user.bookmarks
+                            .item.addFromBookmark
+                                each this
+                                    .ui.label #{this}
+                .ui.simple.dropdown.item
+                    i.bookmark.icon
+                    span.text Bookmarks
+                    i.dropdown.icon
+                    .menu
+                        each user.bookmarks
+                            .item.selectBookmark
+                                each this
+                                    .ui.label #{this}
                 a.item(href='/profile' class="{{isActivePath '/profile'}}")
                     i.user.icon
                     | #{user.username} [#{currentUser.points}]
