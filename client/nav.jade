@@ -39,5 +39,5 @@ template(name='nav')
                                     .ui.label #{this}
                 a.item(href='/profile' class="{{isActivePath '/profile'}}")
                     i.user.icon
-                    | #{user.username} [#{currentUser.points}]
+                    | #{user.username} [#{currentUser.points} pts]
             +atNavButton

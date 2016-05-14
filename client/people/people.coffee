@@ -14,11 +14,11 @@ Template.person.helpers
     myTags: ->
         _.findWhere(Meteor.user().userTags, uId: @_id)?.tags
 
-    userTagClass: ->
-        if @valueOf() in selectedUserTags.array() then 'primary' else 'basic'
+    self_tag_class: -> if @valueOf() in selectedUserTags.array() then 'primary' else 'basic'
 
-    hasTagged: ->
-        if @taggers and Meteor.userId() in @taggers then true else false
+    user_tag_class: -> if @name in selectedUserTags.array() then 'primary' else 'basic'
+
+    hasTagged: -> if @taggers and Meteor.userId() in @taggers then true else false
 
     upVotedMatchCloud: ->
         my_upvoted_cloud = Meteor.user().upvoted_cloud
@@ -44,8 +44,11 @@ Template.person.helpers
         return result
 
 Template.person.events
-    'click .userTag': ->
+    'click .self_tag': ->
         if @valueOf() in selectedUserTags.array() then selectedUserTags.remove @valueOf() else selectedUserTags.push @valueOf()
+
+    'click .user_tag': ->
+        if @name in selectedUserTags.array() then selectedUserTags.remove @name else selectedUserTags.push @name
 
     'keyup .addTag': (e,t)->
         tag = t.find('.addTag').value.toLowerCase()
@@ -55,8 +58,7 @@ Template.person.events
                     Meteor.call 'addTag', @_id, tag
                     $('.addTag').val('')
 
-    'click .tagUser': ->
-        Meteor.call 'tagUser', @_id
+    'click .tagUser': -> Meteor.call 'tagUser', @_id
 
     'click .removeMyTag': ->
         # console.log Template.currentData()._id

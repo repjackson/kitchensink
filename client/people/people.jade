@@ -9,14 +9,14 @@ template(name='person')
         .content
             .header
                 i.user.icon
-                |#{username}
+                |#{username} [#{points} pts]
             .description
                 h4.ui.header Self Tags
                 each tags
-                    .ui.compact.button.userTag(class=userTagClass) #{this}
+                    .ui.compact.button.self_tag(class=self_tag_class) #{this}
                 h4.ui.header Other's Tags
                 each tagCloud
-                    .ui.compact.button.userTag(class=userTagClass)
+                    .ui.compact.button.user_tag(class=user_tag_class)
                         |#{this.name}
                         small #{this.count}
 

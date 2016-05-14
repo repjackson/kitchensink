@@ -21,8 +21,8 @@ Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
 
 
 Docs.helpers
-    author: ->
-        Meteor.users.findOne @authorId
+    author: -> Meteor.users.findOne @authorId
+    buyer: -> Meteor.users.findOne @buyerId
 
 
 Meteor.methods

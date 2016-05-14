@@ -43,23 +43,27 @@ template(name='cloud')
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
+        .ui.divider
+        .ui.center.aligned.header Filter Docs:
         if selectedTags
             if currentUser
                 div
                     #bookmarkSelection.ui.basic.button
                         i.bookmark.icon
                         |Bookmark Selection
-        .ui.divider
         if $.Session.get 'selected_user'
             .ui.button.primary.selected_user_button
+                i.remove.icon
                 i.user.icon
                 |by #{selected_user}
         if $.Session.get 'upvoted_cloud'
             .ui.button.primary.upvoted_cloud_button
+                i.remove.icon
                 i.thumbs.up.icon
                 | #{upvoted_cloud}
         if $.Session.get 'downvoted_cloud'
             .ui.button.primary.downvoted_cloud_button
+                i.remove.icon
                 i.thumbs.down.icon
                 | #{downvoted_cloud}
         if selectedTags
