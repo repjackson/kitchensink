@@ -39,51 +39,51 @@ template(name='view')
                         .ui.basic.label #{currentUserDonations} points sent
                     // .bid.btn.btn-primary increment bid
 
-        .extra.content
-            .ui.basic.large.label
-                | #{points} pts
-            .ui.large.icon.button.vote_up(class=vote_upButtonClass)
-                i.thumbs.up.icon
-            .ui.large.icon.button.vote_down(class=vote_downButtonClass)
-                i.thumbs.down.icon
-        .extra.content
-            if is_for_sale
-                span For Sale for #{cost} points
-            else if bought
-                span Bought by #{buyer.username} for #{cost}
-            if currentUser
-                unless isAuthor
-                    if can_buy
-                        .ui.button.buy_item Buy for #{cost}
-                    .ui.divider
-                    p Common interests with #{author.username} (Match Points: #{upVotedMatchCloud.totalCount})
-                    div
-                        each upVotedMatchCloud.cloud
-                            .ui.basic.label #{this.tag} #{this.min}
-        .extra.content
-            .select_user.ui.button(class=select_user_button_class)
-                i.user.icon
-                |View Docs by #{author.username}
-            |#{author.username}'s Authored Tags
-            each author.authored_cloud
-                .ui.small.label(class=cloud_label_class)
-                    |#{this.name}
-                    small #{this.count}
-        .extra.content
-            .author_upvotes.ui.button(class=author_upvotes_button_class)
-                i.thumbs.up.icon
-                | View Upvoted Docs by #{author.username}
-            |#{author.username}'s Upvoted Tags
-            each author.upvoted_cloud
-                .ui.small.label(class=cloud_label_class)
-                    |#{this.name}
-                    small #{this.count}
-        .extra.content
-            .author_downvotes.ui.button(class=author_downvotes_button_class)
-                i.thumbs.down.icon
-                | View Downvoted Docs by #{author.username}
-            |#{author.username}'s Downvoted Tags
-            each author.downvoted_cloud
-                .ui.small.label(class=cloud_label_class)
-                    |#{this.name}
-                    small #{this.count}
+        // .extra.content
+        //     .ui.basic.large.label
+        //         | #{points} pts
+        //     .ui.large.icon.button.vote_up(class=vote_upButtonClass)
+        //         i.thumbs.up.icon
+        //     .ui.large.icon.button.vote_down(class=vote_downButtonClass)
+        //         i.thumbs.down.icon
+        // .extra.content
+        //     if is_for_sale
+        //         span For Sale for #{cost} points
+        //     else if bought
+        //         span Bought by #{buyer.username} for #{cost}
+        //     if currentUser
+        //         unless isAuthor
+        //             if can_buy
+        //                 .ui.button.buy_item Buy for #{cost}
+        //             .ui.divider
+        //             p Common interests with #{author.username} (Match Points: #{upVotedMatchCloud.totalCount})
+        //             div
+        //                 each upVotedMatchCloud.cloud
+        //                     .ui.basic.label #{this.tag} #{this.min}
+        // .extra.content
+        //     .select_user.ui.button(class=select_user_button_class)
+        //         i.user.icon
+        //         |View Docs by #{author.username}
+        //     |#{author.username}'s Authored Tags
+        //     each author.authored_cloud
+        //         .ui.small.label(class=cloud_label_class)
+        //             |#{this.name}
+        //             small #{this.count}
+        // .extra.content
+        //     .author_upvotes.ui.button(class=author_upvotes_button_class)
+        //         i.thumbs.up.icon
+        //         | View Upvoted Docs by #{author.username}
+        //     |#{author.username}'s Upvoted Tags
+        //     each author.upvoted_cloud
+        //         .ui.small.label(class=cloud_label_class)
+        //             |#{this.name}
+        //             small #{this.count}
+        // .extra.content
+        //     .author_downvotes.ui.button(class=author_downvotes_button_class)
+        //         i.thumbs.down.icon
+        //         | View Downvoted Docs by #{author.username}
+        //     |#{author.username}'s Downvoted Tags
+        //     each author.downvoted_cloud
+        //         .ui.small.label(class=cloud_label_class)
+        //             |#{this.name}
+        //             small #{this.count}
