@@ -2,14 +2,14 @@ template(name='nav')
     .ui.inverted.menu
         .ui.header.item Facet
         a.item(href='/' class="{{isActivePath '/docs'}}")
-            i.file.icon
+            i.file.outline.icon
             |Documents
-        a#store_menu_item.item
-            i.cart.icon
-            |Store
-        a.item(href='/people' class="{{isActivePath '/people'}}")
-            i.users.icon
-            |People
+        // a.item(href='/people' class="{{isActivePath '/people'}}")
+        //     i.users.icon
+        //     |People
+        a.item(href='/exchange' class="{{isActivePath '/exchange'}}")
+            i.money.icon
+            |Exchange Points
         .right.menu
             if currentUser
                 .ui.simple.dropdown.item

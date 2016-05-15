@@ -18,7 +18,6 @@ Template.edit.helpers
         docId = FlowRouter.getParam('docId')
         Docs.findOne docId
 
-    unique_suggested_tags: -> _.difference(@suggested_tags, @tags)
 
 
 Template.edit.events
@@ -58,58 +57,15 @@ Template.edit.events
         $('#addTag').val(tag)
 
 
-    'change #cost': (e,t)->
-        new_cost = parseInt(e.currentTarget.value)
-        if @cost is 0
-            Docs.update FlowRouter.getParam('docId'),
-                $set: cost: new_cost
-                $addToSet: tags: 'store'
-        else if new_cost is 0
-            Docs.update FlowRouter.getParam('docId'),
-                $set: cost: new_cost
-                $pull: tags: 'store'
-        else
-            Docs.update FlowRouter.getParam('docId'),
-                $set: cost: new_cost
-
 
     'click #saveDoc': ->
         body = $('#body').val()
-        cost = parseInt($('#cost').val())
         Docs.update FlowRouter.getParam('docId'),
             $set:
                 body: body
-                cost: cost
                 tagCount: @tags.length
         selectedTags.clear()
         for tag in @tags
             selectedTags.push tag
         FlowRouter.go '/'
 
-
-    # 'click #deleteDoc': ->
-    #     if confirm 'Delete?'
-    #         Meteor.call 'deleteDoc', @_id, (err, result)->
-    #             if err then console.error err
-    #             else
-    #                 FlowRouter.go '/'
-
-    # 'click #suggest_tags': ->
-    #     body = $('#body').val()
-    #     Meteor.call 'suggest_tags', @_id, body
-
-
-    # 'click .add_suggested_tag': ->
-    #     tag = @valueOf()
-    #     Docs.update FlowRouter.getParam('docId'),
-    #         $addToSet: tags: tag
-    #         , ->
-
-    # 'click #add_all_suggested_tags': ->
-    #     Docs.update FlowRouter.getParam('docId'), $addToSet: tags: $each: @suggested_tags
-
-    # 'click #clear_doc_tags': ->
-    #     Docs.update FlowRouter.getParam('docId'), $set: tags: []
-
-    # 'click #clear_suggested_tags': ->
-    #     Docs.update FlowRouter.getParam('docId'), $set: suggested_tags: []

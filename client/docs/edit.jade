@@ -14,10 +14,6 @@ template(name='edit')
                     textarea#body
                         |#{body}
                 .ui.hidden.divider
-                label Cost (if document is for sale)
-                .ui.left.icon.input
-                    input#cost(type='number' min='0' value=cost)
-                .ui.hidden.divider
                 if tags.length
                     #saveDoc.ui.large.green.basic.button
                         i.check.icon

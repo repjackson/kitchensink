@@ -33,7 +33,7 @@ Accounts.onCreateUser (options, user) ->
     user.userTags = []
     user.tagCloud = []
     user.tagList = []
-    user.points = 0
+    user.points = 100
     user
 
 

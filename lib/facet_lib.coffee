@@ -4,12 +4,11 @@
 
 
 Docs.before.insert (userId, doc)->
-    doc.up_voters = [userId]
+    doc.up_voters = []
     doc.down_voters = []
     doc.timestamp = Date.now()
     doc.authorId = Meteor.userId()
-    doc.points = 1
-    doc.cost = 0
+    doc.points = 0
     return
 
 Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
@@ -22,13 +21,10 @@ Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
 
 Docs.helpers
     author: -> Meteor.users.findOne @authorId
-    buyer: -> Meteor.users.findOne @buyerId
 
 
 Meteor.methods
     createDoc: (tags=[])->
-        Meteor.users.update Meteor.userId(),
-            $inc: points: 1
         Docs.insert
             tags: tags
 
@@ -62,6 +58,7 @@ Meteor.methods
                 $pull: up_voters: Meteor.userId()
                 $inc: points: -1
             Meteor.users.update doc.authorId, $inc: points: -1
+            Meteor.users.update Meteor.userId(), $inc: points: 1
 
         else if Meteor.userId() in doc.down_voters #switch downvote to upvote
             Docs.update id,
@@ -75,17 +72,17 @@ Meteor.methods
                 $addToSet: up_voters: Meteor.userId()
                 $inc: points: 1
             Meteor.users.update doc.authorId, $inc: points: 1
+            Meteor.users.update Meteor.userId(), $inc: points: -1
         Meteor.call 'generatePersonalCloud', Meteor.userId()
 
     vote_down: (id)->
         doc = Docs.findOne id
-        # if doc.points is 0 or doc.points is 1 and Meteor.userId() in doc.up_voters
-        #     Docs.remove id
         if Meteor.userId() in doc.down_voters #undo downvote
             Docs.update id,
                 $pull: down_voters: Meteor.userId()
                 $inc: points: 1
             Meteor.users.update doc.authorId, $inc: points: 1
+            Meteor.users.update Meteor.userId(), $inc: points: 1
 
         else if Meteor.userId() in doc.up_voters #switch upvote to downvote
             Docs.update id,
@@ -99,18 +96,8 @@ Meteor.methods
                 $addToSet: down_voters: Meteor.userId()
                 $inc: points: -1
             Meteor.users.update doc.authorId, $inc: points: -1
+            Meteor.users.update Meteor.userId(), $inc: points: -1
         Meteor.call 'generatePersonalCloud', Meteor.userId()
-
-    buy_item: (id)->
-        doc = Docs.findOne id
-        Meteor.users.update Meteor.userId(),
-            $inc: points: -doc.cost
-        Meteor.users.update doc.authorId,
-            $inc: points: doc.cost
-        Docs.update id,
-            $set:
-                bought: true
-                buyerId: Meteor.userId()
 
 
 # users
@@ -224,14 +211,8 @@ FlowRouter.route '/people', action: (params) ->
         cloud: 'userCloud'
         main: 'people'
 
-FlowRouter.route '/leaderboard', action: (params) ->
+FlowRouter.route '/exchange', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
-        main: 'leaderboard'
+        main: 'exchange'
 
-# FlowRouter.route '/store', action: (params) ->
-#     selectedTags.clear()
-#     selectedTags.push('store')
-#     # BlazeLayout.render 'layout',
-#     #     nav: 'nav'
-#     #     main: 'store'

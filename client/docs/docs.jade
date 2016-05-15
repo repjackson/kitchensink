@@ -1,6 +1,6 @@
 template(name='docs')
     .ui.container
-        .ui.center.aligned.header Top Doc:
+        // .ui.center.aligned.header Top Doc:
         .ui.cards
             each docs
                 +view
@@ -15,11 +15,11 @@ template(name='view')
                 +markdown
                     !{body}
         .extra.content
-            span by #{author.username} [#{author.points} pts] #{when}
+            span by #{author.username} [#{author.points} points] #{when}
             if currentUser
-                .ui.basic.compact.button.cloneDoc
-                    i.fork.icon
-                    |Clone
+                // .ui.basic.compact.button.cloneDoc
+                //     i.fork.icon
+                //     |Clone
                 if isAuthor
                     .ui.basic.compact.button.editDoc
                         i.blue.pencil.icon
@@ -28,34 +28,14 @@ template(name='view')
                         // |Delete
                         i.red.trash.icon
                 else
-                    .send_point.ui.basic.button(class=send_point_button_class)
-                        i.share.icon
-                        |Send Point
-                    if canRetrievePoints
-                        .retrieve_point.ui.basic.button
-                            i.reply.icon
-                            |Retrieve Point
-                    if canRetrievePoints
-                        .ui.basic.label #{currentUserDonations} points sent
-                    // .bid.btn.btn-primary increment bid
-
-        // .extra.content
-        //     .ui.basic.large.label
-        //         | #{points} pts
-        //     .ui.large.icon.button.vote_up(class=vote_upButtonClass)
-        //         i.thumbs.up.icon
-        //     .ui.large.icon.button.vote_down(class=vote_downButtonClass)
-        //         i.thumbs.down.icon
-        // .extra.content
-        //     if is_for_sale
-        //         span For Sale for #{cost} points
-        //     else if bought
-        //         span Bought by #{buyer.username} for #{cost}
+                    .ui.basic.large.label
+                        | Doc points: #{points}
+                    .ui.large.icon.button.vote_up(class=vote_upButtonClass)
+                        i.thumbs.up.icon
+                    .ui.large.icon.button.vote_down(class=vote_downButtonClass)
+                        i.thumbs.down.icon
         //     if currentUser
         //         unless isAuthor
-        //             if can_buy
-        //                 .ui.button.buy_item Buy for #{cost}
-        //             .ui.divider
         //             p Common interests with #{author.username} (Match Points: #{upVotedMatchCloud.totalCount})
         //             div
         //                 each upVotedMatchCloud.cloud

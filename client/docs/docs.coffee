@@ -17,10 +17,6 @@ Template.view.onCreated ->
 Template.view.helpers
     isAuthor: -> @authorId is Meteor.userId()
 
-    is_for_sale: -> @cost > 0 and @bought is false
-
-    bought: -> @bought is true
-
     when: -> moment(@timestamp).fromNow()
 
     user: -> Meteor.user()
@@ -47,13 +43,6 @@ Template.view.helpers
     author_upvotes_button_class: -> if Session.equals 'upvoted_cloud', @authorId then 'primary' else 'basic'
 
     cloud_label_class: -> if @name in selectedTags.array() then 'primary' else 'basic'
-
-    currentUserDonations: ->
-        if @donators and Meteor.userId() in @donators
-            result = _.find @donations, (donation)->
-                donation.user is Meteor.userId()
-            result.amount
-        else return 0
 
     upVotedMatchCloud: ->
         my_upvoted_cloud = Meteor.user().upvoted_cloud
@@ -82,11 +71,6 @@ Template.view.helpers
         result.totalCount = totalCount
         return result
 
-    can_buy: -> @cost > 0 and Meteor.user().points > @cost
-
-    canRetrievePoints: -> if @donators and Meteor.userId() in @donators then true else false
-
-    send_point_button_class: -> if Meteor.user().points > 0 then '' else 'disabled'
 
 Template.view.events
     'click .editDoc': -> FlowRouter.go "/edit/#{@_id}"
@@ -108,14 +92,20 @@ Template.view.events
         FlowRouter.go "/edit/#{id}"
 
     'click .vote_down': ->
-        if Meteor.userId()
-            # if @points is 0 or (@points is 1 and Meteor.userId() in @up_voters)
-            #     if confirm 'Confirm downvote? This will delete the doc.'
-            #         Meteor.call 'vote_down', @_id
-            # else
-            Meteor.call 'vote_down', @_id
+        if Meteor.userId() in @down_voters
+            if confirm "Undo Downvote? This will give you and #{@author.username} back a point."
+                Meteor.call 'vote_down', @_id
+        else
+            if confirm "Confirm Downvote? This will cost you a point and take one from #{Template.currentData().author.username}"
+                if Meteor.userId() then Meteor.call 'vote_down', @_id
 
-    'click .vote_up': -> if Meteor.userId() then Meteor.call 'vote_up', @_id
+    'click .vote_up': ->
+        if Meteor.userId() in @up_voters
+            if confirm "Undo Upvote? This will give you back a point and take one from #{@author.username}."
+                Meteor.call 'vote_up', @_id
+        else
+            if confirm "Confirm Upvote? This will cost you a point."
+                if Meteor.userId() then Meteor.call 'vote_up', @_id
 
 
     'click .select_user': ->
@@ -134,13 +124,3 @@ Template.view.events
         Session.set 'upvoted_cloud', null
 
 
-    'click .send_point': -> Meteor.call 'send_point', @_id
-    'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id
-
-
-    'click .buy_item': (e,t)->
-        if confirm "Buy for #{this.cost} points?"
-            Meteor.call 'buy_item', @_id
-
-    'click .send_point': -> Meteor.call 'send_point', @_id
-    'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id
