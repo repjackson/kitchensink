@@ -16,10 +16,12 @@ template(name='view')
                     !{body}
         .extra.content
             span by #{author.username} [#{author.points} points] #{when}
+            .ui.basic.large.label
+                | Doc points: #{points}
             if currentUser
-                // .ui.basic.compact.button.cloneDoc
-                //     i.fork.icon
-                //     |Clone
+                .ui.basic.compact.button.cloneDoc
+                    i.fork.icon
+                    |Clone
                 if isAuthor
                     .ui.basic.compact.button.editDoc
                         i.blue.pencil.icon
@@ -28,8 +30,6 @@ template(name='view')
                         // |Delete
                         i.red.trash.icon
                 else
-                    .ui.basic.large.label
-                        | Doc points: #{points}
                     .ui.large.icon.button.vote_up(class=vote_upButtonClass)
                         i.thumbs.up.icon
                     .ui.large.icon.button.vote_down(class=vote_downButtonClass)

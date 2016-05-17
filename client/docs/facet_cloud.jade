@@ -43,6 +43,10 @@ template(name='cloud')
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
+        .ui.left.transparent.icon.input
+            i.lightning.icon
+            input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
+
         .ui.divider
         // .ui.center.aligned.header Filter Docs:
         if selectedTags

@@ -10,6 +10,19 @@ template(name='edit')
                     i.add.icon
                     input#addTag(type='text' autofocus='' placeholder='Add Tag')
                 .ui.hidden.divider
+                .ui.left.icon.input
+                    i.map.icon
+                    input#place(type='text' value=locationob.formatted_address placeholder='Add Address')
+                .ui.icon.basic.button
+                    i.link.remove.icon.clearAddress
+                .ui.hidden.compact.divider
+                .ui.left.icon.input
+                    i.calendar.outline.icon
+                    input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
+                    .ui.icon.basic.button
+                        i.link.remove.icon.clearDT
+                .ui.hidden.divider
+
                 .ui.input
                     textarea#body
                         |#{body}

@@ -3,7 +3,7 @@ Template.docs.onCreated ->
 
 Template.docs.helpers
     docs: -> Docs.find {},
-        limit: 1
+        limit: 5
         sort:
             tagCount: 1
             timestamp: -1
@@ -93,18 +93,18 @@ Template.view.events
 
     'click .vote_down': ->
         if Meteor.userId() in @down_voters
-            if confirm "Undo Downvote? This will give you and #{@author.username} back a point."
+            if confirm "Undo Downvote? This will give you and #{@author().username} back a point."
                 Meteor.call 'vote_down', @_id
         else
-            if confirm "Confirm Downvote? This will cost you a point and take one from #{Template.currentData().author.username}"
+            if confirm "Confirm Downvote? This will cost you a point and take one from #{@author().username}"
                 if Meteor.userId() then Meteor.call 'vote_down', @_id
 
     'click .vote_up': ->
         if Meteor.userId() in @up_voters
-            if confirm "Undo Upvote? This will give you back a point and take one from #{@author.username}."
+            if confirm "Undo Upvote? This will give you back a point and take one from #{@author().username}."
                 Meteor.call 'vote_up', @_id
         else
-            if confirm "Confirm Upvote? This will cost you a point."
+            if confirm "Confirm Upvote? This will give a point from you to #{@author().username}."
                 if Meteor.userId() then Meteor.call 'vote_up', @_id
 
 
