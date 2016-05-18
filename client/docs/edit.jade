@@ -6,32 +6,43 @@ template(name='edit')
                     .ui.basic.button.docTag
                         i.minus.icon
                         |#{this}
-                .ui.left.icon.input
-                    i.add.icon
-                    input#addTag(type='text' autofocus='' placeholder='Add Tag')
-                .ui.hidden.divider
-                .ui.left.icon.input
-                    i.map.icon
-                    input#place(type='text' value=locationob.formatted_address placeholder='Add Address')
-                .ui.icon.basic.button
-                    i.link.remove.icon.clearAddress
-                .ui.hidden.compact.divider
-                .ui.left.icon.input
-                    i.calendar.outline.icon
-                    input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
-                    .ui.icon.basic.button
-                        i.link.remove.icon.clearDT
-                .ui.hidden.divider
-
-                .ui.input
-                    textarea#body
-                        |#{body}
-                .ui.hidden.divider
+                .ui.form
+                    .field
+                        .ui.left.icon.input
+                            i.add.icon
+                            input#addTag(type='text' autofocus='' placeholder='Add Tag')
+                    .field
+                        .ui.left.icon.input
+                            i.map.icon
+                            input#place(type='text' value=locationob.formatted_address placeholder='Add Address')
+                            .ui.icon.basic.button
+                                i.link.remove.icon.clearAddress
+                    .field
+                        .ui.left.icon.input
+                            i.calendar.outline.icon
+                            input#datetimepicker(type="text" value=dateTime placeholder='Add Date/Time')
+                            .ui.icon.basic.button
+                                i.link.remove.icon.clearDT
+                if unpickedKeywords.length
+                    .ui.segment
+                        .panel-heading suggestions
+                        .panel-body
+                            div keywords
+                                each unpickedKeywords
+                                    .docKeyword.btn.btn-default #{this}
+                            .card-action
+                                a#addAll add all suggestions
+                .ui.form
+                    .field
+                        #analyzeBody.ui.button Autotag Body
+                        .ui.input
+                            textarea#body
+                                |#{body}
                 if tags.length
                     #saveDoc.ui.large.green.basic.button
                         i.check.icon
                         |Save
-                #delete.ui.red.right.floated.basic.button
+                #delete.ui.red.small.compact.basic.button
                     i.remove.icon
                     |Delete
         .ui.modal

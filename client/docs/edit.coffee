@@ -5,11 +5,15 @@ Template.edit.onCreated ->
 
 
 Template.edit.onRendered ->
+    docId = FlowRouter.getParam('docId')
     Meteor.setTimeout (->
         $('#body').froalaEditor
             height: 400
             toolbarButtonsXS: ['bold', 'italic', 'fontFamily', 'fontSize', 'undo', 'redo', 'insertImage']
 
+        ), 300
+
+    Meteor.setTimeout (->
         $('#datetimepicker').datetimepicker(
             onChangeDateTime: (dp,$input)->
                 val = $input.val()
@@ -41,11 +45,10 @@ Template.edit.onRendered ->
                         datearray: datearray
                         dateTime: val
             )
-        ), 300
 
+        ), 500
     @autorun ->
         if GoogleMaps.loaded()
-            docId = FlowRouter.getParam('docId')
             $('#place').geocomplete().bind 'geocode:result', (event, result) ->
                 # console.log result.geometry.location.lat()
                 Meteor.call 'updatelocation', docId, result, ->
@@ -56,6 +59,11 @@ Template.edit.helpers
     doc: ->
         docId = FlowRouter.getParam('docId')
         Docs.findOne docId
+
+    unpickedConcepts: ->
+        _.difference @concept_array, @tags
+    unpickedKeywords: ->
+        _.difference @keyword_array, @tags
 
 
 
@@ -125,3 +133,17 @@ Template.edit.events
             selectedTags.push tag
         FlowRouter.go '/'
 
+    'keyup #url': (e,t)->
+        docId = FlowRouter.getParam('docId')
+        url = $('#url').val()
+        switch e.which
+            when 13
+                if url.length > 0
+                    Docs.update docId,
+                        $set: url: url
+                    Meteor.call 'fetchUrlTags', docId, url
+
+    'click #analyzeBody': ->
+        Docs.update FlowRouter.getParam('docId'),
+            $set: body: $('#body').val()
+        Meteor.call 'analyze', FlowRouter.getParam('docId')

@@ -1,6 +1,8 @@
 @Tags = new Meteor.Collection 'tags'
 @Docs = new Meteor.Collection 'docs'
 @Usernames = new Meteor.Collection 'usernames'
+@Messages = new Meteor.Collection 'messages'
+@Importers = new Meteor.Collection 'importers'
 
 
 Docs.before.insert (userId, doc)->
@@ -17,10 +19,16 @@ Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
 ), fetchPrevious: true
 
 
+Slingshot.fileRestrictions 'myFileUploads',
+    allowedFileTypes: null
+    maxSize: 10 * 1024 * 1024
 
 
 Docs.helpers
     author: -> Meteor.users.findOne @authorId
+Messages.helpers
+    from: (doc)-> Meteor.users.findOne @fromId
+    to: (doc)-> Meteor.users.findOne @toId
 
 
 Meteor.methods
@@ -117,6 +125,64 @@ Meteor.methods
                 locationob: result
                 addresstags: loweredAddressTags
 
+    sendPoint: (id)->
+        doc = Docs.findOne id
+        # check if current user has sent points
+        if doc.donators and Meteor.userId() in doc.donators
+            Docs.update {
+                _id: id
+                "donations.user": Meteor.userId()
+                },
+                    $inc:
+                        "donations.$.amount": 1
+                        points: 1
+            Meteor.users.update Meteor.userId(), $inc: points: -1
+
+        else
+            Docs.update id,
+                $addToSet:
+                    donators: Meteor.userId()
+                    donations:
+                        user: Meteor.userId()
+                        amount: 1
+            Meteor.users.update Meteor.userId(), $inc: points: -1
+
+
+    retrievePoint: (id)->
+        doc = Docs.findOne id
+        currentId = Meteor.userId()
+        # check if current user has sent points
+        if doc.donators and Meteor.userId() in doc.donators
+            donationEntry = _.find doc.donations, (donation)->
+                donation.user is currentId
+            if donationEntry.amount is 1
+                Docs.update {
+                    _id: id
+                    "donations.user": Meteor.userId()
+                    },
+                    $pull: { donations: {user: Meteor.userId()}, donators: Meteor.userId()}
+                    $inc: points: -1
+
+                Meteor.users.update Meteor.userId(), $inc: points: 1
+
+            else
+                Docs.update {
+                    _id: id
+                    "donations.user": Meteor.userId()
+                    }, $inc: "donations.$.amount": -1, points: -1
+
+                Meteor.users.update Meteor.userId(), $inc: points: 1
+
+        else
+            Docs.update id,
+                $addToSet:
+                    donators: Meteor.userId()
+                    donations:
+                        user: Meteor.userId()
+                        amount: 1
+                $inc: points: -1
+
+            Meteor.users.update Meteor.userId(), $inc: points: 1
 
 
 # users
@@ -234,4 +300,28 @@ FlowRouter.route '/exchange', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
         main: 'exchange'
+
+FlowRouter.route '/leaderboard', action: (params) ->
+    BlazeLayout.render 'layout', main: 'leaderboard'
+
+FlowRouter.route '/importers', action: (params) ->
+    analytics.page()
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'importerList'
+
+FlowRouter.route '/importers/:iId', action: (params) ->
+    analytics.page()
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'importerView'
+
+FlowRouter.route '/bulk', action: (params) ->
+    analytics.page()
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'bulk'
+FlowRouter.route '/marketplace', action: (params) ->
+    Session.set('view', 'marketplace')
+    BlazeLayout.render 'layout', main: 'home'
 

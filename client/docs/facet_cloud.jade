@@ -2,6 +2,9 @@ template(name='cloud')
     .ui.center.aligned.bottom.attached.segment
         div
             if currentUser
+                .ui.left.icon.input
+                    i.lightning.icon
+                    input#quickAdd(type='text' autofocus='' placeholder='Quick Add')
                 div View:
                     #mine.ui.basic.button
                         i.user.icon
@@ -43,18 +46,12 @@ template(name='cloud')
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
-        .ui.left.transparent.icon.input
-            i.lightning.icon
-            input#quickAdd(type='text' autofocus='' placeholder='Say Anything')
 
-        .ui.divider
         // .ui.center.aligned.header Filter Docs:
         if selectedTags
             if currentUser
-                div
-                    #bookmarkSelection.ui.basic.button
-                        i.bookmark.icon
-                        |Bookmark Selection
+                #bookmarkSelection.ui.basic.icon.circular.button
+                    i.bookmark.icon
         if $.Session.get 'selected_user'
             .ui.button.primary.selected_user_button
                 i.remove.icon
@@ -71,13 +68,14 @@ template(name='cloud')
                 i.thumbs.down.icon
                 | #{downvoted_cloud}
         if selectedTags
-            #clearTags.ui.compact.primary.big.icon.button
+            #clearTags.ui.compact.primary.icon.button
                 i.remove.icon
             each selectedTags
-                a.ui.compact.primary.big.button.unselectTag
+                a.ui.compact.primary.button.unselectTag
                     strong #{this}
         each globalTags
-            .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
+            // .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
+            .ui.compact.basic.button.selectTag #{this.name}
                 small #{this.count}
 
         // .ui.hidden.divider

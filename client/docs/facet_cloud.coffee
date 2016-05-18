@@ -102,3 +102,18 @@ Template.cloud.events
     'click .selectUsername': -> selectedUsernames.push @text
     'click .unselectUsername': -> selectedUsernames.remove @valueOf()
     'click #clearUsernames': -> selectedUsernames.clear()
+
+    'keyup #quickAdd': (e,t)->
+        e.preventDefault
+        tag = $('#quickAdd').val().toLowerCase()
+        switch e.which
+            when 13
+                if tag.length > 0
+                    splitTags = tag.match(/\S+/g)
+                    $('#quickAdd').val('')
+                    Meteor.call 'createDoc', splitTags, (err,res)->
+                        console.log res
+                    selectedTags.clear()
+                    for tag in splitTags
+                        selectedTags.push tag
+                    FlowRouter.go '/'

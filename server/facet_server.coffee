@@ -3,6 +3,15 @@ Docs.allow
     update: (userId, doc)-> doc.authorId is Meteor.userId()
     remove: (userId, doc)-> doc.authorId is Meteor.userId()
 
+Importers.allow
+    insert: (userId, doc)-> doc.authorId is Meteor.userId()
+    update: (userId, doc)-> doc.authorId is Meteor.userId()
+    remove: (userId, doc)-> doc.authorId is Meteor.userId()
+
+Messages.allow
+    insert: (userId, doc)-> doc.authorId is Meteor.userId()
+    update: (userId, doc)-> doc.authorId is Meteor.userId()
+    remove: (userId, doc)-> doc.authorId is Meteor.userId()
 
 Meteor.publish 'docs', (selectedtags, selected_user, user_upvotes, user_downvotes, unvoted)->
     match = {}
@@ -119,7 +128,7 @@ Meteor.publish 'usernames', (selectedTags, selectedUsernames, viewMode)->
         { $group: _id: '$username', count: $sum: 1 }
         { $match: _id: $nin: selectedUsernames }
         { $sort: count: -1, _id: 1 }
-        { $limit: 25 }
+        { $limit: 50 }
         { $project: _id: 0, text: '$_id', count: 1 }
         ]
 
@@ -202,7 +211,7 @@ Meteor.publish 'tags', (selectedTags, selected_user, user_upvotes, user_downvote
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selectedTags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 25 }
+        { $limit: 50 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
 

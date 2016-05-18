@@ -41,6 +41,7 @@ diff-sequence@1.0.5
 drewy:datetimepicker@1.0.3
 ecmascript@0.4.3
 ecmascript-runtime@0.2.10
+edgee:slingshot@0.7.1
 ejson@1.0.11
 email@1.0.12
 fastclick@1.0.11
@@ -50,6 +51,7 @@ froala:editor@2.2.4
 geojson-utils@1.0.8
 gwendall:body-events@0.1.6
 gwendall:session-json@0.1.7
+harrison:papa-parse@1.1.1
 hot-code-push@1.0.4
 html-tools@1.0.9
 htmljs@1.0.9
