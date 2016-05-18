@@ -62,6 +62,7 @@ Template.edit.helpers
 
     unpickedConcepts: ->
         _.difference @concept_array, @tags
+
     unpickedKeywords: ->
         _.difference @keyword_array, @tags
 
@@ -147,3 +148,12 @@ Template.edit.events
         Docs.update FlowRouter.getParam('docId'),
             $set: body: $('#body').val()
         Meteor.call 'analyze', FlowRouter.getParam('docId')
+
+    'click .docKeyword': ->
+        docId = FlowRouter.getParam('docId')
+        Docs.update docId, $addToSet: tags: @valueOf()
+
+    'click #addAll': ->
+        docId = FlowRouter.getParam('docId')
+        Docs.update docId,
+            $addToSet: tags: $each: @keyword_array
