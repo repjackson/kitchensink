@@ -60,11 +60,11 @@ Template.edit.helpers
         docId = FlowRouter.getParam('docId')
         Docs.findOne docId
 
-    unpickedConcepts: ->
-        _.difference @concept_array, @tags
-
     unpickedKeywords: ->
         _.difference @keyword_array, @tags
+
+    unpicked_suggested_tags: ->
+        _.difference @suggested_tags, @tags
 
 
 
@@ -148,6 +148,12 @@ Template.edit.events
         Docs.update FlowRouter.getParam('docId'),
             $set: body: $('#body').val()
         Meteor.call 'analyze', FlowRouter.getParam('docId')
+
+    'click #suggest_tags': ->
+        body = $('#body').val()
+        Docs.update FlowRouter.getParam('docId'),
+            $set: body: body
+        Meteor.call 'suggest_tags', FlowRouter.getParam('docId'), body
 
     'click .docKeyword': ->
         docId = FlowRouter.getParam('docId')

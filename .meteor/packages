@@ -34,7 +34,6 @@ dburles:collection-helpers
 momentjs:moment
 mizzao:autocomplete
 matb33:collection-hooks
-insecure
 perak:markdown
 froala:editor
 raix:handlebar-helpers
@@ -45,3 +44,7 @@ jeremy:geocomplete
 edgee:slingshot
 harrison:papa-parse
 http
+
+
+ecmascript
+bobbigmac:scrape-parser

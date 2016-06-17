@@ -462,6 +462,17 @@ Meteor.methods
             ))
 
 
+    suggest_tags: (id, body)->
+        doc = Docs.findOne id
+        suggested_tags = Yaki(body).extract()
+        cleaned_suggested_tags = Yaki(suggested_tags).clean()
+        uniqued = _.uniq(cleaned_suggested_tags)
+        lowered = uniqued.map (tag)-> tag.toLowerCase()
+
+        #lowered = tag.toLowerCase() for tag in uniqued
+
+        Docs.update id,
+            $set: suggested_tags: lowered
 
     analyze: (id, auto)->
         doc = Docs.findOne id
@@ -557,14 +568,3 @@ Meteor.methods
         Docs.remove
             tags: $in: [query]
 
-    suggest_tags: (id, body)->
-        doc = Docs.findOne id
-        suggested_tags = Yaki(body).extract()
-        cleaned_suggested_tags = Yaki(suggested_tags).clean()
-        uniqued = _.uniq(cleaned_suggested_tags)
-        lowered = uniqued.map (tag)-> tag.toLowerCase()
-
-        #lowered = tag.toLowerCase() for tag in uniqued
-
-        Docs.update id,
-            $set: suggested_tags: lowered

@@ -23,8 +23,8 @@ Template.nav.events
         Session.setDefault 'unvoted', null
         FlowRouter.go '/'
 
-    'click #addDoc': ->
-        Meteor.call 'createDoc', (err, id)->
+    'click #add_doc': ->
+        Meteor.call 'create_doc', (err, id)->
             if err then console.log err
             else FlowRouter.go "/edit/#{id}"
 
@@ -37,6 +37,8 @@ Template.nav.events
             if err then console.log err
             else FlowRouter.go "/edit/#{id}"
 
+    'click #scrape': ->
+        Meteor.call 'scrape'
 
     'click .toggleSidebar': ->
         $('.ui.sidebar').sidebar 'toggle'

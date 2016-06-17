@@ -1,15 +1,13 @@
 template(name='nav')
-    .ui.inverted.menu
-        .ui.header.item Facet
+    .ui.borderless.menu
+        a.ui.header.item(href='/' class="{{isActivePath '/'}}") Facet
         a.item(href='/' class="{{isActivePath '/docs'}}")
             i.file.outline.icon
             |Documents
-        a.item(href='/people' class="{{isActivePath '/people'}}")
-            i.users.icon
-            |People
-        a.item(href='/exchange' class="{{isActivePath '/exchange'}}")
-            i.money.icon
-            |Exchange Points
+        a#scrape.item Scrape
+        // a.item(href='/people' class="{{isActivePath '/people'}}")
+        //     i.users.icon
+        //     |People
         // a.item(href='/importers' class="{{isActivePath '/importers'}}")
         //     i.down.arrow.icon
         //     |Importer
@@ -21,7 +19,7 @@ template(name='nav')
                     span.text Add Doc
                     i.dropdown.icon
                     .menu
-                        #newFromSelection.item
+                        #new_from_selection.item
                             i.external.square.icon
                             |From Selection
                         #addDoc.item

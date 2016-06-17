@@ -29,17 +29,18 @@ template(name='view')
                     .ui.icon.basic.compact.button.deleteDoc
                         // |Delete
                         i.red.trash.icon
-                else
-                    .ui.large.icon.button.vote_up(class=vote_upButtonClass)
-                        i.thumbs.up.icon
-                    .ui.large.icon.button.vote_down(class=vote_downButtonClass)
-                        i.thumbs.down.icon
-        .extra.content
-            .ui.button.findTopDocMatches Find Top Matches
-            p #{_id}
-            each topDocMatches
-                p #{this.docId}
-                p #{this.intersectionTags}
+                // else
+                //     .ui.large.icon.button.vote_up(class=vote_upButtonClass)
+                //         i.thumbs.up.icon
+                //     .ui.large.icon.button.vote_down(class=vote_downButtonClass)
+                //         i.thumbs.down.icon
+        // if currentUser
+            // .extra.content
+            //     .ui.button.findTopDocMatches Find Top Matches
+            //     p #{_id}
+            //     each topDocMatches
+            //         p #{this.docId}
+            //         p #{this.intersectionTags}
 
         //     if currentUser
         //         unless isAuthor

@@ -34,9 +34,17 @@ template(name='edit')
                             each unpickedKeywords
                                 .docKeyword.ui.button #{this}
                         a#addAll Add All Suggestions
+                if suggested_tags.length
+                    .ui.segment
+                        .ui.header Suggested Tags (yaki)
+                        div
+                            each unpicked_suggested_tags
+                                .docKeyword.ui.button #{this}
+                        a#addAll Add All Suggestions
                 .ui.form
                     .field
-                        #analyzeBody.ui.button Autotag Body
+                        #analyzeBody.ui.button Autotag Body (alchemyapi)
+                        #suggest_tags.ui.button Suggest Tags (yaki)
                         .ui.input
                             textarea#body
                                 |#{body}

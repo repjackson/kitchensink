@@ -5,19 +5,19 @@ template(name='cloud')
                 .ui.left.icon.input
                     i.lightning.icon
                     input#quickAdd(type='text' autofocus='' placeholder='Quick Add')
-                div View:
-                    #mine.ui.basic.button
-                        i.user.icon
-                        |Mine
-                    #my_upvoted.ui.basic.button
-                        i.thumbs.up.icon
-                        |My Upvoted
-                    #my_downvoted.ui.basic.button
-                        i.thumbs.down.icon
-                        |My Downvoted
-                    #unvoted.ui.button(class=unvoted_button_class)
-                        i.edit.icon
-                        |Unvoted
+                // div View:
+                //     #mine.ui.basic.button
+                //         i.user.icon
+                //         |Mine
+                //     #my_upvoted.ui.basic.button
+                //         i.thumbs.up.icon
+                //         |My Upvoted
+                //     #my_downvoted.ui.basic.button
+                //         i.thumbs.down.icon
+                //         |My Downvoted
+                //     #unvoted.ui.button(class=unvoted_button_class)
+                //         i.edit.icon
+                //         |Unvoted
             // .ui.simple.dropdown.basic.button
             //     i.plus.icon
             //     span.text Add Doc
@@ -46,27 +46,10 @@ template(name='cloud')
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
-
-        // .ui.center.aligned.header Filter Docs:
         if selectedTags
             if currentUser
                 #bookmarkSelection.ui.basic.icon.circular.button
                     i.bookmark.icon
-        if $.Session.get 'selected_user'
-            .ui.button.primary.selected_user_button
-                i.remove.icon
-                i.user.icon
-                |by #{selected_user}
-        if $.Session.get 'upvoted_cloud'
-            .ui.button.primary.upvoted_cloud_button
-                i.remove.icon
-                i.thumbs.up.icon
-                | #{upvoted_cloud}
-        if $.Session.get 'downvoted_cloud'
-            .ui.button.primary.downvoted_cloud_button
-                i.remove.icon
-                i.thumbs.down.icon
-                | #{downvoted_cloud}
         if selectedTags
             #clearTags.ui.compact.primary.icon.button
                 i.remove.icon
@@ -74,8 +57,8 @@ template(name='cloud')
                 a.ui.compact.primary.button.unselectTag
                     strong #{this}
         each globalTags
-            // .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
-            .ui.compact.basic.button.selectTag #{this.name}
+            .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
+            // .ui.compact.basic.button.selectTag #{this.name}
                 small #{this.count}
 
         // .ui.hidden.divider
