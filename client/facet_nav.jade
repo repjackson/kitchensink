@@ -1,45 +1,6 @@
 template(name='nav')
     .ui.borderless.menu
-        a.ui.header.item(href='/' class="{{isActivePath '/'}}") Facet
-        a.item(href='/' class="{{isActivePath '/docs'}}")
-            i.file.outline.icon
-            |Documents
-        a#scrape.item Scrape
-        // a.item(href='/people' class="{{isActivePath '/people'}}")
-        //     i.users.icon
-        //     |People
-        // a.item(href='/importers' class="{{isActivePath '/importers'}}")
-        //     i.down.arrow.icon
-        //     |Importer
-
-        .right.menu
-            if currentUser
-                .ui.simple.dropdown.item
-                    i.plus.icon
-                    span.text Add Doc
-                    i.dropdown.icon
-                    .menu
-                        #new_from_selection.item
-                            i.external.square.icon
-                            |From Selection
-                        #addDoc.item
-                            i.file.outline.icon
-                            |Blank
-                        .header From Bookmarks
-                        each user.bookmarks
-                            .item.addFromBookmark
-                                each this
-                                    .ui.label #{this}
-                .ui.simple.dropdown.item
-                    i.bookmark.icon
-                    span.text Bookmarks
-                    i.dropdown.icon
-                    .menu
-                        each user.bookmarks
-                            .item.selectBookmark
-                                each this
-                                    .ui.label #{this}
-                a.item(href='/profile' class="{{isActivePath '/profile'}}")
-                    i.user.icon
-                    | #{user.username} [#{currentUser.points} pts]
-            +atNavButton
+        a.ui.header.item(href='/') Facet
+        if currentUser
+            a#add_doc(href='#') Add
+        +loginButtons

@@ -11,47 +11,14 @@ template(name='edit')
                         .ui.left.icon.input
                             i.add.icon
                             input#addTag(type='text' autofocus='' placeholder='Add Tag')
-                    .inline.field
-                        label Add Address
-                        i.map.icon
-                        input#place(type='text' value=locationob.formatted_address)
-                        .ui.icon.basic.button.clearAddress Clear
-                    .inline.field
-                        label Add Date/Time
-                        i.calendar.outline.icon
-                        // .ui.left.icon.input
-                        input#datetimepicker(type="text" value=dateTime)
-                        .ui.icon.basic.button.clearDT Clear
-                    .inline.field
-                        label Get URL Text
-                        i.linkify.icon
-                        input#url(type="text" value=url)
-
-                if unpickedKeywords.length
-                    .ui.segment
-                        .ui.header Suggestions
-                        div
-                            each unpickedKeywords
-                                .docKeyword.ui.button #{this}
-                        a#addAll Add All Suggestions
-                if suggested_tags.length
-                    .ui.segment
-                        .ui.header Suggested Tags (yaki)
-                        div
-                            each unpicked_suggested_tags
-                                .docKeyword.ui.button #{this}
-                        a#addAll Add All Suggestions
                 .ui.form
                     .field
-                        #analyzeBody.ui.button Autotag Body (alchemyapi)
-                        #suggest_tags.ui.button Suggest Tags (yaki)
                         .ui.input
                             textarea#body
                                 |#{body}
-                if tags.length
-                    #saveDoc.ui.large.green.basic.button
-                        i.check.icon
-                        |Save
+                #saveDoc.ui.large.green.basic.button
+                    i.check.icon
+                    |Save
                 #delete.ui.red.small.compact.basic.button
                     i.remove.icon
                     |Delete

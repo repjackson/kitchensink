@@ -1,55 +1,8 @@
 template(name='cloud')
     .ui.center.aligned.bottom.attached.segment
-        div
-            if currentUser
-                .ui.left.icon.input
-                    i.lightning.icon
-                    input#quickAdd(type='text' autofocus='' placeholder='Quick Add')
-                // div View:
-                //     #mine.ui.basic.button
-                //         i.user.icon
-                //         |Mine
-                //     #my_upvoted.ui.basic.button
-                //         i.thumbs.up.icon
-                //         |My Upvoted
-                //     #my_downvoted.ui.basic.button
-                //         i.thumbs.down.icon
-                //         |My Downvoted
-                //     #unvoted.ui.button(class=unvoted_button_class)
-                //         i.edit.icon
-                //         |Unvoted
-            // .ui.simple.dropdown.basic.button
-            //     i.plus.icon
-            //     span.text Add Doc
-            //     i.dropdown.icon
-            //     .menu
-            //         #newFromSelection.item
-            //             i.external.square.icon
-            //             |From Selection
-            //         #addDoc.item
-            //             i.file.outline.icon
-            //             |Blank
-            //         .header From Bookmarks
-            //         each user.bookmarks
-            //             .item.addFromBookmark
-            //                 each this
-            //                     .ui.label #{this}
-            // .ui.simple.dropdown.basic.button
-            //     i.bookmark.icon
-            //     span.text Bookmarks
-            //     i.dropdown.icon
-            //     .menu
-            //         each user.bookmarks
-            //             .item.selectBookmark
-            //                 each this
-            //                     .ui.label #{this}
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
-        if selectedTags
-            if currentUser
-                #bookmarkSelection.ui.basic.icon.circular.button
-                    i.bookmark.icon
         if selectedTags
             #clearTags.ui.compact.primary.icon.button
                 i.remove.icon
@@ -58,20 +11,6 @@ template(name='cloud')
                     strong #{this}
         each globalTags
             .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
-            // .ui.compact.basic.button.selectTag #{this.name}
                 small #{this.count}
-
-        // .ui.hidden.divider
-        // |By Author:
-        // if selectedUsernames
-        //     #clearUsernames.ui.circular.primary.icon.button
-        //         i.remove.icon
-        //     each selectedUsernames
-        //         a.ui.primary.circular.button.unselectUsername
-        //             i.user.icon
-        //             strong #{this}
-        // each globalUsernames
-        //     .ui.basic.circular.button.selectUsername
-        //         i.user.icon
-        //         |#{this.text}
-        //         small #{this.count}
+        .ui.divider
+        .bubbleChart

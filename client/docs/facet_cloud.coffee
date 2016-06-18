@@ -1,11 +1,125 @@
 @selectedTags = new ReactiveArray []
-@selectedUsernames = new ReactiveArray []
 
 
 Template.cloud.onCreated ->
-    @autorun -> Meteor.subscribe 'tags', selectedTags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
-    @autorun -> Meteor.subscribe('usernames', selectedTags.array(), selectedUsernames.array(), Session.get('view'))
+    @autorun -> Meteor.subscribe 'tags', selectedTags.array()
 
+Template.cloud.onRendered ->
+    bubbleChart = new (d3.svg.BubbleChart)(
+        supportResponsive: true
+        size: 600
+        innerRadius: 600 / 3.5
+        radiusMin: 50
+        data:
+            items: [
+                {
+                    text: 'Java'
+                    count: '236'
+                }
+                {
+                    text: '.Net'
+                    count: '382'
+                }
+                {
+                    text: 'Php'
+                    count: '170'
+                }
+                {
+                    text: 'Ruby'
+                    count: '123'
+                }
+                {
+                    text: 'D'
+                    count: '12'
+                }
+                {
+                    text: 'Python'
+                    count: '170'
+                }
+                {
+                    text: 'C/C++'
+                    count: '382'
+                }
+                {
+                    text: 'Pascal'
+                    count: '10'
+                }
+                {
+                    text: 'Something'
+                    count: '170'
+                }
+            ]
+            eval: (item) ->
+                item.count
+            classed: (item) ->
+                item.text.split(' ').join ''
+        plugins: [
+            {
+                name: 'central-click'
+                options:
+                    text: '(See more detail)'
+                    style:
+                        'font-size': '12px'
+                        'font-style': 'italic'
+                        'font-family': 'Source Sans Pro, sans-serif'
+                        'text-anchor': 'middle'
+                        'fill': 'white'
+                    attr: dy: '65px'
+                    centralClick: ->
+                        alert 'Here is more details!!'
+                        return
+
+            }
+            {
+                name: 'lines'
+                options:
+                    format: [
+                        {
+                            textField: 'count'
+                            classed: count: true
+                            style:
+                                'font-size': '28px'
+                                'font-family': 'Source Sans Pro, sans-serif'
+                                'text-anchor': 'middle'
+                                fill: 'white'
+                            attr:
+                                dy: '0px'
+                                x: (d) ->
+                                    d.cx
+                                y: (d) ->
+                                    d.cy
+
+                        }
+                        {
+                            textField: 'text'
+                            classed: text: true
+                            style:
+                                'font-size': '14px'
+                                'font-family': 'Source Sans Pro, sans-serif'
+                                'text-anchor': 'middle'
+                                fill: 'white'
+                            attr:
+                                dy: '20px'
+                                x: (d) ->
+                                    d.cx
+                                y: (d) ->
+                                    d.cy
+
+                        }
+                    ]
+                    centralFormat: [
+                        {
+                            style: 'font-size': '50px'
+                            attr: {}
+                        }
+                        {
+                            style: 'font-size': '30px'
+                            attr: dy: '40px'
+                        }
+                    ]
+            }
+        ])
+    return
 
 Template.cloud.helpers
     globalTags: ->
@@ -23,19 +137,8 @@ Template.cloud.helpers
             when @index <= 50 then 'tiny'
         return buttonClass
 
-    unvoted_button_class: -> if Session.equals('unvoted', true) then 'grey' else 'basic'
 
     selectedTags: -> selectedTags.list()
-
-    user: -> Meteor.user()
-    selected_user: -> if Session.get 'selected_user' then Meteor.users.findOne(Session.get('selected_user'))?.username
-
-    upvoted_cloud: -> if Session.get 'upvoted_cloud' then Meteor.users.findOne(Session.get('upvoted_cloud'))?.username
-
-    downvoted_cloud: -> if Session.get 'downvoted_cloud' then Meteor.users.findOne(Session.get('downvoted_cloud'))?.username
-
-    globalUsernames: -> Usernames.find()
-    selectedUsernames: -> selectedUsernames.list()
 
 
 Template.cloud.events
@@ -56,64 +159,8 @@ Template.cloud.events
                 if val.length is 0
                     selectedTags.pop()
 
-    'click .selectTag': ->
-        selectedTags.push @name
-        FlowRouter.setQueryParams( filter: selectedTags.array() )
-        # console.log FlowRouter.getQueryParam('filter');
+    'click .selectTag': -> selectedTags.push @name
 
-    'click .unselectTag': ->
-        selectedTags.remove @valueOf()
-        FlowRouter.setQueryParams( filter: selectedTags.array() )
-        # console.log FlowRouter.getQueryParam('filter');
+    'click .unselectTag': -> selectedTags.remove @valueOf()
 
-    'click #clearTags': ->
-        selectedTags.clear()
-        FlowRouter.setQueryParams( filter: null )
-        # console.log FlowRouter.getQueryParam('filter');
-
-    'click #bookmarkSelection': ->
-        # if confirm 'Bookmark Selection?'
-        Meteor.call 'addBookmark', selectedTags.array(), (err,res)->
-            alert "Selection bookmarked"
-
-    'click .selected_user_button': -> Session.set 'selected_user', null
-    'click .upvoted_cloud_button': -> Session.set 'upvoted_cloud', null
-    'click .downvoted_cloud_button': -> Session.set 'downvoted_cloud', null
-
-    'click #mine': ->
-        Session.set 'downvoted_cloud', null
-        Session.set 'upvoted_cloud', null
-        Session.set 'selected_user', Meteor.userId()
-
-    'click #my_upvoted': ->
-        Session.set 'selected_user', null
-        Session.set 'downvoted_cloud', null
-        Session.set 'upvoted_cloud', Meteor.userId()
-
-    'click #my_downvoted': ->
-        Session.set 'selected_user', null
-        Session.set 'upvoted_cloud', null
-        Session.set 'downvoted_cloud', Meteor.userId()
-
-    'click #unvoted': ->
-        if Session.equals('unvoted', true) then Session.set('unvoted', false) else Session.set('unvoted', true)
-
-
-    'click .selectUsername': -> selectedUsernames.push @text
-    'click .unselectUsername': -> selectedUsernames.remove @valueOf()
-    'click #clearUsernames': -> selectedUsernames.clear()
-
-    'keyup #quickAdd': (e,t)->
-        e.preventDefault
-        tag = $('#quickAdd').val().toLowerCase()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    splitTags = tag.match(/\S+/g)
-                    $('#quickAdd').val('')
-                    Meteor.call 'createDoc', splitTags, (err,res)->
-                        console.log res
-                    selectedTags.clear()
-                    for tag in splitTags
-                        selectedTags.push tag
-                    FlowRouter.go '/'
+    'click #clearTags': -> selectedTags.clear()

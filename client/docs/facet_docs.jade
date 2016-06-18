@@ -11,17 +11,13 @@ template(name='view')
             .header
                 each tags
                     .ui.compact.button.doc_tag(class=doc_tag_class)  #{this}
-            .description
-                +markdown
-                    !{body}
+            .description !{body}
         .extra.content
-            span by #{author.username} [#{author.points} points] #{when}
-            .ui.basic.large.label
-                | Doc points: #{points}
+            span by #{author.username}
             if currentUser
-                .ui.basic.compact.button.cloneDoc
-                    i.fork.icon
-                    |Clone
+                // .ui.basic.compact.button.cloneDoc
+                //     i.fork.icon
+                //     |Clone
                 if isAuthor
                     .ui.basic.compact.button.editDoc
                         i.blue.pencil.icon
@@ -29,49 +25,3 @@ template(name='view')
                     .ui.icon.basic.compact.button.deleteDoc
                         // |Delete
                         i.red.trash.icon
-                // else
-                //     .ui.large.icon.button.vote_up(class=vote_upButtonClass)
-                //         i.thumbs.up.icon
-                //     .ui.large.icon.button.vote_down(class=vote_downButtonClass)
-                //         i.thumbs.down.icon
-        // if currentUser
-            // .extra.content
-            //     .ui.button.findTopDocMatches Find Top Matches
-            //     p #{_id}
-            //     each topDocMatches
-            //         p #{this.docId}
-            //         p #{this.intersectionTags}
-
-        //     if currentUser
-        //         unless isAuthor
-        //             p Common interests with #{author.username} (Match Points: #{upVotedMatchCloud.totalCount})
-        //             div
-        //                 each upVotedMatchCloud.cloud
-        //                     .ui.basic.label #{this.tag} #{this.min}
-        // .extra.content
-        //     .select_user.ui.button(class=select_user_button_class)
-        //         i.user.icon
-        //         |View Docs by #{author.username}
-        //     |#{author.username}'s Authored Tags
-        //     each author.authored_cloud
-        //         .ui.small.label(class=cloud_label_class)
-        //             |#{this.name}
-        //             small #{this.count}
-        // .extra.content
-        //     .author_upvotes.ui.button(class=author_upvotes_button_class)
-        //         i.thumbs.up.icon
-        //         | View Upvoted Docs by #{author.username}
-        //     |#{author.username}'s Upvoted Tags
-        //     each author.upvoted_cloud
-        //         .ui.small.label(class=cloud_label_class)
-        //             |#{this.name}
-        //             small #{this.count}
-        // .extra.content
-        //     .author_downvotes.ui.button(class=author_downvotes_button_class)
-        //         i.thumbs.down.icon
-        //         | View Downvoted Docs by #{author.username}
-        //     |#{author.username}'s Downvoted Tags
-        //     each author.downvoted_cloud
-        //         .ui.small.label(class=cloud_label_class)
-        //             |#{this.name}
-        //             small #{this.count}

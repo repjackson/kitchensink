@@ -20,31 +20,12 @@ jquery
 babrahams:constellation
 mquandalle:stylus
 accounts-password
-semantic:ui
-flemay:less-autoprefixer
-kadira:flow-router
-kadira:blaze-layout
-uzumaxy:prevent-backspace
-useraccounts:semantic-ui
-useraccounts:flow-routing
-zimme:active-route
 mobile-experience
-standard-minifiers
 dburles:collection-helpers
-momentjs:moment
-mizzao:autocomplete
 matb33:collection-hooks
-perak:markdown
 froala:editor
-raix:handlebar-helpers
-nefiltari:yaki
 okgrow:analytics
-drewy:datetimepicker
-jeremy:geocomplete
-edgee:slingshot
-harrison:papa-parse
-http
 
 
-ecmascript
-bobbigmac:scrape-parser
+d3js:d3
+accounts-ui

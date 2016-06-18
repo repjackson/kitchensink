@@ -20,35 +20,20 @@ head
     meta(name="msapplication-TileColor", content="#da532c")
     meta(name="msapplication-TileImage", content="/mstile-144x144.png")
     meta(name="theme-color", content="#ffffff")
+    script(src='https://phuonghuynh.github.io/js/bower_components/jquery/dist/jquery.min.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/d3/d3.min.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/d3-transform/src/d3-transform.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/extarray.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/misc.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/micro-observer.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/microplugin/src/microplugin.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/bubble-chart.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/central-click/central-click.js')
+    script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/lines/lines.js')
 
 
-template(name='layout')
-    .ui.sidebar.inverted.vertical.menu
-        if currentUser
-            a.item(href='/docs' class="{{isActivePath '/docs'}}")
-                i.file.outline.icon
-                |Documents
-            a.item(href='/people' class="{{isActivePath '/people'}}")
-                i.users.icon
-                |People
-            // a.item(href='/bulk' class="{{isActivePath '/bulk'}}")
-            //     i.documents.icon
-            //     |Bulk
-            // a.item(href='/importers' class="{{isActivePath '/importers'}}")
-            //     i.down.arrow.icon
-            //     |Importer
-        // .item
-        //     .ui.left.icon.input
-        //         i.search.icon
-        //         input#search(type='text', placeholder="Search")
-        // a.item(href='/marketplace' class="{{isActivePath '/marketplace'}}")
-        //     i.shop.icon
-        //     |Marketplace
-        a.item(href='/profile' class="{{isActivePath '/profile'}}")
-            i.user.icon
-            |Profile
-    .pusher
-        +Template.dynamic template=nav
-        +Template.dynamic template=cloud
-        +Template.dynamic template=main
+body
+    +nav
+    +cloud
+    +docs
 
