@@ -28,9 +28,9 @@ Template.view.onCreated ->
 Template.view.helpers
     isAuthor: -> @authorId is Meteor.userId()
     
-    doc_tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else 'basic'
+    doc_tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
-    cloud_label_class: -> if @name in selected_tags.array() then 'primary' else 'basic'
+    cloud_label_class: -> if @name in selected_tags.array() then 'primary' else ''
 
 
 Template.view.events

@@ -20,16 +20,16 @@ head
     meta(name="msapplication-TileColor", content="#da532c")
     meta(name="msapplication-TileImage", content="/mstile-144x144.png")
     meta(name="theme-color", content="#ffffff")
-    script(src='https://phuonghuynh.github.io/js/bower_components/jquery/dist/jquery.min.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/d3/d3.min.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/d3-transform/src/d3-transform.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/extarray.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/misc.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/micro-observer.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/microplugin/src/microplugin.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/bubble-chart.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/central-click/central-click.js')
-    script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/lines/lines.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/jquery/dist/jquery.min.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/d3/d3.min.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/d3-transform/src/d3-transform.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/extarray.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/misc.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/micro-observer.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/microplugin/src/microplugin.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/bubble-chart.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/central-click/central-click.js')
+    // script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/lines/lines.js')
 
 
 body
@@ -46,7 +46,7 @@ template(name='layout')
 template(name='cloud')
     .ui.center.aligned.segment
         if currentUser
-            #add_doc.ui.button Add
+            #add_doc.ui.button + Add
         +loginButtons
         .ui.left.icon.input
             i.search.icon
@@ -59,8 +59,8 @@ template(name='cloud')
                 a.ui.primary.big.button.unselectTag
                     strong #{this}
         each globalTags
-            .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
-                small #{this.count}
+            .ui.compact.button.selectTag(class=globalTagClass) #{this.name}
+                // small #{this.count}
         // .bubbleChart
 
 template(name='docs')
@@ -79,7 +79,7 @@ template(name='view')
         .extra.content
             span by #{author.username}
             if currentUser
-                // .ui.basic.compact.button.cloneDoc
+                // .ui.compact.button.cloneDoc
                 //     i.fork.icon
                 //     |Clone
                 if isAuthor
