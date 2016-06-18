@@ -10,29 +10,31 @@ template(name='edit')
                     .ui.left.icon.input
                         i.add.icon
                         input#addTag(type='text' autofocus='' placeholder='Add Tag')
-                if alchemy_tags.length
+                if unpicked_alchemy_tags.length
                     .ui.segment
                         .ui.header Suggested Tags (alchemy)
                         div
                             each unpicked_alchemy_tags
                                 .add_alchemy_suggestion.ui.button #{this}
-                        a#add_all_alchemy Add All Alchemy Suggestions
-                if yaki_tags.length
+                        #add_all_alchemy.ui.blue.button Add All Alchemy Suggestions
+                if unpicked_yaki_tags.length
                     .ui.segment
                         .ui.header Suggested Tags (yaki)
                         div
                             each unpicked_yaki_tags
                                 .add_yaki_suggestion.ui.button #{this}
-                        a#add_all_yaki Add All Yaki Suggestions
+                        #add_all_yaki.ui.blue.button Add All Yaki Suggestions
                 #alchemy_suggest.ui.basic.button Suggest Tags with AlchemyAPI
                 #yaki_suggest.ui.basic.button Suggest Tags Yaki
+                .ui.hidden.divider
                 .ui.input
                     textarea#body
                         |#{body}
                 .ui.hidden.divider
-                #saveDoc.ui.large.green.button
-                    i.check.icon
-                    |Save
+                if tags
+                    #saveDoc.ui.large.green.button
+                        i.check.icon
+                        |Save
                 #delete.ui.red.small.compact.button
                     i.remove.icon
                     |Delete

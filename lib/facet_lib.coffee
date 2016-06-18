@@ -10,9 +10,9 @@ Docs.before.insert (userId, doc)->
     doc.points = 0
     return
 
-Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
-    doc.tagCount = doc.tags.length
-), fetchPrevious: true
+# Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
+#     doc.tag_count = doc.tags.length
+# ), fetchPrevious: true
 
 
 Docs.helpers
@@ -24,8 +24,8 @@ Docs.helpers
 
 Meteor.methods
     create_doc: ()->
-        Docs.insert
-            tags: [Meteor.user().username]
+        Docs.insert({})
+            # tags: [Meteor.user().username]
 
     deleteDoc: (id)->
         Docs.remove id

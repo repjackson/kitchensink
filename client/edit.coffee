@@ -7,10 +7,13 @@ Template.edit.onCreated ->
 Template.edit.onRendered ->
     Meteor.setTimeout (->
         $('#body').froalaEditor
-            height: 400
-            toolbarButtonsXS: ['bold', 'italic', 'fontFamily', 'fontSize', 'undo', 'redo', 'insertImage']
+            heightMin: 200
+            # toolbarButtons: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+            # toolbarButtonsMD: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+            # toolbarButtonsSM: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+            # toolbarButtonsXS: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
 
-        ), 300
+        ), 400
 
 
 Template.edit.helpers
@@ -39,6 +42,16 @@ Template.edit.events
                     Docs.update Session.get('editing'),
                         $addToSet: tags: tag
                     $('#addTag').val('')
+                else
+                    body = $('#body').val()
+                    Docs.update doc_id,
+                        $set:
+                            body: body
+                            tag_count: @tags.length
+                    selected_tags.clear()
+                    selected_tags.push(tag) for tag in @tags
+                    Session.set 'editing', null
+
 
     'click .docTag': ->
         tag = @valueOf()
@@ -53,7 +66,7 @@ Template.edit.events
         Docs.update Session.get('editing'),
             $set:
                 body: body
-                tagCount: @tags.length
+                tag_count: @tags.length
         selected_tags.clear()
         for tag in @tags
             selected_tags.push tag
@@ -61,9 +74,12 @@ Template.edit.events
         
         
     'click #alchemy_suggest': ->
+        body = $('#body').val()
+        Meteor.call 'alchemy_suggest', Session.get('editing'), body, (err,res)->
+            if err then console.log err
+            else console.log res
         Docs.update Session.get('editing'),
-            $set: body: $('#body').val()
-        Meteor.call 'alchemy_suggest', Session.get('editing')
+            $set: body: body
 
     'click #yaki_suggest': ->
         Docs.update Session.get('editing'),
