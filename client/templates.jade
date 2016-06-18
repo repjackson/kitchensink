@@ -33,7 +33,59 @@ head
 
 
 body
-    +nav
-    +cloud
-    +docs
+    +layout
 
+
+template(name='layout')
+    if is_editing
+        +edit
+    else
+        +cloud
+        +docs
+
+template(name='cloud')
+    .ui.center.aligned.segment
+        if currentUser
+            #add_doc.ui.button Add
+        +loginButtons
+        .ui.left.icon.input
+            i.search.icon
+            input#search(type='text' placeholder="Search/'clear'" autofocus='')
+        .ui.hidden.fitted.divider
+        if selected_tags
+            #clearTags.ui.compact.primary.big.icon.button
+                i.remove.icon
+            each selected_tags
+                a.ui.primary.big.button.unselectTag
+                    strong #{this}
+        each globalTags
+            .ui.compact.basic.button.selectTag(class=globalTagClass) #{this.name}
+                small #{this.count}
+        // .bubbleChart
+
+template(name='docs')
+    .ui.container
+            .ui.cards
+                each docs
+                    +view
+
+template(name='view')
+    .ui.fluid.card
+        .content
+            .header
+                each tags
+                    .ui.compact.button.doc_tag(class=doc_tag_class)  #{this}
+            .description !{body}
+        .extra.content
+            span by #{author.username}
+            if currentUser
+                // .ui.basic.compact.button.cloneDoc
+                //     i.fork.icon
+                //     |Clone
+                if isAuthor
+                    .ui.compact.button.edit_doc
+                        i.blue.pencil.icon
+                        |Edit
+                    .ui.icon.compact.button.delete_doc
+                        // |Delete
+                        i.red.trash.icon

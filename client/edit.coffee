@@ -1,11 +1,10 @@
 Template.edit.onCreated ->
     self = @
     self.autorun ->
-        self.subscribe 'doc', FlowRouter.getParam('docId')
+        self.subscribe 'doc', Session.get 'editing'
 
 
 Template.edit.onRendered ->
-    docId = FlowRouter.getParam('docId')
     Meteor.setTimeout (->
         $('#body').froalaEditor
             height: 400
@@ -15,17 +14,15 @@ Template.edit.onRendered ->
 
 
 Template.edit.helpers
-    doc: ->
-        docId = FlowRouter.getParam('docId')
-        Docs.findOne docId
+    doc: -> Docs.findOne Session.get('editing')
 
 Template.edit.events
     'click #delete': ->
         $('.modal').modal(
             onApprove: ->
-                Meteor.call 'deleteDoc', FlowRouter.getParam('docId'), ->
+                Meteor.call 'deleteDoc', Session.get('editing'), ->
                 $('.ui.modal').modal('hide')
-                FlowRouter.go '/docs'
+                Session.set 'editing', null
         	).modal 'show'
 
     'keydown #addTag': (e,t)->
@@ -34,23 +31,13 @@ Template.edit.events
         switch e.which
             when 13
                 if tag.length > 0
-                    Docs.update FlowRouter.getParam('docId'),
+                    Docs.update Session.get('editing'),
                         $addToSet: tags: tag
                     $('#addTag').val('')
-                else
-                    body = $('#body').val()
-                    Docs.update FlowRouter.getParam('docId'),
-                        $set:
-                            body: body
-                            tagCount: @tags.length
-                    selectedTags.clear()
-                    for tag in @tags
-                        selectedTags.push tag
-                    FlowRouter.go '/'
 
     'click .docTag': ->
         tag = @valueOf()
-        Docs.update FlowRouter.getParam('docId'),
+        Docs.update Session.get('editing'),
             $pull: tags: tag
         $('#addTag').val(tag)
 
@@ -58,11 +45,11 @@ Template.edit.events
 
     'click #saveDoc': ->
         body = $('#body').val()
-        Docs.update FlowRouter.getParam('docId'),
+        Docs.update Session.get('editing'),
             $set:
                 body: body
                 tagCount: @tags.length
-        selectedTags.clear()
+        selected_tags.clear()
         for tag in @tags
-            selectedTags.push tag
-        FlowRouter.go '/'
+            selected_tags.push tag
+        Session.set 'editing', null

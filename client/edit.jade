@@ -2,20 +2,19 @@ template(name='edit')
     with doc
         .ui.container
             .ui.segment
-                each tags
-                    .ui.basic.button.docTag
-                        i.minus.icon
-                        |#{this}
-                .ui.form
-                    .inline.field
-                        .ui.left.icon.input
-                            i.add.icon
-                            input#addTag(type='text' autofocus='' placeholder='Add Tag')
-                .ui.form
-                    .field
-                        .ui.input
-                            textarea#body
-                                |#{body}
+                div
+                    each tags
+                        .ui.basic.button.docTag
+                            i.minus.icon
+                            |#{this}
+                .ui.left.icon.input
+                    i.add.icon
+                    input#addTag(type='text' autofocus='' placeholder='Add Tag')
+                .ui.hidden.divider
+                .ui.input
+                    textarea#body
+                        |#{body}
+                .ui.hidden.divider
                 #saveDoc.ui.large.green.basic.button
                     i.check.icon
                     |Save

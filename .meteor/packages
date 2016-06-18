@@ -27,5 +27,7 @@ froala:editor
 okgrow:analytics
 
 
-d3js:d3
 accounts-ui
+semantic:ui
+flemay:less-autoprefixer
+raix:handlebar-helpers

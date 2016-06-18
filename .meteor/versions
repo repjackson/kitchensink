@@ -29,7 +29,6 @@ constellation:position@0.4.1
 constellation:session@0.4.2
 constellation:subscriptions@0.4.2
 constellation:tiny@0.4.1
-d3js:d3@3.5.8
 dburles:collection-helpers@1.0.4
 dburles:mongo-collection-instances@0.3.5
 ddp@1.2.5
@@ -44,6 +43,7 @@ ecmascript-runtime@0.2.11
 ejson@1.0.12
 email@1.0.14
 fastclick@1.0.12
+flemay:less-autoprefixer@1.2.0
 fortawesome:fontawesome@4.4.0_1
 froala:editor@2.3.2
 geojson-utils@1.0.9
@@ -88,6 +88,7 @@ observe-sequence@1.0.12
 okgrow:analytics@1.0.7
 ordered-dict@1.0.8
 promise@0.7.2
+raix:handlebar-helpers@0.2.5
 random@1.0.10
 rate-limit@1.0.5
 reactive-dict@1.1.8
@@ -95,6 +96,8 @@ reactive-var@1.0.10
 reload@1.1.9
 retry@1.0.8
 routepolicy@1.0.11
+semantic:ui@2.1.8
+semantic:ui-data@2.1.8
 service-configuration@1.0.10
 session@1.1.6
 sha@1.0.8
