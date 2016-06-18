@@ -42,3 +42,41 @@ Meteor.publish 'docs', (selected_tags)->
         sort:
             tagCount: 1
             timestamp: -1
+            
+            
+Meteor.methods
+    yaki_suggest: (id)->
+        doc = Docs.findOne id
+        suggested_tags = Yaki(doc.body).extract()
+        cleaned_suggested_tags = Yaki(suggested_tags).clean()
+        uniqued = _.uniq(cleaned_suggested_tags)
+        lowered = uniqued.map (tag)-> tag.toLowerCase()
+
+        #lowered = tag.toLowerCase() for tag in uniqued
+
+        Docs.update id,
+            $set: yaki_tags: lowered
+
+    alchemy_suggest: (id)->
+        doc = Docs.findOne id
+        encoded = encodeURIComponent(doc.body)
+
+        # result = HTTP.call 'POST', 'http://gateway-a.watsonplatform.net/calls/text/TextGetCombinedData', { params:
+        HTTP.call 'POST', 'http://access.alchemyapi.com/calls/html/HTMLGetCombinedData', { params:
+            apikey: '6656fe7c66295e0a67d85c211066cf31b0a3d0c8'
+            html: doc.body
+            outputMode: 'json'
+            extract: 'keyword' }
+            , (err, result)->
+                if err then console.log err
+                else
+                    keyword_array = _.pluck(result.data.keywords, 'text')
+                    # concept_array = _.pluck(result.data.concepts, 'text')
+                    loweredKeywords = _.map(keyword_array, (keyword)->
+                        keyword.toLowerCase()
+                        )
+
+                    Docs.update id,
+                        $set:
+                            alchemy_tags: loweredKeywords
+                            # tags: $each: loweredKeywords

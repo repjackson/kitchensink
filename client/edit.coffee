@@ -15,6 +15,11 @@ Template.edit.onRendered ->
 
 Template.edit.helpers
     doc: -> Docs.findOne Session.get('editing')
+    
+    unpicked_alchemy_tags: -> _.difference @alchemy_tags, @tags
+    unpicked_yaki_tags: -> _.difference @yaki_tags, @tags
+
+    
 
 Template.edit.events
     'click #delete': ->
@@ -53,3 +58,34 @@ Template.edit.events
         for tag in @tags
             selected_tags.push tag
         Session.set 'editing', null
+        
+        
+    'click #alchemy_suggest': ->
+        Docs.update Session.get('editing'),
+            $set: body: $('#body').val()
+        Meteor.call 'alchemy_suggest', Session.get('editing')
+
+    'click #yaki_suggest': ->
+        Docs.update Session.get('editing'),
+            $set: body: $('#body').val()
+        Meteor.call 'yaki_suggest', Session.get('editing')
+
+
+    'click .add_alchemy_suggestion': ->
+        docId = Session.get('editing')
+        Docs.update docId, $addToSet: tags: @valueOf()
+
+    'click .add_yaki_suggestion': ->
+        docId = Session.get('editing')
+        Docs.update docId, $addToSet: tags: @valueOf()
+
+    'click #add_all_alchemy': ->
+        docId = Session.get('editing')
+        Docs.update docId,
+            $addToSet: tags: $each: @alchemy_tags
+
+    'click #add_all_yaki': ->
+        docId = Session.get('editing')
+        Docs.update docId,
+            $addToSet: tags: $each: @yaki_tags
+
