@@ -35,7 +35,7 @@ Meteor.methods
                 $pull: up_voters: Meteor.userId()
                 $inc: points: -1
             Meteor.users.update doc.authorId, $inc: points: -1
-            Meteor.users.update Meteor.userId(), $inc: points: 1
+            # Meteor.users.update Meteor.userId(), $inc: points: 1
 
         else if Meteor.userId() in doc.down_voters #switch downvote to upvote
             Docs.update id,
@@ -49,7 +49,7 @@ Meteor.methods
                 $addToSet: up_voters: Meteor.userId()
                 $inc: points: 1
             Meteor.users.update doc.authorId, $inc: points: 1
-            Meteor.users.update Meteor.userId(), $inc: points: -1
+            # Meteor.users.update Meteor.userId(), $inc: points: -1
 
     vote_down: (id)->
         doc = Docs.findOne id
@@ -58,7 +58,7 @@ Meteor.methods
                 $pull: down_voters: Meteor.userId()
                 $inc: points: 1
             Meteor.users.update doc.authorId, $inc: points: 1
-            Meteor.users.update Meteor.userId(), $inc: points: 1
+            # Meteor.users.update Meteor.userId(), $inc: points: 1
 
         else if Meteor.userId() in doc.up_voters #switch upvote to downvote
             Docs.update id,
@@ -72,4 +72,4 @@ Meteor.methods
                 $addToSet: down_voters: Meteor.userId()
                 $inc: points: -1
             Meteor.users.update doc.authorId, $inc: points: -1
-            Meteor.users.update Meteor.userId(), $inc: points: -1
+            # Meteor.users.update Meteor.userId(), $inc: points: -1
