@@ -70,7 +70,7 @@
     "pulsar": false,
     "raised": false,
     "resetcss": false,
-    "round": false,
+    "round": true,
     "rtl": false,
     "striped": false,
     "timeline": false,

@@ -38,15 +38,15 @@ template(name='cloud')
         if currentUser
             // .ui.basic.label #{currentUser.points}
             #add_doc.ui.icon.button: i.plus.icon
-        .ui.label    
+        .ui.basic.label    
             +loginButtons
         .ui.left.icon.small.input
             i.search.icon
             input#search(type='text' autofocus='')
         .ui.hidden.fitted.divider
         if selected_tags
-            #clearTags.ui.primary.icon.button
-                i.remove.icon
+            // #clearTags.ui.primary.icon.button
+            //     i.remove.icon
             each selected_tags
                 a.ui.primary.button.unselectTag
                     strong #{this}
