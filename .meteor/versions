@@ -82,14 +82,12 @@ mousetrap:mousetrap@1.4.6_1
 mquandalle:jade@0.4.9
 mquandalle:jade-compiler@0.4.5
 mquandalle:stylus@1.1.1
-nefiltari:yaki@0.1.81
 npm-bcrypt@0.8.6_1
 npm-mongo@1.4.44
 observe-sequence@1.0.12
 okgrow:analytics@1.0.7
 ordered-dict@1.0.8
 promise@0.7.2
-raix:handlebar-helpers@0.2.5
 random@1.0.10
 rate-limit@1.0.5
 reactive-dict@1.1.8

@@ -6,7 +6,6 @@
 
 meteor-base             # Packages every Meteor app needs to have
 mongo                   # The database Meteor supports right now
-blaze-html-templates    # Compile .html files into Meteor Blaze views
 session                 # Client-side reactive dictionary for your app
 tracker                 # Meteor's client-side reactive programming library
 
@@ -30,6 +29,4 @@ okgrow:analytics
 accounts-ui
 semantic:ui
 flemay:less-autoprefixer
-raix:handlebar-helpers
-http
-nefiltari:yaki
+blaze-html-templates
