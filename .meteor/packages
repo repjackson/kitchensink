@@ -26,7 +26,7 @@ froala:editor
 okgrow:analytics
 
 
-accounts-ui
 semantic:ui
 flemay:less-autoprefixer
 blaze-html-templates
+iandouglas:accounts-ui-semantic-ui

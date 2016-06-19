@@ -35,10 +35,10 @@ template(name='layout')
 
 template(name='cloud')
     .ui.center.aligned.basic.segment
-        if currentUser
-            #add_doc.ui.icon.button: i.plus.icon
         .ui.label    
             +loginButtons
+        if currentUser
+            #add_doc.ui.icon.button: i.plus.icon
         // .ui.left.icon.input
         //     i.search.icon
         //     input#search(type='text' autofocus='')
@@ -67,6 +67,9 @@ template(name='view')
             if isAuthor
                 .ui.button.icon.edit_doc
                     i.blue.pencil.icon
+            else if currentUser
+                .ui.green.icon.button: i.thumbs.up.icon
+                .ui.red.icon.button: i.thumbs.down.icon
 
 template(name='edit')
     with doc
@@ -88,7 +91,7 @@ template(name='edit')
                 #saveDoc.ui.large.green.button
                     i.check.icon
                     |Save
-            #delete.ui.red.right.floated.large.icon.button
+            #delete.ui.red.large.icon.button
                 i.remove.icon
         .ui.modal
             .header Confirm Delete

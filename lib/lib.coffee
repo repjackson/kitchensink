@@ -13,9 +13,9 @@ Docs.before.insert (userId, doc)->
 
 
 Meteor.methods
-    create_doc: ()->
-        Docs.insert({})
-            # tags: [Meteor.user().username]
+    create_doc: (tags)->
+        Docs.insert
+            tags: tags
 
     deleteDoc: (id)->
         Docs.remove id

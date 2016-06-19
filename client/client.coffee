@@ -3,7 +3,7 @@
 
 Accounts.ui.config
     passwordSignupFields: 'USERNAME_ONLY'
-
+    dropdownClasses: 'simple'
 
 
 Template.docs.onCreated ->
@@ -71,7 +71,7 @@ Template.cloud.helpers
 
 Template.cloud.events
     'click #add_doc': ->
-        Meteor.call 'create_doc', (err, id)->
+        Meteor.call 'create_doc', selected_tags.array(), (err, id)->
             if err then console.log err
             else Session.set 'editing', id
 
