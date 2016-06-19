@@ -14,7 +14,7 @@ Template.docs.helpers
         limit: 1
         sort:
             tag_count: 1
-            timestamp: -1
+            points: -1
     # docs: -> Docs.find()
     
 Template.layout.helpers
@@ -23,7 +23,7 @@ Template.layout.helpers
 
 Template.view.onCreated ->
     # console.log @data.authorId
-    Meteor.subscribe 'person', @data.authorId
+    # Meteor.subscribe 'person', @data.authorId
 
 Template.view.helpers
     isAuthor: -> @authorId is Meteor.userId()
@@ -31,6 +31,18 @@ Template.view.helpers
     doc_tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
     cloud_label_class: -> if @name in selected_tags.array() then 'primary' else ''
+    
+    vote_up_button_class: ->
+        if not Meteor.userId() then 'disabled basic'
+        else if Meteor.user().points < 1 then 'disabled basic'
+        else if Meteor.userId() in @up_voters then 'green'
+        else 'basic'
+
+    vote_down_button_class: ->
+        if not Meteor.userId() then 'disabled basic'
+        else if Meteor.user().points < 1 then 'disabled basic'
+        else if Meteor.userId() in @down_voters then 'red'
+        else 'basic'
 
 
 Template.view.events
@@ -42,11 +54,15 @@ Template.view.events
         if confirm 'Delete?'
             Meteor.call 'deleteDoc', @_id
 
+    'click .vote_down': -> Meteor.call 'vote_down', @_id
+
+    'click .vote_up': -> Meteor.call 'vote_up', @_id
 
 
 
 Template.cloud.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selected_tags.array()
+    @autorun -> Meteor.subscribe 'me'
 
 
 Template.cloud.helpers

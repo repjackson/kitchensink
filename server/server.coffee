@@ -5,6 +5,11 @@ Docs.allow
 
 Meteor.publish 'doc', (id)-> Docs.find id
 
+Meteor.publish 'me', ()-> 
+    Meteor.users.find @userId,
+        fields: 
+            points: 1
+
 Meteor.publish 'tags', (selected_tags)->
     self = @
 
@@ -38,5 +43,5 @@ Meteor.publish 'docs', (selected_tags)->
         limit: 5
         sort:
             tag_count: 1
-            points: 1
+            # points: -1
             # timestamp: -1

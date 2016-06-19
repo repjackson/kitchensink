@@ -38,6 +38,7 @@ template(name='cloud')
         .ui.label    
             +loginButtons
         if currentUser
+            span #{currentUser.points}
             #add_doc.ui.icon.button: i.plus.icon
         // .ui.left.icon.input
         //     i.search.icon
@@ -68,8 +69,9 @@ template(name='view')
                 .ui.button.icon.edit_doc
                     i.blue.pencil.icon
             else if currentUser
-                .ui.green.icon.button: i.thumbs.up.icon
-                .ui.red.icon.button: i.thumbs.down.icon
+                .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
+                .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
+            span #{points}
 
 template(name='edit')
     with doc
