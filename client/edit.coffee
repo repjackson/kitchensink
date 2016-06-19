@@ -80,6 +80,7 @@ Template.edit.events
             else console.log res
         Docs.update Session.get('editing'),
             $set: body: body
+        # Session.set 'editing', null
 
     'click #yaki_suggest': ->
         Docs.update Session.get('editing'),

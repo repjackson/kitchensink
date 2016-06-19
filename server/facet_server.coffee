@@ -3,9 +3,6 @@ Docs.allow
     update: (userId, doc)-> doc.authorId is Meteor.userId()
     remove: (userId, doc)-> doc.authorId is Meteor.userId()
 
-
-
-
 Meteor.publish 'doc', (id)-> Docs.find id
 
 Meteor.publish 'tags', (selected_tags)->
@@ -21,7 +18,7 @@ Meteor.publish 'tags', (selected_tags)->
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
+        { $limit: 7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
 
@@ -38,10 +35,11 @@ Meteor.publish 'docs', (selected_tags)->
     if selected_tags.length > 0 then match.tags = $all: selected_tags
 
     Docs.find match,
-        limit: 10
+        limit: 5
         sort:
             tag_count: 1
-            timestamp: -1
+            points: 1
+            # timestamp: -1
             
             
 Meteor.methods
@@ -58,7 +56,7 @@ Meteor.methods
             $set: yaki_tags: lowered
 
     alchemy_suggest: (id, body)->
-        console.log 'analyzing body', body
+        # console.log 'analyzing body', body
         # result = HTTP.call 'POST', 'http://gateway-a.watsonplatform.net/calls/text/TextGetCombinedData', { params:
         HTTP.call 'POST', 'http://gateway-a.watsonplatform.net/calls/html/HTMLGetRankedKeywords', { params:
             # apikey: '6656fe7c66295e0a67d85c211066cf31b0a3d0c8' #old
@@ -69,7 +67,7 @@ Meteor.methods
             , (err, result)->
                 if err then console.log err
                 else
-                    console.log result
+                    # console.log result
                     keyword_array = _.pluck(result.data.keywords, 'text')
                     # concept_array = _.pluck(result.data.concepts, 'text')
                     loweredKeywords = _.map(keyword_array, (keyword)->
@@ -80,5 +78,6 @@ Meteor.methods
                     Docs.update id,
                         $set:
                             alchemy_tags: loweredKeywords
-                            # tags: $each: loweredKeywords
+                        $addToSet:    
+                            tags: $each: loweredKeywords
                     

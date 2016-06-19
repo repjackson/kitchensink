@@ -20,16 +20,6 @@ head
     meta(name="msapplication-TileColor", content="#da532c")
     meta(name="msapplication-TileImage", content="/mstile-144x144.png")
     meta(name="theme-color", content="#ffffff")
-    // script(src='https://phuonghuynh.github.io/js/bower_components/jquery/dist/jquery.min.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/d3/d3.min.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/d3-transform/src/d3-transform.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/extarray.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/misc.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/cafej/src/micro-observer.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/microplugin/src/microplugin.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/bubble-chart.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/central-click/central-click.js')
-    // script(src='https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/lines/lines.js')
 
 
 body
@@ -47,20 +37,21 @@ template(name='cloud')
     .ui.center.aligned.segment
         if currentUser
             #add_doc.ui.button + Add
-        +loginButtons
+        .ui.label    
+            +loginButtons
         .ui.left.icon.input
             i.search.icon
             input#search(type='text' placeholder="Search/'clear'" autofocus='')
         .ui.hidden.fitted.divider
         if selected_tags
-            #clearTags.ui.compact.primary.big.icon.button
+            #clearTags.ui.primary.icon.button
                 i.remove.icon
             each selected_tags
-                a.ui.primary.big.button.unselectTag
+                a.ui.primary.button.unselectTag
                     strong #{this}
         each globalTags
-            .ui.compact.button.selectTag(class=globalTagClass) #{this.name}
-                // small #{this.count}
+            .ui.button.selectTag #{this.name}
+                small #{this.count}
         // .bubbleChart
 
 template(name='docs')
@@ -74,18 +65,18 @@ template(name='view')
         .content
             .header
                 each tags
-                    .ui.compact.button.doc_tag(class=doc_tag_class)  #{this}
+                    .ui.button.doc_tag(class=doc_tag_class)  #{this}
             .description !{body}
         .extra.content
             span by #{author.username}
             if currentUser
-                // .ui.compact.button.cloneDoc
+                // .ui.button.cloneDoc
                 //     i.fork.icon
                 //     |Clone
                 if isAuthor
-                    .ui.compact.button.edit_doc
+                    .ui.button.edit_doc
                         i.blue.pencil.icon
                         |Edit
-                    .ui.icon.compact.button.delete_doc
+                    .ui.icon.button.delete_doc
                         // |Delete
                         i.red.trash.icon
