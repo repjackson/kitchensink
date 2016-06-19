@@ -97,3 +97,77 @@ Template.cloud.events
     'click .unselectTag': -> selected_tags.remove @valueOf()
 
     'click #clearTags': -> selected_tags.clear()
+
+
+Template.edit.onCreated ->
+    self = @
+    self.autorun ->
+        self.subscribe 'doc', Session.get 'editing'
+
+
+Template.edit.onRendered ->
+    Meteor.setTimeout (->
+        $('#body').froalaEditor
+            heightMin: 200
+            # toolbarButtons: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+            # toolbarButtonsMD: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+            # toolbarButtonsSM: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+            # toolbarButtonsXS: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+
+        ), 400
+
+
+Template.edit.helpers
+    doc: -> Docs.findOne Session.get('editing')
+    
+
+Template.edit.events
+    'click #delete': ->
+        $('.modal').modal(
+            onApprove: ->
+                Meteor.call 'deleteDoc', Session.get('editing'), ->
+                $('.ui.modal').modal('hide')
+                Session.set 'editing', null
+        	).modal 'show'
+
+    'keydown #addTag': (e,t)->
+        e.preventDefault
+        doc_id = Session.get('editing')
+        tag = $('#addTag').val().toLowerCase().trim()
+        switch e.which
+            when 13
+                if tag.length > 0
+                    Docs.update doc_id,
+                        $addToSet: tags: tag
+                    $('#addTag').val('')
+                else
+                    body = $('#body').val()
+                    Docs.update doc_id,
+                        $set:
+                            body: body
+                            tag_count: @tags.length
+                            username: Meteor.user().username
+                    selected_tags.clear()
+                    selected_tags.push(tag) for tag in @tags
+                    Session.set 'editing', null
+
+
+    'click .docTag': ->
+        tag = @valueOf()
+        Docs.update Session.get('editing'),
+            $pull: tags: tag
+        $('#addTag').val(tag)
+
+
+
+    'click #saveDoc': ->
+        body = $('#body').val()
+        Docs.update Session.get('editing'),
+            $set:
+                body: body
+                tag_count: @tags.length
+                username: Meteor.user().username
+        selected_tags.clear()
+        for tag in @tags
+            selected_tags.push tag
+        Session.set 'editing', null

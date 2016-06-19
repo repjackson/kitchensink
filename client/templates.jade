@@ -34,15 +34,15 @@ template(name='layout')
         +docs
 
 template(name='cloud')
-    .ui.center.aligned.segment
+    .ui.center.aligned.basic.segment
         if currentUser
-            #add_doc.ui.button + Add
+            #add_doc.ui.icon.button: i.plus.icon
         .ui.label    
             +loginButtons
-        .ui.left.icon.input
-            i.search.icon
-            input#search(type='text' placeholder="Search/'clear'" autofocus='')
-        .ui.hidden.fitted.divider
+        // .ui.left.icon.input
+        //     i.search.icon
+        //     input#search(type='text' autofocus='')
+        // .ui.hidden.fitted.divider
         if selected_tags
             #clearTags.ui.primary.icon.button
                 i.remove.icon
@@ -51,32 +51,50 @@ template(name='cloud')
                     strong #{this}
         each globalTags
             .ui.button.selectTag #{this.name}
-                small #{this.count}
+                // small #{this.count}
         // .bubbleChart
 
 template(name='docs')
     .ui.container
-            .ui.cards
-                each docs
-                    +view
+        each docs
+            +view
 
 template(name='view')
-    .ui.fluid.card
+    .ui.basic.segment
+        |!{body}
         .content
-            .header
+            span by #{username}
+            if isAuthor
+                .ui.button.icon.edit_doc
+                    i.blue.pencil.icon
+
+template(name='edit')
+    with doc
+        .ui.segment
+            div
                 each tags
-                    .ui.button.doc_tag(class=doc_tag_class)  #{this}
-            .description !{body}
-        .extra.content
-            span by #{author.username}
-            if currentUser
-                // .ui.button.cloneDoc
-                //     i.fork.icon
-                //     |Clone
-                if isAuthor
-                    .ui.button.edit_doc
-                        i.blue.pencil.icon
-                        |Edit
-                    .ui.icon.button.delete_doc
-                        // |Delete
-                        i.red.trash.icon
+                    .ui.button.docTag
+                        i.minus.icon
+                        |#{this}
+                .ui.left.icon.input
+                    i.add.icon
+                    input#addTag(type='text' autofocus='' placeholder='Add Tag')
+            .ui.hidden.divider
+            .ui.input
+                textarea#body
+                    |#{body}
+            .ui.hidden.divider
+            if tags
+                #saveDoc.ui.large.green.button
+                    i.check.icon
+                    |Save
+            #delete.ui.red.right.floated.large.icon.button
+                i.remove.icon
+        .ui.modal
+            .header Confirm Delete
+            .content
+              .meta Confirm?
+              .description #{body}
+            .actions
+              .ui.button.cancel Cancel
+              .ui.red.button.approve Delete
