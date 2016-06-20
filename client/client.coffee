@@ -11,7 +11,7 @@ Template.docs.onCreated ->
 
 Template.docs.helpers
     docs: -> Docs.find {},
-        limit: 1
+        limit: 3
         sort:
             tag_count: 1
             points: -1
@@ -33,7 +33,7 @@ Template.view.helpers
     cloud_label_class: -> if @name in selected_tags.array() then 'primary' else ''
     
     vote_up_button_class: ->
-        if not Meteor.userId() then 'disabled basic'
+        if not Meteor.userId() then 'disabled'
         # else if Meteor.user().points < 1 then 'disabled basic'
         else if Meteor.userId() in @up_voters then 'green'
         else 'basic'
@@ -130,12 +130,13 @@ Template.edit.onRendered ->
             # toolbarButtonsSM: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
             # toolbarButtonsXS: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
 
-        ), 400
+        ), 200
 
 
 Template.edit.helpers
     doc: -> Docs.findOne Session.get('editing')
-    
+    unpicked_alchemy_tags: -> _.difference @alchemy_tags, @tags
+
 
 Template.edit.events
     'click #delete': ->
@@ -187,3 +188,20 @@ Template.edit.events
         for tag in @tags
             selected_tags.push tag
         Session.set 'editing', null
+
+    'click #alchemy_suggest': ->
+        body = $('#body').val()
+        Meteor.call 'alchemy_suggest', Session.get('editing'), body, (err,res)->
+            if err then console.log err
+            else console.log res
+        Docs.update Session.get('editing'),
+            $set: body: body
+
+    'click .add_alchemy_suggestion': ->
+        docId = Session.get('editing')
+        Docs.update docId, $addToSet: tags: @valueOf()
+
+    'click #add_all_alchemy': ->
+        docId = Session.get('editing')
+        Docs.update docId,
+            $addToSet: tags: $each: @alchemy_tags
