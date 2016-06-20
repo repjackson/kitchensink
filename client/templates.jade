@@ -36,48 +36,49 @@ template(name='layout')
 template(name='cloud')
     .ui.center.aligned.basic.segment
         if currentUser
-            #add_doc.ui.icon.button: i.plus.icon
-            .ui.basic.label #{currentUser.points}
+            #add_doc.ui.icon.compact.button: i.plus.icon
         .ui.large.basic.label    
             +loginButtons
-        .ui.left.icon.small.input
-            i.search.icon
-            input#search(type='text' autofocus='')
-        .ui.hidden.fitted.divider
+            // .ui.basic.label #{currentUser.points}
+        // .ui.left.icon.small.input
+        //     i.search.icon
+        //     input#search(type='text' autofocus='')
+        // .ui.hidden.fitted.divider
         if selected_tags
-            #clearTags.ui.primary.icon.button
+            #clearTags.ui.primary.icon.compact.button
                 i.remove.icon
             each selected_tags
-                a.ui.primary.button.unselectTag
+                a.ui.primary.compact.button.unselectTag
                     strong #{this}
         each globalTags
-            .ui.button.selectTag #{this.name}
-                small #{this.count}
+            .ui.button.compact.selectTag #{this.name}
+                // small #{this.count}
 
 template(name='docs')
-    .ui.container
+    .ui.text.container
         each docs
             +view
 
 template(name='view')
-    .ui.segment
+    .ui.basic.segment
         each tags
             .ui.small.compact.button.doc_tag(class=doc_tag_class) #{this}
         |!{body}
-        .content
-            span by #{username}
-            if isAuthor
-                .ui.button.icon.edit_doc
-                    i.blue.pencil.icon
-            else
-                .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
-                .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
-            // .ui.basic.circular.label #{points}
-            span #{points}
+        if currentUser
+            .content
+                span by #{username}
+                if isAuthor
+                    .ui.button.icon.edit_doc
+                        i.blue.pencil.icon
+                else
+                    .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
+                    .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
+                // .ui.basic.circular.label #{points}
+                // span #{points}
 
 template(name='edit')
     with doc
-        .ui.basic.segment
+        .ui.basic.center.aligned.segment
             div
                 each tags
                     .ui.compact.button.docTag
@@ -86,15 +87,6 @@ template(name='edit')
                 .ui.left.icon.input
                     i.add.icon
                     input#addTag(type='text' autofocus='' placeholder='Add Tag')
-            div
-                if unpicked_alchemy_tags.length
-                    .ui.segment
-                        .ui.header Suggested Tags
-                        div
-                            each unpicked_alchemy_tags
-                                .add_alchemy_suggestion.ui.small.compact.button #{this}
-                        #add_all_alchemy.ui.blue.button Add All
-            #alchemy_suggest.ui.basic.button Suggest Tags
             .ui.hidden.divider
             .ui.input
                 textarea#body
@@ -108,9 +100,6 @@ template(name='edit')
                 i.remove.icon
         .ui.modal
             .header Confirm Delete
-            .content
-              .meta Confirm?
-              .description #{body}
             .actions
               .ui.button.cancel Cancel
               .ui.red.button.approve Delete

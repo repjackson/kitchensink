@@ -11,17 +11,18 @@ Template.docs.onCreated ->
 
 Template.docs.helpers
     docs: -> Docs.find {},
-        limit: 3
+        limit: 1
         sort:
             tag_count: 1
             points: -1
+            timestamp: 1
     # docs: -> Docs.find()
     
 Template.layout.helpers
     is_editing: -> Session.get 'editing'
 
 
-Template.view.onCreated ->
+# Template.view.onCreated ->
     # console.log @data.authorId
     # Meteor.subscribe 'person', @data.authorId
 
@@ -72,16 +73,6 @@ Template.cloud.helpers
         # Tags.find()
 
 
-    # globalTagClass: ->
-    #     buttonClass = switch
-    #         when @index <= 5 then 'big'
-    #         when @index <= 10 then 'large'
-    #         when @index <= 15 then ''
-    #         when @index <= 20 then 'small'
-    #         when @index <= 25 then 'tiny'
-    #     return buttonClass
-
-
     selected_tags: -> selected_tags.list()
 
 
@@ -125,18 +116,52 @@ Template.edit.onRendered ->
     Meteor.setTimeout (->
         $('#body').froalaEditor
             heightMin: 200
+            # toolbarInline: true
             # toolbarButtons: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
             # toolbarButtonsMD: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
             # toolbarButtonsSM: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
             # toolbarButtonsXS: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
+        # # [
+        #       'fullscreen'
+        #       'bold'
+        #       'italic'
+        #       'underline'
+        #       'strikeThrough'
+        #       'subscript'
+        #       'superscript'
+        #       'fontFamily'
+        #       'fontSize'
+        #       '|'
+        #       'color'
+        #       'emoticons'
+        #       'inlineStyle'
+        #       'paragraphStyle'
+        #       '|'
+        #       'paragraphFormat'
+        #       'align'
+        #       'formatOL'
+        #       'formatUL'
+        #       'outdent'
+        #       'indent'
+        #       'quote'
+        #       'insertHR'
+        #       '-'
+        #       'insertLink'
+        #       'insertImage'
+        #       'insertVideo'
+        #       'insertFile'
+        #       'insertTable'
+        #       'undo'
+        #       'redo'
+        #       'clearFormatting'
+        #       'selectAll'
+        #       'html'
 
         ), 200
 
 
 Template.edit.helpers
     doc: -> Docs.findOne Session.get('editing')
-    unpicked_alchemy_tags: -> _.difference @alchemy_tags, @tags
-
 
 Template.edit.events
     'click #delete': ->
@@ -188,20 +213,3 @@ Template.edit.events
         for tag in @tags
             selected_tags.push tag
         Session.set 'editing', null
-
-    'click #alchemy_suggest': ->
-        body = $('#body').val()
-        Meteor.call 'alchemy_suggest', Session.get('editing'), body, (err,res)->
-            if err then console.log err
-            else console.log res
-        Docs.update Session.get('editing'),
-            $set: body: body
-
-    'click .add_alchemy_suggestion': ->
-        docId = Session.get('editing')
-        Docs.update docId, $addToSet: tags: @valueOf()
-
-    'click #add_all_alchemy': ->
-        docId = Session.get('editing')
-        Docs.update docId,
-            $addToSet: tags: $each: @alchemy_tags
