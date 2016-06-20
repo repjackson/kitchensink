@@ -36,24 +36,23 @@ template(name='layout')
 template(name='cloud')
     .ui.center.aligned.basic.segment
         if currentUser
-            // .ui.basic.label #{currentUser.points}
             #add_doc.ui.icon.button: i.plus.icon
-        .ui.basic.label    
+            .ui.basic.label #{currentUser.points}
+        .ui.large.basic.label    
             +loginButtons
         .ui.left.icon.small.input
             i.search.icon
             input#search(type='text' autofocus='')
         .ui.hidden.fitted.divider
         if selected_tags
-            // #clearTags.ui.primary.icon.button
-            //     i.remove.icon
+            #clearTags.ui.primary.icon.button
+                i.remove.icon
             each selected_tags
                 a.ui.primary.button.unselectTag
                     strong #{this}
         each globalTags
             .ui.button.selectTag #{this.name}
-                // small #{this.count}
-        // .bubbleChart
+                small #{this.count}
 
 template(name='docs')
     .ui.container
@@ -71,7 +70,8 @@ template(name='view')
             else if currentUser
                 .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
                 .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
-            // span #{points}
+            // .ui.basic.circular.label #{points}
+            span #{points}
 
 template(name='edit')
     with doc
