@@ -72,6 +72,14 @@ Template.cloud.helpers
         if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
         # Tags.find()
 
+    cloud_tag_class: ->
+        buttonClass = switch
+            when @index <= 5 then 'large'
+            when @index <= 10 then ''
+            when @index <= 15 then 'small'
+            when @index <= 20 then 'tiny'
+            # when @index <= 25 then 'tiny'
+        return buttonClass
 
     selected_tags: -> selected_tags.list()
 
@@ -182,16 +190,22 @@ Template.edit.events
                     Docs.update doc_id,
                         $addToSet: tags: tag
                     $('#addTag').val('')
-                else
-                    body = $('#body').val()
+            when 8
+                if tag.length is 0
+                    last = @tags.pop()
                     Docs.update doc_id,
-                        $set:
-                            body: body
-                            tag_count: @tags.length
-                            username: Meteor.user().username
-                    selected_tags.clear()
-                    selected_tags.push(tag) for tag in @tags
-                    Session.set 'editing', null
+                        $pop: tags:1
+                    $('#addTag').val(last)
+            else
+                body = $('#body').val()
+                Docs.update doc_id,
+                    $set:
+                        body: body
+                        tag_count: @tags.length
+                        username: Meteor.user().username
+                selected_tags.clear()
+                selected_tags.push(tag) for tag in @tags
+                Session.set 'editing', null
 
 
     'click .docTag': ->

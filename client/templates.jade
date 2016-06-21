@@ -51,7 +51,7 @@ template(name='cloud')
                 a.ui.primary.compact.button.unselectTag
                     strong #{this}
         each globalTags
-            .ui.button.compact.selectTag #{this.name}
+            .ui.button.compact.selectTag(class=cloud_tag_class) #{this.name}
                 // small #{this.count}
 
 template(name='docs')
