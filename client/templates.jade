@@ -40,18 +40,20 @@ template(name='cloud')
         .ui.large.basic.label    
             +loginButtons
             // .ui.basic.label #{currentUser.points}
-        // .ui.left.icon.small.input
-        //     i.search.icon
+        .ui.left.icon.small.input
+            i.search.icon
+            +inputAutocomplete settings=settings id="search" class="" placeholder="Search..."
         //     input#search(type='text' autofocus='')
-        // .ui.hidden.fitted.divider
         if selected_tags
             #clearTags.ui.primary.icon.compact.button
                 i.remove.icon
             each selected_tags
                 a.ui.primary.compact.button.unselectTag
                     strong #{this}
+        // .ui.hidden.fitted.divider
         each globalTags
-            .ui.button.compact.selectTag(class=cloud_tag_class) #{this.name}
+            // .ui.button.compact.selectTag(class=cloud_tag_class) #{this.name}
+            .ui.button.compact.selectTag #{this.name}
                 // small #{this.count}
 
 template(name='docs')
@@ -78,7 +80,7 @@ template(name='view')
 
 template(name='edit')
     with doc
-        .ui.basic.center.aligned.segment
+        .ui.basic.segment
             div
                 each tags
                     .ui.compact.button.docTag
@@ -103,3 +105,6 @@ template(name='edit')
             .actions
               .ui.button.cancel Cancel
               .ui.red.button.approve Delete
+
+template(name='tag_result')
+    .ui.label #{name}

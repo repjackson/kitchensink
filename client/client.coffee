@@ -69,20 +69,27 @@ Template.cloud.onCreated ->
 Template.cloud.helpers
     globalTags: ->
         docCount = Docs.find().count()
-        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
+        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 7 )
         # Tags.find()
 
-    cloud_tag_class: ->
-        buttonClass = switch
-            when @index <= 5 then 'large'
-            when @index <= 10 then ''
-            when @index <= 15 then 'small'
-            when @index <= 20 then 'tiny'
-            # when @index <= 25 then 'tiny'
-        return buttonClass
+    # cloud_tag_class: ->s
 
     selected_tags: -> selected_tags.list()
 
+    settings: ->
+        {
+            position: 'bottom'
+            limit: 10
+            rules: [
+                {
+                    # token: ''
+                    collection: Tags
+                    field: 'name'
+                    matchAll: false
+                    template: Template.tag_result
+                }
+            ]
+        }
 
 Template.cloud.events
     'click #add_doc': ->
@@ -106,6 +113,10 @@ Template.cloud.events
             when 8
                 if val.length is 0
                     selected_tags.pop()
+                    
+    # 'autocompleteselect input': (event, template, doc) ->
+    #     console.log 'selected ', doc
+
 
     'click .selectTag': -> selected_tags.push @name
 
@@ -190,22 +201,22 @@ Template.edit.events
                     Docs.update doc_id,
                         $addToSet: tags: tag
                     $('#addTag').val('')
+                else
+                    body = $('#body').val()
+                    Docs.update doc_id,
+                        $set:
+                            body: body
+                            tag_count: @tags.length
+                            username: Meteor.user().username
+                    selected_tags.clear()
+                    selected_tags.push(tag) for tag in @tags
+                    Session.set 'editing', null
             when 8
                 if tag.length is 0
                     last = @tags.pop()
                     Docs.update doc_id,
                         $pop: tags:1
                     $('#addTag').val(last)
-            else
-                body = $('#body').val()
-                Docs.update doc_id,
-                    $set:
-                        body: body
-                        tag_count: @tags.length
-                        username: Meteor.user().username
-                selected_tags.clear()
-                selected_tags.push(tag) for tag in @tags
-                Session.set 'editing', null
 
 
     'click .docTag': ->
