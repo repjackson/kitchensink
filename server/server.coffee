@@ -9,12 +9,14 @@ Meteor.publish 'me', ()->
     Meteor.users.find @userId,
         fields: 
             points: 1
+            bookmarks: 1
 
 Meteor.publish 'tags', (selected_tags)->
     self = @
 
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
+    match.tag_count = $gt: 0
 
     cloud = Docs.aggregate [
         { $match: match }
@@ -23,7 +25,7 @@ Meteor.publish 'tags', (selected_tags)->
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 100 }
+        { $limit: 7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
 
@@ -39,6 +41,8 @@ Meteor.publish 'docs', (selected_tags)->
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
 
+    # match.tag_count = $exists: true
+    match.tag_count = $gt: 0
     Docs.find match,
         limit: 5
         sort:

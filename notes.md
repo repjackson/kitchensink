@@ -26,3 +26,10 @@ db.docs.find({}).forEach(
     db.docs.save(doc);
   }
 )
+
+
+autocomplete add tag to doc
+bookmarks
+cancel edit option
+shareable address
+me button

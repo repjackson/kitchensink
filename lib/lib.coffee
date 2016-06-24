@@ -24,6 +24,12 @@ Meteor.methods
         Docs.update docId,
             $pull: tag
 
+    # add_bookmark: (tags)->
+    #     Meteor.users.update Meteor.userId(),
+    #         $addToSet:
+    #             bookmarks: tags
+
+
     addtag: (tag, docId)->
         Docs.update docId,
             $addToSet: tags: tag

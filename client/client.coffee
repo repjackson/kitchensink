@@ -72,24 +72,42 @@ Template.cloud.helpers
         if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 7 )
         # Tags.find()
 
-    # cloud_tag_class: ->s
+    # cloud_tag_class: ->
+    #     buttonClass = switch
+    #         when @index <= 5 then ''
+    #         when @index <= 10 then ''
+    #         when @index <= 15 then 'small'
+    #         when @index <= 20 then 'tiny'
+    #         # when @index <= 25 then 'tiny'
+    #     return buttonClass
+
+    add_doc_button_class: ->
+        if selected_tags.array().length > 0 then 'primary' else ''
 
     selected_tags: -> selected_tags.list()
 
-    settings: ->
-        {
-            position: 'bottom'
-            limit: 10
-            rules: [
-                {
-                    # token: ''
-                    collection: Tags
-                    field: 'name'
-                    matchAll: false
-                    template: Template.tag_result
-                }
-            ]
-        }
+    # if_is_bookmark: ->
+    #     for bookmark in Meteor.user().bookmarks
+    #         if selected_tags.array().length is bookmark.length
+    #             if _.intersection(selected_tags.array(), bookmark).length is bookmark.length
+    #                 return true
+    #             else
+    #                 return false
+
+    # settings: ->
+    #     {
+    #         position: 'bottom'
+    #         limit: 10
+    #         rules: [
+    #             {
+    #                 # token: ''
+    #                 collection: Tags
+    #                 field: 'name'
+    #                 matchAll: true
+    #                 template: Template.tag_result
+    #             }
+    #         ]
+    #     }
 
 Template.cloud.events
     'click #add_doc': ->
@@ -97,26 +115,37 @@ Template.cloud.events
             if err then console.log err
             else Session.set 'editing', id
 
-    'keyup #search': (e,t)->
-        e.preventDefault()
-        val = $('#search').val()
-        switch e.which
-            when 13 #enter
-                switch val
-                    when 'clear'
-                        selected_tags.clear()
-                        $('#search').val ''
-                    else
-                        unless val.length is 0
-                            selected_tags.push val.toString()
-                            $('#search').val ''
-            when 8
-                if val.length is 0
-                    selected_tags.pop()
+    # 'keyup #search': (e,t)->
+    #     e.preventDefault()
+    #     val = $('#search').val()
+    #     switch e.which
+    #         when 13 #enter
+    #             switch val
+    #                 when 'clear'
+    #                     selected_tags.clear()
+    #                     $('#search').val ''
+    #                 else
+    #                     unless val.length is 0
+    #                         selected_tags.push val.toString()
+    #                         $('#search').val ''
+    #         when 8
+    #             if val.length is 0
+    #                 selected_tags.pop()
                     
     # 'autocompleteselect input': (event, template, doc) ->
-    #     console.log 'selected ', doc
+    #     # console.log 'selected ', doc
+    #     selected_tags.push doc.name
+    #     $('#search').val ''
+        
+    # 'click #bookmark_selection': ->
+    #     # if confirm 'Bookmark Selection?'
+    #     # if selected_tags.array() in Meteor.user().bookmarks then console.log 'true' else console.log 'false'
+    #     Meteor.call 'add_bookmark', selected_tags.array(), (err,res)->
+    #         alert "Selection bookmarked"
 
+    # 'click .select_bookmark': ->
+    #     selected_tags.clear()
+    #     selected_tags.push tag for tag in @ 
 
     'click .selectTag': -> selected_tags.push @name
 
@@ -136,46 +165,46 @@ Template.edit.onRendered ->
         $('#body').froalaEditor
             heightMin: 200
             # toolbarInline: true
-            # toolbarButtons: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
             # toolbarButtonsMD: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
             # toolbarButtonsSM: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
             # toolbarButtonsXS: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
-        # # [
-        #       'fullscreen'
-        #       'bold'
-        #       'italic'
-        #       'underline'
-        #       'strikeThrough'
-        #       'subscript'
-        #       'superscript'
-        #       'fontFamily'
-        #       'fontSize'
-        #       '|'
-        #       'color'
-        #       'emoticons'
-        #       'inlineStyle'
-        #       'paragraphStyle'
-        #       '|'
-        #       'paragraphFormat'
-        #       'align'
-        #       'formatOL'
-        #       'formatUL'
-        #       'outdent'
-        #       'indent'
-        #       'quote'
-        #       'insertHR'
-        #       '-'
-        #       'insertLink'
-        #       'insertImage'
-        #       'insertVideo'
-        #       'insertFile'
-        #       'insertTable'
-        #       'undo'
-        #       'redo'
-        #       'clearFormatting'
-        #       'selectAll'
-        #       'html'
-
+            toolbarButtons: 
+                [
+                  'fullscreen'
+                  'bold'
+                  'italic'
+                  'underline'
+                  'strikeThrough'
+                  'subscript'
+                  'superscript'
+                #   'fontFamily'
+                #   'fontSize'
+                  '|'
+                  'color'
+                  'emoticons'
+                #   'inlineStyle'
+                #   'paragraphStyle'
+                  '|'
+                  'paragraphFormat'
+                  'align'
+                  'formatOL'
+                  'formatUL'
+                  'outdent'
+                  'indent'
+                  'quote'
+                  'insertHR'
+                  '-'
+                  'insertLink'
+                  'insertImage'
+                  'insertVideo'
+                  'insertFile'
+                  'insertTable'
+                  'undo'
+                  'redo'
+                  'clearFormatting'
+                  'selectAll'
+                  'html'
+                ]
         ), 200
 
 
@@ -211,7 +240,7 @@ Template.edit.events
                     selected_tags.clear()
                     selected_tags.push(tag) for tag in @tags
                     Session.set 'editing', null
-            when 8
+            when 37
                 if tag.length is 0
                     last = @tags.pop()
                     Docs.update doc_id,
