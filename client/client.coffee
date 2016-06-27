@@ -11,7 +11,7 @@ Template.docs.onCreated ->
 
 Template.docs.helpers
     docs: -> Docs.find {},
-        limit: 1
+        limit: 3
         sort:
             tag_count: 1
             points: -1
@@ -69,16 +69,25 @@ Template.cloud.onCreated ->
 Template.cloud.helpers
     globalTags: ->
         docCount = Docs.find().count()
-        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 7 )
-        # Tags.find()
+        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 20 )
+        # Tags.find({}, limit: 50)
+
+    cloud_tag_class: ->
+        buttonClass = switch
+            when @index <= 5 then ''
+            when @index <= 10 then ''
+            when @index <= 15 then 'small'
+            when @index <= 20 then 'tiny'
+            when @index <= 25 then 'tiny'
+        return buttonClass
 
     # cloud_tag_class: ->
     #     buttonClass = switch
-    #         when @index <= 5 then ''
-    #         when @index <= 10 then ''
-    #         when @index <= 15 then 'small'
-    #         when @index <= 20 then 'tiny'
-    #         # when @index <= 25 then 'tiny'
+    #         when @index <= 10 then 'large'
+    #         when @index <= 20 then ''
+    #         when @index <= 30 then 'small'
+    #         when @index <= 40 then 'tiny'
+    #         when @index <= 50 then 'tiny'
     #     return buttonClass
 
     add_doc_button_class: ->
@@ -94,20 +103,20 @@ Template.cloud.helpers
     #             else
     #                 return false
 
-    # settings: ->
-    #     {
-    #         position: 'bottom'
-    #         limit: 10
-    #         rules: [
-    #             {
-    #                 # token: ''
-    #                 collection: Tags
-    #                 field: 'name'
-    #                 matchAll: true
-    #                 template: Template.tag_result
-    #             }
-    #         ]
-    #     }
+    settings: ->
+        {
+            position: 'bottom'
+            limit: 10
+            rules: [
+                {
+                    # token: ''
+                    collection: Tags
+                    field: 'name'
+                    matchAll: true
+                    template: Template.tag_result
+                }
+            ]
+        }
 
 Template.cloud.events
     'click #add_doc': ->
@@ -115,27 +124,27 @@ Template.cloud.events
             if err then console.log err
             else Session.set 'editing', id
 
-    # 'keyup #search': (e,t)->
-    #     e.preventDefault()
-    #     val = $('#search').val()
-    #     switch e.which
-    #         when 13 #enter
-    #             switch val
-    #                 when 'clear'
-    #                     selected_tags.clear()
-    #                     $('#search').val ''
-    #                 else
-    #                     unless val.length is 0
-    #                         selected_tags.push val.toString()
-    #                         $('#search').val ''
-    #         when 8
-    #             if val.length is 0
-    #                 selected_tags.pop()
+    'keyup #search': (e,t)->
+        e.preventDefault()
+        val = $('#search').val().toLowerCase().trim()
+        switch e.which
+            when 13 #enter
+                switch val
+                    when 'clear'
+                        selected_tags.clear()
+                        $('#search').val ''
+                    else
+                        unless val.length is 0
+                            selected_tags.push val.toString()
+                            $('#search').val ''
+            when 8
+                if val.length is 0
+                    selected_tags.pop()
                     
-    # 'autocompleteselect input': (event, template, doc) ->
-    #     # console.log 'selected ', doc
-    #     selected_tags.push doc.name
-    #     $('#search').val ''
+    'autocompleteselect input': (event, template, doc) ->
+        # console.log 'selected ', doc
+        selected_tags.push doc.name
+        $('#search').val ''
         
     # 'click #bookmark_selection': ->
     #     # if confirm 'Bookmark Selection?'
@@ -205,7 +214,7 @@ Template.edit.onRendered ->
                   'selectAll'
                   'html'
                 ]
-        ), 200
+        ), 500
 
 
 Template.edit.helpers

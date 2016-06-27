@@ -60,9 +60,9 @@ template(name='cloud')
         //                     each this
         //                         .ui.label #{this}
         // .ui.hidden.fitted.divider
-        // .ui.left.icon.small.input
-        //     i.search.icon
-        //     +inputAutocomplete settings=settings id="search" class="" autofocus=''
+        .ui.left.icon.small.input
+            i.search.icon
+            +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off"
         // .ui.hidden.fitted.divider
         if selected_tags
             #clearTags.ui.primary.icon.compact.button
@@ -74,8 +74,8 @@ template(name='cloud')
         // if Template.subscriptionsReady
         each globalTags
             .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
+            // .ui.button.small.compact.selectTag #{this.name}
                 // small #{this.count}
-            // .ui.button.compact.selectTag #{this.name}
 
 template(name='docs')
     .ui.container
@@ -83,7 +83,7 @@ template(name='docs')
             +view
 
 template(name='view')
-    .ui.basic.segment
+    .ui.segment
         each tags
             .ui.small.compact.button.doc_tag(class=doc_tag_class) #{this}
         |!{body}
@@ -127,5 +127,5 @@ template(name='edit')
               .ui.button.cancel Cancel
               .ui.red.button.approve Delete
 
-// template(name='tag_result')
-//     .ui.small.compact.button #{name}
+template(name='tag_result')
+    .ui.small.compact.button #{name}
