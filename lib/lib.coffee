@@ -16,18 +16,14 @@ Meteor.methods
     create_doc: (tags)->
         Docs.insert
             tags: tags
+            tag_count: tags.length
 
-    deleteDoc: (id)->
+    delete_doc: (id)->
         Docs.remove id
 
     removetag: (tag, docId)->
         Docs.update docId,
             $pull: tag
-
-    # add_bookmark: (tags)->
-    #     Meteor.users.update Meteor.userId(),
-    #         $addToSet:
-    #             bookmarks: tags
 
 
     addtag: (tag, docId)->

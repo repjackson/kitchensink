@@ -11,7 +11,7 @@ Template.docs.onCreated ->
 
 Template.docs.helpers
     docs: -> Docs.find {},
-        limit: 3
+        limit: 10
         sort:
             tag_count: 1
             points: -1
@@ -59,6 +59,7 @@ Template.view.events
 
     'click .vote_up': -> Meteor.call 'vote_up', @_id
 
+    'click .delete': -> Meteor.call 'delete_doc', @_id
 
 
 Template.cloud.onCreated ->
@@ -68,40 +69,30 @@ Template.cloud.onCreated ->
 
 Template.cloud.helpers
     globalTags: ->
-        docCount = Docs.find().count()
-        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 20 )
-        # Tags.find({}, limit: 50)
-
-    cloud_tag_class: ->
-        buttonClass = switch
-            when @index <= 5 then ''
-            when @index <= 10 then ''
-            when @index <= 15 then 'small'
-            when @index <= 20 then 'tiny'
-            when @index <= 25 then 'tiny'
-        return buttonClass
+        # docCount = Docs.find().count()
+        # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 20 )
+        Tags.find({})
 
     # cloud_tag_class: ->
     #     buttonClass = switch
-    #         when @index <= 10 then 'large'
-    #         when @index <= 20 then ''
-    #         when @index <= 30 then 'small'
-    #         when @index <= 40 then 'tiny'
-    #         when @index <= 50 then 'tiny'
+    #         when @index <= 5 then ''
+    #         when @index <= 10 then ''
+    #         when @index <= 15 then 'small'
+    #         when @index <= 20 then 'tiny'
+    #         when @index <= 25 then 'tiny'
     #     return buttonClass
 
-    add_doc_button_class: ->
-        if selected_tags.array().length > 0 then 'primary' else ''
+    cloud_tag_class: ->
+        buttonClass = switch
+            when @index <= 10 then 'large'
+            when @index <= 20 then ''
+            when @index <= 30 then 'small'
+            when @index <= 40 then 'tiny'
+            when @index <= 50 then 'tiny'
+        return buttonClass
+
 
     selected_tags: -> selected_tags.list()
-
-    # if_is_bookmark: ->
-    #     for bookmark in Meteor.user().bookmarks
-    #         if selected_tags.array().length is bookmark.length
-    #             if _.intersection(selected_tags.array(), bookmark).length is bookmark.length
-    #                 return true
-    #             else
-    #                 return false
 
     settings: ->
         {
@@ -120,7 +111,7 @@ Template.cloud.helpers
 
 Template.cloud.events
     'click #add_doc': ->
-        Meteor.call 'create_doc', selected_tags.array(), (err, id)->
+        Meteor.call 'create_doc', (err, id)->
             if err then console.log err
             else Session.set 'editing', id
 
@@ -146,21 +137,25 @@ Template.cloud.events
         selected_tags.push doc.name
         $('#search').val ''
         
-    # 'click #bookmark_selection': ->
-    #     # if confirm 'Bookmark Selection?'
-    #     # if selected_tags.array() in Meteor.user().bookmarks then console.log 'true' else console.log 'false'
-    #     Meteor.call 'add_bookmark', selected_tags.array(), (err,res)->
-    #         alert "Selection bookmarked"
-
-    # 'click .select_bookmark': ->
-    #     selected_tags.clear()
-    #     selected_tags.push tag for tag in @ 
-
     'click .selectTag': -> selected_tags.push @name
 
     'click .unselectTag': -> selected_tags.remove @valueOf()
 
     'click #clearTags': -> selected_tags.clear()
+    
+    'keyup #add': (e,t)->
+        e.preventDefault
+        tag = $('#add').val().toLowerCase()
+        switch e.which
+            when 13
+                if tag.length > 0
+                    splitTags = tag.match(/\S+/g);
+                    $('#add').val('')
+                    Meteor.call 'create_doc', splitTags
+                    selected_tags.clear()
+                    for tag in splitTags
+                        selected_tags.push tag
+
 
 
 Template.edit.onCreated ->
@@ -169,66 +164,11 @@ Template.edit.onCreated ->
         self.subscribe 'doc', Session.get 'editing'
 
 
-Template.edit.onRendered ->
-    Meteor.setTimeout (->
-        $('#body').froalaEditor
-            heightMin: 200
-            # toolbarInline: true
-            # toolbarButtonsMD: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
-            # toolbarButtonsSM: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
-            # toolbarButtonsXS: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
-            toolbarButtons: 
-                [
-                  'fullscreen'
-                  'bold'
-                  'italic'
-                  'underline'
-                  'strikeThrough'
-                  'subscript'
-                  'superscript'
-                #   'fontFamily'
-                #   'fontSize'
-                  '|'
-                  'color'
-                  'emoticons'
-                #   'inlineStyle'
-                #   'paragraphStyle'
-                  '|'
-                  'paragraphFormat'
-                  'align'
-                  'formatOL'
-                  'formatUL'
-                  'outdent'
-                  'indent'
-                  'quote'
-                  'insertHR'
-                  '-'
-                  'insertLink'
-                  'insertImage'
-                  'insertVideo'
-                  'insertFile'
-                  'insertTable'
-                  'undo'
-                  'redo'
-                  'clearFormatting'
-                  'selectAll'
-                  'html'
-                ]
-        ), 500
-
 
 Template.edit.helpers
     doc: -> Docs.findOne Session.get('editing')
 
 Template.edit.events
-    'click #delete': ->
-        $('.modal').modal(
-            onApprove: ->
-                Meteor.call 'deleteDoc', Session.get('editing'), ->
-                $('.ui.modal').modal('hide')
-                Session.set 'editing', null
-        	).modal 'show'
-
     'keydown #addTag': (e,t)->
         e.preventDefault
         doc_id = Session.get('editing')
@@ -240,10 +180,10 @@ Template.edit.events
                         $addToSet: tags: tag
                     $('#addTag').val('')
                 else
-                    body = $('#body').val()
+                    # body = $('#body').val()
                     Docs.update doc_id,
                         $set:
-                            body: body
+                            # body: body
                             tag_count: @tags.length
                             username: Meteor.user().username
                     selected_tags.clear()
@@ -266,10 +206,10 @@ Template.edit.events
 
 
     'click #saveDoc': ->
-        body = $('#body').val()
+        # body = $('#body').val()
         Docs.update Session.get('editing'),
             $set:
-                body: body
+                # body: body
                 tag_count: @tags.length
                 username: Meteor.user().username
         selected_tags.clear()

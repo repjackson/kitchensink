@@ -38,13 +38,15 @@ Meteor.publish 'tags', (selected_tags)->
     self.ready()
 
 Meteor.publish 'docs', (selected_tags)->
+    # Counts.publish(this, 'doc_counter', Docs.find(), { noReady: true })
+
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
 
     # match.tag_count = $exists: true
     match.tag_count = $gt: 0
     Docs.find match,
-        limit: 5
+        limit: 10
         sort:
             tag_count: 1
             # points: -1

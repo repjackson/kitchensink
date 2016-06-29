@@ -42,8 +42,6 @@ ejson@1.0.12
 email@1.0.14_1
 fastclick@1.0.12
 flemay:less-autoprefixer@1.2.0
-fortawesome:fontawesome@4.4.0_1
-froala:editor@2.3.3
 geojson-utils@1.0.9
 gwendall:body-events@0.1.6
 gwendall:session-json@0.1.7
@@ -87,8 +85,6 @@ npm-mongo@1.4.44_1
 observe-sequence@1.0.12
 okgrow:analytics@1.0.8
 ordered-dict@1.0.8
-perak:codemirror@1.3.1
-pntbr:js-yaml-client@0.0.1
 promise@0.7.2_1
 random@1.0.10
 rate-limit@1.0.5

@@ -21,7 +21,6 @@ mquandalle:stylus
 accounts-password
 mobile-experience
 matb33:collection-hooks
-froala:editor
 okgrow:analytics
 
 
@@ -30,6 +29,5 @@ flemay:less-autoprefixer
 blaze-html-templates
 iandouglas:accounts-ui-semantic-ui
 uzumaxy:prevent-backspace
-perak:codemirror
 standard-minifiers
 mizzao:autocomplete
