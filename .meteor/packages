@@ -20,7 +20,6 @@ babrahams:constellation
 mquandalle:stylus
 accounts-password
 mobile-experience
-matb33:collection-hooks
 okgrow:analytics
 
 
@@ -29,5 +28,4 @@ flemay:less-autoprefixer
 blaze-html-templates
 iandouglas:accounts-ui-semantic-ui
 uzumaxy:prevent-backspace
-standard-minifiers
 mizzao:autocomplete
