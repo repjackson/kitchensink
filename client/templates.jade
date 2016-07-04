@@ -31,7 +31,8 @@ template(name='layout')
         +edit
     else
         +cloud
-        +docs
+        // +docs
+        +matches
 
 template(name='cloud')
     .ui.center.aligned.basic.segment
@@ -56,9 +57,9 @@ template(name='cloud')
         // .ui.hidden.fitted.divider
         // if Template.subscriptionsReady
         each globalTags
-            .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
-            // .ui.button.small.compact.selectTag #{this.name}
-                // small #{this.count}
+            // .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
+            .ui.button.compact.selectTag #{this.name}
+                small #{this.count}
 
 template(name='docs')
     .ui.container
@@ -93,7 +94,7 @@ template(name='edit')
                         |#{this}
                 .ui.left.icon.input
                     i.add.icon
-                    input#addTag(type='text' autofocus='' placeholder='Add Tag (press enter)')
+                    input#addTag(type='text' autofocus='' placeholder='Enter Tag')
             .ui.hidden.divider
             if tags
                 #saveDoc.ui.large.green.button
@@ -102,3 +103,27 @@ template(name='edit')
 
 template(name='tag_result')
     .ui.small.compact.button #{name}
+
+
+template(name='matches')
+    .ui.container
+        .ui.header My Tag List
+        each currentUser.tag_list
+            .ui.label #{this}
+        // .ui.header My Tag Cloud
+        // each currentUser.tag_cloud
+        //     .ui.label #{name} #{count}
+        .ui.header User Matches
+        each user_matches
+            h5.ui.header #{matched_user} #{length}
+            each tag_intersection
+                .ui.label #{this}        
+        // .ui.header Other People
+        // each other_people
+        //     h5.ui.header #{username}
+        //     .ui.header List
+        //     each tag_list
+        //         .ui.label #{this}
+        //     .ui.header Cloud
+        //     each tag_cloud
+        //         .ui.label #{name} #{count}

@@ -3,7 +3,7 @@
 
 Accounts.ui.config
     passwordSignupFields: 'USERNAME_ONLY'
-    dropdownClasses: 'simple'
+    # dropdownClasses: 'simple'
 
 
 Template.docs.onCreated ->
@@ -11,7 +11,7 @@ Template.docs.onCreated ->
 
 Template.docs.helpers
     docs: -> Docs.find {},
-        limit: 10
+        limit: 1
         sort:
             tag_count: 1
             points: -1
@@ -33,19 +33,6 @@ Template.view.helpers
 
     cloud_label_class: -> if @name in selected_tags.array() then 'primary' else ''
     
-    vote_up_button_class: ->
-        if not Meteor.userId() then 'disabled'
-        # else if Meteor.user().points < 1 then 'disabled basic'
-        else if Meteor.userId() in @up_voters then 'green'
-        else 'basic'
-
-    vote_down_button_class: ->
-        if not Meteor.userId() then 'disabled basic'
-        # else if Meteor.user().points < 1 then 'disabled basic'
-        else if Meteor.userId() in @down_voters then 'red'
-        else 'basic'
-
-
 Template.view.events
     'click .edit_doc': -> Session.set 'editing', @_id
 
@@ -54,10 +41,6 @@ Template.view.events
     'click .delete_doc': ->
         if confirm 'Delete?'
             Meteor.call 'deleteDoc', @_id
-
-    'click .vote_down': -> Meteor.call 'vote_down', @_id
-
-    'click .vote_up': -> Meteor.call 'vote_up', @_id
 
     'click .delete': -> Meteor.call 'delete_doc', @_id
 
@@ -71,7 +54,7 @@ Template.cloud.helpers
     globalTags: ->
         # docCount = Docs.find().count()
         # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 20 )
-        Tags.find({})
+        Tags.find({}, limit: 10)
 
     # cloud_tag_class: ->
     #     buttonClass = switch
@@ -82,14 +65,14 @@ Template.cloud.helpers
     #         when @index <= 25 then 'tiny'
     #     return buttonClass
 
-    cloud_tag_class: ->
-        buttonClass = switch
-            when @index <= 10 then 'large'
-            when @index <= 20 then ''
-            when @index <= 30 then 'small'
-            when @index <= 40 then 'tiny'
-            when @index <= 50 then 'tiny'
-        return buttonClass
+    # cloud_tag_class: ->
+    #     buttonClass = switch
+    #         when @index <= 10 then 'large'
+    #         when @index <= 20 then ''
+    #         when @index <= 30 then 'small'
+    #         when @index <= 40 then 'tiny'
+    #         when @index <= 50 then 'tiny'
+    #     return buttonClass
 
 
     selected_tags: -> selected_tags.list()
@@ -157,6 +140,30 @@ Template.cloud.events
                         selected_tags.push tag
 
 
+Template.matches.helpers
+    user_matches: ->
+        # User_matches.find()
+        # find all users with selected tag in tag_list
+        users = Meteor.users.find( tag_list: $all: selected_tags.array()).fetch()
+        user_matches = []
+        for user in users
+            tag_intersection = _.intersection(user.tag_list, Meteor.user().tag_list)
+            user_matches.push
+                matched_user: user.username
+                tag_intersection: tag_intersection
+                length: tag_intersection.length
+        sorted_list = _.sortBy(user_matches, 'length').reverse()
+        console.dir sorted_list
+        return sorted_list
+        
+    other_people: -> Meteor.users.find()
+
+Template.matches.onCreated ->
+    self = @
+    self.autorun ->
+        # self.subscribe 'user_matches', selected_tags.array()
+        self.subscribe 'everyone'
+
 
 Template.edit.onCreated ->
     self = @
@@ -202,8 +209,6 @@ Template.edit.events
         Docs.update Session.get('editing'),
             $pull: tags: tag
         $('#addTag').val(tag)
-
-
 
     'click #saveDoc': ->
         # body = $('#body').val()

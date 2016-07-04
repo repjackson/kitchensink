@@ -28,8 +28,16 @@ db.docs.find({}).forEach(
 )
 
 
-autocomplete add tag to doc
-bookmarks
-cancel edit option
-shareable address
-me button
+<!--autocomplete add tag to doc-->
+<!--bookmarks-->
+<!--cancel edit option-->
+<!--shareable address-->
+<!--me button-->
+
+logan version
+<!--generate cloud after update-->
+matched users
+take in filter
+find all users with tag in tag cloud
+from that set find all users with matching tags in tag list
+filter tags 
