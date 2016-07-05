@@ -6,7 +6,6 @@ Accounts.ui.config
     # dropdownClasses: 'simple'
 
 
-
 Template.layout.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selected_tags.array()
     @autorun -> Meteor.subscribe 'me'
@@ -117,3 +116,5 @@ Template.matches.onCreated ->
         self.subscribe 'everyone'
 
 
+Template.person.helpers
+    tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else 'basic'

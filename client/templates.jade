@@ -66,17 +66,12 @@ template(name='profile')
                 //     i.user.icon
                 //     input#username(type='text' value=user.username)
                 each currentUser.tags
-                    .ui.basic.compact.button.tag
+                    .ui.small.compact.button.tag
                         i.remove.icon
                         |#{this}
                 .ui.left.icon.input
                     i.add.icon
-                    input#addTag(type='text' autofocus='' placeholder='Enter Tag')
-            .ui.hidden.divider
-            if tags
-                #saveDoc.ui.large.green.button
-                    i.check.icon
-                    |Save
+                    input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
 
 template(name='tag_result')
     .ui.small.compact.button #{name}
@@ -124,35 +119,32 @@ template(name='matches')
 
 template(name='people')
     .ui.container
-        .ui.cards
-            each people
-                .ui.card
-                    +person
+        each people
+            +person
 
 
 template(name='person')
-    .ui.card
-        .content
-            .header
-                i.user.icon
-                |#{username}
-                if isUser
-                    |(you)
-                // if currentUser
-                //     unless isUser
-                //         .ui.small.basic.compact.button.converseWithUser
-                //             i.comment.icon
-                //             |Converse
-            .description
-                // h5.ui.header #{username}'s tags
-                each tags
-                    .ui.compact.button.tag(class=tag_class) #{this}
-        if currentUser
-            unless isUser
-                .extra.content
-                    div Your common tags with #{username} (#{matchedtags.length})
-                    each matchedtags
-                        .ui.basic.label #{this}
+    .ui.segment
+        .header
+            i.user.icon
+            |#{username}
+            if isUser
+                |(you)
+            // if currentUser
+            //     unless isUser
+            //         .ui.small.basic.compact.button.converseWithUser
+            //             i.comment.icon
+            //             |Converse
+        .description
+            // h5.ui.header #{username}'s tags
+            each tags
+                .ui.label.user_tag(class=tag_class) #{this}
+        // if currentUser
+        //     unless isUser
+        //         .extra.content
+        //             div Your common tags with #{username} (#{matchedtags.length})
+        //             each matchedtags
+        //                 .ui.basic.label #{this}
                     // div Message #{username}:
                     //     .ui.small.input
                     //         input#text(type='sendMessage')

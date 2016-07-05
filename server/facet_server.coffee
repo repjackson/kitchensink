@@ -5,10 +5,10 @@ Meteor.publish 'me', ()->
             tags: 1
 
 
-Meteor.publish 'tags', (selected_tags)->
+Meteor.publish 'tags', (selected_tags=[])->
     self = @
     match = {}
-    if selected_tags?.length > 0 then match.tags = $all: selected_tags
+    if selected_tags.length > 0 then match.tags = $all: selected_tags
     match._id = $ne: @userId
 
     cloud = Meteor.users.aggregate [
@@ -30,7 +30,7 @@ Meteor.publish 'tags', (selected_tags)->
 
     self.ready()
 
-Meteor.publish 'people', (selected_tags)->
+Meteor.publish 'people', (selected_tags=[])->
     self = @
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
