@@ -27,19 +27,11 @@ body
 
 
 template(name='layout')
-<<<<<<< HEAD
-    if is_editing
-        +edit
-    else
-        +cloud
-        // +docs
-        +matches
-=======
+    // +matches
     if currentUser
         +profile
     +cloud
     +people
->>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6
 
 template(name='cloud')
     .ui.center.aligned.basic.segment
@@ -64,9 +56,6 @@ template(name='cloud')
             .ui.button.compact.selectTag #{this.name}
                 small #{this.count}
 
-template(name='tag_result')
-    .ui.small.compact.button #{name}
-
 
 template(name='profile')
     .ui.container
@@ -80,7 +69,6 @@ template(name='profile')
                     .ui.basic.compact.button.tag
                         i.remove.icon
                         |#{this}
-<<<<<<< HEAD
                 .ui.left.icon.input
                     i.add.icon
                     input#addTag(type='text' autofocus='' placeholder='Enter Tag')
@@ -116,10 +104,9 @@ template(name='matches')
         //     .ui.header Cloud
         //     each tag_cloud
         //         .ui.label #{name} #{count}
-=======
-                .ui.left.icon.small.input
-                    i.add.green.icon
-                    input#add_tag(type='text' autofocus='' placeholder='Tag Yourself')
+        .ui.left.icon.small.input
+            i.add.green.icon
+            input#add_tag(type='text' autofocus='' placeholder='Tag Yourself')
             // .ui.header Your Company
             // .ui.left.icon.input
             //     i.building.icon
@@ -173,4 +160,3 @@ template(name='person')
                     //     each conversationMessages
                     //         .item
                     //             |#{this.body} #{this.when}
->>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6

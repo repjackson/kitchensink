@@ -6,52 +6,13 @@ Accounts.ui.config
     # dropdownClasses: 'simple'
 
 
-<<<<<<< HEAD
-Template.docs.onCreated ->
-    @autorun -> Meteor.subscribe 'docs', selected_tags.array()
 
-Template.docs.helpers
-    docs: -> Docs.find {},
-        limit: 1
-        sort:
-            tag_count: 1
-            points: -1
-            timestamp: 1
-    # docs: -> Docs.find()
-    
-Template.layout.helpers
-    is_editing: -> Session.get 'editing'
-
-
-# Template.view.onCreated ->
-    # console.log @data.authorId
-    # Meteor.subscribe 'person', @data.authorId
-
-Template.view.helpers
-    isAuthor: -> @authorId is Meteor.userId()
-    
-    doc_tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
-
-    cloud_label_class: -> if @name in selected_tags.array() then 'primary' else ''
-    
-Template.view.events
-    'click .edit_doc': -> Session.set 'editing', @_id
-
-    'click .doc_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove @valueOf() else selected_tags.push @valueOf()
-
-    'click .delete_doc': ->
-        if confirm 'Delete?'
-            Meteor.call 'deleteDoc', @_id
-
-    'click .delete': -> Meteor.call 'delete_doc', @_id
-=======
 Template.layout.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selected_tags.array()
     @autorun -> Meteor.subscribe 'me'
 
 Template.people.onCreated ->
     @autorun -> Meteor.subscribe('people', selected_tags.array())
->>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6
 
 Template.people.helpers
     people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
@@ -129,20 +90,6 @@ Template.cloud.events
     'click .unselectTag': -> selected_tags.remove @valueOf()
 
     'click #clearTags': -> selected_tags.clear()
-<<<<<<< HEAD
-    
-    'keyup #add': (e,t)->
-        e.preventDefault
-        tag = $('#add').val().toLowerCase()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    splitTags = tag.match(/\S+/g);
-                    $('#add').val('')
-                    Meteor.call 'create_doc', splitTags
-                    selected_tags.clear()
-                    for tag in splitTags
-                        selected_tags.push tag
 
 
 Template.matches.helpers
@@ -170,62 +117,3 @@ Template.matches.onCreated ->
         self.subscribe 'everyone'
 
 
-Template.edit.onCreated ->
-    self = @
-    self.autorun ->
-        self.subscribe 'doc', Session.get 'editing'
-
-
-
-Template.edit.helpers
-    doc: -> Docs.findOne Session.get('editing')
-
-Template.edit.events
-    'keydown #addTag': (e,t)->
-        e.preventDefault
-        doc_id = Session.get('editing')
-        tag = $('#addTag').val().toLowerCase().trim()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    Docs.update doc_id,
-                        $addToSet: tags: tag
-                    $('#addTag').val('')
-                else
-                    # body = $('#body').val()
-                    Docs.update doc_id,
-                        $set:
-                            # body: body
-                            tag_count: @tags.length
-                            username: Meteor.user().username
-                    selected_tags.clear()
-                    selected_tags.push(tag) for tag in @tags
-                    Session.set 'editing', null
-            when 37
-                if tag.length is 0
-                    last = @tags.pop()
-                    Docs.update doc_id,
-                        $pop: tags:1
-                    $('#addTag').val(last)
-
-
-    'click .docTag': ->
-        tag = @valueOf()
-        Docs.update Session.get('editing'),
-            $pull: tags: tag
-        $('#addTag').val(tag)
-
-    'click #saveDoc': ->
-        # body = $('#body').val()
-        Docs.update Session.get('editing'),
-            $set:
-                # body: body
-                tag_count: @tags.length
-                username: Meteor.user().username
-        selected_tags.clear()
-        for tag in @tags
-            selected_tags.push tag
-        Session.set 'editing', null
-=======
-    
->>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6
