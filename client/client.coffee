@@ -6,6 +6,7 @@ Accounts.ui.config
     # dropdownClasses: 'simple'
 
 
+<<<<<<< HEAD
 Template.docs.onCreated ->
     @autorun -> Meteor.subscribe 'docs', selected_tags.array()
 
@@ -43,11 +44,19 @@ Template.view.events
             Meteor.call 'deleteDoc', @_id
 
     'click .delete': -> Meteor.call 'delete_doc', @_id
-
-
-Template.cloud.onCreated ->
+=======
+Template.layout.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selected_tags.array()
     @autorun -> Meteor.subscribe 'me'
+
+Template.people.onCreated ->
+    @autorun -> Meteor.subscribe('people', selected_tags.array())
+>>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6
+
+Template.people.helpers
+    people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
+
+    tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
 
 Template.cloud.helpers
@@ -93,11 +102,6 @@ Template.cloud.helpers
         }
 
 Template.cloud.events
-    'click #add_doc': ->
-        Meteor.call 'create_doc', (err, id)->
-            if err then console.log err
-            else Session.set 'editing', id
-
     'keyup #search': (e,t)->
         e.preventDefault()
         val = $('#search').val().toLowerCase().trim()
@@ -125,6 +129,7 @@ Template.cloud.events
     'click .unselectTag': -> selected_tags.remove @valueOf()
 
     'click #clearTags': -> selected_tags.clear()
+<<<<<<< HEAD
     
     'keyup #add': (e,t)->
         e.preventDefault
@@ -221,3 +226,6 @@ Template.edit.events
         for tag in @tags
             selected_tags.push tag
         Session.set 'editing', null
+=======
+    
+>>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6

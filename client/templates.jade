@@ -27,19 +27,22 @@ body
 
 
 template(name='layout')
+<<<<<<< HEAD
     if is_editing
         +edit
     else
         +cloud
         // +docs
         +matches
+=======
+    if currentUser
+        +profile
+    +cloud
+    +people
+>>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6
 
 template(name='cloud')
     .ui.center.aligned.basic.segment
-        if currentUser
-            .ui.left.icon.input
-                i.plus.icon
-                input#add(type='text' autofocus='' placeholder='Add')
         .ui.large.basic.label    
             +loginButtons
         // .ui.basic.circular.label #{currentUser.points}
@@ -61,37 +64,23 @@ template(name='cloud')
             .ui.button.compact.selectTag #{this.name}
                 small #{this.count}
 
-template(name='docs')
+template(name='tag_result')
+    .ui.small.compact.button #{name}
+
+
+template(name='profile')
     .ui.container
-        each docs
-            +view
-
-template(name='view')
-    .ui.segment
-        each tags
-            .ui.small.compact.button.doc_tag(class=doc_tag_class) #{this}
-        if currentUser
-            .content
-                span by #{username}
-                if isAuthor
-                    .ui.button.icon.edit_doc
-                        i.blue.pencil.icon
-                    .delete.ui.red.icon.right.floated.button
-                        i.remove.icon
-                else
-                    .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
-                    .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
-                // .ui.basic.circular.label #{points}
-                // span #{points}
-
-template(name='edit')
-    with doc
         .ui.segment
+            // div Your Name
             div
-                each tags
-                    .ui.compact.button.docTag
-                        i.minus.icon
+                // .ui.left.icon.input
+                //     i.user.icon
+                //     input#username(type='text' value=user.username)
+                each currentUser.tags
+                    .ui.basic.compact.button.tag
+                        i.remove.icon
                         |#{this}
+<<<<<<< HEAD
                 .ui.left.icon.input
                     i.add.icon
                     input#addTag(type='text' autofocus='' placeholder='Enter Tag')
@@ -127,3 +116,61 @@ template(name='matches')
         //     .ui.header Cloud
         //     each tag_cloud
         //         .ui.label #{name} #{count}
+=======
+                .ui.left.icon.small.input
+                    i.add.green.icon
+                    input#add_tag(type='text' autofocus='' placeholder='Tag Yourself')
+            // .ui.header Your Company
+            // .ui.left.icon.input
+            //     i.building.icon
+            //     input#company(type='text' value=user.company)
+            // div Your Tags
+            // div Matched People
+            // .ui.header Matched People
+            // each matchedUsersList
+            //     .ui.list
+            //         .item
+            //             strong #{this.matchedUser} (#{this.length}):
+            //             each this.tagIntersection
+            //                 | #{this}, &nbsp;
+
+
+template(name='people')
+    .ui.container
+        .ui.cards
+            each people
+                .ui.card
+                    +person
+
+
+template(name='person')
+    .ui.card
+        .content
+            .header
+                i.user.icon
+                |#{username}
+                if isUser
+                    |(you)
+                // if currentUser
+                //     unless isUser
+                //         .ui.small.basic.compact.button.converseWithUser
+                //             i.comment.icon
+                //             |Converse
+            .description
+                // h5.ui.header #{username}'s tags
+                each tags
+                    .ui.compact.button.tag(class=tag_class) #{this}
+        if currentUser
+            unless isUser
+                .extra.content
+                    div Your common tags with #{username} (#{matchedtags.length})
+                    each matchedtags
+                        .ui.basic.label #{this}
+                    // div Message #{username}:
+                    //     .ui.small.input
+                    //         input#text(type='sendMessage')
+                    // .ui.divided.list
+                    //     each conversationMessages
+                    //         .item
+                    //             |#{this.body} #{this.when}
+>>>>>>> 5bbbc3681715db2f2df98439340791e1bf26ffe6
