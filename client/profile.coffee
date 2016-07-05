@@ -1,19 +1,10 @@
 @selectedtags = new ReactiveArray []
 
 
-Template.profile.onCreated ->
-    @autorun -> Meteor.subscribe 'people'
-    @autorun -> Meteor.subscribe 'myTags', selectedtags.array()
-    self = @
-    self.autorun ->
-        # self.subscribe 'user_matches', selected_tags.array()
-        self.subscribe 'everyone'
-
-
+# Template.profile.onCreated ->
+    # @autorun -> Meteor.subscribe 'people', selected_tags.array()
 
 Template.profile.helpers
-    people: -> Meteor.users.find()
-
     user_matches:->
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
         user_matches = []

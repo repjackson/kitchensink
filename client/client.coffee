@@ -21,18 +21,19 @@ Template.people.helpers
 
 Template.cloud.helpers
     globalTags: ->
-        # docCount = Docs.find().count()
-        # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 20 )
-        Tags.find({}, limit: 10)
+        user_count = Meteor.users.find().count()
+        # console.log user_count
+        if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 20 )
+        # Tags.find({}, limit: 25)
 
-    # cloud_tag_class: ->
-    #     buttonClass = switch
-    #         when @index <= 5 then ''
-    #         when @index <= 10 then ''
-    #         when @index <= 15 then 'small'
-    #         when @index <= 20 then 'tiny'
-    #         when @index <= 25 then 'tiny'
-    #     return buttonClass
+    cloud_tag_class: ->
+        buttonClass = switch
+            when @index <= 5 then ''
+            when @index <= 10 then ''
+            when @index <= 15 then 'small'
+            when @index <= 20 then 'tiny'
+            when @index <= 25 then 'tiny'
+        return buttonClass
 
     # cloud_tag_class: ->
     #     buttonClass = switch

@@ -4,13 +4,6 @@ Meteor.publish 'me', ()->
             points: 1
             tags: 1
 
-
-Meteor.publish 'everyone', ->
-    Meteor.users.find {},
-        fields:
-            tags: 1
-            username: 1
-
 Meteor.publish 'tags', (selected_tags=[])->
     self = @
     match = {}

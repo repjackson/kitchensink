@@ -52,9 +52,9 @@ template(name='cloud')
         // .ui.hidden.fitted.divider
         // if Template.subscriptionsReady
         each globalTags
-            // .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
-            .ui.button.compact.selectTag #{this.name}
-                small #{this.count}
+            .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
+            // .ui.button.compact.selectTag #{this.name}
+                // small #{this.count}
 
 
 template(name='profile')
@@ -77,7 +77,7 @@ template(name='profile')
             each user_matches
                 strong #{matched_user} #{length}
                 each tag_intersection
-                    .ui.label #{this}      
+                    .ui.basic.label #{this}      
                 .ui.fitted.hidden.divider
 
 
