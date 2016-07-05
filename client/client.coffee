@@ -11,7 +11,7 @@ Template.docs.onCreated ->
 
 Template.docs.helpers
     docs: -> Docs.find {},
-        limit: 1
+        limit: 10
         sort:
             tag_count: 1
             points: -1
@@ -54,7 +54,7 @@ Template.cloud.helpers
     globalTags: ->
         # docCount = Docs.find().count()
         # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit: 20 )
-        Tags.find({}, limit: 10)
+        Tags.find({}, limit: 20)
 
     # cloud_tag_class: ->
     #     buttonClass = switch
@@ -139,12 +139,17 @@ Template.cloud.events
                     for tag in splitTags
                         selected_tags.push tag
 
+Template.matches.events
+    'click .my_tag': -> if @name in selected_tags.array() then selected_tags.remove @name else selected_tags.push @name
 
 Template.matches.helpers
     user_matches: ->
         # User_matches.find()
         # find all users with selected tag in tag_list
-        users = Meteor.users.find( tag_list: $all: selected_tags.array()).fetch()
+        match = {}
+        match._id = $ne: Meteor.userId()
+        if selected_tags.array() then match.tag_list = $all: selected_tags.array()
+        users = Meteor.users.find( match ).fetch()
         user_matches = []
         for user in users
             tag_intersection = _.intersection(user.tag_list, Meteor.user().tag_list)
@@ -153,10 +158,13 @@ Template.matches.helpers
                 tag_intersection: tag_intersection
                 length: tag_intersection.length
         sorted_list = _.sortBy(user_matches, 'length').reverse()
-        console.dir sorted_list
+        # console.dir sorted_list
         return sorted_list
         
     other_people: -> Meteor.users.find()
+
+    my_tag_class: -> if @name in selected_tags.array() then 'primary' else ''
+
 
 Template.matches.onCreated ->
     self = @

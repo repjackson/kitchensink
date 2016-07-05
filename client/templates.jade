@@ -31,8 +31,8 @@ template(name='layout')
         +edit
     else
         +cloud
-        // +docs
         +matches
+        +docs
 
 template(name='cloud')
     .ui.center.aligned.basic.segment
@@ -63,6 +63,7 @@ template(name='cloud')
 
 template(name='docs')
     .ui.container
+        h4.ui.header Posts
         each docs
             +view
 
@@ -78,9 +79,9 @@ template(name='view')
                         i.blue.pencil.icon
                     .delete.ui.red.icon.right.floated.button
                         i.remove.icon
-                else
-                    .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
-                    .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
+                // else
+                //     .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
+                //     .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
                 // .ui.basic.circular.label #{points}
                 // span #{points}
 
@@ -106,24 +107,28 @@ template(name='tag_result')
 
 
 template(name='matches')
-    .ui.container
-        .ui.header My Tag List
-        each currentUser.tag_list
-            .ui.label #{this}
-        // .ui.header My Tag Cloud
-        // each currentUser.tag_cloud
-        //     .ui.label #{name} #{count}
-        .ui.header User Matches
-        each user_matches
-            h5.ui.header #{matched_user} #{length}
-            each tag_intersection
-                .ui.label #{this}        
-        // .ui.header Other People
-        // each other_people
-        //     h5.ui.header #{username}
-        //     .ui.header List
-        //     each tag_list
-        //         .ui.label #{this}
-        //     .ui.header Cloud
-        //     each tag_cloud
-        //         .ui.label #{name} #{count}
+    .ui.container.segment
+        if currentUser
+            // h4.ui.header My Tag List
+            // each currentUser.tag_list
+            //     .ui.label #{this}
+            h5.ui.header My Tag Cloud
+            each currentUser.tag_cloud
+                .ui.small.compact.button.my_tag(class=my_tag_class) #{name} #{count}
+            h4.ui.header User Matches
+            each user_matches
+                div
+                    strong #{matched_user} #{length}
+                    each tag_intersection
+                        .ui.label #{this}        
+            // .ui.header Other People
+            // each other_people
+            //     h5.ui.header #{username}
+            //     .ui.header List
+            //     each tag_list
+            //         .ui.label #{this}
+            //     .ui.header Cloud
+            //     each tag_cloud
+            //         .ui.label #{name} #{count}
+        else
+            | Log in to match
