@@ -91,30 +91,5 @@ Template.cloud.events
     'click #clearTags': -> selected_tags.clear()
 
 
-Template.matches.helpers
-    user_matches: ->
-        # User_matches.find()
-        # find all users with selected tag in tag_list
-        users = Meteor.users.find( tag_list: $all: selected_tags.array()).fetch()
-        user_matches = []
-        for user in users
-            tag_intersection = _.intersection(user.tag_list, Meteor.user().tag_list)
-            user_matches.push
-                matched_user: user.username
-                tag_intersection: tag_intersection
-                length: tag_intersection.length
-        sorted_list = _.sortBy(user_matches, 'length').reverse()
-        console.dir sorted_list
-        return sorted_list
-        
-    other_people: -> Meteor.users.find()
-
-Template.matches.onCreated ->
-    self = @
-    self.autorun ->
-        # self.subscribe 'user_matches', selected_tags.array()
-        self.subscribe 'everyone'
-
-
 Template.person.helpers
     tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else 'basic'

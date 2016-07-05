@@ -5,6 +5,12 @@ Meteor.publish 'me', ()->
             tags: 1
 
 
+Meteor.publish 'everyone', ->
+    Meteor.users.find {},
+        fields:
+            tags: 1
+            username: 1
+
 Meteor.publish 'tags', (selected_tags=[])->
     self = @
     match = {}

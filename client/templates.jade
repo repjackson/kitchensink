@@ -72,49 +72,17 @@ template(name='profile')
                 .ui.left.icon.input
                     i.add.icon
                     input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
+            .ui.divider
+            .ui.header Top Matches
+            each user_matches
+                strong #{matched_user} #{length}
+                each tag_intersection
+                    .ui.label #{this}      
+                .ui.fitted.hidden.divider
+
 
 template(name='tag_result')
     .ui.small.compact.button #{name}
-
-
-template(name='matches')
-    .ui.container
-        .ui.header My Tag List
-        each currentUser.tag_list
-            .ui.label #{this}
-        // .ui.header My Tag Cloud
-        // each currentUser.tag_cloud
-        //     .ui.label #{name} #{count}
-        .ui.header User Matches
-        each user_matches
-            h5.ui.header #{matched_user} #{length}
-            each tag_intersection
-                .ui.label #{this}        
-        // .ui.header Other People
-        // each other_people
-        //     h5.ui.header #{username}
-        //     .ui.header List
-        //     each tag_list
-        //         .ui.label #{this}
-        //     .ui.header Cloud
-        //     each tag_cloud
-        //         .ui.label #{name} #{count}
-        .ui.left.icon.small.input
-            i.add.green.icon
-            input#add_tag(type='text' autofocus='' placeholder='Tag Yourself')
-            // .ui.header Your Company
-            // .ui.left.icon.input
-            //     i.building.icon
-            //     input#company(type='text' value=user.company)
-            // div Your Tags
-            // div Matched People
-            // .ui.header Matched People
-            // each matchedUsersList
-            //     .ui.list
-            //         .item
-            //             strong #{this.matchedUser} (#{this.length}):
-            //             each this.tagIntersection
-            //                 | #{this}, &nbsp;
 
 
 template(name='people')
