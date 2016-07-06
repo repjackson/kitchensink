@@ -60,18 +60,26 @@ template(name='cloud')
 template(name='profile')
     .ui.container
         .ui.segment
-            // div Your Name
-            div
+            .ui.form
+                .inline.field
+                    label Your Name
+                    input#username(type='text' value=currentUser.username)
                 // .ui.left.icon.input
-                //     i.user.icon
-                //     input#username(type='text' value=user.username)
-                each currentUser.tags
-                    .ui.small.compact.button.tag
-                        i.remove.icon
-                        |#{this}
-                .ui.left.icon.input
-                    i.add.icon
-                    input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
+                    // i.user.icon
+                .inline.field 
+                    label Contact Info (only shown to friends)
+                    input#contact(type='text' value=currentUser.contact)
+                // .ui.input
+                .inline.field
+                    label Your Tags
+                    each currentUser.tags
+                        .ui.small.compact.button.tag
+                            i.remove.icon
+                            |#{this}
+                    .ui.left.icon.input
+                        i.add.icon
+                        +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Add Tag'
+                        // input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
             .ui.divider
             .ui.header Top Matches
             each user_matches
@@ -98,25 +106,7 @@ template(name='person')
             |#{username}
             if isUser
                 |(you)
-            // if currentUser
-            //     unless isUser
-            //         .ui.small.basic.compact.button.converseWithUser
-            //             i.comment.icon
-            //             |Converse
         .description
             // h5.ui.header #{username}'s tags
             each tags
                 .ui.label.user_tag(class=tag_class) #{this}
-        // if currentUser
-        //     unless isUser
-        //         .extra.content
-        //             div Your common tags with #{username} (#{matchedtags.length})
-        //             each matchedtags
-        //                 .ui.basic.label #{this}
-                    // div Message #{username}:
-                    //     .ui.small.input
-                    //         input#text(type='sendMessage')
-                    // .ui.divided.list
-                    //     each conversationMessages
-                    //         .item
-                    //             |#{this.body} #{this.when}
