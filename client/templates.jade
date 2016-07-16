@@ -55,31 +55,31 @@ template(name='profile')
                             |#{this}
                     .ui.left.icon.input
                         i.add.icon
-                        +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Add Tag'
+                        +inputAutocomplete settings=settings id="self_tag" class="" autocomplete="off" placeholder='Add Tag'
                         // input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
             // .ui.divider
             // .ui.header Top Matches
             // each user_matches
             //     strong #{matched_user} #{length}
             //     each tag_intersection
-            //         .ui.basic.label #{this}
+            //         .ui.label #{this}
             //     .ui.fitted.hidden.divider
 
 template(name='cloud')
-    .ui.center.aligned.basic.segment
-        .ui.large.basic.label    
+    .ui.center.aligned.segment
+        .ui.large.label    
             +loginButtons
-        // .ui.basic.circular.label #{currentUser.points}
+        // .ui.circular.label #{currentUser.points}
         // .ui.hidden.fitted.divider
         .ui.left.icon.small.input
             i.search.icon
             +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off"
         .ui.hidden.fitted.divider
         if selected_tags
-            #clearTags.ui.primary.icon.compact.button
+            #clearTags.ui.large.primary.icon.compact.button
                 i.remove.icon
             each selected_tags
-                a.ui.primary.compact.button.unselectTag
+                a.ui.large.primary.compact.button.unselectTag
                     strong #{this}
         // .ui.hidden.fitted.divider
         // if Template.subscriptionsReady
@@ -115,11 +115,14 @@ template(name='person')
         .description
             h5.ui.header #{username}'s Cloud
             each cloud
-                .ui.label.user_tag(class=cloud_tag_class) #{name} (#{count})
+                .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name} (#{count})
         if currentUser
             .ui.divider
             h5.ui.header Your tags of #{username}
             each review_tags
-                .ui.label.review_tag(class=tag_class) #{this}
+                .ui.small.compact.button.review_tag(class=tag_class) 
+                    i.remove.icon
+                    |#{this}
             .ui.input
-                input.review_user(type='text' placeholder="Tag #{username}")
+                +inputAutocomplete settings=settings id="" class="review_user" autocomplete="off" placeholder="Tag #{username}"
+                // input.review_user(type='text' placeholder="Tag #{username}")

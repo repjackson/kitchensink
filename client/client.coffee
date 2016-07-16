@@ -31,7 +31,7 @@ Template.cloud.helpers
 
     cloud_tag_class: ->
         buttonClass = switch
-            when @index <= 5 then ''
+            when @index <= 5 then 'large'
             when @index <= 10 then ''
             when @index <= 15 then 'small'
             when @index <= 20 then 'tiny'
@@ -99,9 +99,9 @@ Template.person.onCreated ->
     @autorun -> Meteor.subscribe('review_doc', Template.currentData()._id)
 
 Template.person.helpers
-    tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else 'basic'
+    tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''
     
-    cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else 'basic'
+    cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else ''
     
     review_tags: -> 
         # console.log @
@@ -109,6 +109,21 @@ Template.person.helpers
         # console.log review_doc
         review_doc?.tags
     
+    settings: ->
+        {
+            position: 'bottom'
+            limit: 10
+            rules: [
+                {
+                    # token: ''
+                    collection: Tags
+                    field: 'name'
+                    matchAll: true
+                    template: Template.tag_result
+                }
+            ]
+        }
+
     
 Template.person.events
     'keydown .review_user': (e,t)->
@@ -119,9 +134,14 @@ Template.person.events
                 Meteor.call 'tag_user', @_id, tag, ->
                     $('.review_user').val('')
 
+    'click .user_tag': ->
+        if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
 
-
-
+    'click .review_tag': ->
+        tag = @valueOf()
+        console.log Template.currentData()
+        Meteor.call 'remove_tag', @_id, tag, ->
+            $('#add_tag').val(tag)
 
 
 Template.profile.onCreated ->
@@ -165,13 +185,19 @@ Template.profile.helpers
             []
 
 Template.profile.events
-    'keydown #add_tag': (e,t)->
+    'keydown #self_tag': (e,t)->
         e.preventDefault
-        tag = $('#add_tag').val().toLowerCase().trim()
+        tag = $('#self_tag').val().toLowerCase().trim()
         if e.which is 13
             if tag.length > 0
                 Meteor.call 'tag_user', Meteor.userId(), tag, ->
-                    $('#add_tag').val('')
+                    $('#self_tag').val('')
+
+    'autocompleteselect #self_tag': (event, template, doc) ->
+        # console.log 'selected ', doc
+        Meteor.call 'tag_user', Meteor.userId(), doc.name, ->
+            $('#self_tag').val ''
+
 
     'keydown #username': (e,t)->
         e.preventDefault
@@ -201,7 +227,3 @@ Template.profile.events
         Meteor.call 'remove_tag', Meteor.userId(), tag, ->
             $('#add_tag').val(tag)
 
-    'autocompleteselect #add_tag': (event, template, doc) ->
-        # console.log 'selected ', doc
-        Meteor.call 'add_tag', doc.name, ->
-            $('#add_tag').val ''

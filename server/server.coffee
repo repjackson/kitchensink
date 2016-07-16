@@ -8,8 +8,14 @@ Meteor.publish 'tags', (selected_tags)->
     self = @
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
-    match.recipient_id = $ne: @userId
+    match.$and =  
+        [
+            { recipient_id: $exists: true }
+            { recipient_id: $ne: @userId }
+        ]
 
+
+    # console.log match
     cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
@@ -33,7 +39,7 @@ Meteor.publish 'people', (selected_tags)->
     self = @
     match = {}
     if selected_tags.length > 0 then match.list = $all: selected_tags
-
+    match["profile.name"] = $exists: false 
     Meteor.users.find match,
         fields:
             username: 1
