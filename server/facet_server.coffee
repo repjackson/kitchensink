@@ -4,7 +4,7 @@ Meteor.publish 'me', ()->
             points: 1
             tags: 1
 
-Meteor.publish 'tags', (selected_tags=[])->
+Meteor.publish 'tags', (selected_tags)->
     self = @
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
@@ -39,3 +39,10 @@ Meteor.publish 'people', (selected_tags=[])->
             tags: 1
             profile: 1
             username: 1
+
+
+Meteor.publish 'self_doc', ->
+    # console.log 'publish self_doc'
+    Docs.find
+        recipient_id: @userId
+        author_id: @userId

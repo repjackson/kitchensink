@@ -13,6 +13,7 @@ Template.layout.onCreated ->
 Template.people.onCreated ->
     @autorun -> Meteor.subscribe('people', selected_tags.array())
 
+
 Template.people.helpers
     people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
 
@@ -95,6 +96,8 @@ Template.cloud.events
 Template.person.helpers
     tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else 'basic'
     
+Template.profile.onCreated ->
+    @autorun -> Meteor.subscribe('self_doc')
     
 Template.profile.helpers
     user_matches: ->
@@ -124,6 +127,14 @@ Template.profile.helpers
             ]
         }
 
+    my_tags: -> 
+        self_review = Docs.findOne
+            recipient_id: Meteor.userId()
+            author_id: Meteor.userId()
+        if self_review
+            self_review.tags
+        else
+            []
 
 Template.profile.events
     'keydown #add_tag': (e,t)->
@@ -132,7 +143,7 @@ Template.profile.events
         switch e.which
             when 13
                 if tag.length > 0
-                    Meteor.call 'add_tag', tag, ->
+                    Meteor.call 'tag_user', Meteor.userId(), tag, ->
                         $('#add_tag').val('')
 
     'keydown #username': (e,t)->
@@ -158,9 +169,9 @@ Template.profile.events
                         unless err 
                             alert "Updated contact to #{contact}."
 
-    'click .tag': ->
+    'click .my_tag': ->
         tag = @valueOf()
-        Meteor.call 'remove_tag', tag, ->
+        Meteor.call 'remove_tag', Meteor.userId(), tag, ->
             $('#add_tag').val(tag)
 
     'autocompleteselect #add_tag': (event, template, doc) ->

@@ -32,6 +32,38 @@ template(name='layout')
         +profile
     +cloud
     +people
+    
+    
+template(name='profile')
+    .ui.container
+        .ui.segment
+            .ui.form
+                .inline.field
+                    label Your Name
+                    input#username(type='text' value=currentUser.username)
+                // .ui.left.icon.input
+                    // i.user.icon
+                // .inline.field 
+                //     label Contact Info (only shown to friends)
+                //     input#contact(type='text' value=currentUser.contact)
+                // .ui.input
+                .inline.field
+                    label Your Tags
+                    each my_tags
+                        .ui.small.compact.button.my_tag
+                            i.remove.icon
+                            |#{this}
+                    .ui.left.icon.input
+                        i.add.icon
+                        +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Add Tag'
+                        // input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
+            .ui.divider
+            .ui.header Top Matches
+            each user_matches
+                strong #{matched_user} #{length}
+                each tag_intersection
+                    .ui.basic.label #{this}      
+                .ui.fitted.hidden.divider
 
 template(name='cloud')
     .ui.center.aligned.basic.segment
@@ -57,36 +89,6 @@ template(name='cloud')
                 // small #{this.count}
 
 
-template(name='profile')
-    .ui.container
-        .ui.segment
-            .ui.form
-                .inline.field
-                    label Your Name
-                    input#username(type='text' value=currentUser.username)
-                // .ui.left.icon.input
-                    // i.user.icon
-                .inline.field 
-                    label Contact Info (only shown to friends)
-                    input#contact(type='text' value=currentUser.contact)
-                // .ui.input
-                .inline.field
-                    label Your Tags
-                    each currentUser.tags
-                        .ui.small.compact.button.tag
-                            i.remove.icon
-                            |#{this}
-                    .ui.left.icon.input
-                        i.add.icon
-                        +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Add Tag'
-                        // input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
-            .ui.divider
-            .ui.header Top Matches
-            each user_matches
-                strong #{matched_user} #{length}
-                each tag_intersection
-                    .ui.basic.label #{this}      
-                .ui.fitted.hidden.divider
 
 
 template(name='tag_result')
