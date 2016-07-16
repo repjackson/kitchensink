@@ -4,15 +4,12 @@
 
 Meteor.methods
     remove_tag: (recipient_id, tag)->
-        review_doc = Docs.findOne author_id: Meteor.userId(), recipient_id: recipient_id
+        review_doc = Docs.findOne(author_id: Meteor.userId(), recipient_id: recipient_id)
         
         Docs.update review_doc._id,
             $pull: tags: tag
-
-    add_tag: (tag)->
-        Meteor.users.update Meteor.userId(),
-            $addToSet: tags: tag
-
+        Meteor.call 'generate_person_cloud', recipient_id
+        
     update_username: (username)->
         existing_user = Meteor.users.findOne username:username
         if existing_user then throw new Meteor.Error 500, 'username exists'

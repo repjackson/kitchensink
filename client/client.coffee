@@ -131,17 +131,23 @@ Template.person.events
         tag = t.$('.review_user').val().toLowerCase().trim()
         if e.which is 13
             if tag.length > 0
-                Meteor.call 'tag_user', @_id, tag, ->
+                Meteor.call 'tag_user', Template.parentData(0)._id, tag, ->
                     $('.review_user').val('')
 
     'click .user_tag': ->
         if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
 
-    'click .review_tag': ->
+    'click .review_tag': (e,t)->
         tag = @valueOf()
-        console.log Template.currentData()
-        Meteor.call 'remove_tag', @_id, tag, ->
-            $('#add_tag').val(tag)
+        # console.log Template.currentData()._id
+        Meteor.call 'remove_tag', Template.currentData()._id, tag, ->
+            t.$('.review_user').val(tag)
+
+    'autocompleteselect .review_user': (event, template, doc) ->
+        # console.log 'selected ', doc
+        Meteor.call 'tag_user', Template.parentData(0)._id, doc.name, ->
+            $('.review_user').val ''
+
 
 
 Template.profile.onCreated ->
