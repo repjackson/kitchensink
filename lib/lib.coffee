@@ -31,5 +31,5 @@ Meteor.methods
             Docs.insert
                 recipient_id: recipient_id
                 author_id: Meteor.userId()
-        
-    
+                tags: [tag]
+        Meteor.call 'generate_person_cloud', recipient_id

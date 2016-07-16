@@ -108,7 +108,17 @@ template(name='person')
             |#{username}
             if isUser
                 |(you)
+        // .description
+        //     h5.ui.header #{username}'s List
+        //     each list
+        //         .ui.label.user_tag(class=tag_class) #{this}
         .description
-            // h5.ui.header #{username}'s tags
-            each tags
-                .ui.label.user_tag(class=tag_class) #{this}
+            h5.ui.header #{username}'s Cloud
+            each cloud
+                .ui.label.user_tag(class=cloud_tag_class) #{name} (#{count})
+        .ui.divider
+        h5.ui.header Your tags of #{username}
+        each review_tags
+            .ui.label.review_tag(class=tag_class) #{this}
+        .ui.input
+            input.review_user(type='text' placeholder="Tag #{username}")

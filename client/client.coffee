@@ -15,7 +15,9 @@ Template.people.onCreated ->
 
 
 Template.people.helpers
-    people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
+    people: -> 
+        Meteor.users.find({ _id: $ne: Meteor.userId() })
+        # Meteor.users.find({ })
 
     tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
@@ -92,10 +94,36 @@ Template.cloud.events
 
     'click #clearTags': -> selected_tags.clear()
 
+Template.person.onCreated ->
+    # console.log Template.currentData()
+    @autorun -> Meteor.subscribe('review_doc', Template.currentData()._id)
 
 Template.person.helpers
     tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else 'basic'
     
+    cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else 'basic'
+    
+    review_tags: -> 
+        # console.log @
+        review_doc = Docs.findOne(author_id: Meteor.userId(), recipient_id: @_id)
+        # console.log review_doc
+        review_doc?.tags
+    
+    
+Template.person.events
+    'keydown .review_user': (e,t)->
+        e.preventDefault
+        tag = t.$('.review_user').val().toLowerCase().trim()
+        if e.which is 13
+            if tag.length > 0
+                Meteor.call 'tag_user', @_id, tag, ->
+                    $('.review_user').val('')
+
+
+
+
+
+
 Template.profile.onCreated ->
     @autorun -> Meteor.subscribe('self_doc')
     
@@ -140,11 +168,10 @@ Template.profile.events
     'keydown #add_tag': (e,t)->
         e.preventDefault
         tag = $('#add_tag').val().toLowerCase().trim()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    Meteor.call 'tag_user', Meteor.userId(), tag, ->
-                        $('#add_tag').val('')
+        if e.which is 13
+            if tag.length > 0
+                Meteor.call 'tag_user', Meteor.userId(), tag, ->
+                    $('#add_tag').val('')
 
     'keydown #username': (e,t)->
         e.preventDefault
