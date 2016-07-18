@@ -1,5 +1,5 @@
 
-Template.people.onCreated ->
+Template.profile.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selected_people_tags.array()
     @autorun -> Meteor.subscribe 'me'
 

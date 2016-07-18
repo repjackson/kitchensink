@@ -76,10 +76,30 @@ Template.doc_cloud.events
                 if val.length is 0
                     selected_doc_tags.pop()
                     
+    'keyup #quick_add': (e,t)->
+        e.preventDefault
+        tag = $('#quick_add').val().toLowerCase()
+        switch e.which
+            when 13
+                if tag.length > 0
+                    split_tags = tag.match(/\S+/g)
+                    $('#quick_add').val('')
+                    Meteor.call 'create_doc_with_tags', split_tags
+                    selected_doc_tags.clear()
+                    for tag in split_tags
+                        selected_doc_tags.push tag
+                    # FlowRouter.go '/'
+                    
+                    
+                    
     'autocompleteselect #search': (event, template, doc) ->
         # console.log 'selected ', doc
         selected_doc_tags.push doc.name
         $('#search').val ''
+        
+    'click #add_doc': -> 
+        Meteor.call 'create_doc', (err, id)->
+            FlowRouter.go "/docs/edit/#{id}"
         
     'click .selectTag': -> selected_doc_tags.push @name
 

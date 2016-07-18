@@ -29,3 +29,6 @@ mizzao:autocomplete
 kadira:flow-router
 useraccounts:semantic-ui
 kadira:blaze-layout
+froala:editor
+matb33:collection-hooks
+dburles:collection-helpers

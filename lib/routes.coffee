@@ -8,6 +8,11 @@ FlowRouter.route '/docs',
     action: ->
         BlazeLayout.render 'layout', main: 'docs'
 
+FlowRouter.route '/docs/edit/:doc_id',
+    name: 'edit'
+    action: ->
+        BlazeLayout.render 'layout', main: 'edit'
+
 FlowRouter.route '/profile',
     name: 'profile'
     action: ->

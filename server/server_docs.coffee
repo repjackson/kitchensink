@@ -1,14 +1,21 @@
 
+Docs.allow
+    insert: (userId, doc)-> doc.author_id is Meteor.userId()
+    update: (userId, doc)-> doc.author_id is Meteor.userId()
+    remove: (userId, doc)-> doc.author_id is Meteor.userId()
+
+Meteor.publish 'doc', (id)->
+    Docs.find id
 
 Meteor.publish 'doc_tags', (selected_doc_tags)->
     self = @
     match = {}
     if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
-    # match.$and =  
-    #     [
-    #         { recipient_id: $exists: true }
-    #         { recipient_id: $ne: @userId }
-    #     ]
+    match.$and =  
+        [
+            { recipient_id: $exists: false }
+            { recipient_id: $ne: @userId }
+        ]
 
 
     # console.log match
@@ -36,7 +43,15 @@ Meteor.publish 'docs', (selected_doc_tags)->
     match = {}
     if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
     # match["profile.name"] = $exists: false 
-    Docs.find match
+    match.$and =  
+        [
+            { recipient_id: $exists: false }
+            { recipient_id: $ne: @userId }
+        ]
+
+    Docs.find match,
+        limit: 10
+    
 
 
 # Meteor.methods

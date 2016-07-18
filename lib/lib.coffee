@@ -1,6 +1,19 @@
 @Tags = new Meteor.Collection 'tags'
 @Docs = new Meteor.Collection 'docs'
 
+Docs.before.insert (userId, doc)->
+    doc.up_voters = []
+    doc.down_voters = []
+    doc.timestamp = Date.now()
+    doc.author_id = Meteor.userId()
+    doc.points = 0
+    return
+
+Docs.helpers 
+    author: ->
+        Meteor.users.findOne @author_id
+
+
 
 Meteor.methods
     remove_tag: (recipient_id, tag)->
