@@ -77,17 +77,18 @@ template(name='people_you_like')
     h5.ui.header People You Like
     each people_you_like
         strong #{username}
-        // each tag_intersection
-        //     .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
-        // .ui.fitted.hidden.divider
+        each person_intersection
+            .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
+        .ui.fitted.hidden.divider
 
 template(name='people_who_like_you')
     h5.ui.header People Who Like You
     each people_who_like_you
-        strong #{username} #{contact}
-        // each tag_intersection
-        //     .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
-        // .ui.fitted.hidden.divider
+        strong #{username}
+        each person_intersection
+            .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
+        | #{contact}
+        .ui.fitted.hidden.divider
 
 
 template(name='cloud')

@@ -247,6 +247,11 @@ Template.profile.events
     'click .match_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
 
 
+Template.registerHelper 'person_intersection', ->
+    me = Meteor.user()
+    _.intersection(me.list, @list)
+
+
 Template.people_you_like.onCreated ->
     @autorun -> Meteor.subscribe('people_you_like')
 
