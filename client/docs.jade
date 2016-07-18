@@ -1,0 +1,47 @@
+template(name='doc_cloud')
+    .ui.center.aligned.segment
+        // .ui.circular.label #{currentUser.points}
+        // .ui.hidden.fitted.divider
+        h3.ui.header Browse Documents
+        .ui.hidden.fitted.divider
+        .ui.left.icon.small.input
+            i.search.icon
+            +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder='Tag Search'
+        if selected_doc_tags
+            #clearTags.ui.large.primary.icon.compact.button
+                i.remove.icon
+            each selected_doc_tags
+                a.ui.large.primary.compact.button.unselectTag
+                    strong #{this}
+        // .ui.hidden.fitted.divider
+        // if Template.subscriptionsReady
+        each all_doc_tags
+            .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
+            // .ui.button.compact.selectTag #{this.name}
+                // small #{this.count}
+
+template(name='docs')
+    +doc_cloud
+    .ui.container
+        each docs
+            +doc
+
+
+template(name='doc')
+    .ui.segment
+        .header
+            i.user.icon
+            |#{username}
+            // if currentUser
+            //     .ui.small.circular.icon.button.add_liked_person(class=like_button_class)
+            //         i.thumbs.up.link.icon
+        // .description
+        //     h5.ui.header #{username}'s List
+        //     each list
+        //         .ui.label.user_tag(class=tag_class) #{this}
+        .description
+            // h5.ui.header #{username}'s Cloud
+            // each top_cloud
+            each tags
+                // .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name}
+                .ui.compact.small.button.doc_tag(class=doc_tag_class) #{this}

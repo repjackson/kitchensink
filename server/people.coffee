@@ -11,7 +11,7 @@ Meteor.publish 'me', ()->
             contact: 1
             people_you_like: 1
 
-Meteor.publish 'tags', (selected_tags)->
+Meteor.publish 'people_tags', (selected_tags)->
     self = @
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags

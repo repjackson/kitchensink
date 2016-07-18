@@ -1,0 +1,21 @@
+template(name='nav')
+    .ui.attached.menu
+        a#home_link.header.item(href='/')
+            // img.logo(src='/img/ship_wheel-48.png', alt='HubCollider Logo')
+            // i.content.icon
+            | Facet
+        // .ui.category.search.two.wide.item
+        //     .ui.transparent.icon.input
+        //         input.search(type='text', placeholder='Search...')
+        //         i.search.link.icon
+        a.item(href='/people')
+            i.users.icon
+            |People
+        a.item(href='/docs')
+            i.file.outline.icon
+            |Docs
+        .right.menu
+            a.item(href='/profile')
+                i.user.icon
+                | #{currentUser.username}
+            +atNavButton
