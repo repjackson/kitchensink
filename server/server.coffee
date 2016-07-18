@@ -1,8 +1,15 @@
+Accounts.onCreateUser (options, user) ->
+    user.people_you_like = []
+    user
+
+
 Meteor.publish 'me', ()-> 
     Meteor.users.find @userId,
         fields: 
             cloud: 1
             list: 1
+            contact: 1
+            people_you_like: 1
 
 Meteor.publish 'tags', (selected_tags)->
     self = @
@@ -45,7 +52,30 @@ Meteor.publish 'people', (selected_tags)->
             username: 1
             cloud: 1
             list: 1
+            people_you_like: 1
 
+Meteor.publish 'people_you_like', ->
+    me = Meteor.users.findOne @userId
+    people_you_like = if me?.people_you_like then me.people_you_like else []
+
+    Meteor.users.find { _id: $in: people_you_like },
+        fields:
+            username: 1
+            cloud: 1
+            list: 1
+            contact: 1
+            people_you_like: 1
+
+Meteor.publish 'people_who_like_you`', ->
+    me = Meteor.users.findOne @userId
+
+    Meteor.users.find { people_you_like: $in: @userId },
+        fields:
+            username: 1
+            cloud: 1
+            list: 1
+            contact: 1
+            people_you_like: 1
 
 Meteor.publish 'self_doc', ->
     # console.log 'publish self_doc'

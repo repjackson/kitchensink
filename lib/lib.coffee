@@ -17,6 +17,10 @@ Meteor.methods
             Meteor.users.update Meteor.userId(),
                 $set: username: username
 
+    update_contact: (contact)->
+        Meteor.users.update Meteor.userId(),
+            $set: contact: contact
+
 
     tag_user: (recipient_id, tag)->
         user_tag_doc = Docs.findOne author_id: Meteor.userId(), recipient_id: recipient_id
@@ -30,3 +34,15 @@ Meteor.methods
                 author_id: Meteor.userId()
                 tags: [tag]
         Meteor.call 'generate_person_cloud', recipient_id
+        
+        
+    add_liked_person: (user_id)->
+        if not Meteor.user().people_you_like
+            Meteor.users.update Meteor.userId(),
+                $set: people_you_like: []
+        if user_id in Meteor.user().people_you_like
+            Meteor.users.update Meteor.userId(),
+                $pull: people_you_like: user_id 
+        else
+            Meteor.users.update Meteor.userId(),
+                $addToSet: people_you_like: user_id 

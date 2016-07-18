@@ -103,6 +103,8 @@ Template.person.helpers
     
     cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else ''
     
+    top_cloud: -> @cloud
+    
     review_tags: -> 
         # console.log @
         review_doc = Docs.findOne(author_id: Meteor.userId(), recipient_id: @_id)
@@ -124,6 +126,8 @@ Template.person.helpers
             ]
         }
 
+    like_button_class: -> if @_id in Meteor.user().people_you_like then 'primary' else 'basic' 
+
     
 Template.person.events
     'keydown .review_user': (e,t)->
@@ -135,6 +139,10 @@ Template.person.events
                     $('.review_user').val('')
 
     'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
+
+    'click .add_liked_person': ->
+        # console.log @_id
+        Meteor.call 'add_liked_person', @_id
 
     'click .review_tag': (e,t)->
         tag = @valueOf()
@@ -180,6 +188,7 @@ Template.profile.helpers
             ]
         }
 
+
     my_tags: -> 
         self_review = Docs.findOne
             recipient_id: Meteor.userId()
@@ -190,6 +199,7 @@ Template.profile.helpers
             []
             
     cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else ''
+    match_tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''
 
 
 Template.profile.events
@@ -215,6 +225,17 @@ Template.profile.events
                         else
                             alert "Updated username to #{username}."
     
+    'keydown #contact': (e,t)->
+        e.preventDefault
+        contact = $('#contact').val().trim()
+        switch e.which
+            when 13
+                if contact.length > 0
+                    Meteor.call 'update_contact', contact, (err,res)->
+                        if err then console.error err
+                        else
+                            alert "Updated contact to #{contact}."
+    
 
     'click .my_tag': ->
         tag = @valueOf()
@@ -222,3 +243,34 @@ Template.profile.events
             $('#self_tag').val(tag)
 
     'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
+    
+    'click .match_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
+
+
+Template.people_you_like.onCreated ->
+    @autorun -> Meteor.subscribe('people_you_like')
+
+Template.people_you_like.helpers
+    people_you_like: -> 
+        if Meteor.user().people_you_like
+            Meteor.users.find { _id: $in: Meteor.user().people_you_like },
+                fields:
+                    username: 1
+                    cloud: 1
+                    list: 1
+                    contact: 1
+        else []
+    
+Template.people_who_like_you.onCreated ->
+    @autorun -> Meteor.subscribe('people_who_like_you')
+
+Template.people_who_like_you.helpers
+    people_who_like_you: -> 
+        Meteor.users.find { people_you_like: $in: [Meteor.userId()] },
+        # Meteor.users.find { },
+            fields:
+                username: 1
+                cloud: 1
+                list: 1
+                contact: 1
+    
