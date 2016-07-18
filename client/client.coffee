@@ -3,7 +3,7 @@
 
 Accounts.ui.config
     passwordSignupFields: 'USERNAME_ONLY'
-    # dropdownClasses: 'simple'
+    dropdownClasses: 'simple'
 
 
 Template.layout.onCreated ->
@@ -26,26 +26,26 @@ Template.cloud.helpers
     globalTags: ->
         user_count = Meteor.users.find().count()
         # console.log user_count
-        if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 20 )
+        if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 50 )
         # Tags.find({}, limit: 25)
-
-    cloud_tag_class: ->
-        buttonClass = switch
-            when @index <= 5 then 'large'
-            when @index <= 10 then ''
-            when @index <= 15 then 'small'
-            when @index <= 20 then 'tiny'
-            when @index <= 25 then 'tiny'
-        return buttonClass
 
     # cloud_tag_class: ->
     #     buttonClass = switch
-    #         when @index <= 10 then 'large'
-    #         when @index <= 20 then ''
-    #         when @index <= 30 then 'small'
-    #         when @index <= 40 then 'tiny'
-    #         when @index <= 50 then 'tiny'
+    #         when @index <= 5 then 'large'
+    #         when @index <= 10 then ''
+    #         when @index <= 15 then 'small'
+    #         when @index <= 20 then 'tiny'
+    #         when @index <= 25 then 'tiny'
     #     return buttonClass
+
+    cloud_tag_class: ->
+        buttonClass = switch
+            when @index <= 10 then 'large'
+            when @index <= 20 then ''
+            when @index <= 30 then 'small'
+            when @index <= 40 then 'tiny'
+            when @index <= 50 then 'tiny'
+        return buttonClass
 
 
     selected_tags: -> selected_tags.list()
@@ -134,8 +134,7 @@ Template.person.events
                 Meteor.call 'tag_user', Template.parentData(0)._id, tag, ->
                     $('.review_user').val('')
 
-    'click .user_tag': ->
-        if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
+    'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
 
     'click .review_tag': (e,t)->
         tag = @valueOf()
@@ -158,7 +157,7 @@ Template.profile.helpers
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
         user_matches = []
         for user in users
-            tag_intersection = _.intersection(user.tags, Meteor.user().tags)
+            tag_intersection = _.intersection(user.list, Meteor.user().list)
             user_matches.push
                 matched_user: user.username
                 tag_intersection: tag_intersection
@@ -189,6 +188,9 @@ Template.profile.helpers
             self_review.tags
         else
             []
+            
+    cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else ''
+
 
 Template.profile.events
     'keydown #self_tag': (e,t)->
@@ -198,11 +200,6 @@ Template.profile.events
             if tag.length > 0
                 Meteor.call 'tag_user', Meteor.userId(), tag, ->
                     $('#self_tag').val('')
-
-    'autocompleteselect #self_tag': (event, template, doc) ->
-        # console.log 'selected ', doc
-        Meteor.call 'tag_user', Meteor.userId(), doc.name, ->
-            $('#self_tag').val ''
 
 
     'keydown #username': (e,t)->
@@ -218,18 +215,10 @@ Template.profile.events
                         else
                             alert "Updated username to #{username}."
     
-    'keydown #contact': (e,t)->
-        e.preventDefault
-        contact = $('#contact').val().trim()
-        switch e.which
-            when 13
-                if contact.length > 0
-                    Meteor.call 'update_contact', contact, (err,res)->
-                        unless err 
-                            alert "Updated contact to #{contact}."
 
     'click .my_tag': ->
         tag = @valueOf()
         Meteor.call 'remove_tag', Meteor.userId(), tag, ->
-            $('#add_tag').val(tag)
+            $('#self_tag').val(tag)
 
+    'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)

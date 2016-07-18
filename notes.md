@@ -41,3 +41,10 @@ take in filter
 find all users with tag in tag cloud
 from that set find all users with matching tags in tag list
 filter tags 
+
+todo
+-show personal cloud up top, this is the narciscism
+-show auto matches
+-top 10 for each person? yes, that allows better formatting
+--no tag sizes
+-contact info

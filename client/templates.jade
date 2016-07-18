@@ -41,12 +41,16 @@ template(name='profile')
                 .inline.field
                     label Your Name
                     input#username(type='text' value=currentUser.username)
-                // .ui.left.icon.input
-                    // i.user.icon
-                // .inline.field 
-                //     label Contact Info (only shown to friends)
-                //     input#contact(type='text' value=currentUser.contact)
-                // .ui.input
+                .inline.field 
+                    label Contact Info (only shown to friends)
+                    .ui.left.icon.input
+                        i.user.icon
+                        input#contact(type='text' value=currentUser.contact)
+                .inline.field
+                    label Your Cloud
+                    each currentUser.cloud
+                        // .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name}
+                        .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name} (#{count})
                 .inline.field
                     label Your Tags
                     each my_tags
@@ -55,15 +59,15 @@ template(name='profile')
                             |#{this}
                     .ui.left.icon.input
                         i.add.icon
-                        +inputAutocomplete settings=settings id="self_tag" class="" autocomplete="off" placeholder='Add Tag'
-                        // input#add_tag(type='text' autofocus='' placeholder='Enter Tag')
-            // .ui.divider
-            // .ui.header Top Matches
-            // each user_matches
-            //     strong #{matched_user} #{length}
-            //     each tag_intersection
-            //         .ui.label #{this}
-            //     .ui.fitted.hidden.divider
+                        // +inputAutocomplete settings=settings id="self_tag" class="" autocomplete="off" placeholder='Add Tag'
+                        input#self_tag(type='text' autofocus='' placeholder='Enter Tag')
+            .ui.divider
+            .ui.header Top Matches
+            each user_matches
+                strong #{matched_user} #{length}
+                each tag_intersection
+                    .ui.label #{this}
+                .ui.fitted.hidden.divider
 
 template(name='cloud')
     .ui.center.aligned.segment
@@ -113,9 +117,10 @@ template(name='person')
         //     each list
         //         .ui.label.user_tag(class=tag_class) #{this}
         .description
-            h5.ui.header #{username}'s Cloud
+            // h5.ui.header #{username}'s Cloud
             each cloud
-                .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name} (#{count})
+                .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name}
+                // .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name} (#{count})
         if currentUser
             .ui.divider
             h5.ui.header Your tags of #{username}
@@ -124,5 +129,5 @@ template(name='person')
                     i.remove.icon
                     |#{this}
             .ui.input
-                +inputAutocomplete settings=settings id="" class="review_user" autocomplete="off" placeholder="Add Tag"
-                // input.review_user(type='text' placeholder="Tag #{username}")
+                // +inputAutocomplete settings=settings id="" class="review_user" autocomplete="off" placeholder="Add Tag"
+                input.review_user(type='text' placeholder="Tag #{username}")
