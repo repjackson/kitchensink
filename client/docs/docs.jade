@@ -41,13 +41,16 @@ template(name='doc')
             // if currentUser
             //     .ui.small.circular.icon.button.add_liked_person(class=like_button_class)
             //         i.thumbs.up.link.icon
-        // .description
-        //     h5.ui.header #{username}'s List
-        //     each list
-        //         .ui.label.user_tag(class=tag_class) #{this}
+        .description
+            |!{body}
         .description
             // h5.ui.header #{username}'s Cloud
             // each top_cloud
             each tags
                 // .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name}
                 .ui.compact.small.button.doc_tag(class=doc_tag_class) #{this}
+        .actions
+            if is_author
+                .ui.button.edit_doc
+                    i.pencil.icon
+                    |Edit

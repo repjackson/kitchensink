@@ -122,6 +122,8 @@ Template.doc.helpers
         # console.log review_doc
         review_doc?.tags
     
+    is_author: -> Meteor.userId() is @author_id
+    
     settings: ->
         {
             position: 'bottom'
@@ -160,3 +162,5 @@ Template.doc.events
         Meteor.call 'tag_user', Template.parentData(0)._id, doc.name, ->
             $('.review_user').val ''
 
+    'click .edit_doc': ->
+        FlowRouter.go "/docs/edit/#{@_id}"
