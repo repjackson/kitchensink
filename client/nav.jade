@@ -1,11 +1,10 @@
 template(name='nav')
-    .ui.attached.menu
+    .ui.attached.inverted.menu
         a#home_link.header.item(href='/')
-            // img.logo(src='/img/ship_wheel-48.png', alt='HubCollider Logo')
-            // i.content.icon
+            i.diamond.icon
             | Facet
         // .ui.category.search.two.wide.item
-        //     .ui.transparent.icon.input
+        //     .ui.transparent.inverted.icon.input
         //         input.search(type='text', placeholder='Search...')
         //         i.search.link.icon
         a.item(href='/people')
@@ -14,6 +13,9 @@ template(name='nav')
         a.item(href='/docs')
             i.file.outline.icon
             |Docs
+        a.item(href='/importers')
+            i.down.arrow.icon
+            |Importers
         .right.menu
             if currentUser
                 a.item(href='/profile')

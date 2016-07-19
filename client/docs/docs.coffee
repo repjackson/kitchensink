@@ -19,7 +19,7 @@ Template.doc_cloud.helpers
     all_doc_tags: ->
         doc_count = Docs.find().count()
         # console.log doc_count
-        if doc_count < 3 then Tags.find({ count: $lt: doc_count }, limit: 20 ) else Tags.find({}, limit: 20 )
+        if doc_count < 3 then Tags.find({ count: $lt: doc_count }, limit: 40 ) else Tags.find({}, limit: 40 )
         # Tags.find({})
 
     # cloud_tag_class: ->
@@ -116,6 +116,20 @@ Template.doc.helpers
     
     # doc_tag_class: -> if @name in selected_doc_tags.array() then 'blue' else ''
     
+    vote_up_button_class: ->
+        if not Meteor.userId() then 'disabled basic'
+        # else if Meteor.user().points < 1 then 'disabled basic'
+        else if Meteor.userId() in @up_voters then 'green'
+        else 'basic'
+
+    vote_down_button_class: ->
+        if not Meteor.userId() then 'disabled basic'
+        # else if Meteor.user().points < 1 then 'disabled basic'
+        else if Meteor.userId() in @down_voters then 'red'
+        else 'basic'
+
+    
+    
     review_tags: -> 
         # console.log @
         review_doc = Docs.findOne(author_id: Meteor.userId(), recipient_id: @_id)
@@ -164,3 +178,7 @@ Template.doc.events
 
     'click .edit_doc': ->
         FlowRouter.go "/docs/edit/#{@_id}"
+        
+    'click .vote_down': -> Meteor.call 'vote_down', @_id
+
+    'click .vote_up': -> Meteor.call 'vote_up', @_id
