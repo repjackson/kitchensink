@@ -13,19 +13,27 @@ template(name='edit')
             div
                 if unpicked_alchemy_tags.length
                     .ui.segment
-                        .ui.header Suggested Tags
+                        h5.ui.header Suggested Alchemy Tags
                         div
                             each unpicked_alchemy_tags
                                 .add_alchemy_suggestion.ui.small.compact.button #{this}
-                        #add_all_alchemy.ui.blue.button Add All
-            #alchemy_suggest.ui.basic.button Suggest Tags
+                        #add_all_alchemy.ui.blue.button Add All Alchemy Suggestions
+            if yaki_tags.length
+                .ui.segment
+                    h5.ui.header Suggested Yaki Tags
+                    div
+                        each unpicked_yaki_tags
+                            .add_yaki_suggestion.ui.small.compact.button #{this}
+                    #add_all_yaki.ui.blue.button Add All Yaki Suggestions
+            #alchemy_suggest.ui.basic.button Suggest Tags with AlchemyAPI
+            #yaki_suggest.ui.basic.button Suggest Tags Yaki
             .ui.hidden.divider
             .ui.input
                 textarea#body
                     |#{body}
             .ui.hidden.divider
             if tags
-                #saveDoc.ui.large.green.button
+                #save_doc.ui.large.green.button
                     i.check.icon
                     |Save
             #delete.ui.red.large.icon.button

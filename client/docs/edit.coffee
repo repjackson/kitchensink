@@ -54,6 +54,7 @@ Template.edit.onRendered ->
 
 Template.edit.helpers
     unpicked_alchemy_tags: -> _.difference @alchemy_tags, @tags
+    unpicked_yaki_tags: -> _.difference @yaki_tags, @tags
 
     doc: -> 
         doc = Docs.findOne FlowRouter.getParam('doc_id')
@@ -104,13 +105,22 @@ Template.edit.events
 
     'click #alchemy_suggest': ->
         body = $('#body').val()
-        Meteor.call 'alchemy_suggest', FlowRouter.getParam('doc_id'),body, (err,res)->
-            if err then console.log err
-            # else console.log res
         Docs.update FlowRouter.getParam('doc_id'),
             $set: body: body
+        Meteor.call 'alchemy_suggest', FlowRouter.getParam('doc_id'), body
+
+    'click #yaki_suggest': ->
+        body = $('#body').val()
+        Docs.update FlowRouter.getParam('doc_id'),
+            $set: body: body
+        Meteor.call 'yaki_suggest', FlowRouter.getParam('doc_id'), body
+
 
     'click .add_alchemy_suggestion': ->
+        doc_id = FlowRouter.getParam('doc_id')
+        Docs.update doc_id, $addToSet: tags: @valueOf()
+
+    'click .add_yaki_suggestion': ->
         doc_id = FlowRouter.getParam('doc_id')
         Docs.update doc_id, $addToSet: tags: @valueOf()
 
@@ -119,8 +129,12 @@ Template.edit.events
         Docs.update doc_id,
             $addToSet: tags: $each: @alchemy_tags
 
+    'click #add_all_yaki': ->
+        doc_id = FlowRouter.getParam('doc_id')
+        Docs.update doc_id,
+            $addToSet: tags: $each: @yaki_tags
 
-    'click #saveDoc': ->
+    'click #save_doc': ->
         body = $('#body').val()
         Docs.update FlowRouter.getParam('doc_id'),
             $set:

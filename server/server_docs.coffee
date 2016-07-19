@@ -11,11 +11,13 @@ Meteor.publish 'doc_tags', (selected_doc_tags)->
     self = @
     match = {}
     if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
-    match.$and =  
-        [
-            { recipient_id: $exists: false }
-            { recipient_id: $ne: @userId }
-        ]
+    match.recipient_id = $exists: false
+    
+    # match.$and =  
+    #     [
+    #         { recipient_id: $exists: false }
+    #         { recipient_id: $ne: @userId }
+    #     ]
 
 
     # console.log match
@@ -43,11 +45,7 @@ Meteor.publish 'docs', (selected_doc_tags)->
     match = {}
     if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
     # match["profile.name"] = $exists: false 
-    match.$and =  
-        [
-            { recipient_id: $exists: false }
-            { recipient_id: $ne: @userId }
-        ]
+    match.recipient_id = $exists: false
 
     Docs.find match,
         limit: 5
@@ -56,7 +54,7 @@ Meteor.publish 'docs', (selected_doc_tags)->
 
 Meteor.methods
     alchemy_suggest: (id, body)->
-        console.log 'analyzing body', body
+        # console.log 'analyzing body', body
         # result = HTTP.call 'POST', 'http://gateway-a.watsonplatform.net/calls/text/TextGetCombinedData', { params:
         HTTP.call 'POST', 'http://gateway-a.watsonplatform.net/calls/html/HTMLGetRankedKeywords', { params:
             # apikey: '6656fe7c66295e0a67d85c211066cf31b0a3d0c8' #old
@@ -79,3 +77,15 @@ Meteor.methods
                         $set:
                             alchemy_tags: loweredKeywords
                             # tags: $each: loweredKeywords
+
+    yaki_suggest: (id)->
+        doc = Docs.findOne id
+        suggested_tags = Yaki(doc.body).extract()
+        cleaned_suggested_tags = Yaki(suggested_tags).clean()
+        uniqued = _.uniq(cleaned_suggested_tags)
+        lowered = uniqued.map (tag)-> tag.toLowerCase()
+
+        #lowered = tag.toLowerCase() for tag in uniqued
+
+        Docs.update id,
+            $set: yaki_tags: lowered
