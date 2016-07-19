@@ -26,7 +26,7 @@ Meteor.publish 'doc_tags', (selected_doc_tags)->
         { $group: _id: "$tags", count: $sum: 1 }
         { $match: _id: $nin: selected_doc_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
+        { $limit: 50 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
 
@@ -54,21 +54,28 @@ Meteor.publish 'docs', (selected_doc_tags)->
     
 
 
-# Meteor.methods
-#     generate_person_cloud: (user_id)->
-#         cloud = Docs.aggregate [
-#             { $match: recipient_id: user_id }
-#             { $project: tags: 1 }
-#             { $unwind: '$tags' }
-#             { $group: _id: '$tags', count: $sum: 1 }
-#             { $sort: count: -1, _id: 1 }
-#             { $limit: 20 }
-#             { $project: _id: 0, name: '$_id', count: 1 }
-#             ]
-            
-#         list = (tag.name for tag in cloud)
-#         Meteor.users.update user_id,
-#             $set:
-#                 cloud: cloud
-#                 list: list
+Meteor.methods
+    alchemy_suggest: (id, body)->
+        console.log 'analyzing body', body
+        # result = HTTP.call 'POST', 'http://gateway-a.watsonplatform.net/calls/text/TextGetCombinedData', { params:
+        HTTP.call 'POST', 'http://gateway-a.watsonplatform.net/calls/html/HTMLGetRankedKeywords', { params:
+            # apikey: '6656fe7c66295e0a67d85c211066cf31b0a3d0c8' #old
+            apikey: '4ddbab8b7ba51d6b36fe185c957ef602aff3f734' #new
+            html: body
+            outputMode: 'json'
+            extract: 'keyword' }
+            , (err, result)->
+                if err then console.log err
+                else
+                    # console.log result
+                    keyword_array = _.pluck(result.data.keywords, 'text')
+                    # concept_array = _.pluck(result.data.concepts, 'text')
+                    loweredKeywords = _.map(keyword_array, (keyword)->
+                        keyword.toLowerCase()
+                        )
 
+                    # console.log loweredKeywords
+                    Docs.update id,
+                        $set:
+                            alchemy_tags: loweredKeywords
+                            # tags: $each: loweredKeywords

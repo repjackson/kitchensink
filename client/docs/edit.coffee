@@ -53,6 +53,8 @@ Template.edit.onRendered ->
 
 
 Template.edit.helpers
+    unpicked_alchemy_tags: -> _.difference @alchemy_tags, @tags
+
     doc: -> 
         doc = Docs.findOne FlowRouter.getParam('doc_id')
         doc
@@ -100,6 +102,22 @@ Template.edit.events
             $pull: tags: tag
         $('#add_tag').val(tag)
 
+    'click #alchemy_suggest': ->
+        body = $('#body').val()
+        Meteor.call 'alchemy_suggest', FlowRouter.getParam('doc_id'),body, (err,res)->
+            if err then console.log err
+            # else console.log res
+        Docs.update FlowRouter.getParam('doc_id'),
+            $set: body: body
+
+    'click .add_alchemy_suggestion': ->
+        doc_id = FlowRouter.getParam('doc_id')
+        Docs.update doc_id, $addToSet: tags: @valueOf()
+
+    'click #add_all_alchemy': ->
+        doc_id = FlowRouter.getParam('doc_id')
+        Docs.update doc_id,
+            $addToSet: tags: $each: @alchemy_tags
 
 
     'click #saveDoc': ->

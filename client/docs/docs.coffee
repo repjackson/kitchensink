@@ -10,7 +10,7 @@ Template.docs.onCreated ->
 Template.docs.helpers
     docs: -> 
         # Docs.find({ _id: $ne: Meteor.userId() })
-        Docs.find({ })
+        Docs.find({ }, limit: 20)
 
     tag_class: -> if @valueOf() in selected_doc_tags.array() then 'primary' else ''
 
@@ -19,7 +19,7 @@ Template.doc_cloud.helpers
     all_doc_tags: ->
         doc_count = Docs.find().count()
         # console.log doc_count
-        if doc_count < 3 then Tags.find({ count: $lt: doc_count }, limit: 20 ) else Tags.find({}, limit: 50 )
+        if doc_count < 3 then Tags.find({ count: $lt: doc_count }, limit: 50 ) else Tags.find({}, limit: 50 )
         # Tags.find({}, limit: 25)
 
     # cloud_tag_class: ->

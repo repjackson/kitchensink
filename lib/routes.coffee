@@ -20,7 +20,7 @@ FlowRouter.route '/profile',
 
 FlowRouter.route '/',
   triggersEnter: [ (context, redirect) ->
-    redirect '/people'
+    redirect '/docs'
     return
  ]
   action: (_params) ->

@@ -15,7 +15,8 @@ template(name='nav')
             i.file.outline.icon
             |Docs
         .right.menu
-            a.item(href='/profile')
-                i.user.icon
-                | #{currentUser.username}
+            if currentUser
+                a.item(href='/profile')
+                    i.user.icon
+                    | #{currentUser.username}
             +atNavButton

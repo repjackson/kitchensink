@@ -32,3 +32,5 @@ kadira:blaze-layout
 froala:editor
 matb33:collection-hooks
 dburles:collection-helpers
+http
+useraccounts:flow-routing
