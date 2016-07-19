@@ -1,7 +1,6 @@
-db.docs.find().forEach(function(item)
+db.docs.find({"authorId": {$exists: true}}).forEach(function(item)
 {
-    var tag_count = item.tags.length;
-    item.tag_count = tag_count;
+    item.author_id = "vyqyHFRZG4CpogTAG";
     db.docs.save(item);
 })
 

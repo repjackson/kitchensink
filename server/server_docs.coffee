@@ -49,7 +49,10 @@ Meteor.publish 'docs', (selected_doc_tags)->
 
     Docs.find match,
         limit: 5
-    
+        sort:
+            tag_count: 1
+            # points: 1
+            # timestamp: -1
 
 
 Meteor.methods
