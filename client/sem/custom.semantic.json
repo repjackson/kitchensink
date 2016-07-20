@@ -55,7 +55,7 @@
     "amazon": false,
     "basic": false,
     "bookish": false,
-    "bootstrap3": false,
+    "bootstrap3": true,
     "chubby": false,
     "classic": false,
     "colored": false,
@@ -68,12 +68,12 @@
     "instagram": false,
     "material": false,
     "pulsar": false,
-    "raised": false,
+    "raised": true,
     "resetcss": false,
     "round": true,
     "rtl": false,
     "striped": false,
     "timeline": false,
-    "twitter": false
+    "twitter": true
   }
 }

@@ -41,6 +41,18 @@ Template.doc_cloud.helpers
             ]
         }
 
+    selected_user: -> if Session.get 'selected_user' then Meteor.users.findOne(Session.get('selected_user'))?.username
+
+    upvoted_cloud: -> if Session.get 'upvoted_cloud' then Meteor.users.findOne(Session.get('upvoted_cloud'))?.username
+
+    downvoted_cloud: -> if Session.get 'downvoted_cloud' then Meteor.users.findOne(Session.get('downvoted_cloud'))?.username
+
+    global_usernames: -> Usernames.find()
+    
+    selected_usernames: -> selected_usernames.list()
+
+
+
 Template.doc_cloud.events
     'keyup #search': (e,t)->
         e.preventDefault()
@@ -89,3 +101,39 @@ Template.doc_cloud.events
     'click .unselect_tag': -> selected_doc_tags.remove @valueOf()
 
     'click #clear_tags': -> selected_doc_tags.clear()
+
+    'click #bookmark_selection': ->
+        # if confirm 'Bookmark Selection?'
+        Meteor.call 'add_bookmark', selected_doc_tags.array(), (err,res)->
+            alert "Selection bookmarked"
+
+    'click .selected_user_button': -> Session.set 'selected_user', null
+    'click .upvoted_cloud_button': -> Session.set 'upvoted_cloud', null
+    'click .downvoted_cloud_button': -> Session.set 'downvoted_cloud', null
+
+    'click #mine': ->
+        Session.set 'downvoted_cloud', null
+        Session.set 'upvoted_cloud', null
+        Session.set 'selected_user', Meteor.userId()
+
+    'click #my_upvoted': ->
+        Session.set 'selected_user', null
+        Session.set 'downvoted_cloud', null
+        Session.set 'upvoted_cloud', Meteor.userId()
+
+    'click #my_downvoted': ->
+        Session.set 'selected_user', null
+        Session.set 'upvoted_cloud', null
+        Session.set 'downvoted_cloud', Meteor.userId()
+
+    'click #unvoted': ->
+        if Session.equals('unvoted', true) then Session.set('unvoted', false) else Session.set('unvoted', true)
+
+
+    'click .select_username': -> selected_usernames.push @text
+    'click .unselect_username': -> selected_usernames.remove @valueOf()
+    'click #clear_usernames': -> selected_usernames.clear()
+
+Template.doc_cloud.onCreated ->
+    @autorun -> Meteor.subscribe 'doc_tags', selected_doc_tags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
+    @autorun -> Meteor.subscribe('usernames', selected_doc_tags.array(), selected_usernames.array(), Session.get('view'))

@@ -1,11 +1,11 @@
 @selected_doc_tags = new ReactiveArray []
-@selectedUsernames = new ReactiveArray []
+@selected_usernames = new ReactiveArray []
 
 
 
 Template.docs.onCreated ->
     @autorun -> Meteor.subscribe('docs', selected_doc_tags.array())
-    @autorun -> Meteor.subscribe('doc_tags', selected_doc_tags.array())
+    # @autorun -> Meteor.subscribe('doc_tags', selected_doc_tags.array())
 
 
 Template.docs.helpers
@@ -29,8 +29,10 @@ Template.doc.helpers
     doc_tag_class: ->
         result = ''
         if @valueOf() in selected_doc_tags.array() then result += ' primary' else result += ' basic'
-        if Meteor.userId() in Template.parentData(1).up_voters then result += ' green'
-        else if Meteor.userId() in Template.parentData(1).down_voters then result += ' red'
+        # if Meteor.userId() in @up_voters then result += ' green'
+        # else if Meteor.userId() in @down_voters then result += ' red'
+        # if Meteor.userId() in Template.parentData(1).up_voters then result += ' green'
+        # else if Meteor.userId() in Template.parentData(1).down_voters then result += ' red'
         return result
 
     
@@ -78,31 +80,31 @@ Template.doc.helpers
 
     like_button_class: -> if @_id in Meteor.user().docs_you_like then 'primary' else 'basic' 
 
-    upVotedMatchCloud: ->
+    up_voted_match_cloud: ->
         my_upvoted_cloud = Meteor.user().upvoted_cloud
-        myupvoted_list = Meteor.user().upvoted_list
+        my_upvoted_list = Meteor.user().upvoted_list
         # console.log 'my_upvoted_cloud', my_upvoted_cloud
         # console.log @
         otherUser = Meteor.users.findOne @author_id
         other_upvoted_cloud = otherUser?.upvoted_cloud
         other_upvoted_list = otherUser?.upvoted_list
         # console.log 'otherCloud', other_upvoted_cloud
-        intersection = _.intersection(myupvoted_list, other_upvoted_list)
+        intersection = _.intersection(my_upvoted_list, other_upvoted_list)
         intersection_cloud = []
-        totalCount = 0
+        total_count = 0
         for tag in intersection
-            myTagObject = _.findWhere my_upvoted_cloud, name: tag
-            hisTagObject = _.findWhere other_upvoted_cloud, name: tag
-            # console.log hisTagObject.count
-            min = Math.min(myTagObject.count, hisTagObject.count)
-            totalCount += min
+            my_tag_object = _.findWhere my_upvoted_cloud, name: tag
+            other_tag_object = _.findWhere other_upvoted_cloud, name: tag
+            # console.log other_tag_object.count
+            min = Math.min(my_tag_object.count, other_tag_object.count)
+            total_count += min
             intersection_cloud.push
                 tag: tag
                 min: min
-        sortedCloud = _.sortBy(intersection_cloud, 'min').reverse()
+        sorted_cloud = _.sortBy(intersection_cloud, 'min').reverse()
         result = {}
-        result.cloud = sortedCloud
-        result.totalCount = totalCount
+        result.cloud = sorted_cloud
+        result.total_count = total_count
         return result
 
 
@@ -128,32 +130,34 @@ Template.doc.events
     'click .edit_doc': ->
         FlowRouter.go "/docs/edit/#{@_id}"
         
-    'click .vote_down': ->
-        if Meteor.userId() in @down_voters
-            if confirm "Undo Downvote? This will give you and #{@author().username} back a point."
-                Meteor.call 'vote_down', @_id
-        else
-            if confirm "Confirm Downvote? This will cost you a point and take one from #{@author().username}"
-                if Meteor.userId() then Meteor.call 'vote_down', @_id
+    # 'click .vote_down': ->
+    #     if Meteor.userId() in @down_voters
+    #         if confirm "Undo Downvote? This will give you and #{@author.username} back a point."
+    #             Meteor.call 'vote_down', @_id
+    #     else
+    #         if confirm "Confirm Downvote? This will cost you a point and take one from #{@author.username}"
+    #             if Meteor.userId() then Meteor.call 'vote_down', @_id
 
-    'click .vote_up': ->
-        if Meteor.userId() in @up_voters
-            if confirm "Undo Upvote? This will give you back a point and take one from #{@author().username}."
-                Meteor.call 'vote_up', @_id
-        else
-            if confirm "Confirm Upvote? This will give a point from you to #{@author().username}."
-                if Meteor.userId() then Meteor.call 'vote_up', @_id
+    # 'click .vote_up': ->
+    #     if Meteor.userId() in @up_voters
+    #         if confirm "Undo Upvote? This will give you back a point and take one from #{@author.username}."
+    #             Meteor.call 'vote_up', @_id
+    #     else
+    #         if confirm "Confirm Upvote? This will give a point from you to #{@author.username}."
+    #             if Meteor.userId() then Meteor.call 'vote_up', @_id
 
     
+    'click .vote_up': -> Meteor.call 'vote_up', @_id
     
+    'click .vote_down': -> Meteor.call 'vote_down', @_id
     
 
     'click .authorFilterButton': ->
         if @username in selected_usernames.array() then selected_usernames.remove @username else selected_usernames.push @username
 
-    'click .cloneDoc': ->
+    'click .clone_doc': ->
         # if confirm 'Clone?'
         id = Docs.insert
             tags: @tags
             body: @body
-        FlowRouter.go "/edit/#{id}"
+        FlowRouter.go "/docs/edit/#{id}"

@@ -26,9 +26,9 @@ template(name='doc_cloud')
         .ui.left.icon.small.input
             i.search.icon
             +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder='Tag Search'
-        if selected_tags
+        if selected_doc_tags
             if currentUser
-                #bookmarkSelection.ui.basic.icon.circular.button
+                #bookmark_selection.ui.basic.icon.circular.button
                     i.bookmark.icon
         if $.Session.get 'selected_user'
             .ui.button.primary.selected_user_button
@@ -46,21 +46,21 @@ template(name='doc_cloud')
                 i.thumbs.down.icon
                 | #{downvoted_cloud}
         if selected_doc_tags
-            #clearTags.ui.large.primary.icon.compact.button
+            #clear_tags.ui.large.primary.icon.compact.button
                 i.remove.icon
             each selected_doc_tags
-                a.ui.large.primary.compact.button.unselectTag
+                a.ui.large.primary.compact.button.unselect_tag
                     strong #{this}
         // .ui.hidden.fitted.divider
         // if Template.subscriptionsReady
         each all_doc_tags
-            .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
+            .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
             // .ui.button.compact.selectTag #{this.name}
                 // small #{this.count}
         .ui.hidden.divider
         |By Author:
         if selected_usernames
-            #clearUsernames.ui.circular.primary.icon.button
+            #clear_usernames.ui.circular.primary.icon.button
                 i.remove.icon
             each selected_usernames
                 a.ui.primary.circular.button.unselectUsername

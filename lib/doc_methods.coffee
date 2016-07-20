@@ -7,8 +7,6 @@ Meteor.methods
     create_doc_with_tags: (tags)->
         Docs.insert
             tags: tags
-            timestamp: Date.now()
-            author_id: Meteor.userId()
 
     deleteDoc: (id)->
         Docs.remove id

@@ -15,7 +15,7 @@ Meteor.startup ->
 
 Template.nav.events
     'click #home': ->
-        selected_tags.clear()
+        selected_doc_tags.clear()
         Session.set 'selected_user', null
         Session.set 'downvoted_cloud', null
         Session.set 'upvoted_cloud', null
@@ -28,25 +28,25 @@ Template.nav.events
             else FlowRouter.go "/edit/#{id}"
 
     'click .select_bookmark': ->
-        selected_tags.clear()
-        selected_tags.push(tag) for tag in @
+        selected_doc_tags.clear()
+        selected_doc_tags.push(tag) for tag in @
 
     'click .add_from_bookmark': ->
-        Meteor.call 'create_doc', @, (err,id)->
+        Meteor.call 'create_doc_with_tags', @, (err,id)->
             if err then console.log err
-            else FlowRouter.go "/edit/#{id}"
+            else FlowRouter.go "/docs/edit/#{id}"
 
 
     'click .toggleSidebar': ->
         $('.ui.sidebar').sidebar 'toggle'
 
     'click #store_menu_item': ->
-        selected_tags.clear()
-        selected_tags.push('store')
+        selected_doc_tags.clear()
+        selected_doc_tags.push('store')
         FlowRouter.go '/'
 
     'click #new_from_selection': ->
         # if confirm 'Create new document from selection?'
-        Meteor.call 'create_doc', selected_tags.array(), (err,id)->
+        Meteor.call 'create_doc', selected_doc_tags.array(), (err,id)->
             if err then console.log err
-            else FlowRouter.go "/edit/#{id}"
+            else FlowRouter.go "/docs/edit/#{id}"

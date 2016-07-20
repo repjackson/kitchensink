@@ -1,36 +1,13 @@
-template(name='nav_old')
-    .ui.attached.inverted.menu
-        a#home_link.header.item(href='/')
-            i.diamond.icon
-            | Facet
+template(name='nav')
+    .ui.inverted.menu(href='/')
+        #home_link.ui.header.icon.item             
+            // i.diamond.icon
+            // |Facet
+            i.large.home.icon
         // .ui.category.search.two.wide.item
         //     .ui.transparent.inverted.icon.input
         //         input.search(type='text', placeholder='Search...')
         //         i.search.link.icon
-        a.item(href='/people')
-            i.users.icon
-            |People
-        a.item(href='/docs')
-            i.file.outline.icon
-            |Docs
-        a.item(href='/economy')
-            i.exchange.icon
-            |Economy
-        a.item(href='/importers')
-            i.down.arrow.icon
-            |Importers
-        .right.menu
-            if currentUser
-                a.item(href='/profile')
-                    i.user.icon
-                    | #{currentUser.username} (#{currentUser.points})
-            +atNavButton
-
-template(name='nav')
-    .ui.inverted.menu(href='/')
-        #home_link.ui.header.item             
-            i.diamond.icon
-            |Facet
         a.item(href='/' class="{{isActivePath '/docs'}}")
             i.file.outline.icon
             |Documents
@@ -45,9 +22,9 @@ template(name='nav')
             |Importers
         .right.menu
             if currentUser
-                .ui.simple.dropdown.item
+                .ui.simple.icon.dropdown.item
                     i.plus.icon
-                    span.text Add Doc
+                    // span.text Add
                     i.dropdown.icon
                     .menu
                         #new_from_selection.item
@@ -57,16 +34,16 @@ template(name='nav')
                             i.file.outline.icon
                             |Blank
                         .header From Bookmarks
-                        each user.bookmarks
+                        each currentUser.bookmarks
                             .item.add_from_bookmark
                                 each this
                                     .ui.label #{this}
-                .ui.simple.dropdown.item
+                .ui.simple.icon.dropdown.item
                     i.bookmark.icon
-                    span.text Bookmarks
+                    // span.text Bookmarks
                     i.dropdown.icon
                     .menu
-                        each user.bookmarks
+                        each currentUser.bookmarks
                             .item.select_bookmark
                                 each this
                                     .ui.label #{this}
