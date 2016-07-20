@@ -1,30 +1,4 @@
-template(name='doc_cloud')
-    .ui.center.aligned.segment
-        // .ui.circular.label #{currentUser.points}
-        // .ui.hidden.fitted.divider
-        h3.ui.header Documents
-        .ui.icon.input
-            i.lightning.icon
-            input#quick_add(type='text' placeholder='Quick Add')
-        #add_doc.ui.button
-            i.plus.icon
-            | Full Add
-        .ui.hidden.fitted.divider
-        .ui.left.icon.small.input
-            i.search.icon
-            +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder='Tag Search'
-        if selected_doc_tags
-            #clearTags.ui.large.primary.icon.compact.button
-                i.remove.icon
-            each selected_doc_tags
-                a.ui.large.primary.compact.button.unselectTag
-                    strong #{this}
-        // .ui.hidden.fitted.divider
-        // if Template.subscriptionsReady
-        each all_doc_tags
-            .ui.compact.button.selectTag(class=cloud_tag_class) #{this.name}
-            // .ui.button.compact.selectTag #{this.name}
-                // small #{this.count}
+
 
 template(name='docs')
     +doc_cloud
@@ -37,7 +11,7 @@ template(name='doc')
     .ui.segment
         .header
             i.user.icon
-            |#{author.username}
+            |#{author.username} (#{author.points})
             // if currentUser
             //     .ui.small.circular.icon.button.add_liked_person(class=like_button_class)
             //         i.thumbs.up.link.icon
@@ -54,8 +28,46 @@ template(name='doc')
                 .ui.button.edit_doc
                     i.pencil.icon
                     |Edit
-            else if currentUser
+            if currentUser
                 .ui.icon.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
                 .ui.icon.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
-            // .ui.basic.circular.label #{points}
-            span #{points}
+            .ui.basic.label Points #{points}
+            if currentUser
+                unless isAuthor
+                    p Common interests with #{author.username} (Match Points: #{upVotedMatchCloud.totalCount})
+                    div
+                        each upVotedMatchCloud.cloud
+                            .ui.basic.label #{this.tag} #{this.min}
+        .extra.content
+            .ui.button.findTopDocMatches Find Top Matches
+            p #{_id}
+            each topDocMatches
+                p #{this.docId}
+                p #{this.intersectionTags}
+        .extra.content
+            .select_user.ui.button(class=select_user_button_class)
+                i.user.icon
+                |View Docs by #{author.username}
+            |#{author.username}'s Authored Tags
+            each author.authored_cloud
+                .ui.small.label(class=cloud_label_class)
+                    |#{this.name}
+                    small #{this.count}
+        .extra.content
+            .author_upvotes.ui.button(class=author_upvotes_button_class)
+                i.thumbs.up.icon
+                | View Upvoted Docs by #{author.username}
+            |#{author.username}'s Upvoted Tags
+            each author.upvoted_cloud
+                .ui.small.label(class=cloud_label_class)
+                    |#{this.name}
+                    small #{this.count}
+        .extra.content
+            .author_downvotes.ui.button(class=author_downvotes_button_class)
+                i.thumbs.down.icon
+                | View Downvoted Docs by #{author.username}
+            |#{author.username}'s Downvoted Tags
+            each author.downvoted_cloud
+                .ui.small.label(class=cloud_label_class)
+                    |#{this.name}
+                    small #{this.count}

@@ -10,6 +10,16 @@ Meteor.publish 'me', ()->
             list: 1
             contact: 1
             people_you_like: 1
+            points: 1
+
+Meteor.publish 'person', (person_id)-> 
+    Meteor.users.find person_id,
+        fields: 
+            cloud: 1
+            list: 1
+            contact: 1
+            people_you_like: 1
+            points: 1
 
 Meteor.publish 'people_tags', (selected_tags)->
     self = @
@@ -53,7 +63,8 @@ Meteor.publish 'people', (selected_tags)->
             cloud: 1
             list: 1
             people_you_like: 1
-
+            points: 1
+            
 Meteor.publish 'people_you_like', ->
     me = Meteor.users.findOne @userId
     people_you_like = if me?.people_you_like then me.people_you_like else []
@@ -65,7 +76,8 @@ Meteor.publish 'people_you_like', ->
             list: 1
             contact: 1
             people_you_like: 1
-
+            points: 1
+            
 Meteor.publish 'people_who_like_you`', ->
     me = Meteor.users.findOne @userId
 
@@ -76,7 +88,8 @@ Meteor.publish 'people_who_like_you`', ->
             list: 1
             contact: 1
             people_you_like: 1
-
+            points: 1
+            
 Meteor.publish 'self_doc', ->
     # console.log 'publish self_doc'
     Docs.find
@@ -94,20 +107,20 @@ Meteor.publish 'review_doc', (recipient_id)->
 
 
 Meteor.methods
-    generate_person_cloud: (user_id)->
-        cloud = Docs.aggregate [
-            { $match: recipient_id: user_id }
-            { $project: tags: 1 }
-            { $unwind: '$tags' }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
+    # generate_person_cloud: (user_id)->
+    #     cloud = Docs.aggregate [
+    #         { $match: recipient_id: user_id }
+    #         { $project: tags: 1 }
+    #         { $unwind: '$tags' }
+    #         { $group: _id: '$tags', count: $sum: 1 }
+    #         { $sort: count: -1, _id: 1 }
+    #         { $limit: 20 }
+    #         { $project: _id: 0, name: '$_id', count: 1 }
+    #         ]
             
-        list = (tag.name for tag in cloud)
-        Meteor.users.update user_id,
-            $set:
-                cloud: cloud
-                list: list
+    #     list = (tag.name for tag in cloud)
+    #     Meteor.users.update user_id,
+    #         $set:
+    #             cloud: cloud
+    #             list: list
 

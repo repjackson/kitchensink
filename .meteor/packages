@@ -36,3 +36,8 @@ http
 useraccounts:flow-routing
 nefiltari:yaki
 reactive-var
+zimme:active-route
+momentjs:moment
+drewy:datetimepicker
+jeremy:geocomplete
+perak:codemirror

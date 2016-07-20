@@ -1,4 +1,4 @@
-template(name='nav')
+template(name='nav_old')
     .ui.attached.inverted.menu
         a#home_link.header.item(href='/')
             i.diamond.icon
@@ -13,6 +13,9 @@ template(name='nav')
         a.item(href='/docs')
             i.file.outline.icon
             |Docs
+        a.item(href='/economy')
+            i.exchange.icon
+            |Economy
         a.item(href='/importers')
             i.down.arrow.icon
             |Importers
@@ -20,5 +23,54 @@ template(name='nav')
             if currentUser
                 a.item(href='/profile')
                     i.user.icon
-                    | #{currentUser.username}
+                    | #{currentUser.username} (#{currentUser.points})
+            +atNavButton
+
+template(name='nav')
+    .ui.inverted.menu(href='/')
+        #home_link.ui.header.item             
+            i.diamond.icon
+            |Facet
+        a.item(href='/' class="{{isActivePath '/docs'}}")
+            i.file.outline.icon
+            |Documents
+        a.item(href='/people' class="{{isActivePath '/people'}}")
+            i.users.icon
+            |People
+        a.item(href='/exchange' class="{{isActivePath '/exchange'}}")
+            i.exchange.icon
+            |Exchange
+        a.item(href='/importers' class="{{isActivePath '/importers'}}")
+            i.down.arrow.icon
+            |Importers
+        .right.menu
+            if currentUser
+                .ui.simple.dropdown.item
+                    i.plus.icon
+                    span.text Add Doc
+                    i.dropdown.icon
+                    .menu
+                        #new_from_selection.item
+                            i.external.square.icon
+                            |From Selection
+                        #add_doc.item
+                            i.file.outline.icon
+                            |Blank
+                        .header From Bookmarks
+                        each user.bookmarks
+                            .item.add_from_bookmark
+                                each this
+                                    .ui.label #{this}
+                .ui.simple.dropdown.item
+                    i.bookmark.icon
+                    span.text Bookmarks
+                    i.dropdown.icon
+                    .menu
+                        each user.bookmarks
+                            .item.select_bookmark
+                                each this
+                                    .ui.label #{this}
+                a.item(href='/profile' class="{{isActivePath '/profile'}}")
+                    i.user.icon
+                    | #{currentUser.username} [#{currentUser.points} pts]
             +atNavButton

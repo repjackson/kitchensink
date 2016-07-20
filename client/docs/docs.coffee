@@ -1,4 +1,5 @@
 @selected_doc_tags = new ReactiveArray []
+@selectedUsernames = new ReactiveArray []
 
 
 
@@ -15,104 +16,23 @@ Template.docs.helpers
     tag_class: -> if @valueOf() in selected_doc_tags.array() then 'primary' else ''
 
 
-Template.doc_cloud.helpers
-    all_doc_tags: ->
-        doc_count = Docs.find().count()
-        # console.log doc_count
-        if doc_count < 3 then Tags.find({ count: $lt: doc_count }, limit: 40 ) else Tags.find({}, limit: 40 )
-        # Tags.find({})
-
-    # cloud_tag_class: ->
-    #     buttonClass = switch
-    #         when @index <= 5 then 'large'
-    #         when @index <= 10 then ''
-    #         when @index <= 15 then 'small'
-    #         when @index <= 20 then 'tiny'
-    #         when @index <= 25 then 'tiny'
-    #     return buttonClass
-
-    cloud_tag_class: ->
-        buttonClass = switch
-            when @index <= 10 then 'large'
-            when @index <= 20 then ''
-            when @index <= 30 then 'small'
-            when @index <= 40 then 'tiny'
-            when @index <= 50 then 'tiny'
-        return buttonClass
-
-
-    selected_doc_tags: -> selected_doc_tags.list()
-
-    settings: ->
-        {
-            position: 'bottom'
-            limit: 10
-            rules: [
-                {
-                    # token: ''
-                    collection: Tags
-                    field: 'name'
-                    matchAll: true
-                    template: Template.tag_result
-                }
-            ]
-        }
-
-Template.doc_cloud.events
-    'keyup #search': (e,t)->
-        e.preventDefault()
-        val = $('#search').val().toLowerCase().trim()
-        switch e.which
-            when 13 #enter
-                switch val
-                    when 'clear'
-                        selected_doc_tags.clear()
-                        $('#search').val ''
-                    else
-                        unless val.length is 0
-                            selected_doc_tags.push val.toString()
-                            $('#search').val ''
-            when 8
-                if val.length is 0
-                    selected_doc_tags.pop()
-                    
-    'keyup #quick_add': (e,t)->
-        e.preventDefault
-        tag = $('#quick_add').val().toLowerCase()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    split_tags = tag.match(/\S+/g)
-                    $('#quick_add').val('')
-                    Meteor.call 'create_doc_with_tags', split_tags
-                    selected_doc_tags.clear()
-                    for tag in split_tags
-                        selected_doc_tags.push tag
-                    # FlowRouter.go '/'
-                    
-                    
-                    
-    'autocompleteselect #search': (event, template, doc) ->
-        # console.log 'selected ', doc
-        selected_doc_tags.push doc.name
-        $('#search').val ''
-        
-    'click #add_doc': -> 
-        Meteor.call 'create_doc', (err, id)->
-            FlowRouter.go "/docs/edit/#{id}"
-        
-    'click .selectTag': -> selected_doc_tags.push @name
-
-    'click .unselectTag': -> selected_doc_tags.remove @valueOf()
-
-    'click #clearTags': -> selected_doc_tags.clear()
 
 Template.doc.onCreated ->
     # console.log Template.currentData()
     @autorun -> Meteor.subscribe('review_doc', Template.currentData()._id)
+    @autorun -> Meteor.subscribe 'person', @author_id
+
 
 Template.doc.helpers
-    doc_tag_class: -> if @valueOf() in selected_doc_tags.array() then 'blue' else ''
+    # doc_tag_class: -> if @valueOf() in selected_doc_tags.array() then 'blue' else ''
+    
+    doc_tag_class: ->
+        result = ''
+        if @valueOf() in selected_doc_tags.array() then result += ' primary' else result += ' basic'
+        if Meteor.userId() in Template.parentData(1).up_voters then result += ' green'
+        else if Meteor.userId() in Template.parentData(1).down_voters then result += ' red'
+        return result
+
     
     # doc_tag_class: -> if @name in selected_doc_tags.array() then 'blue' else ''
     
@@ -128,7 +48,10 @@ Template.doc.helpers
         else if Meteor.userId() in @down_voters then 'red'
         else 'basic'
 
-    
+    select_user_button_class: -> if Session.equals 'selected_user', @author_id then 'primary' else 'basic'
+    author_downvotes_button_class: -> if Session.equals 'downvoted_cloud', @author_id then 'primary' else 'basic'
+    author_upvotes_button_class: -> if Session.equals 'upvoted_cloud', @author_id then 'primary' else 'basic'
+
     
     review_tags: -> 
         # console.log @
@@ -155,7 +78,33 @@ Template.doc.helpers
 
     like_button_class: -> if @_id in Meteor.user().docs_you_like then 'primary' else 'basic' 
 
-    
+    upVotedMatchCloud: ->
+        my_upvoted_cloud = Meteor.user().upvoted_cloud
+        myupvoted_list = Meteor.user().upvoted_list
+        # console.log 'my_upvoted_cloud', my_upvoted_cloud
+        # console.log @
+        otherUser = Meteor.users.findOne @author_id
+        other_upvoted_cloud = otherUser?.upvoted_cloud
+        other_upvoted_list = otherUser?.upvoted_list
+        # console.log 'otherCloud', other_upvoted_cloud
+        intersection = _.intersection(myupvoted_list, other_upvoted_list)
+        intersection_cloud = []
+        totalCount = 0
+        for tag in intersection
+            myTagObject = _.findWhere my_upvoted_cloud, name: tag
+            hisTagObject = _.findWhere other_upvoted_cloud, name: tag
+            # console.log hisTagObject.count
+            min = Math.min(myTagObject.count, hisTagObject.count)
+            totalCount += min
+            intersection_cloud.push
+                tag: tag
+                min: min
+        sortedCloud = _.sortBy(intersection_cloud, 'min').reverse()
+        result = {}
+        result.cloud = sortedCloud
+        result.totalCount = totalCount
+        return result
+
 
 
 Template.doc.events
@@ -179,6 +128,32 @@ Template.doc.events
     'click .edit_doc': ->
         FlowRouter.go "/docs/edit/#{@_id}"
         
-    'click .vote_down': -> Meteor.call 'vote_down', @_id
+    'click .vote_down': ->
+        if Meteor.userId() in @down_voters
+            if confirm "Undo Downvote? This will give you and #{@author().username} back a point."
+                Meteor.call 'vote_down', @_id
+        else
+            if confirm "Confirm Downvote? This will cost you a point and take one from #{@author().username}"
+                if Meteor.userId() then Meteor.call 'vote_down', @_id
 
-    'click .vote_up': -> Meteor.call 'vote_up', @_id
+    'click .vote_up': ->
+        if Meteor.userId() in @up_voters
+            if confirm "Undo Upvote? This will give you back a point and take one from #{@author().username}."
+                Meteor.call 'vote_up', @_id
+        else
+            if confirm "Confirm Upvote? This will give a point from you to #{@author().username}."
+                if Meteor.userId() then Meteor.call 'vote_up', @_id
+
+    
+    
+    
+
+    'click .authorFilterButton': ->
+        if @username in selected_usernames.array() then selected_usernames.remove @username else selected_usernames.push @username
+
+    'click .cloneDoc': ->
+        # if confirm 'Clone?'
+        id = Docs.insert
+            tags: @tags
+            body: @body
+        FlowRouter.go "/edit/#{id}"

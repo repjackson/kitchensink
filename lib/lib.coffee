@@ -1,5 +1,9 @@
 @Tags = new Meteor.Collection 'tags'
 @Docs = new Meteor.Collection 'docs'
+@Usernames = new Meteor.Collection 'usernames'
+@Messages = new Meteor.Collection 'messages'
+
+
 
 Docs.before.insert (userId, doc)->
     doc.up_voters = []

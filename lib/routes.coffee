@@ -18,6 +18,11 @@ FlowRouter.route '/profile',
     action: ->
         BlazeLayout.render 'layout', main: 'profile'
 
+FlowRouter.route '/exchange',
+    name: 'exchange'
+    action: ->
+        BlazeLayout.render 'layout', main: 'exchange'
+
 FlowRouter.route '/',
   triggersEnter: [ (context, redirect) ->
     redirect '/docs'
@@ -26,3 +31,18 @@ FlowRouter.route '/',
   action: (_params) ->
     throw new Error('this should not get called')
     return
+
+
+FlowRouter.route '/bulk', action: (params) ->
+    analytics.page()
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'bulk'
+        
+FlowRouter.route '/marketplace', action: (params) ->
+    Session.set('view', 'marketplace')
+    BlazeLayout.render 'layout', main: 'home'
+
+
+FlowRouter.route '/leaderboard', action: (params) ->
+    BlazeLayout.render 'layout', main: 'leaderboard'
