@@ -1,6 +1,6 @@
 template(name='nav')
     .ui.inverted.menu(href='/')
-        #home_link.ui.header.icon.item             
+        a#home_link.ui.header.icon.item(href='/' class="{{isActivePath '/'}}")
             // i.diamond.icon
             // |Facet
             i.large.home.icon
@@ -8,7 +8,7 @@ template(name='nav')
         //     .ui.transparent.inverted.icon.input
         //         input.search(type='text', placeholder='Search...')
         //         i.search.link.icon
-        a.item(href='/' class="{{isActivePath '/docs'}}")
+        a.item(href='/docs' class="{{isActivePath '/docs'}}")
             i.file.outline.icon
             |Documents
         a.item(href='/people' class="{{isActivePath '/people'}}")

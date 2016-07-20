@@ -1,10 +1,13 @@
 @selected_doc_tags = new ReactiveArray []
-@selected_usernames = new ReactiveArray []
+@selected_authors = new ReactiveArray []
 
 
 
 Template.docs.onCreated ->
-    @autorun -> Meteor.subscribe('docs', selected_doc_tags.array())
+    # @autorun -> Meteor.subscribe('docs', selected_doc_tags.array())
+    # @autorun -> Meteor.subscribe 'docs', selected_doc_tags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
+    @autorun -> Meteor.subscribe 'docs', selected_doc_tags.array(), selected_authors.array(), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
+
     # @autorun -> Meteor.subscribe('doc_tags', selected_doc_tags.array())
 
 
@@ -39,7 +42,7 @@ Template.doc.helpers
     
     doc_tag_class: ->
         result = ''
-        if @valueOf() in selected_doc_tags.array() then result += ' primary' else result += ' basic'
+        if @valueOf() in selected_doc_tags.array() then result += ' primary' else result += ' '
         # if Meteor.userId() in @up_voters then result += ' green'
         # else if Meteor.userId() in @down_voters then result += ' red'
         # if Meteor.userId() in Template.parentData(1).up_voters then result += ' green'
@@ -50,16 +53,16 @@ Template.doc.helpers
     # doc_tag_class: -> if @name in selected_doc_tags.array() then 'blue' else ''
     
     vote_up_button_class: ->
-        if not Meteor.userId() then 'disabled basic'
-        # else if Meteor.user().points < 1 then 'disabled basic'
+        if not Meteor.userId() then 'disabled '
+        # else if Meteor.user().points < 1 then 'disabled '
         else if Meteor.userId() in @up_voters then 'green'
-        else 'basic'
+        else ''
 
     vote_down_button_class: ->
-        if not Meteor.userId() then 'disabled basic'
-        # else if Meteor.user().points < 1 then 'disabled basic'
+        if not Meteor.userId() then 'disabled '
+        # else if Meteor.user().points < 1 then 'disabled '
         else if Meteor.userId() in @down_voters then 'red'
-        else 'basic'
+        else ''
 
     select_user_button_class: -> if Session.equals 'selected_user', @author_id then 'primary' else 'basic'
     author_downvotes_button_class: -> if Session.equals 'downvoted_cloud', @author_id then 'primary' else 'basic'
@@ -163,8 +166,8 @@ Template.doc.events
     'click .vote_down': -> Meteor.call 'vote_down', @_id
     
 
-    'click .authorFilterButton': ->
-        if @username in selected_usernames.array() then selected_usernames.remove @username else selected_usernames.push @username
+    'click .author_filter_button': ->
+        if @username in selected_authors.array() then selected_authors.remove @username else selected_authors.push @username
 
     'click .clone_doc': ->
         # if confirm 'Clone?'

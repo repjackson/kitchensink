@@ -1,7 +1,6 @@
 @Tags = new Meteor.Collection 'tags'
 @Docs = new Meteor.Collection 'docs'
-@Usernames = new Meteor.Collection 'usernames'
-@Messages = new Meteor.Collection 'messages'
+@Authors = new Meteor.Collection 'authors'
 
 
 
@@ -14,8 +13,7 @@ Docs.before.insert (userId, doc)->
     return
 
 Docs.helpers 
-    author: ->
-        Meteor.users.findOne @author_id
+    author: -> Meteor.users.findOne @author_id
 
 
 

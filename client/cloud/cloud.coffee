@@ -1,3 +1,11 @@
+Template.doc_cloud.onCreated ->
+    # @autorun -> Meteor.subscribe 'doc_tags', selected_doc_tags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
+    @autorun -> Meteor.subscribe 'doc_tags', selected_doc_tags.array(), selected_authors.array(), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
+    @autorun -> Meteor.subscribe('authors', selected_doc_tags.array(), selected_authors.array(), Session.get('view'))
+    @autorun -> Meteor.subscribe('people', selected_doc_tags.array())
+
+
+
 Template.doc_cloud.helpers
     all_doc_tags: ->
         doc_count = Docs.find().count()
@@ -47,11 +55,15 @@ Template.doc_cloud.helpers
 
     downvoted_cloud: -> if Session.get 'downvoted_cloud' then Meteor.users.findOne(Session.get('downvoted_cloud'))?.username
 
-    global_usernames: -> Usernames.find()
+    all_authors: -> Authors.find()
     
-    selected_usernames: -> selected_usernames.list()
+    selected_authors: -> selected_authors.list()
 
+    author_name: ->  Meteor.users.findOne(@author_id).username
 
+    selected_author_name: -> 
+        console.log @valueOf()  
+        Meteor.users.findOne(@valueOf()).username
 
 Template.doc_cloud.events
     'keyup #search': (e,t)->
@@ -83,9 +95,7 @@ Template.doc_cloud.events
                     selected_doc_tags.clear()
                     for tag in split_tags
                         selected_doc_tags.push tag
-                    # FlowRouter.go '/'
-                    
-                    
+                    # FlowRouter.go '/'  
                     
     'autocompleteselect #search': (event, template, doc) ->
         # console.log 'selected ', doc
@@ -130,10 +140,7 @@ Template.doc_cloud.events
         if Session.equals('unvoted', true) then Session.set('unvoted', false) else Session.set('unvoted', true)
 
 
-    'click .select_username': -> selected_usernames.push @text
-    'click .unselect_username': -> selected_usernames.remove @valueOf()
-    'click #clear_usernames': -> selected_usernames.clear()
+    'click .select_author': -> selected_authors.push @author_id
+    'click .unselect_author': -> selected_authors.remove @valueOf()
+    'click #clear_authors': -> selected_authors.clear()
 
-Template.doc_cloud.onCreated ->
-    @autorun -> Meteor.subscribe 'doc_tags', selected_doc_tags.array(), Session.get('selected_user'), Session.get('upvoted_cloud'), Session.get('downvoted_cloud'), Session.get('unvoted')
-    @autorun -> Meteor.subscribe('usernames', selected_doc_tags.array(), selected_usernames.array(), Session.get('view'))

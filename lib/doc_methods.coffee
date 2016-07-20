@@ -123,14 +123,14 @@ Meteor.methods
             Meteor.users.update Meteor.userId(), $inc: points: -1
 
 
-    retrievePoint: (id)->
+    retrieve_point: (id)->
         doc = Docs.findOne id
-        currentId = Meteor.userId()
+        current_id = Meteor.userId()
         # check if current user has sent points
         if doc.donators and Meteor.userId() in doc.donators
-            donationEntry = _.find doc.donations, (donation)->
-                donation.user is currentId
-            if donationEntry.amount is 1
+            donation_entry = _.find doc.donations, (donation)->
+                donation.user is current_id
+            if donation_entry.amount is 1
                 Docs.update {
                     _id: id
                     "donations.user": Meteor.userId()

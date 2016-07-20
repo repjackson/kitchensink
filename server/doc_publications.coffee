@@ -1,18 +1,19 @@
 Meteor.publish 'doc', (id)->
     Docs.find id
 
-Meteor.publish 'doc_tags', (selected_doc_tags)->
+
+Meteor.publish 'doc_tags', (selected_doc_tags, selected_authors, user_upvotes, user_downvotes, unvoted)->
     self = @
+
     match = {}
     if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
+    if selected_authors.length > 0 then match.author_id = $in: selected_authors
+    if user_upvotes then match.up_voters = $in: [user_upvotes]
+    if user_downvotes then match.down_voters = $in: [user_downvotes]
     match.recipient_id = $exists: false
-    
-    # match.$and =  
-    #     [
-    #         { recipient_id: $exists: false }
-    #         { recipient_id: $ne: @userId }
-    #     ]
-
+    if unvoted is true
+        match.up_voters = $nin: [@userId]
+        match.down_voters = $nin: [@userId]
 
     # console.log match
     cloud = Docs.aggregate [
@@ -34,16 +35,22 @@ Meteor.publish 'doc_tags', (selected_doc_tags)->
 
     self.ready()
 
-Meteor.publish 'docs', (selected_doc_tags)->
-    self = @
+Meteor.publish 'docs', (selected_doc_tags, selected_authors, user_upvotes, user_downvotes, unvoted)->
     match = {}
+    # match.tag_count = $gt: 0
+    if user_upvotes then match.up_voters = $in: [user_upvotes]
+    if user_downvotes then match.down_voters = $in: [user_downvotes]
+    if selected_authors.length > 0  then match.author_id = $in: selected_authors
     if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
-    # match["profile.name"] = $exists: false 
     match.recipient_id = $exists: false
+    if unvoted is true
+        match.up_voters = $nin: [@userId]
+        match.down_voters = $nin: [@userId]
+
+    # console.log match
 
     Docs.find match,
         limit: 5
         sort:
             tag_count: 1
-            # points: 1
-            # timestamp: -1
+            timestamp: -1

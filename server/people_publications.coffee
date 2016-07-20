@@ -1,11 +1,11 @@
-Meteor.publish 'usernames', (selected_tags, selected_usernames, view_mode)->
+Meteor.publish 'authors', (selected_tags, selected_authors, view_mode)->
     self = @
     # if view_mode is 'mine' or 'unvoted' then return
 
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
-    if selected_usernames.length > 0 then match.author.username = $in: selected_usernames
-    match.tagCount = $gt: 0
+    if selected_authors.length > 0 then match.author_id = $in: selected_authors
+    # match.tagCount = $gt: 0
     switch view_mode
         when 'mine' then match.author_id = @userId
         when 'unvoted'
@@ -15,18 +15,20 @@ Meteor.publish 'usernames', (selected_tags, selected_usernames, view_mode)->
 
     cloud = Docs.aggregate [
         { $match: match }
-        { $project: username: 1 }
-        { $group: _id: '$username', count: $sum: 1 }
-        { $match: _id: $nin: selected_usernames }
+        { $project: author_id: 1 }
+        { $group: _id: '$author_id', count: $sum: 1 }
+        { $match: _id: $nin: selected_authors }
         { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
-        { $project: _id: 0, text: '$_id', count: 1 }
+        { $limit: 20 }
+        { $project: _id: 0, author_id: '$_id', count: 1 }
         ]
 
-    cloud.forEach (username) ->
-        self.added 'usernames', Random.id(),
-            text: username.text
-            count: username.count
+    # console.log 'author cloud:', cloud
+
+    cloud.forEach (author) ->
+        self.added 'authors', Random.id(),
+            author_id: author.author_id
+            count: author.count
     self.ready()
 
 Meteor.publish 'leaderboard', ->
@@ -35,7 +37,19 @@ Meteor.publish 'leaderboard', ->
             username: 1
             points: 1
             bookmarks: 1
-            
+            tags: 1
+            up_voted_cloud_matches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
+            bookmarks: 1
+            tag_cloud: 1
+            taggers: 1
+            user_tags: 1
+
 
 
 Meteor.publish 'me', ()-> 
@@ -47,6 +61,18 @@ Meteor.publish 'me', ()->
             people_you_like: 1
             points: 1
             bookmarks: 1
+            up_voted_cloud_matches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
+            bookmarks: 1
+            tag_cloud: 1
+            taggers: 1
+            user_tags: 1
+
             
 Meteor.publish 'person', (person_id)-> 
     Meteor.users.find person_id,
@@ -57,6 +83,20 @@ Meteor.publish 'person', (person_id)->
             people_you_like: 1
             points: 1
             bookmarks: 1
+            up_voted_cloud_matches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
+            bookmarks: 1
+            tag_cloud: 1
+            taggers: 1
+            user_tags: 1
+
+            
+            
             
 Meteor.publish 'people_tags', (selected_tags)->
     self = @
@@ -102,6 +142,18 @@ Meteor.publish 'people', (selected_tags)->
             people_you_like: 1
             points: 1
             bookmarks: 1
+            up_voted_cloud_matches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
+            bookmarks: 1
+            tag_cloud: 1
+            taggers: 1
+            user_tags: 1
+
             
 Meteor.publish 'people_you_like', ->
     me = Meteor.users.findOne @userId
@@ -116,6 +168,18 @@ Meteor.publish 'people_you_like', ->
             people_you_like: 1
             points: 1
             bookmarks: 1
+            up_voted_cloud_matches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
+            bookmarks: 1
+            tag_cloud: 1
+            taggers: 1
+            user_tags: 1
+
             
 Meteor.publish 'people_who_like_you`', ->
     me = Meteor.users.findOne @userId
@@ -129,4 +193,14 @@ Meteor.publish 'people_who_like_you`', ->
             people_you_like: 1
             points: 1
             bookmarks: 1
-            
+            up_voted_cloud_matches: 1
+            downvoted_cloud: 1
+            downvoted_list: 1
+            upvoted_cloud: 1
+            upvoted_list: 1
+            authored_cloud: 1
+            authored_list: 1
+            bookmarks: 1
+            tag_cloud: 1
+            taggers: 1
+            user_tags: 1
