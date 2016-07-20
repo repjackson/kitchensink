@@ -96,57 +96,57 @@ Meteor.methods
 
 
 
-    matchTwoDocs: (firstId, secondId)->
-        firstDoc = Docs.findOne firstId
-        secondDoc = Docs.findOne secondId
+    match_two_docs: (first_id, second_id)->
+        first_doc = Docs.findOne first_id
+        second_doc = Docs.findOne second_id
 
-        firstTags = firstDoc.tags
-        secondTags = secondDoc.tags
+        first_tags = first_doc.tags
+        second_tags = second_doc.tags
 
-        intersection = _.intersection firstTags, secondTags
-        intersectionCount = intersection.length
+        intersection = _.intersection first_tags, second_tags
+        intersection_count = intersection.length
 
-    findTopDocMatches: (doc_id)->
-        thisDoc = Docs.findOne doc_id
-        tags = thisDoc.tags
-        matchObject = {}
+    find_top_doc_matches: (doc_id)->
+        this_doc = Docs.findOne doc_id
+        tags = this_doc.tags
+        match_object = {}
         for tag in tags
             idArrayWithTag = []
             Docs.find({ tags: $in: [tag] }, { tags: 1 }).forEach (doc)->
                 if doc._id isnt doc_id
                     idArrayWithTag.push doc._id
-            matchObject[tag] = idArrayWithTag
-        arrays = _.values matchObject
+            match_object[tag] = idArrayWithTag
+        arrays = _.values match_object
         flattenedArrays = _.flatten arrays
-        countObject = {}
+        count_object = {}
         for id in flattenedArrays
-            if countObject[id]? then countObject[id]++ else countObject[id]=1
-        # console.log countObject
+            if count_object[id]? then count_object[id]++ else count_object[id]=1
+        # console.log count_object
         result = []
-        for id, count of countObject
+        for id, count of count_object
             comparedDoc = Docs.findOne(id)
-            returnedObject = {}
-            returnedObject.doc_id = id
-            returnedObject.tags = comparedDoc.tags
-            returnedObject.username = comparedDoc.username
-            returnedObject.intersectionTags = _.intersection tags, comparedDoc.tags
-            returnedObject.intersectionTagsCount = returnedObject.intersectionTags.length
-            result.push returnedObject
+            returned_object = {}
+            returned_object.doc_id = id
+            returned_object.tags = comparedDoc.tags
+            returned_object.username = comparedDoc.username
+            returned_object.intersection_tags = _.intersection tags, comparedDoc.tags
+            returned_object.intersection_tagsCount = returned_object.intersection_tags.length
+            result.push returned_object
 
-        result = _.sortBy(result, 'intersectionTagsCount').reverse()
+        result = _.sortBy(result, 'intersection_tags_count').reverse()
         result = result[0..5]
         Docs.update doc_id,
-            $set: topDocMatches: result
+            $set: top_doc_matches: result
 
         # console.log result
         return result
 
-    matchTwoUsersAuthoredCloud: (uId)->
+    match_two_users_authored_cloud: (uId)->
         username = Meteor.users.findOne(uId).username
         match = {}
         match.authorId = $in: [Meteor.userId(), uId]
 
-        userMatchAuthoredCloud = Docs.aggregate [
+        user_match_authored_cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
             { $unwind: '$tags' }
@@ -155,13 +155,13 @@ Meteor.methods
             { $limit: 50 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-        # authoredList = (tag.name for tag in userMatchAuthoredCloud)
+        # authoredList = (tag.name for tag in user_match_authored_cloud)
         Meteor.users.update Meteor.userId(),
             $addToSet:
                 authoredCloudMatches:
                     uId: uId
                     username: username
-                    userMatchAuthoredCloud: userMatchAuthoredCloud
+                    user_match_authored_cloud: user_match_authored_cloud
 
     matchTwoUsersUpvotedCloud: (uId)->
         username = Meteor.users.findOne(uId).username

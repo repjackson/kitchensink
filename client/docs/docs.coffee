@@ -26,6 +26,17 @@ Template.doc.onCreated ->
 Template.doc.helpers
     # doc_tag_class: -> if @valueOf() in selected_doc_tags.array() then 'blue' else ''
     
+    can_retrieve_points: -> if @donators and Meteor.userId() in @donators then true else false
+
+    
+    current_user_donations: ->
+        if @donators and Meteor.userId() in @donators
+            result = _.find @donations, (donation)->
+                donation.user is Meteor.userId()
+            result.amount
+        else return 0
+
+    
     doc_tag_class: ->
         result = ''
         if @valueOf() in selected_doc_tags.array() then result += ' primary' else result += ' basic'
@@ -148,7 +159,7 @@ Template.doc.events
 
     
     'click .vote_up': -> Meteor.call 'vote_up', @_id
-    
+
     'click .vote_down': -> Meteor.call 'vote_down', @_id
     
 
@@ -161,3 +172,10 @@ Template.doc.events
             tags: @tags
             body: @body
         FlowRouter.go "/docs/edit/#{id}"
+
+    'click .buy_item': (e,t)->
+        if confirm "Buy for #{this.cost} points?"
+            Meteor.call 'buy_item', @_id
+
+    'click .send_point': -> Meteor.call 'send_point', @_id
+    'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id
