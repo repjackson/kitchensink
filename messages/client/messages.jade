@@ -1,29 +1,41 @@
 template(name='messages')
     .ui.container.segment
         h2.ui.header Mail
-            .ui.segment
-                h5.ui.header Compose
-                    .ui.input
-                        // input.text(type='text' placeholder='recipient')
-                        +inputAutocomplete settings=settings id="recipient" class="" autocomplete="off" placeholder='user lookup'
-                    .ui.input
-                        input#message_text(type='text' placeholder='send message')
-            h5.ui.header Inbox
-            .ui.relaxed.divided.list
-                each inbox_messages
-                    .item
-                        +message
-            h5.ui.header Outbox
-            .ui.relaxed.divided.list
-                each outbox_messages
-                    .item
-                        +message
+        .ui.segment
+            h5.ui.header Compose
+                .ui.input
+                    // input.text(type='text' placeholder='recipient')
+                    +inputAutocomplete settings=settings id="recipient" class="" autocomplete="off" placeholder='user lookup'
+                .ui.input
+                    input#message_text(type='text' placeholder='send message')
+        h2.ui.header Inbox
+        .ui.comments
+            each inbox_messages
+                +message
+        h2.ui.header Outbox
+        .ui.comments
+            each outbox_messages
+                +message
                     
                     
                     
 template(name='message')
-    strong #{body}
-    .floated.right by #{author.username} #{when}
+    .comment
+        .content
+        strong.text #{body}
+            .metadata by #{author.username} #{when}
+        .ui.divider
+    
+        // a.avatar
+        //     img(src='/images/avatar/small/matt.jpg')
+        //     +avatar user=author shape="circle" size="extra-small" 
+            strong.text #{text}
+                if is_author
+                    i.large.link.remove.icon.delete_comment
+                else
+                    i.large.link.thumbs.up.icon.like_comment
+            // .actions
+                // a.reply Reply
     
     
 template(name='user_lookup')

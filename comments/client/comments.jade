@@ -1,12 +1,13 @@
 template(name='comments')
     .ui.comments
-        h3.ui.dividing.header
+        .ui.dividing.header
             i.comments.icon 
             |#{comment_count} Comments
+            .ui.left.icon.input
+                i.plus.icon
+                input.new_comment(type='text' placeholder='Comment')
         each comments
             +comment
-        .ui.input
-            input.new_comment(type='text' placeholder='Comment')
 
 
 template(name='comment')            

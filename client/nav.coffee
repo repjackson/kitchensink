@@ -25,7 +25,7 @@ Template.nav.events
     'click #add_doc': ->
         Meteor.call 'create_doc', (err, id)->
             if err then console.log err
-            else FlowRouter.go "/edit/#{id}"
+            else FlowRouter.go "/docs/edit/#{id}"
 
     'click .select_bookmark': ->
         selected_doc_tags.clear()

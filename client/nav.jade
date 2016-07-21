@@ -28,9 +28,10 @@ template(name='nav')
                     // span.text Add
                     i.dropdown.icon
                     .menu
-                        #new_from_selection.item
-                            i.external.square.icon
-                            |From Selection
+                        if selected_doc_tags
+                            #new_from_selection.item
+                                i.external.square.icon
+                                |From Selection
                         #add_doc.item
                             i.file.outline.icon
                             |Blank
@@ -39,8 +40,6 @@ template(name='nav')
                             .item.add_from_bookmark
                                 each this
                                     .ui.label #{this}
-                a.ui.item(href='/messages' class="{{isActivePath '/messages'}}")
-                    i.mail.outline.icon
                 .ui.simple.icon.dropdown.item
                     i.bookmark.icon
                     // span.text Bookmarks
@@ -50,6 +49,8 @@ template(name='nav')
                             .item.select_bookmark
                                 each this
                                     .ui.label #{this}
+                a.ui.item(href='/messages' class="{{isActivePath '/messages'}}")
+                    i.mail.outline.icon
                 a.item(href='/profile' class="{{isActivePath '/profile'}}")
                     i.user.icon
                     | #{currentUser.username} [#{currentUser.points} pts]

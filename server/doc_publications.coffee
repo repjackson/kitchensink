@@ -53,4 +53,5 @@ Meteor.publish 'docs', (selected_doc_tags, selected_authors, user_upvotes, user_
         limit: 5
         sort:
             tag_count: 1
+            points: -1
             timestamp: -1

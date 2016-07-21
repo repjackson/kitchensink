@@ -12,6 +12,11 @@ Docs.before.insert (userId, doc)->
     doc.points = 0
     return
 
+Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
+    doc.tag_count = doc.tags?.length
+    # Meteor.call 'generatePersonalCloud', Meteor.userId()
+), fetchPrevious: true
+
 Docs.helpers 
     author: -> Meteor.users.findOne @author_id
 
