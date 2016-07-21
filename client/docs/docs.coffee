@@ -14,11 +14,12 @@ Template.docs.onCreated ->
 Template.docs.helpers
     docs: -> 
         # Docs.find({ _id: $ne: Meteor.userId() })
+        # Docs.find { tags: selected_doc_tags.array() }, 
         Docs.find { }, 
             sort:
                 tag_count: 1
                 points: -1
-            limit: 3
+            limit: 1
 
     tag_class: -> if @valueOf() in selected_doc_tags.array() then 'primary' else ''
 

@@ -41,8 +41,8 @@ Meteor.publish 'docs', (selected_doc_tags, selected_authors, user_upvotes, user_
     if user_upvotes then match.up_voters = $in: [user_upvotes]
     if user_downvotes then match.down_voters = $in: [user_downvotes]
     if selected_authors.length > 0  then match.author_id = $in: selected_authors
-    # if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
-    match.tags = selected_doc_tags
+    if selected_doc_tags.length > 0 then match.tags = $all: selected_doc_tags
+    # match.tags = selected_doc_tags
     match.recipient_id = $exists: false
     if unvoted is true
         match.up_voters = $nin: [@userId]

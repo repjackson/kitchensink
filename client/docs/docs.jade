@@ -8,20 +8,20 @@ template(name='docs')
 
 
 template(name='doc')
-    .ui.fluid.card
-        if body
-            .content
-                |!{body}
+    .ui.fluid.basic.card
         .content
             i.tags.icon
             each tags
                 .ui.compact.small.button.doc_tag(class=doc_tag_class) #{this}
-            [#{tag_count}]
-        .content
-            |by 
-            .ui.small.compact.button.add_author_to_filter(class=add_author_to_filter_class) #{author.username} (#{author.points})
-            | #{when}
+            // [#{tag_count}]
+        if body
+            .content
+                |!{body}
         if currentUser
+            .content
+                |by 
+                .ui.small.compact.button.add_author_to_filter(class=add_author_to_filter_class) #{author.username} (#{author.points})
+                | #{when}
             .content
                 if is_author
                     .ui.button.edit_doc
