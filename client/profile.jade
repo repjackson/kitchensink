@@ -36,6 +36,47 @@ template(name='profile')
         +people_you_like
         .ui.divider
         +people_who_like_you
+        .ui.divider
+        .ui.segment
+            if currentUser.authored_cloud
+                .panel.panel-default
+                .panel-heading Authored Cloud
+                .panel-body
+                    each currentUser.authored_cloud
+                        .btn.btn-default
+                            |#{this.name}
+                            small #{this.count}
+            if currentUser.upvoted_cloud
+                .panel.panel-default
+                .panel-heading Upvoted Cloud
+                .panel-body
+                    each currentUser.upvoted_cloud
+                        .btn.btn-default
+                            |#{this.name}
+                            small #{this.count}
+            if currentUser.downvoted_cloud
+                .panel.panel-default
+                .panel-heading Downvoted Cloud
+                .panel-body
+                    each currentUser.downvoted_cloud
+                        .btn.btn-default
+                            |#{this.name}
+                            small #{this.count}
+        .ui.segment
+            h4.ui.header Top Matched Users
+                .ui.list
+                    each people
+                        .item
+                            |#{this.username}
+                            a.match_two_users_authored_cloud.right.floated Calculate
+                .ui.list
+                    each authored_cloud_matches
+                        .item
+                            | #{this.username}
+                            each user_match_authored_cloud
+                                .btn.btn-default
+                                    |#{this.name}
+                                    small #{this.count}
         
 template(name='people_you_like')
     h5.ui.header People You Like

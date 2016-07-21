@@ -5,6 +5,7 @@ Meteor.publish 'authors', (selected_tags, selected_authors, view_mode)->
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
     if selected_authors.length > 0 then match.author_id = $in: selected_authors
+    match.recipient_id = $exists: false
     # match.tagCount = $gt: 0
     switch view_mode
         when 'mine' then match.author_id = @userId

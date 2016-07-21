@@ -62,13 +62,13 @@ Template.doc.helpers
     vote_up_button_class: ->
         if not Meteor.userId() then 'disabled '
         # else if Meteor.user().points < 1 then 'disabled '
-        else if Meteor.userId() in @up_voters then 'green'
+        else if @up_voters and Meteor.userId() in @up_voters then 'green'
         else ''
 
     vote_down_button_class: ->
         if not Meteor.userId() then 'disabled '
         # else if Meteor.user().points < 1 then 'disabled '
-        else if Meteor.userId() in @down_voters then 'red'
+        else if @down_voters and Meteor.userId() in @down_voters then 'red'
         else ''
 
     select_user_button_class: -> if Session.equals 'selected_user', @author_id then 'primary' else 'basic'

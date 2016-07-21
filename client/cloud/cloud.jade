@@ -23,32 +23,28 @@ template(name='doc_cloud')
         // #add_doc.ui.button
         //     i.plus.icon
         //     | Full Add
-        .ui.hidden.fitted.divider
-        if selected_authors
-            #clear_authors.ui.circular.primary.icon.button
-                i.remove.icon
-            each selected_authors
-                a.ui.primary.circular.button.unselect_author
-                    i.user.icon
-                    strong #{selected_author_name}
-        each all_authors
-            .ui.circular.animated.fade.button.select_author
-                .visible.content
-                    i.user.icon
-                    |#{author_name}
-                    small #{count}
-                .hidden.content 
-                    i.plus.icon
-                    strong #{author_name}
-                    small #{count}
+        // .ui.hidden.fitted.divider
+        // if selected_authors
+        //     #clear_authors.ui.circular.primary.icon.button
+        //         i.remove.icon
+        //     each selected_authors
+        //         a.ui.primary.circular.button.unselect_author
+        //             i.user.icon
+        //             strong #{selected_author_name}
+        // each all_authors
+        //     .ui.circular.animated.fade.button.select_author
+        //         .visible.content
+        //             i.user.icon
+        //             |#{author_name}
+        //             small #{count}
+        //         .hidden.content 
+        //             i.plus.icon
+        //             strong #{author_name}
+        //             small #{count}
         // h5.ui.header By Tag:
         .ui.left.icon.small.input
             i.search.icon
             +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder='Tag Search'
-        if selected_doc_tags
-            if currentUser
-                #bookmark_selection.ui.icon.circular.button
-                    i.bookmark.icon
         if $.Session.get 'selected_user'
             .ui.button.primary.selected_user_button
                 i.remove.icon
@@ -68,20 +64,28 @@ template(name='doc_cloud')
             #clear_tags.ui.primary.circular.icon.button
                 i.large.remove.icon
             each selected_doc_tags
-                a.ui.large.primary.animated.fade.compact.button.unselect_tag
-                    .visible.content
-                        strong #{this}
-                    .hidden.content
-                        i.minus.icon
-                        strong #{this}
+                a.ui.large.primary.compact.button.unselect_tag #{this}
+                    // .hidden.content
+                    //     i.minus.icon
+                    //     strong #{this}
+                // a.ui.large.primary.animated.fade.compact.button.unselect_tag
+                //     .visible.content
+                //         strong #{this}
+                //     .hidden.content
+                //         i.minus.icon
+                //         strong #{this}
         // .ui.hidden.fitted.divider
         // if Template.subscriptionsReady
         each all_doc_tags
-            .ui.compact.animated.fade.button.select_tag(class=cloud_tag_class) 
-                .visible.content #{this.name}
-                .hidden.content 
-                    strong + #{this.name}
-                    small (#{this.count})
+            .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
+                // .hidden.content 
+                //     strong + #{this.name}
+                //     small (#{this.count})
+            // .ui.compact.animated.fade.button.select_tag(class=cloud_tag_class) 
+            //     .visible.content #{this.name}
+            //     .hidden.content 
+            //         strong + #{this.name}
+            //         small (#{this.count})
             // .ui.button.compact.selectTag #{this.name}
         .ui.hidden.divider
         // h5.ui.header By Author:

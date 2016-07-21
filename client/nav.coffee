@@ -49,6 +49,7 @@ Template.nav.events
 
     'click #new_from_selection': ->
         # if confirm 'Create new document from selection?'
+        # console.log selected_doc_tags.array()
         Meteor.call 'create_doc_with_tags', selected_doc_tags.array(), (err,id)->
             if err then console.log err
             else FlowRouter.go "/docs/edit/#{id}"

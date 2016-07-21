@@ -5,8 +5,10 @@ Meteor.methods
             author_id: Meteor.userId()
     
     create_doc_with_tags: (tags)->
+        tag_count = tags.length
         Docs.insert
             tags: tags
+            tag_count: tag_count
 
     deleteDoc: (id)->
         Docs.remove id

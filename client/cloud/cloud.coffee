@@ -8,10 +8,10 @@ Template.doc_cloud.onCreated ->
 
 Template.doc_cloud.helpers
     all_doc_tags: ->
-        doc_count = Docs.find().count()
-        # console.log doc_count
-        if doc_count < 3 then Tags.find({ count: $lt: doc_count }, limit: 40 ) else Tags.find({}, limit: 40 )
-        # Tags.find({})
+        # doc_count = Docs.find().count()
+        # # console.log doc_count
+        # if doc_count < 3 then Tags.find({ count: $lt: doc_count }, limit: 40 ) else Tags.find({}, limit: 40 )
+        Tags.find({}, limit: 20)
 
     # cloud_tag_class: ->
     #     buttonClass = switch

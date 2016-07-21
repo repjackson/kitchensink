@@ -47,7 +47,7 @@ Meteor.methods
 
     generate_person_cloud: (uid)->
         authored_cloud = Docs.aggregate [
-            { $match: authorId: Meteor.userId() }
+            { $match: author_id: Meteor.userId() }
             { $project: tags: 1 }
             { $unwind: '$tags' }
             { $group: _id: '$tags', count: $sum: 1 }

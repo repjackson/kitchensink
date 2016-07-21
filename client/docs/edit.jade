@@ -10,38 +10,38 @@ template(name='edit')
                     .ui.left.icon.input
                         i.add.icon
                         input#add_tag(type='text' autofocus='' placeholder='Add Tag (press enter)')
-                .inline.field
-                    label Add Address
-                    i.map.icon
-                    input#place(type='text' value=locationob.formatted_address)
-                    .ui.icon.basic.button.clear_address Clear
-                .inline.field
-                    label Add Date/Time
-                    i.calendar.outline.icon
-                    // .ui.left.icon.input
-                    input#datepicker(type="text" value=dateTime)
-                    .ui.icon.basic.button.clear_date Clear
-                .inline.field
-                    label Get URL Text
-                    i.linkify.icon
-                    input#url(type="text" value=url)
-            div
-                if unpicked_alchemy_tags.length
-                    .ui.segment
-                        h5.ui.header Suggested Alchemy Tags
-                        div
-                            each unpicked_alchemy_tags
-                                .add_alchemy_suggestion.ui.small.compact.button #{this}
-                        #add_all_alchemy.ui.blue.button Add All Alchemy Suggestions
-            if yaki_tags.length
-                .ui.segment
-                    h5.ui.header Suggested Yaki Tags
-                    div
-                        each unpicked_yaki_tags
-                            .add_yaki_suggestion.ui.small.compact.button #{this}
-                    #add_all_yaki.ui.blue.button Add All Yaki Suggestions
-            #alchemy_suggest.ui.basic.button Suggest Tags with AlchemyAPI
-            #yaki_suggest.ui.basic.button Suggest Tags Yaki
+                // .inline.field
+                //     label Add Address
+                //     i.map.icon
+                //     input#place(type='text' value=locationob.formatted_address)
+                //     .ui.icon.basic.button.clear_address Clear
+                // .inline.field
+                //     label Add Date/Time
+                //     i.calendar.outline.icon
+                //     // .ui.left.icon.input
+                //     input#datepicker(type="text" value=dateTime)
+                //     .ui.icon.basic.button.clear_date Clear
+                // .inline.field
+                //     label Get URL Text
+                //     i.linkify.icon
+                //     input#url(type="text" value=url)
+            // div
+            //     if unpicked_alchemy_tags.length
+            //         .ui.segment
+            //             h5.ui.header Suggested Alchemy Tags
+            //             div
+            //                 each unpicked_alchemy_tags
+            //                     .add_alchemy_suggestion.ui.small.compact.button #{this}
+            //             #add_all_alchemy.ui.blue.button Add All Alchemy Suggestions
+            // if yaki_tags.length
+            //     .ui.segment
+            //         h5.ui.header Suggested Yaki Tags
+            //         div
+            //             each unpicked_yaki_tags
+            //                 .add_yaki_suggestion.ui.small.compact.button #{this}
+            //         #add_all_yaki.ui.blue.button Add All Yaki Suggestions
+            // #alchemy_suggest.ui.basic.button Suggest Tags with AlchemyAPI
+            // #yaki_suggest.ui.basic.button Suggest Tags Yaki
             .ui.hidden.divider
             .ui.input
                 textarea#body

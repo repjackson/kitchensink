@@ -15,15 +15,16 @@ template(name='nav')
         a.item(href='/people' class="{{isActivePath '/people'}}")
             i.users.icon
             |People
-        a.item(href='/exchange' class="{{isActivePath '/exchange'}}")
-            i.exchange.icon
-            |Exchange
-        a.item(href='/importers' class="{{isActivePath '/importers'}}")
-            i.down.arrow.icon
-            |Importers
+        // a.item(href='/exchange' class="{{isActivePath '/exchange'}}")
+        //     i.exchange.icon
+        //     |Exchange
+        // a.item(href='/importers' class="{{isActivePath '/importers'}}")
+        //     i.down.arrow.icon
+        //     |Importers
         .right.menu
             if currentUser
-                #add_doc.ui.simple.icon.dropdown.item
+                // #add_doc.ui.simple.icon.dropdown.item
+                .ui.simple.icon.dropdown.item
                     i.plus.icon
                     // span.text Add
                     i.dropdown.icon
@@ -45,6 +46,10 @@ template(name='nav')
                     // span.text Bookmarks
                     i.dropdown.icon
                     .menu
+                        if selected_doc_tags
+                            #bookmark_selection.ui.icon.circular.button
+                                i.plus.icon
+                                | Bookmark Current Selection
                         each currentUser.bookmarks
                             .item.select_bookmark
                                 each this

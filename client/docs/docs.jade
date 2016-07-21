@@ -13,6 +13,7 @@ template(name='doc')
             .content
                 |!{body}
         .content
+            i.tags.icon
             each tags
                 .ui.compact.small.button.doc_tag(class=doc_tag_class) #{this}
             [#{tag_count}]
@@ -23,8 +24,9 @@ template(name='doc')
         if currentUser
             .content
                 if is_author
-                    .ui.icon.button.edit_doc
+                    .ui.button.edit_doc
                         i.pencil.icon
+                        | Edit
                 .ui.button.clone_doc
                     i.fork.icon
                     |Clone
