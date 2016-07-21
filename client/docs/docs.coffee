@@ -14,11 +14,11 @@ Template.docs.onCreated ->
 Template.docs.helpers
     docs: -> 
         # Docs.find({ _id: $ne: Meteor.userId() })
-        Docs.find({ }, 
+        Docs.find { }, 
             sort:
                 tag_count: 1
                 points: -1
-            limit: 3)
+            limit: 3
 
     tag_class: -> if @valueOf() in selected_doc_tags.array() then 'primary' else ''
 
@@ -26,8 +26,9 @@ Template.docs.helpers
 
 Template.doc.onCreated ->
     # console.log Template.currentData()
-    @autorun -> Meteor.subscribe('review_doc', Template.currentData()._id)
-    @autorun -> Meteor.subscribe 'person', @author_id
+    # @autorun -> Meteor.subscribe('review_doc', Template.currentData()._id)
+    # console.log 'this is', Template.currentData()._id
+    @autorun -> Meteor.subscribe 'person', Template.currentData().author_id
 
 
 Template.doc.helpers
@@ -35,6 +36,8 @@ Template.doc.helpers
     
     can_retrieve_points: -> if @donators and Meteor.userId() in @donators then true else false
 
+    show_comments: ->
+        Meteor.userId() or @comment_count
     
     current_user_donations: ->
         if @donators and Meteor.userId() in @donators
@@ -95,6 +98,8 @@ Template.doc.helpers
                 }
             ]
         }
+
+    add_author_to_filter_class: -> if @author_id in selected_authors.array() then 'primary' else '' 
 
     like_button_class: -> if @_id in Meteor.user().docs_you_like then 'primary' else 'basic' 
 
@@ -186,3 +191,6 @@ Template.doc.events
 
     'click .send_point': -> Meteor.call 'send_point', @_id
     'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id
+
+    'click .add_author_to_filter': -> 
+        if @author_id in selected_authors.array() then selected_authors.remove @author_id else selected_authors.push @author_id

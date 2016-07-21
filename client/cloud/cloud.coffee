@@ -62,7 +62,6 @@ Template.doc_cloud.helpers
     author_name: ->  Meteor.users.findOne(@author_id)?.username
 
     selected_author_name: -> 
-        console.log @valueOf()  
         Meteor.users.findOne(@valueOf()).username
 
 Template.doc_cloud.events
@@ -124,7 +123,9 @@ Template.doc_cloud.events
     'click #mine': ->
         Session.set 'downvoted_cloud', null
         Session.set 'upvoted_cloud', null
-        Session.set 'selected_user', Meteor.userId()
+        # Session.set 'selected_user', Meteor.userId()
+        selected_authors.clear()
+        selected_authors.push Meteor.userId()
 
     'click #my_upvoted': ->
         Session.set 'selected_user', null

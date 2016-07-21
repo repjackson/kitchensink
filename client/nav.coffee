@@ -5,6 +5,8 @@ Template.nav.onCreated ->
 
 
 Template.nav.helpers
+    selected_doc_tags: -> selected_doc_tags.array()
+
 
 Meteor.startup ->
     Session.setDefault 'selected_user', null
@@ -47,6 +49,6 @@ Template.nav.events
 
     'click #new_from_selection': ->
         # if confirm 'Create new document from selection?'
-        Meteor.call 'create_doc', selected_doc_tags.array(), (err,id)->
+        Meteor.call 'create_doc_with_tags', selected_doc_tags.array(), (err,id)->
             if err then console.log err
             else FlowRouter.go "/docs/edit/#{id}"

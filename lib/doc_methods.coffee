@@ -160,3 +160,10 @@ Meteor.methods
             Meteor.users.update Meteor.userId(), $inc: points: 1
 
 
+    add_component: (doc_id, component)->
+        Docs.update doc_id,
+            $addToSet: components: component    
+            
+    remove_component: (doc_id, component)->
+        Docs.update doc_id,
+            $pull: components: component

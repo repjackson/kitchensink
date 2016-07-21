@@ -1,13 +1,17 @@
 template(name='comments')
-    .ui.comments
-        .ui.dividing.header
-            i.comments.icon 
-            |#{comment_count} Comments
-            .ui.left.icon.input
-                i.plus.icon
-                input.new_comment(type='text' placeholder='Comment')
-        each comments
-            +comment
+    .content
+        .ui.comments
+            if comment_count
+                .ui.dividing.header
+                    i.comments.icon 
+                    |#{comment_count} Comments
+            .ui.divider
+            if currentUser
+                .ui.left.icon.input
+                    i.plus.icon
+                    input.new_comment(type='text' placeholder='Comment')
+            each comments
+                +comment
 
 
 template(name='comment')            
@@ -21,6 +25,7 @@ template(name='comment')
                 if is_author
                     i.large.link.remove.icon.delete_comment
                 else
-                    i.large.link.thumbs.up.icon.like_comment
+                    if currentUser
+                        i.large.link.thumbs.up.icon.like_comment
             // .actions
                 // a.reply Reply

@@ -79,6 +79,7 @@ Meteor.publish 'person', (person_id)->
         fields: 
             cloud: 1
             list: 1
+            username: 1
             contact: 1
             people_you_like: 1
             points: 1
