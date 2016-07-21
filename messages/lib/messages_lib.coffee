@@ -9,9 +9,11 @@ Messages.helpers
 
 
 Meteor.methods
-    send_message: (body, recipient_id) ->
+    send_message: (username, body, tags) ->
+        id = Meteor.users.findOne(username: username)._id
         Messages.insert
             timestamp: Date.now()
             author_id: Meteor.userId()
             body: body
-            recipient_id: recipient_id
+            recipient_id: id
+            tags: tags

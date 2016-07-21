@@ -36,7 +36,7 @@ FlowRouter.route '/',
 FlowRouter.route '/bulk', action: (params) ->
     analytics.page()
     BlazeLayout.render 'layout',
-        nav: 'nav'
+        # nav: 'nav'
         main: 'bulk'
         
 FlowRouter.route '/marketplace', action: (params) ->
@@ -46,3 +46,7 @@ FlowRouter.route '/marketplace', action: (params) ->
 
 FlowRouter.route '/leaderboard', action: (params) ->
     BlazeLayout.render 'layout', main: 'leaderboard'
+
+
+FlowRouter.route '/messages', action: (params) ->
+    BlazeLayout.render 'layout', main: 'messages'

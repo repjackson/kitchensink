@@ -39,6 +39,8 @@ template(name='nav')
                             .item.add_from_bookmark
                                 each this
                                     .ui.label #{this}
+                a.ui.item(href='/messages' class="{{isActivePath '/messages'}}")
+                    i.mail.outline.icon
                 .ui.simple.icon.dropdown.item
                     i.bookmark.icon
                     // span.text Bookmarks
