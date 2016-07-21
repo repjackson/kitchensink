@@ -1,9 +1,10 @@
 template(name='nav')
-    .ui.inverted.menu(href='/')
+    .ui.menu(href='/')
         a#home_link.ui.header.icon.item(href='/' class="{{isActivePath '/'}}")
-            // i.diamond.icon
-            // |Facet
-            i.large.home.icon
+            img.logo(src='/favicon-32x32.png')
+        // i.diamond.icon
+        // |Facet
+        // i.large.home.icon
         // .ui.category.search.two.wide.item
         //     .ui.transparent.inverted.icon.input
         //         input.search(type='text', placeholder='Search...')

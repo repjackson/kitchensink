@@ -59,7 +59,7 @@ Template.doc_cloud.helpers
     
     selected_authors: -> selected_authors.list()
 
-    author_name: ->  Meteor.users.findOne(@author_id).username
+    author_name: ->  Meteor.users.findOne(@author_id)?.username
 
     selected_author_name: -> 
         console.log @valueOf()  
@@ -115,7 +115,7 @@ Template.doc_cloud.events
     'click #bookmark_selection': ->
         # if confirm 'Bookmark Selection?'
         Meteor.call 'add_bookmark', selected_doc_tags.array(), (err,res)->
-            alert "Selection bookmarked"
+            swal "Selection bookmarked"
 
     'click .selected_user_button': -> Session.set 'selected_user', null
     'click .upvoted_cloud_button': -> Session.set 'upvoted_cloud', null

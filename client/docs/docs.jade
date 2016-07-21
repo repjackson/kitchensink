@@ -41,6 +41,8 @@ template(name='doc')
                     i.reply.icon
                     |Retrieve Point
                     | (#{current_user_donations} sent)
+        .content
+            +comments
         //     if currentUser
         //         unless isAuthor
         //             p Common interests with #{author.username} (Match Points: #{upVotedMatchCloud.totalCount})

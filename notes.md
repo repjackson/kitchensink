@@ -47,3 +47,6 @@ todo
 -top 10 for each person? yes, that allows better formatting
 --no tag sizes
 -contact info
+
+
+db.docs.remove({tweet_created_at: {$exists:true}})

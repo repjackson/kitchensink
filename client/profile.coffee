@@ -68,10 +68,10 @@ Template.profile.events
                 if username.length > 0
                     Meteor.call 'update_username', username, (err,res)->
                         if err
-                            alert 'Username exists.'
+                            swal 'Username exists.'
                             $('#username').val(Meteor.user().username)
                         else
-                            alert "Updated username to #{username}."
+                            swal "Updated username to #{username}."
     
     'keydown #contact': (e,t)->
         e.preventDefault
@@ -82,7 +82,7 @@ Template.profile.events
                     Meteor.call 'update_contact', contact, (err,res)->
                         if err then console.error err
                         else
-                            alert "Updated contact to #{contact}."
+                            swal "Updated contact to #{contact}."
     
 
     'click .my_tag': ->
