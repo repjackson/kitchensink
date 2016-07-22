@@ -4,6 +4,11 @@ Template.profile.onCreated ->
     @autorun -> Meteor.subscribe 'me'
     @autorun -> Meteor.subscribe 'people', selected_tags.array()
 
+Template.profile.onRendered ->
+    $('.ui.accordion').accordion()
+
+
+
 
 Template.profile.helpers
     user_matches: ->
