@@ -11,90 +11,21 @@ template(name='profile')
                     i.user.icon
                     input#contact(type='text' value=currentUser.contact)
             .inline.field
-                label Your Cloud
-                each currentUser.cloud
-                    // .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name}
-                    .ui.compact.small.button.user_tag(class=cloud_tag_class) #{name} (#{count})
-            .inline.field
                 label Your Tags
-                each my_tags
+                each currentUser.tags
                     .ui.small.compact.button.my_tag
                         i.remove.icon
                         |#{this}
                 .ui.left.icon.input
                     i.add.icon
                     // +inputAutocomplete settings=settings id="self_tag" class="" autocomplete="off" placeholder='Add Tag'
-                    input#self_tag(type='text' autofocus='' placeholder='Add Tag')
+                    input#add_tag(type='text' autofocus='' placeholder='Add Tag')
         .ui.divider
         h5.ui.header Top Matches
         each user_matches
             strong #{matched_user} #{length}
             each tag_intersection
                 .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
-            .ui.fitted.hidden.divider
-        .ui.divider
-        +people_you_like
-        .ui.divider
-        +people_who_like_you
-        .ui.divider
-        .ui.segment
-            if currentUser.authored_cloud
-                .panel.panel-default
-                .panel-heading Authored Cloud
-                .panel-body
-                    each currentUser.authored_cloud
-                        .btn.btn-default
-                            |#{this.name}
-                            small #{this.count}
-            if currentUser.upvoted_cloud
-                .panel.panel-default
-                .panel-heading Upvoted Cloud
-                .panel-body
-                    each currentUser.upvoted_cloud
-                        .btn.btn-default
-                            |#{this.name}
-                            small #{this.count}
-            if currentUser.downvoted_cloud
-                .panel.panel-default
-                .panel-heading Downvoted Cloud
-                .panel-body
-                    each currentUser.downvoted_cloud
-                        .btn.btn-default
-                            |#{this.name}
-                            small #{this.count}
-        .ui.segment
-            h4.ui.header Top Matched Users
-                .ui.list
-                    each people
-                        .item
-                            |#{this.username}
-                            a.match_two_users_authored_cloud.right.floated Calculate
-                .ui.list
-                    each authored_cloud_matches
-                        .item
-                            | #{this.username}
-                            each user_match_authored_cloud
-                                .btn.btn-default
-                                    |#{this.name}
-                                    small #{this.count}
-        
-template(name='people_you_like')
-    h5.ui.header People You Like
-    each people_you_like
-        strong #{username}
-        each person_intersection
-            .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
-        .ui.fitted.hidden.divider
-
-template(name='people_who_like_you')
-    h5.ui.header People Who Like You
-    each people_who_like_you
-        strong #{username}
-        each person_intersection
-            .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
-        | #{contact}
-        .ui.fitted.hidden.divider
-
 
 
 

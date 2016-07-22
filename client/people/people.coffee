@@ -1,26 +1,26 @@
-@selected_people_tags = new ReactiveArray []
+@selected_tags = new ReactiveArray []
 
 
 
 Template.people.onCreated ->
-    @autorun -> Meteor.subscribe('people', selected_people_tags.array())
-    @autorun -> Meteor.subscribe('people_tags', selected_people_tags.array())
+    @autorun -> Meteor.subscribe('people', selected_tags.array())
+    @autorun -> Meteor.subscribe('tags', selected_tags.array())
 
 
 Template.people.helpers
     people: -> 
-        Meteor.users.find({ _id: $ne: Meteor.userId() })
-        # Meteor.users.find({ })
+        # Meteor.users.find({ _id: $ne: Meteor.userId() })
+        Meteor.users.find({ })
 
-    tag_class: -> if @valueOf() in selected_people_tags.array() then 'primary' else ''
+    tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
 
-Template.people_cloud.helpers
-    globalTags: ->
-        user_count = Meteor.users.find().count()
-        # console.log user_count
-        if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 50 )
-        # Tags.find({}, limit: 25)
+Template.cloud.helpers
+    all_tags: ->
+        # user_count = Meteor.users.find().count()
+        # # console.log user_count
+        # if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 50 )
+        Tags.find({}, limit: 25)
 
     # cloud_tag_class: ->
     #     buttonClass = switch
@@ -41,7 +41,7 @@ Template.people_cloud.helpers
         return buttonClass
 
 
-    selected_people_tags: -> selected_people_tags.list()
+    selected_tags: -> selected_tags.list()
 
     settings: ->
         {
@@ -58,7 +58,7 @@ Template.people_cloud.helpers
             ]
         }
 
-Template.people_cloud.events
+Template.cloud.events
     'keyup #search': (e,t)->
         e.preventDefault()
         val = $('#search').val().toLowerCase().trim()
@@ -66,43 +66,33 @@ Template.people_cloud.events
             when 13 #enter
                 switch val
                     when 'clear'
-                        selected_people_tags.clear()
+                        selected_tags.clear()
                         $('#search').val ''
                     else
                         unless val.length is 0
-                            selected_people_tags.push val.toString()
+                            selected_tags.push val.toString()
                             $('#search').val ''
             when 8
                 if val.length is 0
-                    selected_people_tags.pop()
+                    selected_tags.pop()
                     
     'autocompleteselect #search': (event, template, doc) ->
         # console.log 'selected ', doc
-        selected_people_tags.push doc.name
+        selected_tags.push doc.name
         $('#search').val ''
         
-    'click .selectTag': -> selected_people_tags.push @name
+    'click .select_tag': -> selected_tags.push @name
 
-    'click .unselectTag': -> selected_people_tags.remove @valueOf()
+    'click .unselect_tag': -> selected_tags.remove @valueOf()
 
-    'click #clearTags': -> selected_people_tags.clear()
+    'click #clear_tags': -> selected_tags.clear()
 
 Template.person.onCreated ->
     # console.log Template.currentData()
-    @autorun -> Meteor.subscribe('review_doc', Template.currentData()._id)
+    # @autorun -> Meteor.subscribe('person', Template.currentData()._id)
 
 Template.person.helpers
-    tag_class: -> if @valueOf() in selected_people_tags.array() then 'blue' else ''
-    
-    cloud_tag_class: -> if @name in selected_people_tags.array() then 'blue' else ''
-    
-    top_cloud: -> @cloud
-    
-    review_tags: -> 
-        # console.log @
-        review_doc = Docs.findOne(author_id: Meteor.userId(), recipient_id: @_id)
-        # console.log review_doc
-        review_doc?.tags
+    person_tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''
     
     settings: ->
         {
@@ -118,35 +108,8 @@ Template.person.helpers
                 }
             ]
         }
-
-    like_button_class: -> if @_id in Meteor.user().people_you_like then 'primary' else 'basic' 
-
     
 
 
 Template.person.events
-    'keydown .review_user': (e,t)->
-        e.preventDefault
-        tag = t.$('.review_user').val().toLowerCase().trim()
-        if e.which is 13
-            if tag.length > 0
-                Meteor.call 'tag_user', Template.parentData(0)._id, tag, ->
-                    $('.review_user').val('')
-
-    'click .user_tag': -> if @name in selected_people_tags.array() then selected_people_tags.remove(@name) else selected_people_tags.push(@name)
-
-    'click .add_liked_person': ->
-        # console.log @_id
-        Meteor.call 'add_liked_person', @_id
-
-    'click .review_tag': (e,t)->
-        tag = @valueOf()
-        # console.log Template.currentData()._id
-        Meteor.call 'remove_tag', Template.currentData()._id, tag, ->
-            t.$('.review_user').val(tag)
-
-    'autocompleteselect .review_user': (event, template, doc) ->
-        # console.log 'selected ', doc
-        Meteor.call 'tag_user', Template.parentData(0)._id, doc.name, ->
-            $('.review_user').val ''
-
+    'click .person_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())

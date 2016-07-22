@@ -20,20 +20,7 @@ head
     meta(name='msapplication-TileImage', content='/ms-icon-144x144.png')
     meta(name='theme-color', content='#ffffff')
 
-
-// body
-//     +layout
 template(name='layout')
     +nav
     // .ui.center.aligned.segment
     +Template.dynamic template=main
-
-
-// template(name='layout')
-//     // +matches
-//     +nav
-//     if currentUser
-//         +profile
-//     +cloud
-//     +people
-

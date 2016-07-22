@@ -1,19 +1,15 @@
 
 Template.profile.onCreated ->
-    @autorun -> Meteor.subscribe 'tags', selected_people_tags.array()
+    @autorun -> Meteor.subscribe 'tags', selected_tags.array()
     @autorun -> Meteor.subscribe 'me'
 
 
-
-Template.profile.onCreated ->
-    @autorun -> Meteor.subscribe('self_doc')
-    
 Template.profile.helpers
     user_matches: ->
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
         user_matches = []
         for user in users
-            tag_intersection = _.intersection(user.list, Meteor.user().list)
+            tag_intersection = _.intersection(user.tags, Meteor.user().tags)
             user_matches.push
                 matched_user: user.username
                 tag_intersection: tag_intersection
@@ -37,27 +33,18 @@ Template.profile.helpers
         }
 
 
-    my_tags: -> 
-        self_review = Docs.findOne
-            recipient_id: Meteor.userId()
-            author_id: Meteor.userId()
-        if self_review
-            self_review.tags
-        else
-            []
-            
-    cloud_tag_class: -> if @name in selected_people_tags.array() then 'blue' else ''
-    match_tag_class: -> if @valueOf() in selected_people_tags.array() then 'blue' else ''
+    cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else ''
+    match_tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''
 
 
 Template.profile.events
-    'keydown #self_tag': (e,t)->
+    'keydown #add_tag': (e,t)->
         e.preventDefault
-        tag = $('#self_tag').val().toLowerCase().trim()
+        tag = $('#add_tag').val().toLowerCase().trim()
         if e.which is 13
             if tag.length > 0
-                Meteor.call 'tag_user', Meteor.userId(), tag, ->
-                    $('#self_tag').val('')
+                Meteor.call 'add_tag', tag, ->
+                    $('#add_tag').val('')
 
 
     'keydown #username': (e,t)->
@@ -88,42 +75,13 @@ Template.profile.events
     'click .my_tag': ->
         tag = @valueOf()
         Meteor.call 'remove_tag', Meteor.userId(), tag, ->
-            $('#self_tag').val(tag)
+            $('#add_tag').val(tag)
 
-    'click .user_tag': -> if @name in selected_people_tags.array() then selected_people_tags.remove(@name) else selected_people_tags.push(@name)
+    'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
     
-    'click .match_tag': -> if @valueOf() in selected_people_tags.array() then selected_people_tags.remove(@valueOf()) else selected_people_tags.push(@valueOf())
+    'click .match_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
 
 
 Template.registerHelper 'person_intersection', ->
     me = Meteor.user()
-    _.intersection(me.list, @list)
-
-
-Template.people_you_like.onCreated ->
-    @autorun -> Meteor.subscribe('people_you_like')
-
-Template.people_you_like.helpers
-    people_you_like: -> 
-        if Meteor.user()?.people_you_like
-            Meteor.users.find { _id: $in: Meteor.user().people_you_like },
-                fields:
-                    username: 1
-                    cloud: 1
-                    list: 1
-                    contact: 1
-        else []
-    
-Template.people_who_like_you.onCreated ->
-    @autorun -> Meteor.subscribe('people_who_like_you')
-
-Template.people_who_like_you.helpers
-    people_who_like_you: -> 
-        Meteor.users.find { people_you_like: $in: [Meteor.userId()] },
-        # Meteor.users.find { },
-            fields:
-                username: 1
-                cloud: 1
-                list: 1
-                contact: 1
-    
+    _.intersection(me.tags, @tags)
