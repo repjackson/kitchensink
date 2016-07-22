@@ -1,10 +1,13 @@
 @selected_tags = new ReactiveArray []
+@selected_location_tags = new ReactiveArray []
 
 
 
 Template.people.onCreated ->
-    @autorun -> Meteor.subscribe('people', selected_tags.array())
-    @autorun -> Meteor.subscribe('tags', selected_tags.array())
+    @autorun -> Meteor.subscribe('people', selected_tags.array(), selected_location_tags.array())
+    @autorun -> Meteor.subscribe('tags', selected_tags.array(), selected_location_tags.array())
+    @autorun -> Meteor.subscribe('location_tags', selected_tags.array(), selected_location_tags.array())
+    @autorun -> Meteor.subscribe('active_locations', selected_tags.array(), selected_location_tags.array())
 
 
 Template.people.helpers
@@ -22,6 +25,10 @@ Template.cloud.helpers
         if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 20 )
         # Tags.find({}, limit: 25)
 
+    location_tags: -> Location_tags.find()
+    
+    active_locations: -> Active_locations.find()
+    
     # cloud_tag_class: ->
     #     buttonClass = switch
     #         when @index <= 5 then 'large'

@@ -1,4 +1,6 @@
 @Tags = new Meteor.Collection 'tags'
+@Location_tags = new Meteor.Collection 'location_tags'
+@Active_locations = new Meteor.Collection 'active_locations'
 
 
 
@@ -21,3 +23,15 @@ Meteor.methods
     update_contact: (contact)->
         Meteor.users.update Meteor.userId(),
             $set: contact: contact
+
+    check_in: (location)->
+        existing_location = Location_tags.findOne name: location
+        if not existing_location
+            Location_tags.insert name: location
+        Meteor.users.update Meteor.userId(), 
+            $addToSet: location_tags: location
+            $set: active_location: location
+            
+    check_out: ->
+        Meteor.users.update Meteor.userId(),
+            $set: active_location: null

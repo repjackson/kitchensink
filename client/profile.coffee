@@ -8,8 +8,6 @@ Template.profile.onRendered ->
     $('.ui.accordion').accordion()
 
 
-
-
 Template.profile.helpers
     user_matches: ->
         users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
@@ -38,6 +36,21 @@ Template.profile.helpers
             ]
         }
 
+    location_settings: ->
+        {
+            position: 'bottom'
+            limit: 10
+            rules: [
+                {
+                    # token: ''
+                    collection: Location_tags
+                    field: 'name'
+                    matchAll: true
+                    template: Template.tag_result
+                }
+            ]
+        }
+
 
     cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else ''
     match_tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''
@@ -51,6 +64,14 @@ Template.profile.events
             if tag.length > 0
                 Meteor.call 'add_tag', tag, ->
                     $('#add_tag').val('')
+
+    'keydown #location_tag': (e,t)->
+        e.preventDefault
+        location = $('#location_tag').val().toLowerCase().trim()
+        if e.which is 13
+            if location.length > 0
+                Meteor.call 'check_in', location, ->
+                    $('#location_tag').val('')
 
 
     'keydown #username': (e,t)->
@@ -82,6 +103,13 @@ Template.profile.events
         tag = @valueOf()
         Meteor.call 'remove_tag', tag, ->
             $('#add_tag').val(tag)
+
+    'click .check_out': -> Meteor.call 'check_out'
+    
+    'click .check_in': (e,t)-> 
+        console.log @valueOf()
+        # console.log e.currentTarget.valueOf()
+        Meteor.call 'check_in', @valueOf()
 
     'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
     

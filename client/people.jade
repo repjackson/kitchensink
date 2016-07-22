@@ -11,7 +11,7 @@ template(name='people')
 
 template(name='cloud')
     .ui.center.aligned.basic.segment
-        h3.ui.header Browse People
+        h3.ui.header Browse Tags
         .ui.hidden.fitted.divider
         .ui.left.icon.small.input
             i.search.icon
@@ -26,6 +26,19 @@ template(name='cloud')
         // if Template.subscriptionsReady
         each all_tags
             .ui.compact.button.select_tag(class=cloud_tag_class) #{name}
+                small #{this.count}
+            // .ui.button.compact.selectTag #{this.name}
+        h3.ui.header Browse Active Locations
+        if selected_location_tags
+            #clear_tags.ui.large.primary.icon.compact.button
+                i.remove.icon
+            each selected_location_tags
+                a.ui.large.primary.compact.button.unselect_tag
+                    strong #{this}
+        // .ui.hidden.fitted.divider
+        // if Template.subscriptionsReady
+        each active_locations
+            .ui.compact.button.select_tag(class=cloud_tag_class) #{name}
             // .ui.button.compact.selectTag #{this.name}
                 // small #{this.count}
 
@@ -33,7 +46,7 @@ template(name='cloud')
 
 template(name='person')
     .ui.segment
-        .header
+        h3.ui.header
             |#{username}
         each tags
             .ui.label.person_tag(class=person_tag_class) #{this}

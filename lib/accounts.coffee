@@ -36,20 +36,20 @@ AccountsTemplates.configure
 pwd = AccountsTemplates.removeField('password')
 AccountsTemplates.removeField 'email'
 AccountsTemplates.addFields [
-    {
-        _id: 'email'
-        type: 'email'
-        required: false
-        displayName: 'Email'
-        re: /.+@(.+){2,}\.(.+){2,}/
-        errStr: 'Invalid email'
-    }
+    # {
+    #     _id: 'email'
+    #     type: 'email'
+    #     required: false
+    #     displayName: 'Email'
+    #     re: /.+@(.+){2,}\.(.+){2,}/
+    #     errStr: 'Invalid email'
+    # }
     {
         _id: 'username'
         type: 'text'
-        displayName: 'Username'
+        displayName: 'Your Name'
         required: true
-        minLength: 4
+        minLength: 3
     }
     {
         _id: 'username_and_email'
