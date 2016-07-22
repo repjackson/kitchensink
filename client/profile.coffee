@@ -107,7 +107,7 @@ Template.profile.events
     'click .check_out': -> Meteor.call 'check_out'
     
     'click .check_in': (e,t)-> 
-        console.log @valueOf()
+        # console.log @valueOf()
         # console.log e.currentTarget.valueOf()
         Meteor.call 'check_in', @valueOf()
 

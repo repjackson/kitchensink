@@ -1,13 +1,13 @@
 @selected_tags = new ReactiveArray []
-@selected_location_tags = new ReactiveArray []
-
+# @selected_active_location_tags = new ReactiveArray []
+Session.setDefault 'active_location', false
 
 
 Template.people.onCreated ->
-    @autorun -> Meteor.subscribe('people', selected_tags.array(), selected_location_tags.array())
-    @autorun -> Meteor.subscribe('tags', selected_tags.array(), selected_location_tags.array())
-    @autorun -> Meteor.subscribe('location_tags', selected_tags.array(), selected_location_tags.array())
-    @autorun -> Meteor.subscribe('active_locations', selected_tags.array(), selected_location_tags.array())
+    @autorun -> Meteor.subscribe('people', selected_tags.array(), Session.get('active_location'))
+    @autorun -> Meteor.subscribe('tags', selected_tags.array(), Session.get('active_location'))
+    @autorun -> Meteor.subscribe('location_tags', selected_tags.array(), Session.get('active_location'))
+    @autorun -> Meteor.subscribe('active_locations', selected_tags.array(), Session.get('active_location'))
 
 
 Template.people.helpers
@@ -93,6 +93,10 @@ Template.cloud.events
     'click .unselect_tag': -> selected_tags.remove @valueOf()
 
     'click #clear_tags': -> selected_tags.clear()
+    
+    'click .select_active_location_tag': -> selected_active_location_tags.push @name
+    'click .unselect_active_location_tag': -> selected_active_location_tags.remove @valueOf()
+    'click #clear_active_location_tags': -> selected_active_location_tags.clear()
 
 Template.person.onCreated ->
     # console.log Template.currentData()

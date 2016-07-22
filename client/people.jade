@@ -29,16 +29,16 @@ template(name='cloud')
                 small #{this.count}
             // .ui.button.compact.selectTag #{this.name}
         h3.ui.header Browse Active Locations
-        if selected_location_tags
-            #clear_tags.ui.large.primary.icon.compact.button
+        if selected_active_location_tags
+            #clear_active_location_tags.ui.large.primary.icon.compact.button
                 i.remove.icon
-            each selected_location_tags
-                a.ui.large.primary.compact.button.unselect_tag
+            each selected_active_location_tags
+                a.ui.large.primary.compact.button.unselect_active_location_tag
                     strong #{this}
         // .ui.hidden.fitted.divider
         // if Template.subscriptionsReady
         each active_locations
-            .ui.compact.button.select_tag(class=cloud_tag_class) #{name}
+            .ui.compact.button.select_active_location_tag(class=cloud_tag_class) #{name}
             // .ui.button.compact.selectTag #{this.name}
                 // small #{this.count}
 
@@ -49,4 +49,7 @@ template(name='person')
         h3.ui.header
             |#{username}
         each tags
-            .ui.label.person_tag(class=person_tag_class) #{this}
+            .ui.label.person_tag(class=person_tag_class) #{this}        
+        if active_location
+            h5.ui.header Active Location: 
+            .ui.label.active_location(class=person_tag_class) #{active_location}

@@ -34,4 +34,4 @@ Meteor.methods
             
     check_out: ->
         Meteor.users.update Meteor.userId(),
-            $set: active_location: null
+            $unset: active_location: ''
