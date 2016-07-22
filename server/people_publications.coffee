@@ -29,6 +29,7 @@ Meteor.publish 'me', ()->
         fields:
             username: 1
             tags: 1
+            contact: 1
 
             
 Meteor.publish 'person', (person_id)-> 

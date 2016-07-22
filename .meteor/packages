@@ -32,3 +32,5 @@ kadira:blaze-layout
 useraccounts:flow-routing
 zimme:active-route
 dburles:collection-helpers
+momentjs:moment
+kevohagan:sweetalert

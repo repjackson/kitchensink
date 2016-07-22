@@ -2,14 +2,15 @@ template(name='profile')
     .ui.segment
         h2.ui.header Profile
         .ui.form
-            .inline.field
-                label Your Name
-                input#username(type='text' value=currentUser.username)
-            .inline.field 
-                label Contact Info (shown to friends)
-                .ui.left.icon.input
-                    i.user.icon
-                    input#contact(type='text' value=currentUser.contact)
+            .fields
+                .inline.field
+                    label Your Name
+                    input#username(type='text' value=currentUser.username)
+                .inline.field 
+                    label Contact Info (shown to friends)
+                    .ui.left.icon.input
+                        i.user.icon
+                        input#contact(type='text' value=currentUser.contact)
             .inline.field
                 label Your Tags
                 each currentUser.tags
@@ -22,10 +23,12 @@ template(name='profile')
                     input#add_tag(type='text' autofocus='' placeholder='Add Tag')
         .ui.divider
         h5.ui.header Top Matches
-        each user_matches
-            strong #{matched_user} #{length}
-            each tag_intersection
-                .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
+        .ui.list
+            each user_matches
+                .item
+                    strong #{matched_user} #{length}
+                    each tag_intersection
+                        .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
 
 
 

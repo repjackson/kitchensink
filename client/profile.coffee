@@ -1,7 +1,8 @@
 
 Template.profile.onCreated ->
-    @autorun -> Meteor.subscribe 'tags', selected_tags.array()
+    @autorun -> Meteor.subscribe 'tags', []
     @autorun -> Meteor.subscribe 'me'
+    @autorun -> Meteor.subscribe 'people', selected_tags.array()
 
 
 Template.profile.helpers
@@ -74,7 +75,7 @@ Template.profile.events
 
     'click .my_tag': ->
         tag = @valueOf()
-        Meteor.call 'remove_tag', Meteor.userId(), tag, ->
+        Meteor.call 'remove_tag', tag, ->
             $('#add_tag').val(tag)
 
     'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)

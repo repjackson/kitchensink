@@ -1,5 +1,7 @@
 
 template(name='people')
+    if currentUser
+        +profile
     +cloud
     .ui.container
         each people
@@ -7,7 +9,7 @@ template(name='people')
 
 
 template(name='cloud')
-    .ui.center.aligned.segment
+    .ui.center.aligned.basic.segment
         h3.ui.header Browse People
         .ui.hidden.fitted.divider
         .ui.left.icon.small.input
