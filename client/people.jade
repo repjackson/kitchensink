@@ -1,5 +1,6 @@
 
 template(name='people')
+    +atNavButton
     if currentUser
         +profile
     +cloud
@@ -14,7 +15,7 @@ template(name='cloud')
         .ui.hidden.fitted.divider
         .ui.left.icon.small.input
             i.search.icon
-            +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder='Tag Search'
+            +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder='Search'
         if selected_tags
             #clear_tags.ui.large.primary.icon.compact.button
                 i.remove.icon
@@ -35,4 +36,4 @@ template(name='person')
         .header
             |#{username}
         each tags
-            .ui.button.person_tag(class=person_tag_class) #{this}
+            .ui.label.person_tag(class=person_tag_class) #{this}

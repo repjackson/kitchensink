@@ -1,20 +1,19 @@
 template(name='profile')
-    .ui.segment
+    .ui.secondary.segment
         .ui.accordion
             .active.title
                 i.dropdown.icon
                 strong Profile
             .active.content
                 .ui.form
-                    .fields
-                        .inline.field
-                            label Your Name
-                            input#username(type='text' value=currentUser.username)
-                        .inline.field 
-                            label Contact Info (shown to friends)
-                            .ui.left.icon.input
-                                i.user.icon
-                                input#contact(type='text' value=currentUser.contact)
+                    .inline.field
+                        label Your Name
+                        input#username(type='text' value=currentUser.username)
+                    .inline.field 
+                        label Contact Info (shown to friends)
+                        .ui.left.icon.input
+                            i.user.icon
+                            input#contact(type='text' value=currentUser.contact)
                     .inline.field
                         label Your Tags
                         each currentUser.tags
@@ -29,10 +28,11 @@ template(name='profile')
                 h5.ui.header Top Matches
                 .ui.list
                     each user_matches
-                        .item
-                            strong #{matched_user} #{length}
-                            each tag_intersection
-                                .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
+                        if length
+                            .item
+                                strong #{matched_user} #{length}
+                                each tag_intersection
+                                    .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
 
 
 

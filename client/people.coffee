@@ -9,18 +9,18 @@ Template.people.onCreated ->
 
 Template.people.helpers
     people: -> 
-        # Meteor.users.find({ _id: $ne: Meteor.userId() })
-        Meteor.users.find({ })
+        Meteor.users.find({ _id: $ne: Meteor.userId() })
+        # Meteor.users.find({ })
 
     tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
 
 Template.cloud.helpers
     all_tags: ->
-        # user_count = Meteor.users.find().count()
+        user_count = Meteor.users.find().count()
         # # console.log user_count
-        # if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 50 )
-        Tags.find({}, limit: 25)
+        if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 20 )
+        # Tags.find({}, limit: 25)
 
     # cloud_tag_class: ->
     #     buttonClass = switch

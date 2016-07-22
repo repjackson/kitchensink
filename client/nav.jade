@@ -9,11 +9,11 @@ template(name='nav')
         //     .ui.transparent.inverted.icon.input
         //         input.search(type='text', placeholder='Search...')
         //         i.search.link.icon
-        if currentUser    
-            .right.menu
-                a.ui.item(href='/messages' class="{{isActivePath '/messages'}}")
-                    i.mail.outline.icon
-                a.item(href='/profile' class="{{isActivePath '/profile'}}")
-                    i.user.icon
-                    | #{currentUser.username}
+        // if currentUser    
+        //     .right.menu
+        //         a.ui.item(href='/messages' class="{{isActivePath '/messages'}}")
+        //             i.mail.outline.icon
+        //         a.item(href='/profile' class="{{isActivePath '/profile'}}")
+        //             i.user.icon
+        //             | #{currentUser.username}
         +atNavButton

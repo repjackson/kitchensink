@@ -1,8 +1,8 @@
 
 Template.profile.onCreated ->
-    @autorun -> Meteor.subscribe 'tags', []
+    # @autorun -> Meteor.subscribe 'tags', []
     @autorun -> Meteor.subscribe 'me'
-    @autorun -> Meteor.subscribe 'people', selected_tags.array()
+    # @autorun -> Meteor.subscribe 'people', selected_tags.array()
 
 Template.profile.onRendered ->
     $('.ui.accordion').accordion()
