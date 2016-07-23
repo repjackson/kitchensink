@@ -42,11 +42,5 @@ from that set find all users with matching tags in tag list
 filter tags 
 
 todo
--show personal cloud up top, this is the narciscism
--show auto matches
--top 10 for each person? yes, that allows better formatting
---no tag sizes
--contact info
-
-
-db.docs.remove({tweet_created_at: {$exists:true}})
+-tags on register
+-active location
