@@ -2,12 +2,12 @@ AccountsTemplates.configure
     defaultLayout: 'layout'
     defaultLayoutRegions: header: 'header'
     defaultContentRegion: 'main'
-    showForgotPasswordLink: true
+    showForgotPasswordLink: false
     overrideLoginErrors: true
     enablePasswordChange: true
     sendVerificationEmail: true
     showAddRemoveServices: true
-    lowercaseUsername: false
+    lowercaseUsername: true
     confirmPassword: true
     continuousValidation: true
     homeRoutePath: '/'
@@ -62,9 +62,9 @@ AccountsTemplates.addFields [
 ]
 # enable preconfigured Flow-Router routes by useraccounts:flow-router.
 AccountsTemplates.configureRoute 'changePwd'
-AccountsTemplates.configureRoute 'forgotPwd'
+# AccountsTemplates.configureRoute 'forgotPwd'
 AccountsTemplates.configureRoute 'resetPwd'
 AccountsTemplates.configureRoute 'signIn'
 AccountsTemplates.configureRoute 'signUp'
-AccountsTemplates.configureRoute 'verifyEmail'
+# AccountsTemplates.configureRoute 'verifyEmail'
 # AccountsTemplates.configureRoute('enrollAccount'); // for creating passwords after logging first time

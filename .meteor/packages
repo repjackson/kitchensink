@@ -33,3 +33,6 @@ useraccounts:flow-routing
 zimme:active-route
 dburles:collection-helpers
 kevohagan:sweetalert
+accounts-google
+accounts-ui
+accounts-twitter
