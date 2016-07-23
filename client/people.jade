@@ -1,8 +1,9 @@
 
 template(name='people')
-    +atNavButton
     if currentUser
         +profile
+    else
+        +loginButtons
     +cloud
     .ui.container
         each people
@@ -12,11 +13,11 @@ template(name='people')
 
 template(name='person')
     .ui.segment
-        img.ui.avatar.image(src=image)
         h3.ui.header
+            img.ui.small.circular.image(src=picture)
             |#{username}
         each tags
             .ui.label.person_tag(class=person_tag_class) #{this}        
-        if active_location
-            h5.ui.header Active Location: 
-            .ui.label.active_location(class=person_tag_class) #{active_location}
+        // if active_location
+        //     h5.ui.header Active Location: 
+        //     .ui.label.active_location(class=person_tag_class) #{active_location}

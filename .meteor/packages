@@ -18,7 +18,6 @@ meteorhacks:aggregate
 jquery
 babrahams:constellation
 mquandalle:stylus
-accounts-password
 mobile-experience
 
 
@@ -26,13 +25,8 @@ semantic:ui
 flemay:less-autoprefixer
 blaze-html-templates
 mizzao:autocomplete
-kadira:flow-router
-useraccounts:semantic-ui
-kadira:blaze-layout
-useraccounts:flow-routing
-zimme:active-route
 dburles:collection-helpers
 kevohagan:sweetalert
 accounts-google
-accounts-ui
 service-configuration
+iandouglas:accounts-ui-semantic-ui

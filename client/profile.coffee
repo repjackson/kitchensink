@@ -45,7 +45,7 @@ Template.profile.helpers
                     # token: ''
                     collection: Location_tags
                     field: 'name'
-                    matchAll: true
+                    matchAll: false
                     template: Template.tag_result
                 }
             ]
@@ -59,11 +59,17 @@ Template.profile.helpers
 Template.profile.events
     'keydown #add_tag': (e,t)->
         e.preventDefault
-        tag = $('#add_tag').val().toLowerCase().trim()
         if e.which is 13
+            tag = $('#add_tag').val().toLowerCase().trim()
             if tag.length > 0
                 Meteor.call 'add_tag', tag, ->
                     $('#add_tag').val('')
+
+    # "autocompleteselect #add_tag": (event, template, doc)->
+    #     Meteor.call 'add_tag', doc.name, ->
+    #         $('#add_tag').val('')
+        
+
 
     'keydown #location_tag': (e,t)->
         e.preventDefault
