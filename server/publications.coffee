@@ -38,6 +38,7 @@ Meteor.publish 'me', ()->
             username: 1
             tags: 1
             contact: 1
+            picture: 1
             location_tags: 1
             active_location: 1
 
@@ -62,6 +63,7 @@ Meteor.publish 'people', (selected_tags, selected_active_location)->
         fields:
             username: 1
             tags: 1
+            picture: 1
             active_location: 1
 
 
@@ -96,3 +98,10 @@ Meteor.publish 'active_locations', (selected_tags, selected_active_location)->
 
     self.ready()
     
+    
+Accounts.onCreateUser (options, user) ->
+    user.username = user.services.google.name
+    user.contact = user.services.google.email
+    user.picture = user.services.google.picture
+    
+    user

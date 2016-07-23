@@ -7,6 +7,10 @@ template(name='profile')
             .active.content
                 .ui.form
                     .inline.field
+                        img.ui.small.centered.circular.image(src=currentUser.picture)
+                        label Your Picture
+                        input#picture(type='text' value=currentUser.picture)
+                    .inline.field
                         label Your Name
                         input#username(type='text' value=currentUser.username)
                     .inline.field 

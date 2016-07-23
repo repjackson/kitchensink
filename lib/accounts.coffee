@@ -68,3 +68,14 @@ AccountsTemplates.configureRoute 'signIn'
 AccountsTemplates.configureRoute 'signUp'
 # AccountsTemplates.configureRoute 'verifyEmail'
 # AccountsTemplates.configureRoute('enrollAccount'); // for creating passwords after logging first time
+
+
+orig_updateOrCreateUserFromExternalService = Accounts.updateOrCreateUserFromExternalService
+
+Accounts.updateOrCreateUserFromExternalService = (serviceName, serviceData, options) ->
+    loggedInUser = Meteor.user()
+    if loggedInUser and typeof loggedInUser.services[serviceName] == 'undefined'
+        setAttr = {}
+        setAttr['services.' + serviceName] = serviceData
+        Meteor.users.update loggedInUser._id, $set: setAttr
+    orig_updateOrCreateUserFromExternalService.apply this, arguments

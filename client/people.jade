@@ -12,6 +12,7 @@ template(name='people')
 
 template(name='person')
     .ui.segment
+        img.ui.avatar.image(src=image)
         h3.ui.header
             |#{username}
         each tags
