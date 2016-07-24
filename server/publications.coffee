@@ -41,6 +41,18 @@ Meteor.publish 'me', ()->
             picture: 1
             location_tags: 1
             active_location: 1
+            friends: 1
+
+Meteor.publish 'friended_people', ()-> 
+    me = Meteor.users.findOne @userId
+    
+    Meteor.users.find friends: $in: [@userId],
+        fields:
+            username: 1
+            tags: 1
+            contact: 1
+            picture: 1
+            friends: 1
 
 
             
@@ -51,6 +63,7 @@ Meteor.publish 'person', (person_id)->
             tags: 1
             location_tags: 1
             active_location: 1
+            friends: 1
 
 
 Meteor.publish 'people', (selected_tags, selected_active_location)->
@@ -64,7 +77,7 @@ Meteor.publish 'people', (selected_tags, selected_active_location)->
             username: 1
             tags: 1
             picture: 1
-            active_location: 1
+            friends: 1
 
 
 Meteor.publish 'active_locations', (selected_tags, selected_active_location)->

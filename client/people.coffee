@@ -25,22 +25,12 @@ Template.person.onCreated ->
 Template.person.helpers
     person_tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''
     
-    settings: ->
-        {
-            position: 'bottom'
-            limit: 10
-            rules: [
-                {
-                    # token: ''
-                    collection: Tags
-                    field: 'name'
-                    matchAll: true
-                    template: Template.tag_result
-                }
-            ]
-        }
+    is_friend: -> if Meteor.user().friends and @_id in Meteor.user().friends then true else false
     
 
 
 Template.person.events
     'click .person_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
+
+    'click .friend': -> Meteor.call 'friend', @_id
+    'click .unfriend': -> Meteor.call 'unfriend', @_id

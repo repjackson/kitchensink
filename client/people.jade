@@ -3,7 +3,8 @@ template(name='people')
     if currentUser
         +profile
     else
-        +loginButtons
+        .ui.label
+            +loginButtons
     +cloud
     .ui.container
         each people
@@ -16,6 +17,15 @@ template(name='person')
         h3.ui.header
             img.ui.small.circular.image(src=picture)
             |#{username}
+            if currentUser
+                if is_friend
+                    .ui.compact.button.unfriend
+                        i.minus.red.icon
+                        |Unfriend
+                else
+                    .ui.compact.button.friend
+                        i.plus.green.icon
+                        |Friend
         each tags
             .ui.label.person_tag(class=person_tag_class) #{this}        
         // if active_location

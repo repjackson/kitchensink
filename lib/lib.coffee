@@ -35,3 +35,11 @@ Meteor.methods
     check_out: ->
         Meteor.users.update Meteor.userId(),
             $unset: active_location: ''
+
+    friend: (user_id)->
+        Meteor.users.update Meteor.userId(),
+            $addToSet: friends: user_id    
+            
+    unfriend: (user_id)->
+        Meteor.users.update Meteor.userId(),
+            $pull: friends: user_id

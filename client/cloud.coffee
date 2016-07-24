@@ -1,10 +1,14 @@
+Accounts.ui.config
+    requestOfflineToken: google: true
+    passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
+
 
 Template.cloud.helpers
     all_tags: ->
-        # user_count = Meteor.users.find().count()
-        # # console.log user_count
-        # if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 20 )
-        Tags.find({}, limit: 25)
+        user_count = Meteor.users.find(_id: $ne: Meteor.userId() ).count()
+        # console.log user_count
+        if user_count < 3 then Tags.find({ count: $lt: user_count }, limit: 20 ) else Tags.find({}, limit: 20 )
+        # Tags.find({}, limit: 25)
 
     location_tags: -> Location_tags.find()
     

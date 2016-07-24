@@ -30,7 +30,7 @@ Template.profile.helpers
                     # token: ''
                     collection: Tags
                     field: 'name'
-                    matchAll: true
+                    matchAll: false
                     template: Template.tag_result
                 }
             ]
@@ -125,3 +125,12 @@ Template.profile.events
 Template.registerHelper 'person_intersection', ->
     me = Meteor.user()
     _.intersection(me.tags, @tags)
+
+
+Template.friended_people.onCreated ->
+    @autorun -> Meteor.subscribe 'friended_people'
+
+Template.friended_people.helpers
+    friended_people: -> 
+        Meteor.users.find friends: $in: [Meteor.userId()]
+        # Meteor.users.find()

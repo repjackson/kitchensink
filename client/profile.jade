@@ -5,7 +5,8 @@ template(name='profile')
                 i.dropdown.icon
                 strong Profile
             .active.content
-                +loginButtons
+                .ui.label
+                    +loginButtons
                 .ui.form
                     img.ui.small.centered.circular.image(src=currentUser.picture)
                     .inline.field
@@ -27,8 +28,8 @@ template(name='profile')
                                 |#{this}
                         .ui.left.icon.input
                             i.add.icon
-                            +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Add Tag'
-                            // input#add_tag(type='text' autofocus='' placeholder='Add Tag')
+                            // +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Add Tag'
+                            input#add_tag(type='text' autofocus='' autocomplete="off"  placeholder='Add Tag')
                     // .inline.field
                     //     label Location Tags
                     //     each currentUser.location_tags
@@ -44,7 +45,7 @@ template(name='profile')
                     //         i.remove.icon
                     //         |#{currentUser.active_location}
                 .ui.divider
-                h5.ui.header Top Matches
+                .ui.header Top Matches
                 .ui.list
                     each user_matches
                         if length
@@ -52,6 +53,20 @@ template(name='profile')
                                 strong #{matched_user} #{length}
                                 each tag_intersection
                                     .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
+                .ui.divider
+                +friended_people
+               
+               
+               
+template(name='friended_people')
+    .ui.header People Who Friended You
+    .ui.list
+        each friended_people
+            .item
+                img.ui.small.circular.image(src=picture)
+                |#{username} #{contact}
+                each person_intersection
+                    .ui.small.compact.button.match_tag(class=match_tag_class) #{this}
 
 
 
