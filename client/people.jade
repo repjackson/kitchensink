@@ -27,11 +27,11 @@ template(name='person')
                         i.plus.green.icon
                         |Friend
         each tags
-            .ui.large.basic.label.person_tag(class=person_tag_class) #{this}  
+            .ui.large.label.person_tag(class=person_tag_class) #{this}  
         if currentUser
             .ui.header Your Common Tags with #{username}
             each person_intersection
-                .ui.basic.label.person_tag(class=person_tag_class) #{this}
+                .ui.label.person_tag(class=person_tag_class) #{this}
 
         // if active_location
         //     h5.ui.header Active Location: 

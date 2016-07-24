@@ -80,36 +80,36 @@ Meteor.publish 'people', (selected_tags, selected_active_location)->
             friends: 1
 
 
-Meteor.publish 'active_locations', (selected_tags, selected_active_location)->
-    self = @
-    match = {}
-    if selected_tags.length > 0 then match.tags = $all: selected_tags
-    if selected_active_location then match.active_location = selected_active_location
-    # if selected_active_location.length > 0 then match.active_location = $set: true
+# Meteor.publish 'active_locations', (selected_tags, selected_active_location)->
+#     self = @
+#     match = {}
+#     if selected_tags.length > 0 then match.tags = $all: selected_tags
+#     if selected_active_location then match.active_location = selected_active_location
+#     # if selected_active_location.length > 0 then match.active_location = $set: true
 
-    # console.log 'match', match
+#     # console.log 'match', match
 
-    cloud = Meteor.users.aggregate [
-        { $match: match }
-        { $project: "active_location": 1 }
-        # { $unwind: "$active_location" }
-        { $group: _id: "$active_location", count: $sum: 1 }
-        # { $match: _id: $nin: selected_active_location }
-        { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-        ]
+#     cloud = Meteor.users.aggregate [
+#         { $match: match }
+#         { $project: "active_location": 1 }
+#         # { $unwind: "$active_location" }
+#         { $group: _id: "$active_location", count: $sum: 1 }
+#         # { $match: _id: $nin: selected_active_location }
+#         { $sort: count: -1, _id: 1 }
+#         { $limit: 20 }
+#         { $project: _id: 0, name: '$_id', count: 1 }
+#         ]
 
-    # console.log cloud    
+#     # console.log cloud    
         
-    cloud.forEach (active_location, i) ->
-        if active_location?
-            self.added 'active_locations', Random.id(),
-                name: active_location.name
-                count: active_location.count
-                index: i
+#     cloud.forEach (active_location, i) ->
+#         if active_location?
+#             self.added 'active_locations', Random.id(),
+#                 name: active_location.name
+#                 count: active_location.count
+#                 index: i
 
-    self.ready()
+#     self.ready()
     
     
 Accounts.onCreateUser (options, user) ->

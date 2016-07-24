@@ -21,7 +21,8 @@ template(name='cloud')
                 |&nbsp;&nbsp;
         // if Template.subscriptionsReady
         each all_tags
-            .ui.compact.basic.button.select_tag(class=cloud_tag_class) #{name}
+            .ui.compact.basic.button.select_tag(class=cloud_tag_class) 
+                strong #{name}
                 small #{this.count}
             // .ui.button.compact.selectTag #{this.name}
         .ui.hidden.fitted.divider
