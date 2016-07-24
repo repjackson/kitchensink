@@ -16,6 +16,8 @@ Template.cloud.helpers
     
     active_location_tag_class: -> if Session.equals('active_location', @name) then 'primary' else ''
 
+    is_self_tagged: -> @valueOf() in Meteor.user().tags
+    
     
     # cloud_tag_class: ->
     #     buttonClass = switch
@@ -85,3 +87,17 @@ Template.cloud.events
     'click .active_location_tag': -> 
         if Session.equals('active_location', @name) then Session.set('active_location', null) else Session.set('active_location', @name)
         # Session.set('active_location')
+        
+    'click .add_cloud_tag': -> 
+        tag = @valueOf()
+        Meteor.call 'add_tag', tag, (err, res)->
+            if err then console.error err
+            else
+                swal "#{tag} added to your tags"
+    
+    'click .remove_cloud_tag': -> 
+        tag = @valueOf()
+        Meteor.call 'remove_tag', tag, (err, res)->
+            if err then console.error err
+            else
+                swal "#{tag} removed from your tags"

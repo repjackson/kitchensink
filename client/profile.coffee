@@ -71,13 +71,13 @@ Template.profile.events
         
 
 
-    'keydown #location_tag': (e,t)->
-        e.preventDefault
-        location = $('#location_tag').val().toLowerCase().trim()
-        if e.which is 13
-            if location.length > 0
-                Meteor.call 'check_in', location, ->
-                    $('#location_tag').val('')
+    # 'keydown #location_tag': (e,t)->
+    #     e.preventDefault
+    #     location = $('#location_tag').val().toLowerCase().trim()
+    #     if e.which is 13
+    #         if location.length > 0
+    #             Meteor.call 'check_in', location, ->
+    #                 $('#location_tag').val('')
 
 
     'keydown #username': (e,t)->

@@ -8,8 +8,16 @@ template(name='cloud')
             #clear_tags.ui.large.primary.icon.compact.button
                 i.remove.icon
             each selected_tags
-                a.ui.large.primary.compact.button.unselect_tag
-                    strong #{this}
+                .ui.buttons.cloud_tags
+                    a.ui.large.primary.compact.button.unselect_tag
+                        strong #{this}
+                    if currentUser
+                        if is_self_tagged
+                            .ui.icon.button.remove_cloud_tag
+                                i.red.minus.icon
+                        else
+                            .ui.icon.button.add_cloud_tag
+                                i.green.plus.icon
         // if Template.subscriptionsReady
         each all_tags
             .ui.compact.button.select_tag(class=cloud_tag_class) #{name}

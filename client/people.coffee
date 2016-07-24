@@ -32,5 +32,11 @@ Template.person.helpers
 Template.person.events
     'click .person_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
 
-    'click .friend': -> Meteor.call 'friend', @_id
-    'click .unfriend': -> Meteor.call 'unfriend', @_id
+    'click .friend': -> 
+        username = @username
+        Meteor.call 'friend', @_id, ->
+            swal "Friended #{username}. #{username} can now see your contact info."
+    'click .unfriend': -> 
+        username = @username
+        Meteor.call 'unfriend', @_id, ->
+            swal "Unfriended #{username}.  #{username} can no longer see your contact info."
