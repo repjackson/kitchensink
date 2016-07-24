@@ -1,7 +1,7 @@
 template(name='cloud')
     .ui.center.aligned.basic.segment
         // h3.ui.header Browse People via Tags
-        .ui.left.icon.small.input
+        .ui.left.icon.input
             i.search.icon
             +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder=''
         if selected_tags
@@ -13,14 +13,15 @@ template(name='cloud')
                         strong #{this}
                     if currentUser
                         if is_self_tagged
-                            .ui.icon.button.remove_cloud_tag
+                            .ui.icon.blue.basic.button.remove_cloud_tag
                                 i.red.minus.icon
                         else
-                            .ui.icon.button.add_cloud_tag
+                            .ui.icon.blue.basic.button.add_cloud_tag
                                 i.green.plus.icon
+                |&nbsp;&nbsp;
         // if Template.subscriptionsReady
         each all_tags
-            .ui.compact.button.select_tag(class=cloud_tag_class) #{name}
+            .ui.compact.basic.button.select_tag(class=cloud_tag_class) #{name}
                 small #{this.count}
             // .ui.button.compact.selectTag #{this.name}
         .ui.hidden.fitted.divider

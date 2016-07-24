@@ -124,7 +124,7 @@ Template.profile.events
 
 Template.registerHelper 'person_intersection', ->
     me = Meteor.user()
-    _.intersection(me.tags, @tags)
+    _.intersection(me?.tags, @tags)
 
 
 Template.friended_people.onCreated ->

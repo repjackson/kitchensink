@@ -1,9 +1,10 @@
 template(name='profile')
     .ui.styled.fluid.accordion
-        .active.title
+        .title
             i.dropdown.icon
-            strong Profile
-        .active.content
+            img.ui.avatar.image(src=currentUser.picture)
+            strong #{currentUser.username} Profile
+        .content
             .ui.label
                 +loginButtons
             .ui.form

@@ -35,8 +35,18 @@ Template.person.events
     'click .friend': -> 
         username = @username
         Meteor.call 'friend', @_id, ->
-            swal "Friended #{username}. #{username} can now see your contact info."
+            swal 
+                title: "Friended #{username}. #{username} can now see your contact info."
+                animation: false
+                timer: 2000
+                showConfirmButton: false
+            
+            
     'click .unfriend': -> 
         username = @username
         Meteor.call 'unfriend', @_id, ->
-            swal "Unfriended #{username}.  #{username} can no longer see your contact info."
+            swal 
+                title: "Unfriended #{username}.  #{username} can no longer see your contact info."
+                animation: false
+                timer: 2000
+                showConfirmButton: false

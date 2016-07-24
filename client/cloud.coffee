@@ -1,6 +1,6 @@
 Accounts.ui.config
-    requestOfflineToken: google: true
-    passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
+    # requestOfflineToken: google: true
+    passwordSignupFields: 'USERNAME_ONLY'
 
 
 Template.cloud.helpers
@@ -93,11 +93,19 @@ Template.cloud.events
         Meteor.call 'add_tag', tag, (err, res)->
             if err then console.error err
             else
-                swal "#{tag} added to your tags"
+                swal 
+                    title:"#{tag} added to your tags"
+                    timer: 1000
+                    animation: false
+                    showConfirmButton: false
     
     'click .remove_cloud_tag': -> 
         tag = @valueOf()
         Meteor.call 'remove_tag', tag, (err, res)->
             if err then console.error err
             else
-                swal "#{tag} removed from your tags"
+                swal 
+                    title: "#{tag} removed from your tags"
+                    timer: 1000
+                    animation: false
+                    showConfirmButton: false
