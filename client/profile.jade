@@ -1,77 +1,16 @@
 template(name='profile')
     .ui.styled.fluid.accordion
-        .title
-            i.dropdown.icon
-            img.ui.avatar.image(src=currentUser.picture)
-            strong #{currentUser.username} Profile
         .content
             | Logout: 
             .ui.large.basic.label
                 +loginButtons
             .ui.form
-                img.ui.small.centered.circular.image(src=currentUser.picture)
                 .inline.field
-                    label Picture
-                    input#picture(type='text' value=currentUser.picture)
-                .inline.field
-                    label Name
-                    input#username(type='text' value=currentUser.username)
-                .inline.field 
-                    label Contact Info (shown to friends)
-                    .ui.left.icon.input
-                        i.user.icon
-                        input#contact(type='text' value=currentUser.contact)
-                .inline.field
-                    label Your Tags
-                    each currentUser.tags
+                    label Your Facet Cloud
+                    each currentUser.cloud
                         .ui.compact.basic.button.my_tag
                             i.remove.icon
                             |#{this}
-                    .ui.left.icon.input
-                        i.add.icon
-                        +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Manually Add'
-                        // input#add_tag(type='text' autocomplete="off"  placeholder='Add Tag')
-                // .inline.field
-                //     label Location Tags
-                //     each currentUser.location_tags
-                //         .ui.compact.button.check_in
-                //             |#{this}
-                //     .ui.left.icon.input
-                //         i.add.icon
-                //         +inputAutocomplete settings=location_settings id="location_tag" class="" autocomplete="off" placeholder='Check In'
-                //         // input#add_tag(type='text' autofocus='' placeholder='Add Tag')
-                // if currentUser.active_location
-                //     .ui.header Active Location
-                //     .ui.primary.button.check_out 
-                //         i.remove.icon
-                //         |#{currentUser.active_location}
-            .ui.divider
-            .ui.header Top Matches
-            .ui.list
-                each user_matches
-                    if length
-                        .item
-                            strong #{matched_user} #{length}
-                            each tag_intersection
-                                .ui.basic.label.match_tag(class=match_tag_class) #{this}
-            .ui.divider
-            +friended_people
-                   
-               
-               
-template(name='friended_people')
-    .ui.header People Who Friended You
-    .ui.list
-        each friended_people
-            .item
-                img.ui.small.circular.image(src=picture)
-                strong #{username} 
-                |#{contact}
-                strong Your Common Tags
-                each person_intersection
-                    .ui.basic.label.match_tag(class=match_tag_class) #{this}
-
-
 
 
 template(name='tag_result')

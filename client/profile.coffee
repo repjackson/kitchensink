@@ -93,29 +93,13 @@ Template.profile.events
                         else
                             swal "Updated username to #{username}."
     
-    'keydown #contact': (e,t)->
-        e.preventDefault
-        contact = $('#contact').val().trim()
-        switch e.which
-            when 13
-                if contact.length > 0
-                    Meteor.call 'update_contact', contact, (err,res)->
-                        if err then console.error err
-                        else
-                            swal "Updated contact to #{contact}"
-    
+
 
     'click .my_tag': ->
         tag = @valueOf()
         Meteor.call 'remove_tag', tag, ->
             $('#add_tag').val(tag)
 
-    'click .check_out': -> Meteor.call 'check_out'
-    
-    'click .check_in': (e,t)-> 
-        # console.log @valueOf()
-        # console.log e.currentTarget.valueOf()
-        Meteor.call 'check_in', @valueOf()
 
     'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
     
@@ -125,12 +109,3 @@ Template.profile.events
 Template.registerHelper 'person_intersection', ->
     me = Meteor.user()
     _.intersection(me?.tags, @tags)
-
-
-Template.friended_people.onCreated ->
-    @autorun -> Meteor.subscribe 'friended_people'
-
-Template.friended_people.helpers
-    friended_people: -> 
-        Meteor.users.find friends: $in: [Meteor.userId()]
-        # Meteor.users.find()

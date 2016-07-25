@@ -17,22 +17,12 @@ template(name='person')
         h3.ui.header
             img.ui.small.circular.image(src=picture)
             |#{username}
-            if currentUser
-                if is_friend
-                    .ui.compact.basic.button.unfriend
-                        i.minus.red.icon
-                        |Unfriend
-                else
-                    .ui.compact.basic.button.friend
-                        i.plus.green.icon
-                        |Friend
-        each tags
+        each cloud
             .ui.large.label.person_tag(class=person_tag_class) #{this}  
         if currentUser
             .ui.header Your Common Tags with #{username}
             each person_intersection
                 .ui.label.person_tag(class=person_tag_class) #{this}
-
-        // if active_location
-        //     h5.ui.header Active Location: 
-        //     .ui.label.active_location(class=person_tag_class) #{active_location}
+        .ui.header Tag Person
+        .ui.input
+            input#tag_person(type='text' placeholder="Tag #{username}" )

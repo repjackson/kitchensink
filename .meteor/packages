@@ -26,8 +26,7 @@ flemay:less-autoprefixer
 blaze-html-templates
 mizzao:autocomplete
 dburles:collection-helpers
-kevohagan:sweetalert
-accounts-google
 service-configuration
 iandouglas:accounts-ui-semantic-ui
 accounts-password
+accounts-google
