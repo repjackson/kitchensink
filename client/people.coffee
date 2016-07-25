@@ -40,7 +40,7 @@ Template.person.events
         username = @username
         Meteor.call 'friend', @_id, ->
             swal 
-                title: "Friended #{username}. #{username} can now see your contact info."
+                title: "#{username} can now see your contact info."
                 animation: false
                 timer: 2000
                 showConfirmButton: false
@@ -50,7 +50,7 @@ Template.person.events
         username = @username
         Meteor.call 'unfriend', @_id, ->
             swal 
-                title: "Unfriended #{username}.  #{username} can no longer see your contact info."
+                title: "#{username} can no longer see your contact info."
                 animation: false
                 timer: 2000
                 showConfirmButton: false

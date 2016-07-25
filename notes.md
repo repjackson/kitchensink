@@ -44,3 +44,7 @@ filter tags
 todo
 -tags on register
 -active location
+
+
+meet the people you want to know
+should be fun
