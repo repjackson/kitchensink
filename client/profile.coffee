@@ -102,7 +102,7 @@ Template.profile.events
                     Meteor.call 'update_contact', contact, (err,res)->
                         if err then console.error err
                         else
-                            swal "Updated contact to #{contact}."
+                            swal "Updated contact to #{contact}"
     
 
     'click .my_tag': ->

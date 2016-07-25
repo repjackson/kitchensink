@@ -12,7 +12,7 @@ Meteor.publish 'tags', (selected_tags, selected_active_location)->
         { $group: _id: "$tags", count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
+        { $limit: 50 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
 
@@ -113,8 +113,9 @@ Meteor.publish 'people', (selected_tags, selected_active_location)->
     
     
 Accounts.onCreateUser (options, user) ->
-    user.username = user.services.google.name
-    user.contact = user.services.google.email
-    user.picture = user.services.google.picture
+    if user.services.google
+        user.username = user.services.google.name
+        user.contact = user.services.google.email
+        user.picture = user.services.google.picture
     
     user

@@ -22,15 +22,15 @@ template(name='profile')
                         i.user.icon
                         input#contact(type='text' value=currentUser.contact)
                 .inline.field
-                    label Tags
+                    label Your Tags
                     each currentUser.tags
                         .ui.compact.basic.button.my_tag
                             i.remove.icon
                             |#{this}
                     .ui.left.icon.input
                         i.add.icon
-                        // +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Add Tag'
-                        input#add_tag(type='text' autofocus='' autocomplete="off"  placeholder='Add Tag')
+                        +inputAutocomplete settings=settings id="add_tag" class="" autocomplete="off" placeholder='Manually Add'
+                        // input#add_tag(type='text' autocomplete="off"  placeholder='Add Tag')
                 // .inline.field
                 //     label Location Tags
                 //     each currentUser.location_tags
@@ -65,7 +65,9 @@ template(name='friended_people')
         each friended_people
             .item
                 img.ui.small.circular.image(src=picture)
-                |#{username} #{contact}
+                strong #{username} 
+                |#{contact}
+                strong Your Common Tags
                 each person_intersection
                     .ui.basic.label.match_tag(class=match_tag_class) #{this}
 

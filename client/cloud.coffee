@@ -19,23 +19,23 @@ Template.cloud.helpers
     is_self_tagged: -> @valueOf() in Meteor.user().tags
     
     
-    # cloud_tag_class: ->
-    #     buttonClass = switch
-    #         when @index <= 5 then 'large'
-    #         when @index <= 10 then ''
-    #         when @index <= 15 then 'small'
-    #         when @index <= 20 then 'tiny'
-    #         when @index <= 25 then 'tiny'
-    #     return buttonClass
-
     cloud_tag_class: ->
         buttonClass = switch
-            when @index <= 10 then 'large'
-            when @index <= 20 then ''
-            when @index <= 30 then 'small'
-            when @index <= 40 then 'tiny'
-            when @index <= 50 then 'tiny'
+            when @index <= 5 then 'large'
+            when @index <= 10 then ''
+            when @index <= 15 then 'small'
+            when @index <= 20 then 'tiny'
+            when @index <= 25 then 'tiny'
         return buttonClass
+
+    # cloud_tag_class: ->
+    #     buttonClass = switch
+    #         when @index <= 10 then 'large'
+    #         when @index <= 20 then ''
+    #         when @index <= 30 then 'small'
+    #         when @index <= 40 then 'tiny'
+    #         when @index <= 50 then 'tiny'
+    #     return buttonClass
 
 
     selected_tags: -> selected_tags.list()
