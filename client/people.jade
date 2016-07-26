@@ -18,11 +18,15 @@ template(name='person')
             img.ui.small.circular.image(src=picture)
             |#{username}
         each cloud
-            .ui.large.label.person_tag(class=person_tag_class) #{this}  
-        if currentUser
-            .ui.header Your Common Tags with #{username}
-            each person_intersection
-                .ui.label.person_tag(class=person_tag_class) #{this}
-        .ui.header Tag Person
+            .ui.large.label.person_tag(class=person_tag_class) #{name} #{count}  
+        // if currentUser
+        //     .ui.header Your Common Tags with #{username}
+        //     each person_intersection
+        //         .ui.label.person_tag(class=person_tag_class) #{this}
+        .ui.header Your Tags of #{username}
+        each my_tags_of_user
+            .ui.basic.compact.button.remove_review_tag 
+                i.remove.icon
+                strong #{this}  
         .ui.input
-            input#tag_person(type='text' placeholder="Tag #{username}" )
+            input.tag_user(type='text' placeholder="Tag #{username}" )

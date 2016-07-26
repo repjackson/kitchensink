@@ -1,8 +1,7 @@
-Meteor.publish 'tags', (selected_tags, selected_active_location)->
+Meteor.publish 'tags', (selected_tags)->
     self = @
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
-    if selected_active_location then match.active_location = selected_active_location
     match._id = $ne: @userId
 
     cloud = Meteor.users.aggregate [
@@ -39,8 +38,7 @@ Meteor.publish 'me', ()->
             tags: 1
             contact: 1
             picture: 1
-            location_tags: 1
-            active_location: 1
+            cloud: 1
             friends: 1
 
 Meteor.publish 'friended_people', ()-> 
@@ -53,6 +51,8 @@ Meteor.publish 'friended_people', ()->
             contact: 1
             picture: 1
             friends: 1
+            cloud: 1
+
 
 
             
@@ -61,16 +61,16 @@ Meteor.publish 'person', (person_id)->
         fields: 
             username: 1
             tags: 1
-            location_tags: 1
             active_location: 1
             friends: 1
+            cloud: 1
 
 
-Meteor.publish 'people', (selected_tags, selected_active_location)->
+
+Meteor.publish 'people', (selected_tags)->
     self = @
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
-    if selected_active_location then match.active_location = selected_active_location
 
     Meteor.users.find match,
         fields:
@@ -78,39 +78,15 @@ Meteor.publish 'people', (selected_tags, selected_active_location)->
             tags: 1
             picture: 1
             friends: 1
+            cloud: 1
+            
+            
+Meteor.publish 'my_review_of_user', (user_id)->
+    Docs.find 
+        author_id: @userId
+        recipient_id: user_id
 
 
-# Meteor.publish 'active_locations', (selected_tags, selected_active_location)->
-#     self = @
-#     match = {}
-#     if selected_tags.length > 0 then match.tags = $all: selected_tags
-#     if selected_active_location then match.active_location = selected_active_location
-#     # if selected_active_location.length > 0 then match.active_location = $set: true
-
-#     # console.log 'match', match
-
-#     cloud = Meteor.users.aggregate [
-#         { $match: match }
-#         { $project: "active_location": 1 }
-#         # { $unwind: "$active_location" }
-#         { $group: _id: "$active_location", count: $sum: 1 }
-#         # { $match: _id: $nin: selected_active_location }
-#         { $sort: count: -1, _id: 1 }
-#         { $limit: 20 }
-#         { $project: _id: 0, name: '$_id', count: 1 }
-#         ]
-
-#     # console.log cloud    
-        
-#     cloud.forEach (active_location, i) ->
-#         if active_location?
-#             self.added 'active_locations', Random.id(),
-#                 name: active_location.name
-#                 count: active_location.count
-#                 index: i
-
-#     self.ready()
-    
     
 Accounts.onCreateUser (options, user) ->
     if user.services.google
@@ -119,3 +95,41 @@ Accounts.onCreateUser (options, user) ->
         user.picture = user.services.google.picture
     
     user
+    
+    
+    
+Meteor.methods
+    generate_person_cloud: (user_id)->
+        cloud = Docs.aggregate [
+            { $match: recipient_id: user_id }
+            { $project: tags: 1 }
+            { $unwind: '$tags' }
+            { $group: _id: '$tags', count: $sum: 1 }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+            
+        list = (tag.name for tag in cloud)
+        Meteor.users.update user_id,
+            $set:
+                cloud: cloud
+                list: list
+
+
+    tag_user: (recipient_id, tag)->
+        Docs.update { author_id: Meteor.userId(), recipient_id: recipient_id},
+            { $addToSet: tags: tag }
+            , upsert: true
+                
+        Meteor.call 'generate_person_cloud', recipient_id
+        
+        
+        
+    remove_review_tag: (recipient_id, tag) ->
+        Docs.update { author_id: Meteor.userId(), recipient_id: recipient_id},
+            { $pull: tags: tag }
+
+        Meteor.call 'generate_person_cloud', recipient_id
+
+    

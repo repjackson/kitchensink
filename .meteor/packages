@@ -24,9 +24,7 @@ mobile-experience
 semantic:ui
 flemay:less-autoprefixer
 blaze-html-templates
-mizzao:autocomplete
 dburles:collection-helpers
 service-configuration
 iandouglas:accounts-ui-semantic-ui
 accounts-password
-accounts-google

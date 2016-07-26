@@ -36,21 +36,6 @@ Template.profile.helpers
             ]
         }
 
-    location_settings: ->
-        {
-            position: 'bottom'
-            limit: 10
-            rules: [
-                {
-                    # token: ''
-                    collection: Location_tags
-                    field: 'name'
-                    matchAll: false
-                    template: Template.tag_result
-                }
-            ]
-        }
-
 
     cloud_tag_class: -> if @name in selected_tags.array() then 'blue' else ''
     match_tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''

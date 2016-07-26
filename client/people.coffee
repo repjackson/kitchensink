@@ -23,24 +23,32 @@ Template.people.helpers
 
 
 Template.person.onCreated ->
-    # console.log Template.currentData()
-    # @autorun -> Meteor.subscribe('person', Template.currentData()._id)
+    @autorun -> Meteor.subscribe('my_review_of_user', Template.currentData()._id)
 
 Template.person.helpers
     person_tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else 'basic'
     
     is_friend: -> if Meteor.user().friends and @_id in Meteor.user().friends then true else false
     
-
+    my_tags_of_user: ->
+        review_doc = Docs.findOne 
+            author_id: Meteor.userId()
+            recipient_id: @_id
+        review_doc?.tags
 
 Template.person.events
     'click .person_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
 
-    'keydown #tag_person': (e,t)->
+    'keydown .tag_user': (e,t)->
         # console.log @
         e.preventDefault
-        tag = $('#tag_person').val().trim()
-        switch e.which
-            when 13
-                if tag.length > 0
-                    Meteor.call 'tag_person', @_id, tag
+        if e.which is 13
+            tag = t.$('.tag_user').val().trim()
+            if tag.length > 0
+                Meteor.call 'tag_user', @_id, tag, ->
+                    t.$('.tag_user').val ''
+
+
+    'click .remove_review_tag': (e,t)->
+        id = Template.currentData()._id
+        Meteor.call 'remove_review_tag', id, @valueOf()
