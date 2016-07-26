@@ -28,3 +28,4 @@ dburles:collection-helpers
 service-configuration
 iandouglas:accounts-ui-semantic-ui
 accounts-password
+accounts-google

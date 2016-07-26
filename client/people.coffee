@@ -38,7 +38,7 @@ Template.person.events
         # console.log @
         e.preventDefault
         if e.which is 13
-            tag = t.$('.tag_user').val().trim()
+            tag = t.$('.tag_user').val().toLowerCase().trim()
             if tag.length > 0
                 Meteor.call 'tag_user', @_id, tag, ->
                     t.$('.tag_user').val ''
