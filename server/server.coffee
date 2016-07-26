@@ -1,14 +1,14 @@
 Meteor.publish 'tags', (selected_tags)->
     self = @
     match = {}
-    if selected_tags.length > 0 then match.tags = $all: selected_tags
+    if selected_tags.length > 0 then match.list = $all: selected_tags
     match._id = $ne: @userId
 
     cloud = Meteor.users.aggregate [
         { $match: match }
-        { $project: "tags": 1 }
-        { $unwind: "$tags" }
-        { $group: _id: "$tags", count: $sum: 1 }
+        { $project: "list": 1 }
+        { $unwind: "$list" }
+        { $group: _id: "$list", count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $limit: 50 }
@@ -24,13 +24,6 @@ Meteor.publish 'tags', (selected_tags)->
     self.ready()
     
     
-Meteor.publish 'location_tags', (selected_tags)->
-    self = @
-    match = {}
-    if selected_tags.length > 0 then match.tags = $all: selected_tags
-
-    Location_tags.find()
-
 Meteor.publish 'me', ()-> 
     Meteor.users.find @userId,
         fields:
@@ -39,6 +32,7 @@ Meteor.publish 'me', ()->
             contact: 1
             picture: 1
             cloud: 1
+            list: 1
             friends: 1
 
 Meteor.publish 'friended_people', ()-> 
@@ -52,6 +46,7 @@ Meteor.publish 'friended_people', ()->
             picture: 1
             friends: 1
             cloud: 1
+            list: 1
 
 
 
@@ -61,16 +56,16 @@ Meteor.publish 'person', (person_id)->
         fields: 
             username: 1
             tags: 1
-            active_location: 1
             friends: 1
             cloud: 1
+            list: 1
 
 
 
 Meteor.publish 'people', (selected_tags)->
     self = @
     match = {}
-    if selected_tags.length > 0 then match.tags = $all: selected_tags
+    if selected_tags.length > 0 then match.list = $all: selected_tags
 
     Meteor.users.find match,
         fields:
@@ -79,6 +74,7 @@ Meteor.publish 'people', (selected_tags)->
             picture: 1
             friends: 1
             cloud: 1
+            list: 1
             
             
 Meteor.publish 'my_review_of_user', (user_id)->

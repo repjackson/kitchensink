@@ -1,16 +1,13 @@
 template(name='profile')
-    .ui.styled.fluid.accordion
-        .content
-            | Logout: 
-            .ui.large.basic.label
-                +loginButtons
-            .ui.form
-                .inline.field
-                    label Your Cloud
-                    each currentUser.cloud
-                        .ui.compact.basic.button.my_tag
-                            i.remove.icon
-                            |#{this}
+    .ui.fluid.attached.segment
+        .ui.large.basic.label
+            +loginButtons
+        .ui.form
+            .inline.field
+                label Your Cloud
+                each currentUser.cloud
+                    .ui.compact.basic.button.user_tag(class=cloud_tag_class)
+                        |#{name} #{count}
 
 
 template(name='tag_result')

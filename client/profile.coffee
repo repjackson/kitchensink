@@ -79,13 +79,6 @@ Template.profile.events
                             swal "Updated username to #{username}."
     
 
-
-    'click .my_tag': ->
-        tag = @valueOf()
-        Meteor.call 'remove_tag', tag, ->
-            $('#add_tag').val(tag)
-
-
     'click .user_tag': -> if @name in selected_tags.array() then selected_tags.remove(@name) else selected_tags.push(@name)
     
     'click .match_tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())

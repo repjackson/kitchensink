@@ -23,10 +23,12 @@ template(name='person')
         //     .ui.header Your Common Tags with #{username}
         //     each person_intersection
         //         .ui.label.person_tag(class=person_tag_class) #{this}
-        .ui.header Your Tags of #{username}
-        each my_tags_of_user
-            .ui.basic.compact.button.remove_review_tag 
-                i.remove.icon
-                strong #{this}  
-        .ui.input
-            input.tag_user(type='text' placeholder="Tag #{username}" )
+        if currentUser
+            .ui.header Your Tags of #{username}
+            each my_tags_of_user
+                .ui.basic.compact.button.remove_review_tag 
+                    i.remove.icon
+                    strong #{this}  
+            .ui.left.icon.input
+                i.plus.icon
+                input.tag_user(type='text' placeholder="Tag #{username}" )
