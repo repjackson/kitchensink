@@ -3,8 +3,7 @@ template(name='people')
     if currentUser
         +profile
     else
-        .ui.large.basic.label
-            +loginButtons
+        +loginButtons
     +cloud
     .ui.container
         each people

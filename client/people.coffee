@@ -1,10 +1,9 @@
 @selected_tags = new ReactiveArray []
-Session.setDefault 'active_location', false
 
 
 Template.people.onCreated ->
-    @autorun -> Meteor.subscribe('people', selected_tags.array(), Session.get('active_location'))
-    @autorun -> Meteor.subscribe('tags', selected_tags.array(), Session.get('active_location'))
+    @autorun -> Meteor.subscribe('people', selected_tags.array())
+    @autorun -> Meteor.subscribe('tags', selected_tags.array())
 
 
 Template.people.helpers
