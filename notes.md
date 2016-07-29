@@ -49,3 +49,7 @@ todo
 meet the people you want to know
 should be fun
 be undeniable
+
+
+
+mongo --ssl --sslAllowInvalidCertificates aws-us-east-1-portal.21.dblayer.com:10444/facetdb -u <user> -p<password>

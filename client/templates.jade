@@ -1,0 +1,64 @@
+head
+    title Facet
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+
+body
+    +docs
+
+
+
+template(name='cloud')
+    #cloud.ui.basic.fluid.segment
+        if currentUser
+            div
+                .ui.icon.input
+                    i.plus.icon
+                    input#add(type='text' placeholder='Add New')
+        +loginButtons
+        if selected_tags
+            #clear_tags.ui.primary.icon.button
+                i.remove.icon
+            each selected_tags
+                .unselect_tag.ui.primary.button
+                    strong #{this}
+        each all_tags
+            .ui.button.select_tag(class=cloud_tag_class) #{this.name}
+                // small (#{this.count})
+
+
+template(name='docs')
+    +cloud
+    each docs
+        if is_editing
+            +edit
+        else
+            +view
+
+
+template(name='view')
+    .ui.fluid.card
+        .content
+            each tags
+                .ui.button.tag(class=tag_class) #{this}
+            if is_author
+                .edit.ui.icon.circular.button
+                    i.pencil.icon.icon
+
+                    
+                    
+template(name='edit')
+    with doc
+        .ui.segment
+            each tags
+                .ui.button.tag
+                    i.minus.icon
+                    |#{this}
+            .ui.left.icon.input
+                i.add.icon
+                input#add_tag(type='text' autofocus='' placeholder='Add Tag' maxlength='50')
+            if tags
+                #save.ui.green.icon.circular.button: i.check.icon
+            #delete.ui.red.icon.circular.button: i.remove.icon
+                    
