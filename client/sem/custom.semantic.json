@@ -1,6 +1,6 @@
 {
   "definitions": {
-    "accordion": true,
+    "accordion": false,
     "ad": false,
     "api": false,
     "breadcrumb": false,
@@ -20,7 +20,7 @@
     "grid": false,
     "header": true,
     "icon": true,
-    "image": true,
+    "image": false,
     "input": true,
     "item": false,
     "label": true,
@@ -55,8 +55,8 @@
     "amazon": false,
     "basic": false,
     "bookish": false,
-    "bootstrap3": true,
-    "chubby": true,
+    "bootstrap3": false,
+    "chubby": false,
     "classic": false,
     "colored": false,
     "default": true,
@@ -68,12 +68,12 @@
     "instagram": false,
     "material": false,
     "pulsar": false,
-    "raised": true,
+    "raised": false,
     "resetcss": false,
-    "round": true,
+    "round": false,
     "rtl": false,
     "striped": false,
     "timeline": false,
-    "twitter": true
+    "twitter": false
   }
 }

@@ -8,7 +8,7 @@ Docs.before.insert (userId, doc)->
 
 Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
     doc.tag_count = doc.tags.length
-    # Meteor.call 'generatePersonalCloud', Meteor.userId()
+    Meteor.call 'generate_person_cloud', Meteor.userId()
 ), fetchPrevious: true
 
 Docs.helpers
@@ -17,8 +17,11 @@ Docs.helpers
 
 Meteor.methods
     add: (tags=[])->
-        Docs.insert
+        id = Docs.insert
             tags: tags
+        Meteor.call 'generate_person_cloud', Meteor.userId()
+        return id
+
 
     delete: (id)->
         Docs.remove id

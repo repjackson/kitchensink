@@ -12,7 +12,7 @@ Accounts.ui.config
 Template.cloud.helpers
     all_tags: ->
         docCount = Docs.find().count()
-        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find()
+        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find( {}, limit: 20)
         # Tags.find()
 
     cloud_tag_class: ->
@@ -24,6 +24,23 @@ Template.cloud.helpers
         return buttonClass
 
     selected_tags: -> selected_tags.list()
+
+    settings: ->
+        {
+            position: 'bottom'
+            limit: 10
+            rules: [
+                {
+                    # token: ''
+                    collection: Tags
+                    field: 'name'
+                    matchAll: true
+                    template: Template.tag_result
+                }
+            ]
+        }
+
+
 
 
 Template.docs.onCreated ->
@@ -60,12 +77,39 @@ Template.cloud.events
                 for tag in split_tags
                     selected_tags.push tag
 
+    'keyup #search': (e,t)->
+        e.preventDefault()
+        val = $('#search').val().toLowerCase().trim()
+        switch e.which
+            when 13 #enter
+                switch val
+                    when 'clear'
+                        selected_tags.clear()
+                        $('#search').val ''
+                    else
+                        unless val.length is 0
+                            selected_tags.push val.toString()
+                            $('#search').val ''
+            when 8
+                if val.length is 0
+                    selected_tags.pop()
+                    
+    'autocompleteselect #search': (event, template, doc) ->
+        # console.log 'selected ', doc
+        selected_tags.push doc.name
+        $('#search').val ''
 
 
 Template.edit.onCreated ->
     self = @
     self.autorun ->
         self.subscribe 'doc', Session.get('editing')
+        # self.subscribe 'tags', selected_type_of_event_tags.array(),"event"
+
+Template.view.onCreated ->
+    self = @
+    self.autorun ->
+        self.subscribe 'person', Template.currentData().author_id
         # self.subscribe 'tags', selected_type_of_event_tags.array(),"event"
 
 
@@ -98,9 +142,7 @@ Template.edit.events
                     Docs.update Session.get('editing'),
                         $set:
                             tag_count: @tags.length
-                    selected_tags.clear()
-                    for tag in @tags
-                        selected_tags.push tag
+                    Meteor.call 'generate_person_cloud', Meteor.userId()
                     Session.set 'editing', null
 
                     
@@ -116,6 +158,7 @@ Template.edit.events
         Docs.update Session.get('editing'),
             $set:
                 tag_count: @tags.length
+        Meteor.call 'generate_person_cloud', Meteor.userId()
         Session.set 'editing', null
 
 
@@ -124,6 +167,8 @@ Template.view.helpers
     is_author: -> Meteor.userId() and @author_id is Meteor.userId()
 
     tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
+
+    when: -> moment(@timestamp).fromNow()
 
 Template.view.events
     'click .tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())

@@ -29,3 +29,5 @@ service-configuration@1.0.10
 iandouglas:accounts-ui-semantic-ui
 accounts-password@1.2.12
 matb33:collection-hooks
+momentjs:moment
+mizzao:autocomplete
