@@ -1,0 +1,27 @@
+with doc
+    .ui.basic.segment
+        .ui.form
+            .inline.field
+                each tags
+                    .ui.compact.button.docTag
+                        i.minus.icon
+                        |#{this}
+                .ui.left.icon.input
+                    i.add.icon
+                    input#add_tag(type='text' autofocus='' placeholder='Add Tag (press enter)')
+        .ui.hidden.divider
+        .ui.input
+            textarea#body
+                |#{body}
+        .ui.hidden.divider
+        if tags
+            #save_doc.ui.large.green.button
+                i.check.icon
+                |Save
+        #delete.ui.red.large.icon.button
+            i.remove.icon
+    .ui.modal
+        .header Confirm Delete
+        .actions
+          .ui.button.cancel Cancel
+          .ui.red.button.approve Delete

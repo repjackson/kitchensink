@@ -26,11 +26,20 @@ Meteor.methods
     delete: (id)->
         Docs.remove id
 
-    remove_tag: (tag, doc_id)->
+    untag: (tag, doc_id)->
         Docs.update doc_id,
             $pull: tag
 
-    add_tag: (tag, doc_id)->
+    tag: (tag, doc_id)->
         Docs.update doc_id,
             $addToSet: tags: tag
 
+FlowRouter.route '/edit/:doc_id',
+    name: 'edit'
+    action: ->
+        BlazeLayout.render 'layout', main: 'edit'
+
+FlowRouter.route '/',
+    name: 'home'
+    action: ->
+        BlazeLayout.render 'layout', main: 'docs'

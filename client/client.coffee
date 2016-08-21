@@ -52,20 +52,23 @@ Template.docs.helpers
         Docs.find { }, 
             sort:
                 tag_count: 1
-            limit: 10
+            limit: 1
 
     tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
-    is_editing: -> Session.equals 'editing', @_id 
+    # is_editing: -> Session.equals 'editing', @_id 
 
 Template.cloud.events
     'click .select_tag': -> selected_tags.push @name
-
     'click .unselect_tag': -> selected_tags.remove @valueOf()
-
     'click #clear_tags': -> selected_tags.clear()
 
-    'keyup #add': (e,t)->
+    'click #add': -> 
+        Meteor.call 'add', (err, id)->
+            FlowRouter.go "/edit/#{id}"
+
+
+    'keyup #quick_add': (e,t)->
         e.preventDefault
         tag = $('#add').val().toLowerCase()
         if e.which is 13
@@ -103,7 +106,7 @@ Template.cloud.events
 Template.edit.onCreated ->
     self = @
     self.autorun ->
-        self.subscribe 'doc', Session.get('editing')
+        self.subscribe 'doc', FlowRouter.getParam('doc_id')
         # self.subscribe 'tags', selected_type_of_event_tags.array(),"event"
 
 Template.view.onCreated ->
@@ -115,15 +118,13 @@ Template.view.onCreated ->
 
 
 Template.edit.helpers
-    doc: -> Docs.findOne Session.get('editing')
+    doc: -> Docs.findOne FlowRouter.getParam('doc_id')
     
-
-
 
         
 Template.edit.events
     'click #delete_doc': ->
-        Meteor.call 'delete', Session.get('editing'), (error, result) ->
+        Meteor.call 'delete', FlowRouter.getParam('doc_id'), (error, result) ->
             if error
                 console.error error.reason
             else
@@ -132,14 +133,14 @@ Template.edit.events
     'keydown #add_tag': (e,t)->
         switch e.which
             when 13
-                doc_id = Session.get('editing')
+                doc_id = FlowRouter.getParam('doc_id')
                 tag = $('#add_tag').val().toLowerCase().trim()
                 if tag.length > 0
                     Docs.update doc_id,
                         $addToSet: tags: tag
                     $('#add_tag').val('')
                 else
-                    Docs.update Session.get('editing'),
+                    Docs.update FlowRouter.getParam('doc_id'),
                         $set:
                             tag_count: @tags.length
                     Meteor.call 'generate_person_cloud', Meteor.userId()
@@ -147,15 +148,15 @@ Template.edit.events
 
                     
     'click .doc_tag': (e,t)->
-        doc = Docs.findOne Session.get('editing')
+        doc = Docs.findOne FlowRouter.getParam('doc_id')
         tag = @valueOf()
-        Docs.update Session.get('editing'),
+        Docs.update FlowRouter.getParam('doc_id'),
             $pull: tags: tag
         $('#add_tag').val(tag)
 
 
     'click #save': ->
-        Docs.update Session.get('editing'),
+        Docs.update FlowRouter.getParam('doc_id'),
             $set:
                 tag_count: @tags.length
         Meteor.call 'generate_person_cloud', Meteor.userId()
@@ -173,4 +174,4 @@ Template.view.helpers
 Template.view.events
     'click .tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
 
-    'click .edit': -> Session.set 'editing', @_id
+    'click .edit': -> FlowRouter.go("/edit/#{@_id}")

@@ -1,26 +1,9 @@
-Meteor.publish null, ->
-    if @userId
-        return Meteor.users.find({ _id: @userId }, fields:
-            tags: 1
-            cloud: 1
-            list: 1)
-    return
-
-Meteor.publish 'people', () ->
-    if @userId
-        Meteor.users.find {},
-            fields:
-                username: 1
-                tags: 1
-    else
-        []
+Docs.allow
+    insert: (userId, doc)-> doc.author_id is Meteor.userId()
+    update: (userId, doc)-> doc.author_id is Meteor.userId()
+    remove: (userId, doc)-> doc.author_id is Meteor.userId()
 
 
-Meteor.publish 'person', (id)->
-    Meteor.users.find id,
-        fields:
-            tags: 1
-            username: 1
 
 
 Meteor.publish 'doc', (id)-> Docs.find id
@@ -63,12 +46,6 @@ Meteor.publish 'docs', (selected_tags)->
             timestamp: -1
         limit: 10
 
-
-
-Docs.allow
-    insert: (userId, doc)-> doc.author_id is Meteor.userId()
-    update: (userId, doc)-> doc.author_id is Meteor.userId()
-    remove: (userId, doc)-> doc.author_id is Meteor.userId()
 
 
 Meteor.methods
