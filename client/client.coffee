@@ -70,11 +70,11 @@ Template.cloud.events
 
     'keyup #quick_add': (e,t)->
         e.preventDefault
-        tag = $('#add').val().toLowerCase()
+        tag = $('#quick_add').val().toLowerCase()
         if e.which is 13
             if tag.length > 0
                 split_tags = tag.match(/\S+/g)
-                $('#add').val('')
+                $('#quick_add').val('')
                 Meteor.call 'add', split_tags
                 selected_tags.clear()
                 for tag in split_tags

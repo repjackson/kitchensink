@@ -4,55 +4,6 @@ Template.edit.onCreated ->
         self.subscribe 'doc', FlowRouter.getParam('doc_id')
 
 
-Template.edit.onRendered ->
-    Meteor.setTimeout (->
-        $('#body').froalaEditor
-            heightMin: 200
-            # toolbarInline: true
-            # toolbarButtonsMD: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
-            # toolbarButtonsSM: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
-            # toolbarButtonsXS: ['bold', 'italic', 'fontSize', 'undo', 'redo', '|', 'insertImage', 'insertVideo','insertFile']
-            toolbarButtons: 
-                [
-                  'fullscreen'
-                  'bold'
-                  'italic'
-                  'underline'
-                  'strikeThrough'
-                  'subscript'
-                  'superscript'
-                #   'fontFamily'
-                #   'fontSize'
-                  '|'
-                  'color'
-                  'emoticons'
-                #   'inlineStyle'
-                #   'paragraphStyle'
-                  '|'
-                  'paragraphFormat'
-                  'align'
-                  'formatOL'
-                  'formatUL'
-                  'outdent'
-                  'indent'
-                  'quote'
-                  'insertHR'
-                  '-'
-                  'insertLink'
-                  'insertImage'
-                  'insertVideo'
-                  'insertFile'
-                  'insertTable'
-                  'undo'
-                  'redo'
-                  'clearFormatting'
-                  'selectAll'
-                  'html'
-                ]
-        ), 500
-    
-
-
 Template.edit.helpers
     doc: -> Docs.findOne FlowRouter.getParam('doc_id')
 
