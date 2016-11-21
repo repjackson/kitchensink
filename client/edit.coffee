@@ -12,7 +12,7 @@ Template.edit.events
     'click #delete': ->
         $('.modal').modal(
             onApprove: ->
-                Meteor.call 'deleteDoc', FlowRouter.getParam('doc_id'), ->
+                Meteor.call 'delete', FlowRouter.getParam('doc_id'), ->
                 $('.ui.modal').modal('hide')
                 FlowRouter.go '/'
                 ).modal 'show'

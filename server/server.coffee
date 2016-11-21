@@ -8,6 +8,10 @@ Docs.allow
 
 Meteor.publish 'doc', (id)-> Docs.find id
 
+Meteor.publish 'me', -> 
+    Meteor.users.find @userId
+        # fields: 
+        #     points: 1
 
 
 Meteor.publish 'tags', (selected_tags)->
@@ -22,7 +26,7 @@ Meteor.publish 'tags', (selected_tags)->
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
+        { $limit: 20 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud, ', cloud
@@ -42,6 +46,7 @@ Meteor.publish 'docs', (selected_tags)->
 
     Docs.find match,
         sort:
+            points: 1
             tag_count: 1
             timestamp: -1
         limit: 10
@@ -50,15 +55,17 @@ Meteor.publish 'docs', (selected_tags)->
 
 Meteor.methods
     generate_person_cloud: (uid)->
+
         cloud = Docs.aggregate [
-            { $match: authorId: Meteor.userId() }
+            { $match: author_id: Meteor.userId() }
             { $project: tags: 1 }
             { $unwind: '$tags' }
             { $group: _id: '$tags', count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
+            
             
         list = (tag.name for tag in cloud)
         Meteor.users.update Meteor.userId(),

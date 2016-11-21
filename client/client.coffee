@@ -2,6 +2,8 @@
 
 Template.cloud.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selected_tags.array()
+    @autorun -> Meteor.subscribe 'me'
+
 
 
 Accounts.ui.config
@@ -11,35 +13,59 @@ Accounts.ui.config
 
 Template.cloud.helpers
     all_tags: ->
-        docCount = Docs.find().count()
-        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find( {}, limit: 20)
-        # Tags.find()
+        # docCount = Docs.find().count()
+        # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find( {})
+        Tags.find()
+
+    me: -> Meteor.user()
+
+
+    one_left: ->
+        doc_count = Docs.find().count()
+        doc_count is 1
+        
+    last_doc: ->
+        Docs.findOne()
+
+    # zero_five: ->
+    #     Tags.find
+    #         index: $lt: 5
+
+    # six_twelve: ->
+    #     Tags.find
+    #         index: 
+    #             $gt: 5
+    #             $lt: 12
+
+    # thirteen_twenty: ->
+    #     Tags.find
+    #         index: 
+    #             $gt: 12
+    #             $lt: 20
 
     cloud_tag_class: ->
         buttonClass = switch
             when @index <= 5 then ''
-            when @index <= 10 then ''
-            when @index <= 15 then 'small'
+            when @index <= 12 then 'small'
             when @index <= 20 then 'tiny'
         return buttonClass
 
     selected_tags: -> selected_tags.list()
 
-    settings: ->
-        {
-            position: 'bottom'
-            limit: 10
-            rules: [
-                {
-                    # token: ''
-                    collection: Tags
-                    field: 'name'
-                    matchAll: true
-                    template: Template.tag_result
-                }
-            ]
-        }
-
+    # settings: ->
+    #     {
+    #         position: 'bottom'
+    #         limit: 10
+    #         rules: [
+    #             {
+    #                 # token: ''
+    #                 collection: Tags
+    #                 field: 'name'
+    #                 matchAll: true
+    #                 template: Template.tag_result
+    #             }
+    #         ]
+        # }
 
 
 
@@ -51,8 +77,9 @@ Template.docs.helpers
     docs: -> 
         Docs.find { }, 
             sort:
+                points: -1
                 tag_count: 1
-            limit: 1
+            limit: 10
 
     tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
@@ -64,7 +91,7 @@ Template.cloud.events
     'click #clear_tags': -> selected_tags.clear()
 
     'click #add': -> 
-        Meteor.call 'add', (err, id)->
+        Meteor.call 'add', selected_tags.array(), (err, id)->
             FlowRouter.go "/edit/#{id}"
 
 
@@ -101,6 +128,7 @@ Template.cloud.events
         # console.log 'selected ', doc
         selected_tags.push doc.name
         $('#search').val ''
+
 
 
 Template.edit.onCreated ->
@@ -166,12 +194,33 @@ Template.edit.events
 
 Template.view.helpers
     is_author: -> Meteor.userId() and @author_id is Meteor.userId()
+    is_mine: -> 
+        last_doc = Docs.findOne()
+        console.log last_doc
+        Meteor.userId() and last_doc.author_id is Meteor.userId()
 
     tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
-    when: -> moment(@timestamp).fromNow()
+    # when: -> moment(@timestamp).fromNow()
+    
+    vote_up_button_class: ->
+        if not Meteor.userId() then 'disabled basic'
+        # else if Meteor.user().points < 1 then 'disabled basic'
+        else if Meteor.userId() in @up_voters then 'green'
+        else 'basic'
+
+    vote_down_button_class: ->
+        if not Meteor.userId() then 'disabled basic'
+        # else if Meteor.user().points < 1 then 'disabled basic'
+        else if Meteor.userId() in @down_voters then 'red'
+        else 'basic'
+
 
 Template.view.events
     'click .tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
 
     'click .edit': -> FlowRouter.go("/edit/#{@_id}")
+
+    'click .vote_up': -> Meteor.call 'vote_up', @_id
+
+    'click .vote_down': -> Meteor.call 'vote_down', @_id

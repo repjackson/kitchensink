@@ -1,5 +1,5 @@
 with doc
-    .ui.basic.segment
+    .ui.basic.center.aligned.segment
         .ui.form
             .inline.field
                 each tags
@@ -11,9 +11,7 @@ with doc
                     input#add_tag(type='text' autofocus='' placeholder='Add Tag (press enter)')
         .ui.hidden.divider
         if tags
-            #save_doc.ui.large.green.button
-                i.check.icon
-                |Save
+            #save_doc.ui.large.green.button Save
         #delete.ui.red.large.icon.button
             i.remove.icon
     .ui.modal

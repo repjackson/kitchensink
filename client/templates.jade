@@ -5,25 +5,25 @@ head
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
 
 template(name='layout')
-    +cloud
+    +Template.dynamic template=cloud
     +Template.dynamic template=main
 
 
 template(name='cloud')
-    #cloud.ui.basic.center.aligned.fluid.segment
+    #cloud.ui.basic.segment.container
         if currentUser
-            .ui.icon.input
-                i.plus.icon
-                input#quick_add(type='text')
-            // #add.ui.button
-            //     i.plus.icon
-            //     | Full Add
-        .ui.label
+           if selected_tags
+                #add.ui.circular.primary.icon.button
+                    i.plus.icon
+            else
+                #add.ui.circular.basic.icon.button
+                    i.plus.icon
+        .ui.large.basic.circular.label
             +loginButtons
         .ui.hidden.divider
-        .ui.left.icon.input
-            i.search.icon
-            +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder=''
+        // .ui.left.icon.input
+        //     i.search.icon
+        //     +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder=''
         if selected_tags
             #clear_tags.ui.primary.icon.compact.button
                 i.remove.icon
@@ -32,41 +32,43 @@ template(name='cloud')
                     strong #{this}
         each all_tags
             .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
-                small #{this.count}
+                // small #{this.count}
+                // small [#{this.index}]
+        // if one_left
+        //     span #{last_doc._id}
+        //     .actions
+        //         if is_mine
+        //             a.ui.icon.circular.button(href="/edit/#{last_doc._id}")
+        //                 i.pencil.icon.icon
+        //         else
+        //             // span by #{author.username} [#{author.points}]
+        //             .ui.icon.circular.compact.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
+        //             // .ui.circular.basic.label Points: #{points}
+        //             .ui.icon.circular.compact.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
 
 
 template(name='docs')
-    .ui.container
+    .ui.text.container
         each docs
-            +view
+            .ui.divided.basic.segments
+                +view
 
 
 template(name='view')
-    .ui.fluid.card
+    .ui.center.aligned.basic.segment
         .content
             each tags
-                .ui.button.tag(class=tag_class) #{this}
+                .ui.compact.small.button.tag(class=tag_class) #{this}
+        .actions
             if is_author
                 .edit.ui.icon.circular.button
                     i.pencil.icon.icon
             else
-                | by #{author.username} #{when}
-                    
-// template(name='edit')
-//     with doc
-//         .ui.segment
-//             each tags
-//                 .ui.button.tag
-//                     i.minus.icon
-//                     |#{this}
-//             .ui.left.icon.input
-//                 i.add.icon
-//                 input#add_tag(type='text' autofocus='' placeholder='Add Tag' maxlength='50')
-//             if tags
-//                 #save.ui.green.icon.circular.button: i.check.icon
-//             #delete.ui.red.icon.circular.button: i.remove.icon
-                    
+                // span by #{author.username} [#{author.points}]
+                .ui.icon.circular.compact.button.vote_up(class=vote_up_button_class): i.thumbs.up.icon
+                // .ui.circular.basic.label Points: #{points}
+                .ui.icon.circular.compact.button.vote_down(class=vote_down_button_class): i.thumbs.down.icon
 
-
+                    
 template(name='tag_result')
     .ui.small.compact.button #{name}

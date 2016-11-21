@@ -1,29 +1,29 @@
 db.docs.find({"authorId": {$exists: true}}).forEach(function(item)
 {
-    item.author_id = "vyqyHFRZG4CpogTAG";
-    db.docs.save(item);
+        item.author_id = "vyqyHFRZG4CpogTAG";
+        db.docs.save(item);
 })
 
 
 db.docs.update({
-      }, {
-        $set: {
-          "tag_count": 
-        }
-      },
-      function(err) {
-        if (err) console.log(err);
-      }
-    );
-  })
+            }, {
+                $set: {
+                    "tag_count": 
+                }
+            },
+            function(err) {
+                if (err) console.log(err);
+            }
+        );
+    })
 
 
 db.docs.find({}).forEach(
-  function(doc) {
-    var tag_count = doc.tags.length;
-    doc.tag_count = tag_count;
-    db.docs.save(doc);
-  }
+    function(doc) {
+        var tag_count = doc.tags.length;
+        doc.tag_count = tag_count;
+        db.docs.save(doc);
+    }
 )
 
 
@@ -53,3 +53,61 @@ be undeniable
 
 
 mongo --ssl --sslAllowInvalidCertificates aws-us-east-1-portal.21.dblayer.com:10444/facetdb -u <user> -p<password>
+
+
+revenue
+    consumer
+        blogging platform
+        twitter replacement
+        wikipedia competitor
+        subscription
+            $10/month
+    enterprise
+        $1000 per
+            webs    ite
+                wordpress clone
+                wysiwyg
+                facet structure
+                advantages
+                    facet integration
+                    modules (updated)
+        goal is $10,000 per
+    
+
+
+freelancer site
+    post offers
+    offer
+        tags
+        description
+        price
+    submit proposal
+        
+        
+        
+level up in life
+competitors
+    wix
+    wordpress
+    medium
+    facebook
+    fivrr
+    classifieds for gold run
+    
+    
+look at it from need perspectives
+    gold run
+        classifieds
+            craigslist alternative
+    impact hub
+        membership
+        services
+    paul
+        consultant services
+        profile
+        resume
+    bike loaner
+        volunteer management
+    technotrainer
+        client management
+        
