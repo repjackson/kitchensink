@@ -9,9 +9,13 @@ with doc
                 .ui.left.icon.input
                     i.add.icon
                     input#add_tag(type='text' autofocus='' placeholder='Add Tag (press enter)')
+            .field
+                textarea#body
+                    |#{body}
         .ui.hidden.divider
         if tags
-            #save_doc.ui.large.green.button Save
+            #save_doc.ui.large.green.icon.button
+                i.check.icon
         #delete.ui.red.large.icon.button
             i.remove.icon
     .ui.modal

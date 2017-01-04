@@ -3,19 +3,23 @@
 Template.cloud.onCreated ->
     @autorun -> Meteor.subscribe 'tags', selected_tags.array()
     @autorun -> Meteor.subscribe 'me'
+    @autorun -> Meteor.subscribe 'usernames'
 
 
 
 Accounts.ui.config
     passwordSignupFields: 'USERNAME_ONLY'
 
+Accounts.ui.config({
+    dropdownClasses: 'simple'
+});
     
 
 Template.cloud.helpers
     all_tags: ->
-        # docCount = Docs.find().count()
-        # if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find( {})
-        Tags.find()
+        docCount = Docs.find().count()
+        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit:10)
+        # Tags.find()
 
     me: -> Meteor.user()
 
@@ -52,20 +56,26 @@ Template.cloud.helpers
 
     selected_tags: -> selected_tags.list()
 
-    # settings: ->
-    #     {
-    #         position: 'bottom'
-    #         limit: 10
-    #         rules: [
-    #             {
-    #                 # token: ''
-    #                 collection: Tags
-    #                 field: 'name'
-    #                 matchAll: true
-    #                 template: Template.tag_result
-    #             }
-    #         ]
-        # }
+    settings: ->
+        {
+            position: 'bottom'
+            limit: 10
+            rules: [
+                {
+                    # token: ''
+                    collection: Tags
+                    field: 'name'
+                    matchAll: true
+                    template: Template.tag_result
+                }
+            ]
+        }
+
+
+# Accounts.ui.config
+#     passwordSignupFields: 'USERNAME_ONLY'
+
+    
 
 
 
@@ -77,9 +87,9 @@ Template.docs.helpers
     docs: -> 
         Docs.find { }, 
             sort:
-                points: -1
                 tag_count: 1
-            limit: 10
+                points: -1
+            limit: 1
 
     tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
 
@@ -199,7 +209,7 @@ Template.view.helpers
         console.log last_doc
         Meteor.userId() and last_doc.author_id is Meteor.userId()
 
-    tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else ''
+    tag_class: -> if @valueOf() in selected_tags.array() then 'blue' else ''
 
     # when: -> moment(@timestamp).fromNow()
     
@@ -217,7 +227,7 @@ Template.view.helpers
 
 
 Template.view.events
-    'click .tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
+    'click .ftag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
 
     'click .edit': -> FlowRouter.go("/edit/#{@_id}")
 

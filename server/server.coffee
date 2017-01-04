@@ -13,6 +13,9 @@ Meteor.publish 'me', ->
         # fields: 
         #     points: 1
 
+Meteor.publish 'usernames', () -> 
+    Meteor.users.find()
+
 
 Meteor.publish 'tags', (selected_tags)->
     self = @
@@ -26,7 +29,7 @@ Meteor.publish 'tags', (selected_tags)->
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
+        { $limit: 50 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud, ', cloud

@@ -111,3 +111,27 @@ look at it from need perspectives
     technotrainer
         client management
         
+        
+        
+vertical list
+only add one word
+up/down vote for each word
+
+say sentence.  everything is broken up.
+
+
+
+
+
+what if dating app that was a game
+
+uplevel with intellect
+we make life a game
+the rules are crowdsourced
+
+start with the concept that intellect ranks you higher
+
+
+we all want to get laid, connect the real/day world with the night world
+
+level up in the day world to get laid in the night world.
