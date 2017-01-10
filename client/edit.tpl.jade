@@ -1,5 +1,5 @@
 with doc
-    .ui.basic.center.aligned.segment
+    .ui.basic.center.aligned.text.container.segment
         .ui.form
             .inline.field
                 each tags
@@ -12,11 +12,16 @@ with doc
             .field
                 textarea#body
                     |#{body}
+            .field
+                label Hourly Rate
+                .ui.labeled.input
+                    .ui.basic.label $
+                    input(type='number' min='0')
         .ui.hidden.divider
         if tags
-            #save_doc.ui.large.green.icon.button
+            #save_doc.ui.big.green.icon.button
                 i.check.icon
-        #delete.ui.red.large.icon.button
+        #delete.ui.small.red.icon.button
             i.remove.icon
     .ui.modal
         .header Confirm Delete

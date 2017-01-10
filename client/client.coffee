@@ -10,26 +10,25 @@ Template.cloud.onCreated ->
 Accounts.ui.config
     passwordSignupFields: 'USERNAME_ONLY'
 
-Accounts.ui.config({
+Accounts.ui.config
     dropdownClasses: 'simple'
-});
     
 
 Template.cloud.helpers
     all_tags: ->
         docCount = Docs.find().count()
-        if 0 < docCount < 3 then Tags.find { count: $lt: docCount } else Tags.find({}, limit:10)
+        if 0 < docCount < 3 then Tags.find({ count: $lt: docCount }, {limit:20}) else Tags.find({}, limit:20)
         # Tags.find()
 
     me: -> Meteor.user()
 
 
-    one_left: ->
-        doc_count = Docs.find().count()
-        doc_count is 1
+    # one_left: ->
+    #     doc_count = Docs.find().count()
+    #     doc_count is 1
         
-    last_doc: ->
-        Docs.findOne()
+    # last_doc: ->
+    #     Docs.findOne()
 
     # zero_five: ->
     #     Tags.find
@@ -70,10 +69,6 @@ Template.cloud.helpers
                 }
             ]
         }
-
-
-# Accounts.ui.config
-#     passwordSignupFields: 'USERNAME_ONLY'
 
     
 
