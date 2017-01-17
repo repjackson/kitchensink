@@ -1,20 +1,26 @@
-Docs.allow
-    insert: (userId, doc)-> doc.author_id is Meteor.userId()
-    update: (userId, doc)-> doc.author_id is Meteor.userId()
-    remove: (userId, doc)-> doc.author_id is Meteor.userId()
+Meteor.users.allow
+    update: (userId, doc, fields, modifier) ->
+        # console.log 'user ' + userId + 'wants to modify doc' + doc._id
+        if userId and doc._id == userId
+            # console.log 'user allowed to modify own account'
+            true
 
 
-
-
-Meteor.publish 'doc', (id)-> Docs.find id
 
 Meteor.publish 'me', -> 
-    Meteor.users.find @userId
-        # fields: 
-        #     points: 1
+    Meteor.users.find @userId,
+        fields: 
+            tags: 1
+            name: 1
+            image_id: 1
 
-Meteor.publish 'usernames', () -> 
-    Meteor.users.find()
+
+Cloudinary.config
+    cloud_name: 'facet'
+    api_key: Meteor.settings.cloudinary_key
+    api_secret: Meteor.settings.cloudinary_secret
+
+
 
 
 Meteor.publish 'tags', (selected_tags)->
@@ -22,14 +28,14 @@ Meteor.publish 'tags', (selected_tags)->
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
 
-    cloud = Docs.aggregate [
+    cloud = Meteor.users.aggregate [
         { $match: match }
         { $project: tags: 1 }
         { $unwind: '$tags' }
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
+        { $limit: 20 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud, ', cloud
@@ -43,36 +49,8 @@ Meteor.publish 'tags', (selected_tags)->
     
 
 
-Meteor.publish 'docs', (selected_tags)->
+Meteor.publish 'people', (selected_tags)->
     match = {}
-    # if selected_tags.length > 0 then match.tags = $all: selected_tags
-    match.tags = $all: selected_tags
-
-    Docs.find match,
-        sort:
-            points: 1
-            tag_count: 1
-            timestamp: -1
-        limit: 10
-
-
-
-Meteor.methods
-    generate_person_cloud: (uid)->
-
-        cloud = Docs.aggregate [
-            { $match: author_id: Meteor.userId() }
-            { $project: tags: 1 }
-            { $unwind: '$tags' }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-            
-            
-        list = (tag.name for tag in cloud)
-        Meteor.users.update Meteor.userId(),
-            $set:
-                cloud: cloud
-                list: list
+    if selected_tags.length > 0 then match.tags = $all: selected_tags
+    match._id = $ne: @userId
+    Meteor.users.find match

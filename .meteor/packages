@@ -31,6 +31,6 @@ shell-server@0.2.1
 kadira:flow-router
 kadira:blaze-layout
 accounts-base@1.2.14
-mizzao:autocomplete
 froala:editor
 iandouglas:accounts-ui-semantic-ui
+lepozepo:cloudinary
