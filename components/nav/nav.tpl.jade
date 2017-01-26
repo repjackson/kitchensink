@@ -12,10 +12,10 @@
             i.newspaper.icon
             strong Blog
         .right.menu
-            +loginButtons
             if currentUser
                 a.item(href='/profile' class="{{isActivePath '/profile'}}")
                     strong Profile
+            +loginButtons
             
             // a.item(href='/global' class="{{isActivePath '/global'}}")
             //     strong Global

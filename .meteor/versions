@@ -45,6 +45,7 @@ fastclick@1.0.13
 flemay:less-autoprefixer@1.2.0
 fortawesome:fontawesome@4.4.0_1
 froala:editor@2.4.0
+froala:editor-reactive@2.4.0
 geojson-utils@1.0.10
 gwendall:body-events@0.1.6
 gwendall:session-json@0.1.7

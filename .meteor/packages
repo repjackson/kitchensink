@@ -30,9 +30,9 @@ shell-server@0.2.1
 kadira:flow-router
 kadira:blaze-layout
 accounts-base@1.2.14
-froala:editor
 iandouglas:accounts-ui-semantic-ui
 lepozepo:cloudinary
 zimme:active-route
 alanning:roles
 momentjs:moment
+froala:editor-reactive
