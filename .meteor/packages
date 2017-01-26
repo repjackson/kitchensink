@@ -36,3 +36,9 @@ zimme:active-route
 alanning:roles
 momentjs:moment
 froala:editor-reactive
+service-configuration
+useraccounts:flow-routing
+useraccounts:semantic-ui
+accounts-twitter
+accounts-facebook
+accounts-google

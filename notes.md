@@ -59,3 +59,5 @@ ih customer workflow
     check in with card/guest checkin
     view human menu at kiosk, see picture, say hi to person, want to blow eric
     
+    
+DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy --settings settings.json facet.cloud
