@@ -1,0 +1,83 @@
+template(name='posts')
+    .ui.container
+        #blog_slider(style='width: 1000px; height: 500px;')
+            .ls-slide(data-ls='slidedelay: 2000;')
+                img.ls-bg(src="{{c.url 'impact_collage' effect='art:primavera'}}", alt='Slide background')
+                h1.ls-l.overlay-text.slider-text(style="top: 50%; text-size: 500%;") 
+                    | Our Stories
+        .ui.hidden.divider
+        .ui.stackable.divided.grid
+            .twelve.wide.column
+                h1.impact-header Recent Posts
+                // .ui.cards
+                .ui.relaxed.divided.items
+                    each posts
+                        +post_item
+            .four.wide.column
+                +cloud filter='post'
+                if isInRole 'admin'
+                    h2.impact-header 
+                        i.red.configure.icon
+                        |Admin
+                    #add_post.ui.compact.basic.fluid.button
+                        i.large.icons
+                            i.sticky.note.outline.icon
+                            i.green.plus.corner.icon
+                        |Add Post
+
+
+template(name='post')
+    .ui.fluid.card
+        .ui.centered.image
+            a(href="/post/view/#{_id}")
+                img(src="{{c.url image_id  height=300 crop='fill' gravity='face' }}")
+        .content
+            .header
+                a(href="/post/view/#{_id}")
+                    h2.ui.header #{title}
+            if publish_date
+                .meta
+                    | Published #{publish_when}
+            .description
+                |#{snippet}
+                // |!{description}
+        .content
+            each tags
+                .ui.compact.button.post_tag(class=tag_class) #{this}
+            if isInRole 'admin'
+                .edit_post.ui.primary.basic.right.floated.button
+                    i.pencil.icon
+                    |Edit Post    
+        .content
+        //     // +favorite
+            +shareit
+            
+            
+template(name='post_item')
+    .item
+        a.image(href="/post/view/#{_id}")
+            img.ui.rounded.image(src="{{c.url image_id  width=175 height=175 crop='fill' gravity='face' }}")
+        .content
+            a.header(href="/post/view/#{_id}") #{title}
+            .meta
+                | Published #{publish_when}
+            .description
+                p #{snippet}
+                a(href="/post/view/#{_id}") 
+                    |View More
+                    i.arrow.right.icon
+            .extra
+                i.tags.icon
+                each tags
+                    .ui.compact.label.post_tag(class=tag_class) #{this}
+            if isInRole 'admin'
+                .extra
+                    i.red.configure.large.icon
+                    if published
+                        .ui.green.label Published
+                    else
+                        .ui.red.label Unpublished                        
+                    if featured
+                        .ui.green.label Featured
+                    else
+                        .ui.red.label Unfeatured

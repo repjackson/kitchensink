@@ -1,0 +1,22 @@
+template(name='featured_posts')
+    // .ui.attached.very.padded.basic.segment.container
+    //     .ui.container
+    h1.impact-header Featured Posts
+    .ui.four.centered.stackable.cards
+        each featured_posts
+            // +post
+            +featured_post
+                
+                
+template(name='featured_post')
+    .ui.card
+        .image
+            a(href="/post/view/#{this._id}")
+                img.ui.fluid.image(src="{{c.url image_id height=400 width=800 gravity='face' crop='fill'}}")
+        .content
+            .header
+                a(href="/post/view/#{this._id}")
+                    h3.ui.red.header.make-uppercase #{title}
+            .description
+                // .ui.header Post Topics:
+                |#{publish_when}

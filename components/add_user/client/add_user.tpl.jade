@@ -1,0 +1,12 @@
+template(name='add_user')
+    .ui.form
+        .field
+            label Name
+            input#name(type='text')
+        .field
+            label Email
+            input#email(type='email')
+        .field
+            label Bio
+            textarea#bio(rows='5')
+        #submit_new_user.ui.green.basic.button Submit New User

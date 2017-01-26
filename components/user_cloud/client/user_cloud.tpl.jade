@@ -1,0 +1,24 @@
+if currentUser
+    a.ui.button(href="/profile")
+        if currentUser.image_id
+            img.ui.avatar.image(src="{{c.url currentUser.image_id width=30 height=30 gravity='face' crop='fill'}}")
+        else
+            i.user.icon
+        if currentUser.name
+            | #{currentUser.name}
+        else
+            | #{currentUser.username}
+#cloud.ui.basic.segment.center.aligned.container
+    .ui.basic.label
+        +loginButtons
+    .ui.hidden.divider
+    if selected_tags
+        #clear_tags.ui.primary.icon.compact.button
+            i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.primary.compact.button
+                strong #{this}
+    each all_tags
+        .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
+                // small #{this.count}
+                // small [#{this.index}]

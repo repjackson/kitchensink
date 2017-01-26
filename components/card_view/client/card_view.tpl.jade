@@ -1,0 +1,24 @@
+.ui.card
+    .image
+        a(href="/view/#{_id}")
+            img.ui.fluid.image(src="{{c.url image_id height=400 width=800 background='white' crop='pad'}}")
+            // img.ui.medium.image(src="{{c.url image_id }}")
+    .content
+        h3.ui.red.header.make-uppercase 
+            a(href="/view/#{_id}") #{title}
+        // if link
+        //     .meta
+        //         a(href=link target='_blank') #{link}
+        each eco_tags
+            .ui.compact.tiny.circular.button.eco_tag(class=eco_tag_class) #{this}
+    // .extra.content
+    // .extra.content
+    //     +favorite
+    if isInRole 'admin'
+        .extra.content
+            i.red.configure.icon
+            unless published
+                .ui.basic.red.tiny.label 
+                    |Unpub
+            .ui.tiny.basic.label Type: #{type}
+        .extra.content

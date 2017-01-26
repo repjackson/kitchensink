@@ -1,0 +1,69 @@
+with event
+    .ui.container
+        .header-wrapper
+            if image_id
+                img.ui.centered.image(src="{{c.url image_id }}")
+            else if eventbrite_image
+                img.ui.centered.image(src=eventbrite_image)
+            // .event-header
+            //     h2 #{title}
+            //     h3
+            //         .sub.header #{start_date} to #{end_date} 
+            //         .sub.header #{start_time} to #{end_time}
+        .ui.basic.segment
+            .ui.stackable.divided.grid
+                .eleven.wide.column
+                    h1.ui.header #{title}
+                    .description
+                        |!{description}
+                .five.wide.column
+                    if url
+                        a.impact-button-dark(href=url target='_window')
+                            i.ticket.icon
+                            | Register
+                    else if link
+                        a.impact-button-dark(href=link target='_window')
+                            i.ticket.icon
+                            | Register
+                    h3.impact-header When
+                    .ui.basic.segment
+                        h3
+                            .ui.sub.header #{day} 
+                            .ui.sub.header #{start_time} to #{end_time}
+                        if add_to_calendar_link
+                            a(href=add_to_calendar_link target='_blank')
+                                | Add to Google Calendar
+                    h3.impact-header Where
+                    .ui.basic.segment
+                        h3
+                            a.ui.sub.header(href="http://maps.google.com/?q=#{location}" target='_blank') 
+                                |#{location}
+                                i.external.small.icon
+                                // +map 
+                        // h3.ui.dividing.header.make-uppercase Links
+                        // a(href=event_calendar_link)
+                        //     | Add to my calendar
+                    h3.impact-header Tags
+                    .ui.basic.segment
+                        each tags
+                            .ui.basic.label #{this}
+                    if isInRole 'admin'
+                        h3.impact-header 
+                            i.red.configure.icon
+                            |Admin
+                        a.ui.basic.fluid.button(href="/event/edit/#{this._id}") 
+                            i.pencil.icon
+                            |Edit
+                        if published
+                            .ui.green.label Published
+                        else
+                            .ui.red.label Unpublished                        
+                        if featured
+                            .ui.green.label Featured
+                        else
+                            .ui.red.label Unfeatured
+                        if reoccurring
+                            .ui.green.label Reoccurring
+                        else
+                            .ui.red.label Not Reoccurring
+                            

@@ -1,0 +1,89 @@
+template(name='events')
+    .ui.container
+        #event_slider(style='width: 1500px; height: 500px;')
+            .ls-slide(data-ls='slidedelay: 2000;')
+                img.ls-bg(src="{{c.url 'vinetta' width=1500 height=500 crop='fill' gravity='north' effect='art:primavera'}}", alt='Slide background')
+                h1.ls-l.overlay-text.slider-text(style="top: 50%; text-size: 300%;") 
+                    | Events at Impact Hub Boulder
+        .ui.basic.segment
+            .ui.stackable.grid
+                .twelve.wide.column
+                    +featured_events
+                    +upcoming_events
+                    +reoccurring_events
+                    +past_events
+                    if isInRole 'admin'
+                        +admin_events
+                .four.wide.column
+                    a.impact-button-dark(href='/rent') Host Your Event
+                    +cloud filter='event'
+                    +google_calendar
+                    if isInRole 'admin'
+                        h2.impact-header 
+                            i.red.configure.icon
+                            |Admin
+                        .ui.fluid.input
+                            input#import_eventbrite(type='text' placeholder='Import Eventbrite with Id')
+                        .ui.horizontal.divider or
+                        #add_event.ui.basic.fluid.button 
+                            i.large.icons
+                                i.calendar.icon
+                                i.green.plus.corner.icon
+                            | Manually Add Event
+
+template(name='reoccurring_events')
+    h2.impact-header Reoccurring Events
+    .ui.centered.stackable.three.cards
+        each reoccurring_events
+            +event_card
+
+
+template(name='upcoming_events')
+    h2.impact-header Upcoming Events
+    .ui.centered.stackable.three.cards
+        each upcoming_events
+            +event_card
+
+
+template(name='past_events')
+    h2.impact-header Past Events
+    .ui.centered.stackable.three.cards
+        each past_events
+            +event_card
+
+
+template(name='admin_events')
+    h2.impact-header 
+        i.red.configure.icon
+        |Unpublished Events
+    .ui.centered.stackable.three.cards
+        each admin_events
+            +event_card
+
+
+
+template(name='event_card')
+    .ui.card
+        .image
+            a(href="/event/view/#{_id}")
+                if image_id
+                    img.ui.fluid.image(src="{{c.url image_id height=400 width=800 crop='fill' gravity='north_west'}}")
+                else if eventbrite_image
+                    img.ui.fluid.image(src=eventbrite_image)
+        .content
+            // .header
+            h3.ui.red.header.make-uppercase 
+                a(href="/event/view/#{_id}") #{title}
+            .meta
+                strong #{day} 
+            .meta
+                strong #{start_time} to #{end_time}
+        if isInRole 'admin'
+            if published
+                .ui.bottom.right.attached.basic.green.tiny.label 
+                    i.red.configure.icon
+                    |Pub
+            else
+                .ui.bottom.right.attached.basic.red.tiny.label 
+                    i.red.configure.icon
+                    |Unpub

@@ -1,0 +1,44 @@
+.ui.container
+    table.ui.table
+        thead
+            tr
+                th Email
+                th Profile
+                th Role(s)
+                th Actions
+        tbody
+            each hub_users
+                tr
+                    td 
+                        each emails
+                            |#{address}
+                    td 
+                        a(href="/profile/view/#{_id}")
+                            img.ui.avatar.image(src="{{c.url profile.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                            |#{profile.name}
+                    td 
+                        if user_is_admin
+                            .remove_admin.ui.basic.icon.button
+                                i.remove.icon
+                                |Admin
+                        else
+                            .make_admin.ui.basic.icon.button
+                                i.plus.icon
+                                |Admin
+                        if user_is_member
+                            .remove_member.ui.basic.icon.button
+                                i.remove.icon
+                                |Member
+                        else
+                            .make_member.ui.basic.icon.button
+                                i.plus.icon
+                                |Member
+                        each roles
+                            .ui.basic.label #{this}
+                    td 
+                        .email_user.ui.compact.basic.disabled.button
+                            i.mail.icon
+                            |Email
+                        .email_user.ui.compact.basic.disabled.button 
+                            i.send.icon
+                            |Direct Message

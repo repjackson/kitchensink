@@ -1,0 +1,84 @@
+template(name='home')
+    +slider
+    // .ui.inverted.vertical.masthead.center.aligned.segment
+    //     .ui.container
+    //         .ui.large.secondary.inverted.pointing.menu
+    //             a.item(href='/about_academy' class="{{isActivePath '/about_academy'}}")
+    //                 strong About the Academy
+    //             a.item(href='/global_network' class="{{isActivePath '/global_network'}}")
+    //                 strong Global Network
+    //             a.item(href='/get_involved' class="{{isActivePath '/get_involved'}}")
+    //                 strong Get Involved
+    //             a.item(href='/events' class="{{isActivePath '/events'}}")
+    //                 strong Events Calendar
+    //             a.item(href='/program_themes' class="{{isActivePath '/program_themes'}}")
+    // //                 strong Program Themes
+    // +call_to_action
+    // +how_it_works
+    // .ui.container
+    //     .ui.basic.segment
+    //         +featured_events
+    //     .ui.basic.segment
+    //         +featured_posts
+    // +pingpong
+    // +rockstar_members
+
+
+template(name='call_to_action')
+    .call_to_action
+        .ui.very.padded.basic.inverted.attached.segment
+            .ui.stackable.container.grid
+                .ten.wide.column
+                    // h1.ui.header COME FOR COWORKING, STAY FOR COMMUNITY
+                    .large-text
+                        p
+                            |Impact Hub Boulder is a member-based coworking space and event venue for entrepreneurs creating positive impact in the world.
+                        p
+                            |An innovation lab. A business Incubator. A social enterprise community center. Impact Hub offers you a unique ecosystem of resources, inspiration, and collaboration opportunities to grow the positive impact of your work. Joining our diverse community of members and collaborators will inspire, connect, and enable you to develop your best work every step of the way.
+                        p
+                            |Impact Hub Boulder is part of a global network of 86 other Impact Hubs in cities around the world.
+    
+                .six.wide.center.aligned.column
+                    a.impact-button-light(href='/join')
+                        | Become A Member
+                    a.impact-button-light(href='/events')
+                        | Attend an Event
+                    a.impact-button-light(href='/tour')
+                        | Schedule a Tour
+                    // a.impact-button-light(href='#subscribe')
+                    //     | Subscribe
+                    .ui.hidden.divider
+                    // a(href='/member_discount')
+                    //     img.ui.centered.rounded.image(src="{{c.url 'member_discount_cropped3' width=250 crop='fill'}}")
+
+
+template(name='how_it_works')
+    .ui.horizontal.divider.header How It Works
+
+
+                    
+template(name='academy_widget')
+    .ui.very.padded.basic.segment.container
+        .ui.container
+            h2.ui.make-uppercase.header HUB Academy
+                
+                
+template(name='rockstar_members')
+    .ui.attached.very.padded.basic.segment
+        .ui.container
+            h1.ui.make-uppercase.header Rockstar Members
+            .ui.four.stackable.cards
+                each rockstar_members
+                    +rockstar_member
+                    
+                    
+                    
+template(name='rockstar_member')
+    .ui.fluid.card
+        .image
+            img.ui.image(src="{{c.url profile.image_id width=200 height=200 gravity='face' crop='fill'}}")
+        .content
+            .header
+                h2.ui.header #{profile.name}
+            .description
+                // .ui.header Post Topics:

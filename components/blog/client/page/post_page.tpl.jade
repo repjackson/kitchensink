@@ -1,0 +1,35 @@
+with post
+    .ui.text.container.basic.segment
+        .content
+            // a.ui.top.left.attached.basic.button(href="/posts")
+            //     i.arrow.left.icon
+            //     |Blog
+            if image_id
+                div
+                    img.ui.centered.image(src="{{c.url image_id height=500 width=800 background='white' crop='lpad'}}")
+                    .overlay-text 
+                        h1 #{title}
+            else
+                h1 #{title}
+            if publish_date
+                h4.ui.header Published #{publish_when}
+            .ui.basic.segment
+                |!{description}
+            if tags
+                .ui.basic.segment
+                    each tags
+                        .ui.basic.label #{this}
+        if isInRole 'admin'
+            .ui.divider
+            i.large.red.configure.icon
+            .edit_post.ui.basic.button
+                i.pencil.icon
+                |Edit
+            if published
+                .ui.green.label Published
+            else
+                .ui.red.label Unpublished                        
+            if featured
+                .ui.green.label Featured
+            else
+                .ui.red.label Unfeatured

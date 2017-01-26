@@ -1,0 +1,9 @@
+
+.ui.card
+    .content
+        .image
+            img.ui.image(src="{{c.url profile.image_id width=400 height=400 gravity='face' crop='fill'}}")
+        .header #{name}
+        .header #{username}
+        each tags
+            .ui.compact.tiny.button.ftag(class=tag_class) #{this}

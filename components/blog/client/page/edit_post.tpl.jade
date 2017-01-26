@@ -1,0 +1,18 @@
+with post
+    .ui.container.segment
+        .ui.center.aligned.header Edit Post
+        .ui.form
+            +edit_title
+            +edit_image
+            .field
+                label Publish Date
+                input#publish_date(type='date' value=publish_date)
+            +edit_description
+            +edit_tags
+            +publish_button
+            +edit_featured
+            if title
+                #save_post.ui.green.button 
+                    i.check.icon
+                    |Save
+            +delete_button

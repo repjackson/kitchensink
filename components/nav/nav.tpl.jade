@@ -1,0 +1,29 @@
+.ui.inverted.stackable.menu
+    .ui.container
+        a.header.item(href='/' class="{{isActivePath '/'}}")
+            strong Facet
+        a.item(href='/people_cards' class="{{isActivePath '/people_cards'}}")
+            i.users.icon
+            strong People
+        a.item(href='/events' class="{{isActivePath '/events'}}")
+            i.calendar.icon
+            strong Events
+        a.item(href='/posts' class="{{isActivePath '/posts'}}")
+            i.newspaper.icon
+            strong Blog
+        .right.menu
+            +loginButtons
+            if currentUser
+                a.item(href='/profile' class="{{isActivePath '/profile'}}")
+                    strong Profile
+            
+            // a.item(href='/global' class="{{isActivePath '/global'}}")
+            //     strong Global
+            // // a.item(href='/program_themes' class="{{isActivePath '/program_themes'}}")
+            // //     strong Program Themes
+            // a.item(href='/sponsors' class="{{isActivePath '/sponsors'}}")
+            //     strong Sponsors
+            // a.item(href='/enroll' class="{{isActivePath '/enroll'}}")
+            //     .ui.basic.white.inverted.large.button Enroll
+            // a.item(href='/donate' class="{{isActivePath '/donate'}}")
+            //     .ui.basic.white.inverted.large.button Donate

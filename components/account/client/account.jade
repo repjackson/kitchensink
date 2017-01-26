@@ -1,0 +1,26 @@
+template(name='edit_account')
+    .ui.container.segment
+        .ui.form
+            .field
+                label Email
+                // input(type='text' value=currentUser.emails[0].address)
+            .field
+                .ui.segment
+                    label Change Password
+                    // input.disabled(type='text' value=currentUser.profile.name)
+        
+template(name='account_nav')
+    .ui.menu
+        .ui.container
+            a.item(href="/profile/edit")
+                i.user.icon
+                |Profile
+            // a.item(href='/account/social')
+            //     i.user.icon
+            //     |Social Media Accounts
+            // a.item(href='/account/favorites')
+            //     i.heart.icon
+            //     |Favorites
+            // a.item(href='/account/services')
+            //     i.user.icon
+            //     |Services

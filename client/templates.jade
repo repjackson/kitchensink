@@ -4,54 +4,31 @@ head
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
 
+
+    // LayerSlider stylesheet
+    link(rel='stylesheet', href='/layerslider/css/layerslider.css', type='text/css')
+    // External libraries: GreenSock
+    script(src='/layerslider/js/jquery.js', type='text/javascript')
+    script(src='/layerslider/js/greensock.js', type='text/javascript')
+    // LayerSlider script files
+    script(src='/layerslider/js/layerslider.transitions.js', type='text/javascript')
+    script(src='/layerslider/js/layerslider.kreaturamedia.jquery.js', type='text/javascript')
+
+
+
+
+
+
+
 template(name='layout')
+    +nav
     +Template.dynamic template=cloud
     +Template.dynamic template=main
 
 
-template(name='cloud')
-    if currentUser
-        a.ui.button(href="/profile")
-            if currentUser.image_id
-                img.ui.avatar.image(src="{{c.url currentUser.image_id width=30 height=30 gravity='face' crop='fill'}}")
-            else
-                i.user.icon
-            if currentUser.name
-                | #{currentUser.name}
-            else
-                | #{currentUser.username}
-    #cloud.ui.basic.segment.center.aligned.container
-        .ui.basic.label
-            +loginButtons
-        .ui.hidden.divider
-        if selected_tags
-            #clear_tags.ui.primary.icon.compact.button
-                i.remove.icon
-            each selected_tags
-                .unselect_tag.ui.primary.compact.button
-                    strong #{this}
-        each all_tags
-            .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
-                    // small #{this.count}
-                    // small [#{this.index}]
 
 
-template(name='people')
-    .ui.container
-        .ui.four.cards
-            each people
-                +person
 
-
-template(name='person')
-    .ui.card
-        .content
-            .image
-                img.ui.image(src="{{c.url profile.image_id width=400 height=400 gravity='face' crop='fill'}}")
-            .header #{name}
-            .header #{username}
-            each tags
-                .ui.compact.tiny.button.ftag(class=tag_class) #{this}
 
                     
 template(name='tag_result')

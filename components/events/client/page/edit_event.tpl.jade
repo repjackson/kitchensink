@@ -1,0 +1,35 @@
+with event
+    .ui.container.basic.segment
+        .ui.center.aligned.header Edit Event
+        .ui.form
+            +edit_title
+            .ui.segment
+                +edit_image
+                if eventbrite_image
+                    .ui.header Eventbrite Image (custom image will replace this)
+                    img.ui.medium.image(src=eventbrite_image)
+            .fields
+                .field
+                    label Start Date/Time
+                    .ui.left.icon.input
+                        i.calendar.icon
+                        input#start_datetime(type='datetime-local' value=start_datetime)
+                // .field
+                //     label Start Time
+                //     input#start_time(type='time' value=start_time)
+                .field
+                    label End Date/Time
+                    .ui.left.icon.input
+                        i.calendar.icon
+                        input#end_datetime(type='datetime-local' value=end_datetime)
+            +edit_location
+            +edit_link
+            +add_to_calendar_link
+            +edit_description
+            +edit_tags
+            +edit_featured
+            +edit_reoccurring
+            +publish_button
+            if title
+                #save_event.ui.large.green.button Save
+            +delete_button

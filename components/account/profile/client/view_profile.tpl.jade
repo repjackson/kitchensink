@@ -1,0 +1,40 @@
+with person
+    .ui.text.container.segment
+        // if published
+        //     .ui.top.right.attached.green.label Published
+        // else
+        //     .ui.top.right.attached.red.label Unpublished
+        with profile
+            img.ui.centered.medium.circular.image(src="{{c.url image_id width=800 height=600 gravity='face' crop='fill'}}")
+            h2.ui.header
+                |#{name}
+            if company
+                h4.ui.header 
+                    i.building.icon
+                    |#{company}
+            if position
+                h4.ui.header 
+                    |#{position}
+            if website
+                h4.ui.header
+                    a(href=website target='_blank')
+                        i.linkify.icon
+                        |#{website}
+            if linkedin
+                a.ui.circular.large.blue.icon.button(href=linkedin target='_blank')
+                    i.linkedin.icon
+            if facebook
+                a.ui.circular.large.blue.icon.button(href=facebook target='_blank')
+                    i.facebook.icon
+            if twitter
+                a.ui.circular.large.blue.icon.button(href=twitter target='_blank')
+                    i.twitter.icon
+        .ui.hidden.divider
+        if tags
+            i.large.tags.icon
+            each tags
+                .ui.basic.label #{this}
+        .ui.padded.basic.segment {{nl2br profile.bio}}
+        // if isInRole 'admin'
+        //     a#edit_profile.ui.basic.blue.button(href="/profile/edit/#{_id}")
+        //         |Edit Profile

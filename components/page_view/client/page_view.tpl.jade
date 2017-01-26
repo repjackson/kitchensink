@@ -1,0 +1,31 @@
+with item
+    .ui.container
+        .image
+            img.ui.centered.image(src="{{c.url image_id height=400 width=800 background='white' crop='lpad'}}")
+            .overlay-text 
+                h1 #{title}
+        .ui.hidden.divider
+        .ui.divided.stackable.grid
+            .ten.wide.column
+                .meta
+                    a(href=link target='_blank') #{link}
+                .description
+                    |!{description}
+            .five.wide.column
+                h2.impact-header Tags
+                each ecosystem_tags
+                    .ui.basic.label #{this}
+                // h2.impact-header Actions
+                // +favorite
+                if isInRole 'admin'
+                    h2.impact-header Status
+                    if published
+                        .ui.basic.green.label Published
+                    else
+                        .ui.basic.red.label Unpublished
+                    .extra.content
+                        .ui.divider
+                        i.large.red.configure.icon
+                        .edit.ui.primary.basic.button
+                            i.pencil.icon
+                            |Edit

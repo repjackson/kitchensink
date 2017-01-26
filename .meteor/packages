@@ -15,7 +15,6 @@ mquandalle:jade
 random@1.0.10
 manuel:reactivearray
 meteorhacks:aggregate
-jquery@1.11.10
 babrahams:constellation
 mquandalle:stylus
 mobile-experience@1.0.4
@@ -34,3 +33,6 @@ accounts-base@1.2.14
 froala:editor
 iandouglas:accounts-ui-semantic-ui
 lepozepo:cloudinary
+zimme:active-route
+alanning:roles
+momentjs:moment

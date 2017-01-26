@@ -1,0 +1,11 @@
+template(name='edit_page')
+    with page
+        .ui.container.basic.segment
+            .ui.form
+                +edit_title
+                +edit_name
+                +edit_image
+                +edit_description
+                +edit_tags
+                #save_page.ui.green.button Save
+                +delete_button                        

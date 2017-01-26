@@ -1,0 +1,9 @@
+.field
+    label Tags
+    each tags
+        .ui.basic.button.doc_tag
+            i.minus.icon
+            |#{this}
+    .ui.left.icon.four.wide.input
+        i.add.icon
+        input#add_tag(type='text' placeholder='Add Tag' maxlength='50')

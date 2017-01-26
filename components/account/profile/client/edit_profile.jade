@@ -1,0 +1,83 @@
+template(name='edit_profile')
+    .ui.segment.text.container
+        with person
+            .ui.form
+                .field
+                    if profile.image_id
+                        label Image
+                        .ui.centered.image
+                            img.ui.medium.image(src="{{c.url profile.image_id width=400 height=400 gravity='face' crop='fill'}}")
+                            a#remove_photo.ui.right.corner.link.label
+                                i.remove.red.link.icon
+                    else
+                        label Upload Image
+                        input(type='file' name='upload_picture' accept='image/*')
+                // .field
+                //     if profile.google_image
+                //         label Google Image
+                //         img.ui.small.image(src=profile.google_image)
+                //         #pick_google_image.ui.basic.button Make this Profile Image
+                .field
+                    label Name
+                    .ui.left.icon.input
+                        i.user.icon
+                        input#name(type='text' value=profile.name)
+                // .field
+                //     label Company
+                //     .ui.left.icon.input
+                //         i.building.icon
+                //         input#company(type='text' value=profile.company)
+                .field
+                    label Position
+                    .ui.input
+                        input#position(type='text' value=profile.position)
+                .field
+                    label Website
+                    .ui.left.icon.input
+                        i.linkify.icon
+                        input#website(type='text' value=profile.website)
+                // .field
+                //     label Linkedin
+                //     .ui.left.icon.input
+                //         i.linkedin.icon
+                //         input#linkedin(type='text' value=profile.linkedin)
+                // .field
+                //     label Twitter
+                //     .ui.left.icon.input
+                //         i.twitter.icon
+                //         input#twitter(type='text' value=profile.twitter)
+                // .field
+                //     label Facebook
+                //     .ui.left.icon.input
+                //         i.facebook.icon
+                //         input#facebook(type='text' value=profile.facebook)
+                .field
+                    label Tags (anything to identify you with)
+                    each tags
+                        .ui.basic.button.person_tag
+                            i.minus.icon
+                            |#{this}
+                    .ui.left.icon.input
+                        i.add.icon
+                        input#add_tag(type='text' placeholder='Press enter after each one' maxlength='50')
+                .field
+                    label Bio
+                    textarea#bio(rows='5') #{bio}
+                // .field
+                //     if published
+                //         #make_unpublished.ui.green.button
+                //             i.toggle.on.icon
+                //             |Published
+                //     else
+                //         #make_published.ui.basic.button
+                //             i.toggle.off.icon
+                //             |Unpublished
+                p Adding social accounts will create a service link in your profile and fill out any empty profile information.
+                .ui.eight.column.grid
+                    .eight.wide.column
+                        .ui.padded.basic.segment
+                            +atForm
+                .field
+                    #save_profile.ui.fluid.green.button 
+                        // i.check.icon
+                        |Save Profile

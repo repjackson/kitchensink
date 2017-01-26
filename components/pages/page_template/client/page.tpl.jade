@@ -1,0 +1,10 @@
+with page
+    img.ui.fluid.centered.image(src="{{c.url image_id height=400 width=3000 crop='crop'}}")
+    .overlay-text.slider-header #{title}
+    .ui.container.basic.segment
+        if isInRole 'admin'
+            #edit_page.ui.basic.button
+                i.red.configure.icon
+                |Edit Page
+        |!{description}
+    

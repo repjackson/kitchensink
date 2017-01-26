@@ -1,0 +1,15 @@
+with item
+    .ui.container.basic.segment
+        .ui.center.aligned.header Edit Item
+        .ui.form
+            +edit_title
+            +edit_image
+            // +edit_link
+            +edit_description
+            +edit_tags
+            +publish_button
+            if isInRole 'admin'
+                +edit_type
+            if title
+                #save.ui.large.green.button Save
+            +delete_button
