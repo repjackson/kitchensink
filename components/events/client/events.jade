@@ -1,10 +1,10 @@
 template(name='events')
     .ui.container
-        #event_slider(style='width: 1500px; height: 500px;')
-            .ls-slide(data-ls='slidedelay: 2000;')
-                img.ls-bg(src="{{c.url 'vinetta' width=1500 height=500 crop='fill' gravity='north' effect='art:primavera'}}", alt='Slide background')
-                h1.ls-l.overlay-text.slider-text(style="top: 50%; text-size: 300%;") 
-                    | Events at Impact Hub Boulder
+        // #event_slider(style='width: 1500px; height: 500px;')
+        //     .ls-slide(data-ls='slidedelay: 2000;')
+        //         img.ls-bg(src="{{c.url 'vinetta' width=1500 height=500 crop='fill' gravity='north' effect='art:primavera'}}", alt='Slide background')
+        //         h1.ls-l.overlay-text.slider-text(style="top: 50%; text-size: 300%;") 
+        //             | Events at Impact Hub Boulder
         .ui.basic.segment
             .ui.stackable.grid
                 .twelve.wide.column
@@ -14,7 +14,6 @@ template(name='events')
                     if isInRole 'admin'
                         +admin_events
                 .four.wide.column
-                    a.impact-button-dark(href='/rent') Host Your Event
                     +cloud filter='event'
                     +google_calendar
                     if isInRole 'admin'

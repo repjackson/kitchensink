@@ -1,0 +1,40 @@
+template(name='message_page')
+    .ui.text.container
+        +sent_messages
+        +received_messages
+
+template(name='received_messages')
+    .ui.segment
+        .ui.header Inbox
+        .ui.comments
+            each received_messages
+                .comment
+                    +message this
+
+template(name='sent_messages')
+    .ui.segment
+        .ui.header Sent
+        .ui.input
+            input#text(type='text')
+            +inputAutocomplete(settings=userSettings id='recipient' class='' placeholder="Recipient")
+        button#send.ui.button Send
+        .ui.comments
+            each sent_messages
+                .comment
+                    +message this
+
+
+
+template(name='message')
+    .content
+        a.author
+            |#{author.username}
+            i.right.arrow.icon
+            |#{recipient.username}
+        .metadata
+            span.date #{when}
+        .text #{body}
+
+
+template(name='user_pill')
+    .ui.basic.label #{profile.name}

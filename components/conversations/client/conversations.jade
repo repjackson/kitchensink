@@ -1,0 +1,33 @@
+template(name='conversations')
+    .ui.container
+        .ui.two.cards
+            each conversations
+                +conversation_card
+
+
+template(name='conversation_card')
+    .ui.card
+        .content
+            .header
+                a(href="/conversation/#{_id}")|Topics:
+                each tags
+                    .ui.compact.label(class=conversation_tag_class) #{this}
+                    // .item.tag(class=tag_class) #{this}
+                div
+                    |Participants: &nbsp;
+                    .ui.horizontal.list
+                        each participants
+                            .item 
+                                img.ui.avatar.image(src="{{c.url profile.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                |#{profile.name}
+            .description
+                .ui.basic.segment
+                    .ui.divided.list
+                        each conversation_messages
+                            .item
+                                strong #{this.author.profile.name}:
+                                |#{this.text}
+                                .meta #{this.when}
+                                if can_edit
+                                    .right.floated
+                                        i.remove.link.icon.remove_message

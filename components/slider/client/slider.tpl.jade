@@ -1,0 +1,22 @@
+#layerslider(style='width:1500px; height: 500px;')
+    if Template.subscriptionsReady
+        each slides
+            // if is_admin
+            //     a.ui.blue.compact.basic.icon.button(href="/edit/#{_id}")
+            //         i.red.wrench.icon
+            //         | Edit Current Slide: 
+            .ls-slide(data-ls='slidedelay: 3000;')
+                img.ls-bg(src="{{c.url image_id effect='art:frost' width=1500 height=500 crop='fill' gravity='face' fetch_format='auto' }}", alt='Slide background' )
+                if title.length
+                    .ls-l.homeslider-header(style="top: 90%; height: 170px; left: 50%;" )
+                        a(href=link)
+                            h3.slider-caption-header #{title}
+                            p.slider-caption-subheader #{snippet}
+                if is_admin
+                    .ls-l.homeslider-header(style="top: 10%; height: 20px; left: 50%;" )
+                        a(href="/edit/#{_id}")
+                            p.slider-caption-subheader 
+                                | Edit
+                    
+    
+    

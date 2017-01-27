@@ -77,6 +77,7 @@ if Meteor.isClient
                 start_datetime: $lte: today.toISOString()
                 }, 
                 sort: start_datetime: 1
+                limit: 10
                 
     Template.reoccurring_events.helpers
         reoccurring_events: -> 

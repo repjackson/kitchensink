@@ -1,0 +1,64 @@
+#layerslider(style='width:1500px; height: 500px;')
+    .ls-slide(data-ls='slidedelay: 3000;')
+        img.ls-bg(src="{{c.url 'coworking' effect='art:frost' width=1500 height=500 crop='fill' fetch_format= 'auto' }}", alt='Slide background' )
+        .ls-l.homeslider-header(style="top: 90%; height: 170px; left: 50%;" )
+            a(href='/join')
+                h3.slider-caption-header Join Impact Hub Boulder Today
+                p.slider-caption-subheader Check out our membership options.
+    // .ls-slide(data-ls='slidedelay: 3000;')
+    //     img.ls-bg(src="{{c.url 'first_slide2' effect='art:primavera' width=1500 height=500 crop='fill' fetch_format= 'auto' }}", alt='Slide background' )
+    //     .ls-l.homeslider-header(style="top: 90%; height: 170px; left: 50%;" )
+    //         a(href='/join')
+    //             h3.slider-caption-header Join Impact Hub Boulder Today!
+    //             p.slider-caption-subheader Check out our membership options.
+    .ls-slide(data-ls='slidedelay: 3000;')
+        img.ls-bg(src="{{c.url 'group' width=1500 height=500 crop='fill' effect='improve' gravity='face' fetch_format= 'auto' }}", alt='Slide background' )
+        // a.ls-link(href='/join')
+    .ls-slide(data-ls='slidedelay: 3000;')
+        img.ls-bg(src="{{c.url 'fixed' width=1500 crop='fill' effect='art:primavera' gravity='north' fetch_format= 'auto' }}", alt='Slide background')
+        img.ls-tn(src="{{c.url 'fixed' width=200 height=100 crop='fill' fetch_format= 'auto' }}", alt='Slide thumbnail')
+        .ls-l.homeslider-header(style="top: 90%; height: 170px; left: 50%;" )
+            a(href='/permanent-desk-program')
+                h3.slider-caption-header Dedicated Desks
+                p.slider-caption-subheader Click here for more information.
+    .ls-slide(data-ls='slidedelay: 3000;')
+        img.ls-bg(src="{{c.url 'village_lives' effect='art:primavera' fetch_format= 'auto' }}", alt='Slide background')
+        img.ls-tn(src="{{c.url 'village_lives' width=200 height=100 crop='fill' fetch_format= 'auto' }}", alt='Slide thumbnail')
+        .ls-l.homeslider-header(style="top: 90%; height: 170px; left: 50%;" )
+            a(href='/event/view/crMqKEsRA6q6C8uky')
+                h3.slider-caption-header The Village Lives
+                p.slider-caption-subheader Storytelling of What is Possible for Our Community
+    // .ls-slide(data-ls='slidedelay: 3000;')
+    //     img.ls-bg(src="{{c.url 'fitness' width=1500 height=500 crop='fill' gravity='north' effect='art:primavera' fetch_format= 'auto' }}", alt='Slide background')
+    //     img.ls-tn(src="{{c.url 'fitness' width=200 height=100 crop='fill' fetch_format= 'auto' }}", alt='Slide thumbnail')
+    //     .ls-l.homeslider-header(style="top: 85%; height: 170px; left: 50%;" )
+    //         a(href='/join')
+    //             h3.slider-caption-header Perks of Membership
+    //             p.slider-caption-subheader 50% Discount at One Boulder Fitness
+    .ls-slide(data-ls='slidedelay: 3000;')
+        img.ls-bg(src="{{c.url 'slider_map' width=1500 height=500 crop='fill' effect='improve' fetch_format= 'auto' }}", alt='Slide background' )
+        .ls-l.homeslider-header(style="top: 85%; height: 180px; left: 50%; width: 50%;" )
+            a(href='/about#international')
+                h3.slider-caption-header Positive Impact on a Global Scale
+                p.slider-caption-subheader Impact Hub is a rapidly expanding, diverse global network of over 15,000+ members in 86 open hubs.
+    .ls-slide(data-ls='slidedelay: 3000;')
+        img.ls-bg(src="{{c.url 'academy_banner' width=1199  height=500 crop='crop' gravity='north' fetch_format= 'auto' }}", alt='Slide background')
+        img.ls-tn(src="{{c.url 'academy_banner' width=200 height=100 crop='fill' fetch_format= 'auto' }}", alt='Slide thumbnail')
+        .ls-l.homeslider-header(style="top: 90%; height: 170px; left: 50%;" )
+            a(href='/academy')
+                h3.slider-caption-header Impact HUB Academy
+                p.slider-caption-subheader Learn more about our exciting new direction. #impacthubacademy
+    .ls-slide(data-ls='slidedelay: 3000;')
+        img.ls-bg(src="{{c.url 'slider/Events_m4brwk' width=1500 height=500 crop='fill' gravity='center' fetch_format= 'auto' }}", alt='Slide background')
+        img.ls-tn(src="{{c.url 'slider/Events_m4brwk' width=200 height=100 crop='fill' fetch_format= 'auto' }}", alt='Slide thumbnail')
+        .ls-l.homeslider-header(style="top: 90%; height: 170px; left: 50%;" )
+            a(href='/events')
+                h3.slider-caption-header Events
+                p.slider-caption-subheader Check out what's happening this month.
+    // .ls-slide(data-ls='slidedelay: 3000;')
+    //     img.ls-bg(src="{{c.url 'slider/Boardroom_hs0qof' width=1500 crop='fill' fetch_format= 'auto' }}", alt='Slide background')
+    //     img.ls-tn(src="{{c.url 'slider/Boardroom_hs0qof' width=200 height=100 crop='fill' fetch_format= 'auto' }}", alt='Slide thumbnail')
+    //     .ls-l.homeslider-header(style="top: 80%; height: 100px; left: 50%;" )
+    //         h3.slider-caption-header Community
+    //         p.slider-caption-subheader Check out our members.
+    //     a.ls-link(href='/people')

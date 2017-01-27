@@ -1,0 +1,46 @@
+with conversation
+    .ui.container
+        .ui.fluid.card
+            .content
+                +back_button
+                // .header
+                //     |Conversation Topics:
+                if can_edit
+                    +edit_tags
+                else
+                    each tags
+                        .ui.basic.label #{this}
+                div
+                    |Participants: &nbsp;
+                    .ui.horizontal.list
+                        each participants
+                            .item 
+                                img.ui.avatar.image(src="{{c.url profile.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                |#{profile.name}
+                .description
+                    .ui.segment
+                        .ui.divided.list
+                            each conversation_messages
+                                .item
+                                    strong #{this.author.profile.name}:
+                                    |#{this.text}
+                                    .meta #{this.when}
+                        if in_conversation
+                            .ui.small.left.icon.input
+                                i.plus.icon
+                                input.add_message(type='text' placeholder='Add Message')
+            if currentUser
+                .extra.content
+                    if can_edit
+                        .ui.basic.button.close_conversation
+                            i.red.remove.icon
+                            |Close
+                    if in_conversation
+                        .ui.basic.button.leave_conversation
+                            i.red.minus.icon
+                            |Leave
+                    else
+                        .ui.basic.button.join_conversation
+                            i.green.plus.icon
+                            |Join
+    

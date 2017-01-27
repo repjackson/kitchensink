@@ -29,4 +29,5 @@ if Meteor.isServer
         match = {}
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         match._id = $ne: @userId
-        Meteor.users.find match
+        Meteor.users.find match,
+            limit: 20

@@ -1,7 +1,7 @@
 .ui.inverted.stackable.menu
     .ui.container
         a.header.item(href='/' class="{{isActivePath '/'}}")
-            strong Facet
+            h3 Facet
         a.item(href='/people_cards' class="{{isActivePath '/people_cards'}}")
             i.users.icon
             strong People
@@ -11,19 +11,29 @@
         a.item(href='/posts' class="{{isActivePath '/posts'}}")
             i.newspaper.icon
             strong Blog
+        a.item(href='/conversations' class="{{isActivePath '/conversations'}}")
+            i.chat.icon
+            strong Conversations
         .right.menu
+            a.item(href='/admin/content' class="{{isActivePath '/admin/'}}")
+                i.configure.icon
+                | Admin
+            a.item(href='/messages' class="{{isActivePath '/messages'}}")
+                i.mail.icon
             if currentUser
-                a.item(href='/profile' class="{{isActivePath '/profile'}}")
-                    strong Profile
-            +loginButtons
-            
-            // a.item(href='/global' class="{{isActivePath '/global'}}")
-            //     strong Global
-            // // a.item(href='/program_themes' class="{{isActivePath '/program_themes'}}")
-            // //     strong Program Themes
-            // a.item(href='/sponsors' class="{{isActivePath '/sponsors'}}")
-            //     strong Sponsors
-            // a.item(href='/enroll' class="{{isActivePath '/enroll'}}")
-            //     .ui.basic.white.inverted.large.button Enroll
-            // a.item(href='/donate' class="{{isActivePath '/donate'}}")
-            //     .ui.basic.white.inverted.large.button Donate
+                a.item(href="/profile/edit" class="{{isActivePath '/profile/edit'}}")
+                    if profile_doc.image_id
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=50 height=50 gravity='face' crop='fill'}}")
+                    else
+                        i.user.icon
+                    if currentUser.name
+                        | #{currentUser.name}
+                    else
+                        | Profile
+                a#logout.ui.item(href='#') 
+                    i.sign.out.icon
+                    |Out
+            else
+                a.ui.item(href='/sign-in') 
+                    i.sign.in.icon
+                    |In

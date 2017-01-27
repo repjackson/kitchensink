@@ -1,0 +1,19 @@
+template(name='mailchimp')
+    // Begin MailChimp Signup Form
+    // link(href='//cdn-images.mailchimp.com/embedcode/slim-10_7.css', rel='stylesheet', type='text/css')
+    // style(type='text/css').
+    //     #mc_embed_signup{ clear:left; font:14px Helvetica,Arial,sans-serif; }
+    //     /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+    //     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+    #mc_embed_signup
+        form#mc-embedded-subscribe-form.validate(action='//impacthubboulder.us1.list-manage.com/subscribe/post?u=eb906cbe5512a632b096c0d40&id=aeffd9195c', method='post', name='mc-embedded-subscribe-form', target='_blank', novalidate='')
+            #mc_embed_signup_scroll
+                .ui.inverted.header(for='mce-EMAIL') Sign up for updates on upcoming events, programming and membership offerings
+                .ui.inverted.fluid.input
+                    input#mce-EMAIL.email(type='email', value='', name='EMAIL', placeholder='email address', required='')
+                // real people should not fill this in and expect good things - do not remove this or risk form bot signups
+                div(style='position: absolute; left: -5000px;', aria-hidden='true')
+                    input(type='text', name='b_eb906cbe5512a632b096c0d40_aeffd9195c', tabindex='-1', value='')
+                .clear
+                    input#mc-embedded-subscribe.impact-button-light(type='submit', value='Subscribe', name='subscribe')
+    // End mc_embed_signup

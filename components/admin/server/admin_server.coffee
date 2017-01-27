@@ -4,8 +4,8 @@
 Meteor.publish 'hub_users', ->
     match = {}
 
-    Meteor.users.find match
-    # Docs.find match,
+    Meteor.users.find match,
+        limit: 20
     #     fields:
     #         tags: 1
     #         attendee_ids: 1

@@ -1,0 +1,58 @@
+template(name='footer')
+    .ui.basic.fluid.inverted.segment.footer
+        .ui.stackable.three.column.grid
+            .center.aligned.column
+                a.impact-button-light(href='https://hubboulder.formstack.com/forms/contact_form', title='Online Form' target='_blank') Contact Us
+            
+                .ui.dividing.inverted.header Impact Hub Boulder
+                // +twitter_widget
+            .center.aligned.column
+                // +facebook_widget
+                +badges
+            .column
+                +contact_info
+                
+
+
+template(name='badges')
+    // +newsletter_sign_up
+    +mailchimp
+    .ui.inverted.divider
+    a.impact-button-light(href='/help_promote') Help Promote
+    // .ui.compact.segment
+    //     img.ui.tiny.bordered.image(src='/badges/entrepreneurial_by_nature.jpg')
+    // img.ui.tiny.image(src='/badges/B-Corp.png')
+    // .ui.inverted.divider
+    // a.ui.icon.big.white.inverted.button(href='https://www.facebook.com/ImpactHubBoulder' target="_blank")
+    //     i.facebook.link.icon
+    // a.ui.icon.big.white.inverted.button(href='https://twitter.com/ImpactHubBldr' target="_blank")
+    //     i.twitter.link.icon
+
+    
+    
+template(name='contact_info')
+    // h3.ui.inverted.header.make-uppercase Contact Information
+    // .ui.basic.inverted.segment
+    | 1877 Broadway, Suite 100
+    br
+    | Boulder, CO 80302
+    br
+    | 303.629.2899
+    br
+    p Southwest corner of Walnut and Broadway
+    a(href='https://www.google.com/maps/place/Impact+Hub+Boulder/@40.0164494,-105.2802036,15z/data=!4m5!3m4!1s0x0:0xdcb6748ef0817d4a!8m2!3d40.0164494!4d-105.2802036' target="_window") 
+        h3
+            |Map
+            i.right.arrow.icon
+    .ui.inverted.dividing.header Hours
+    | MON to FRI: 9am to 6pm
+    br
+    | SAT to SUN: closed
+    br
+    | Weather policy follows BVSD closures
+    br
+    br
+    a(href='https://hubboulder.formstack.com/forms/updateccinfo' target='_blank') 
+        h3
+            |Update your payment info 
+            i.right.arrow.icon    

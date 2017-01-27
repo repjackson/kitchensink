@@ -1,20 +1,7 @@
 template(name='home')
     +slider
-    // .ui.inverted.vertical.masthead.center.aligned.segment
-    //     .ui.container
-    //         .ui.large.secondary.inverted.pointing.menu
-    //             a.item(href='/about_academy' class="{{isActivePath '/about_academy'}}")
-    //                 strong About the Academy
-    //             a.item(href='/global_network' class="{{isActivePath '/global_network'}}")
-    //                 strong Global Network
-    //             a.item(href='/get_involved' class="{{isActivePath '/get_involved'}}")
-    //                 strong Get Involved
-    //             a.item(href='/events' class="{{isActivePath '/events'}}")
-    //                 strong Events Calendar
-    //             a.item(href='/program_themes' class="{{isActivePath '/program_themes'}}")
-    // //                 strong Program Themes
-    // +call_to_action
-    // +how_it_works
+    +call_to_action
+    +how_it_works
     // .ui.container
     //     .ui.basic.segment
     //         +featured_events
@@ -31,20 +18,12 @@ template(name='call_to_action')
                 .ten.wide.column
                     // h1.ui.header COME FOR COWORKING, STAY FOR COMMUNITY
                     .large-text
-                        p
-                            |Impact Hub Boulder is a member-based coworking space and event venue for entrepreneurs creating positive impact in the world.
-                        p
-                            |An innovation lab. A business Incubator. A social enterprise community center. Impact Hub offers you a unique ecosystem of resources, inspiration, and collaboration opportunities to grow the positive impact of your work. Joining our diverse community of members and collaborators will inspire, connect, and enable you to develop your best work every step of the way.
-                        p
-                            |Impact Hub Boulder is part of a global network of 86 other Impact Hubs in cities around the world.
-    
+                        p Facet is great
                 .six.wide.center.aligned.column
-                    a.impact-button-light(href='/join')
-                        | Become A Member
                     a.impact-button-light(href='/events')
-                        | Attend an Event
-                    a.impact-button-light(href='/tour')
-                        | Schedule a Tour
+                        | Events
+                    a.impact-button-light(href='/posts')
+                        | Blog
                     // a.impact-button-light(href='#subscribe')
                     //     | Subscribe
                     .ui.hidden.divider
