@@ -57,7 +57,7 @@ mongo --ssl --sslAllowInvalidCertificates aws-us-east-1-portal.21.dblayer.com:10
 
 ih customer workflow
     check in with card/guest checkin
-    view human menu at kiosk, see picture, say hi to person, want to blow eric
+    view human menu at kiosk, see picture, say hi to person
     
     
 DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy --settings settings.json facet.cloud
