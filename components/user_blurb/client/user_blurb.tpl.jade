@@ -1,0 +1,15 @@
+.ui.item
+    with person
+        .ui.tiny.image
+            a(href="/profile/view/#{_id}")
+                img(src="{{c.url profile.image_id width=300 height=300 gravity='face' crop='fill'}}")
+        .content
+            .header
+                a(href="/profile/view/#{_id}") #{profile.name}
+            .meta
+                span #{profile.position}
+            .description
+                p #{bio}
+            .extra
+                each tags
+                    .ui.tiny.compact.basic.label #{this}

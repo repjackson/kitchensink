@@ -19,6 +19,7 @@ with post
                 .ui.basic.segment
                     each tags
                         .ui.basic.label #{this}
+        +user_blurb
         if isInRole 'admin'
             .ui.divider
             i.large.red.configure.icon
@@ -33,3 +34,6 @@ with post
                 .ui.green.label Featured
             else
                 .ui.red.label Unfeatured
+        .ui.horizontal.dividing.header
+        +voting
+        +favorite

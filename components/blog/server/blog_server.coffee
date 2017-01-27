@@ -56,4 +56,3 @@ Meteor.publish 'post', (doc_id)->
     Docs.find doc_id
 
     
-Meteor.methods

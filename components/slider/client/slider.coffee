@@ -13,7 +13,7 @@ Template.slider.onRendered ->
             # firstLayer: 1
             # skin: 'borderlesslight'
             # skinsPath: '/static/layerslider/skins/'
-        ), 2000
+        ), 1000
     
         # console.log 'ready'
 

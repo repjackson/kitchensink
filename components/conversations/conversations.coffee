@@ -20,6 +20,7 @@ Meteor.methods
             type: 'conversation'
             author_id: Meteor.userId()
             participant_ids: [Meteor.userId()]
+        # FlowRouter.go "/conversation/#{id}"
 
     close_conversation: (id)->
         Docs.remove id
@@ -51,8 +52,9 @@ if Meteor.isClient
     
     Template.conversations.events
         'click #create_conversation': ->
-            console.log 'hi'
-            Meteor.call 'create_conversation'
+            Meteor.call 'create_conversation', (err,id)->
+                FlowRouter.go "/conversation/#{id}"
+
     
     # Single
     
@@ -73,7 +75,7 @@ if Meteor.isClient
     
     
     Template.conversation_card.helpers
-        conversation_tag_class: -> if @valueOf() in selected_conversation_tags.array() then 'red' else 'basic'
+        conversation_tag_class: -> if @valueOf() in selected_conversation_tags.array() then 'primary' else 'basic'
     
     Template.conversation_card.events
         'click .remove_message': ->

@@ -7,11 +7,11 @@ template(name='conversation_cloud')
                     i.plus.green.icon
                     |Create Conversation
         if selected_conversation_tags
-            #clear_tags.ui.red.big.compact.icon.button
+            #clear_tags.ui.primary.big.compact.icon.button
                 i.remove.icon
         if selected_conversation_tags
             each selected_conversation_tags
-                a.ui.red.big.compact.button.unselect_tag
+                a.ui.primary.big.compact.button.unselect_tag
                     strong #{this}
         each conversation_tags
             .ui.compact.basic.button.select_tag(class=conversation_tag_class) #{this.name}
