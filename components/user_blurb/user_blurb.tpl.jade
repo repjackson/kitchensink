@@ -1,4 +1,4 @@
-.ui.item
+.ui.segment
     with person
         .ui.tiny.image
             a(href="/profile/view/#{_id}")
@@ -7,9 +7,10 @@
             .header
                 a(href="/profile/view/#{_id}") #{profile.name}
             .meta
+                |#{points} points
                 span #{profile.position}
             .description
-                p #{bio}
+                p #{pro_bio}
             .extra
                 each tags
                     .ui.tiny.compact.basic.label #{this}

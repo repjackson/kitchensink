@@ -1,0 +1,12 @@
+.ui.segment
+    unless isAuthor
+        .send_point.ui.button
+            i.send.icon
+            |Send Point
+        if can_retrieve
+            .retrieve_point.ui.button
+                i.minus.icon
+                |Retrieve Point
+        if can_retrieve
+            .ui.basic.label #{sent_points} points sent
+    .ui.basic.label Doc Points: #{points}

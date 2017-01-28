@@ -12,15 +12,16 @@ template(name='edit_account')
 template(name='account_nav')
     .ui.menu
         .ui.container
-            a.item(href="/profile/edit")
+            a.item(href="/profile/edit" class="{{isActivePath '/profile/edit'}}")
                 i.user.icon
                 |Profile
-            // a.item(href='/account/social')
-            //     i.user.icon
-            //     |Social Media Accounts
-            // a.item(href='/account/favorites')
-            //     i.heart.icon
-            //     |Favorites
-            // a.item(href='/account/services')
-            //     i.user.icon
-            //     |Services
+            a.item(href='/account/social' class="{{isActivePath '/account/social'}}")
+                i.user.icon
+                |Social Media Accounts
+            a.item(href='/account/favorites' class="{{isActivePath '/account/favorites'}}")
+                i.heart.icon
+                |Favorites
+            a.item(href='/account/clouds' class="{{isActivePath '/account/clouds'}}")
+                i.cloud.icon
+                |Clouds
+                

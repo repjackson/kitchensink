@@ -1,9 +1,9 @@
 with person
     .ui.text.container.segment
-        // if published
-        //     .ui.top.right.attached.green.label Published
-        // else
-        //     .ui.top.right.attached.red.label Unpublished
+        if published
+            .ui.top.right.attached.green.label Published
+        else
+            .ui.top.right.attached.red.label Unpublished
         with profile
             img.ui.centered.medium.circular.image(src="{{c.url image_id width=800 height=600 gravity='face' crop='fill'}}")
             h2.ui.header
@@ -35,6 +35,6 @@ with person
             each tags
                 .ui.basic.label #{this}
         .ui.padded.basic.segment {{nl2br profile.bio}}
-        // if isInRole 'admin'
-        //     a#edit_profile.ui.basic.blue.button(href="/profile/edit/#{_id}")
-        //         |Edit Profile
+        if isInRole 'admin'
+            a#edit_profile.ui.basic.blue.button(href="/profile/edit/#{_id}")
+                |Edit Profile

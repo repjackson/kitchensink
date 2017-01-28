@@ -3,5 +3,6 @@
     .ui.divided.vertical.list
         each favorites
             .item
-                h2.ui.header #{title}
+                a(href="/view/#{_id}") #{title} 
+                +favorite
         

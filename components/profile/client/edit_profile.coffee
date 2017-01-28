@@ -7,6 +7,11 @@ Template.edit_profile.onCreated ->
 Template.edit_profile.helpers
     person: -> Meteor.users.findOne FlowRouter.getParam('user_id')
 
+
+    is_my_profile: ->
+        Meteor.userId() is FlowRouter.getParam('user_id')
+
+
     # matchedUsersList:->
     #     users = Meteor.users.find({_id: $ne: Meteor.userId()}).fetch()
     #     userMatches = []

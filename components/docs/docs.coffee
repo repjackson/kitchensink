@@ -3,7 +3,9 @@
 Docs.before.insert (userId, doc)->
     doc.timestamp = Date.now()
     doc.author_id = Meteor.userId()
-    # doc.tag = []
+    doc.points = 0
+    doc.down_voters = []
+    doc.up_voters = []
     return
 
 Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
@@ -18,18 +20,11 @@ Docs.helpers
 
 
 
-
-
-
 if Meteor.isServer
     Docs.allow
         insert: (userId, doc) -> doc.author_id is userId
         update: (userId, doc) -> doc.author_id is userId or Roles.userIsInRole(userId, 'admin')
         remove: (userId, doc) -> doc.author_id is userId or Roles.userIsInRole(userId, 'admin')
-
-    
-    
-    
     
     
     
