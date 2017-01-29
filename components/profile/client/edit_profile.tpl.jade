@@ -21,11 +21,11 @@
                 .ui.left.icon.input
                     i.user.icon
                     input#name(type='text' value=profile.name)
-            // .field
-            //     label Company
-            //     .ui.left.icon.input
-            //         i.building.icon
-            //         input#company(type='text' value=profile.company)
+            .field
+                label Company
+                .ui.left.icon.input
+                    i.building.icon
+                    input#company(type='text' value=profile.company)
             .field
                 label Position
                 .ui.input
@@ -62,15 +62,15 @@
             .field
                 label Bio
                 textarea#bio(rows='5') #{bio}
-            // .field
-            //     if published
-            //         #make_unpublished.ui.green.button
-            //             i.toggle.on.icon
-            //             |Published
-            //     else
-            //         #make_published.ui.basic.button
-            //             i.toggle.off.icon
-            //             |Unpublished
+            .field
+                if published
+                    #make_unpublished.ui.green.button
+                        i.toggle.on.icon
+                        |Published
+                else
+                    #make_published.ui.basic.button
+                        i.toggle.off.icon
+                        |Unpublished
             if is_my_profile
                 p Adding social accounts will create a service link in your profile and fill out any empty profile information.
                 .ui.eight.column.grid

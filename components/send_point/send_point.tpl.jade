@@ -1,10 +1,10 @@
 .ui.segment
     unless isAuthor
-        .send_point.ui.button
+        .send_point.ui.basic.button(class=send_point_class)
             i.send.icon
             |Send Point
         if can_retrieve
-            .retrieve_point.ui.button
+            .retrieve_point.ui.basic.button
                 i.minus.icon
                 |Retrieve Point
         if can_retrieve

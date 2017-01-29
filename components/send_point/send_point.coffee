@@ -1,5 +1,11 @@
 if Meteor.isClient
     Template.send_point.helpers
+        send_point_class: -> 
+            if Meteor.userId() then ''
+            else 'grey disabled'
+
+    
+    
     
         sent_points: ->
             if @donators and Meteor.userId() in @donators
@@ -15,7 +21,11 @@ if Meteor.isClient
 
 
     Template.send_point.events
-        'click .send_point': -> Meteor.call 'send_point', @_id
+        'click .send_point': -> 
+            if Meteor.userId() then Meteor.call 'send_point', @_id
+            else FlowRouter.go '/sign-in'
+
+            
         'click .retrieve_point': -> Meteor.call 'retrieve_point', @_id
 
 

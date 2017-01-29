@@ -56,4 +56,4 @@ Meteor.methods
                 $inc: points: -1
             Meteor.users.update doc.author_id, $inc: points: -1
             Meteor.users.update Meteor.userId(), $inc: points: -1
-        Meteor.call 'generate_upvoted_cloud', Meteor.userId()
+        Meteor.call 'generate_downvoted_cloud', Meteor.userId()

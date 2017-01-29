@@ -18,6 +18,14 @@ if Meteor.isClient
     
         selected_user_tags: -> selected_user_tags.list()
     
+        cloud_tag_class: ->
+            button_class = switch
+                when @index <= 5 then 'big'
+                when @index <= 10 then 'large'
+                when @index <= 15 then ''
+                when @index <= 20 then 'small'
+                when @index <= 25 then 'tiny'
+            return button_class
 
 
     Template.user_cloud.events
@@ -36,7 +44,7 @@ if Meteor.isServer
         match = {}
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
     
-        cloud = Meteor.users.aggregate [
+        user_cloud = Meteor.users.aggregate [
             { $match: match }
             { $project: tags: 1 }
             { $unwind: '$tags' }
@@ -47,8 +55,8 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         # console.log 'cloud, ', cloud
-        cloud.forEach (tag, i) ->
-            self.added 'tags', Random.id(),
+        user_cloud.forEach (tag, i) ->
+            self.added 'user_tags', Random.id(),
                 name: tag.name
                 count: tag.count
                 index: i

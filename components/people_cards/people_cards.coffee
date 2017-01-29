@@ -11,6 +11,8 @@ FlowRouter.route '/people_cards', action: (params) ->
 if Meteor.isClient
     Template.people_cards.onCreated ->
         @autorun -> Meteor.subscribe('people', selected_user_tags.array())
+    Template.person_card.onCreated ->
+        @autorun -> Meteor.subscribe('person', @_id)
     
     
     Template.people_cards.helpers
@@ -22,6 +24,13 @@ if Meteor.isClient
     
         tag_class: -> if @valueOf() in selected_user_tags.array() then 'primary' else ''
 
+    Template.person_card.events
+        'click .user_tag': ->
+            if @valueOf() in selected_user_tags.array() then selected_user_tags.remove @valueOf() else selected_user_tags.push @valueOf()
+
+    Template.person_card.helpers
+        five_tags: -> if @tags then @tags[..4]
+    
 
 
 if Meteor.isServer
@@ -31,3 +40,5 @@ if Meteor.isServer
         match._id = $ne: @userId
         Meteor.users.find match,
             limit: 20
+    
+    

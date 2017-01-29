@@ -1,15 +1,11 @@
 if Meteor.isClient
     Template.upvoted_cloud.onCreated ->
-        @autorun -> Meteor.subscribe 'my_clouds'
+        @autorun -> Meteor.subscribe 'upvoted_cloud'
 
 
 if Meteor.isServer
-    Meteor.publish 'my_clouds', ->
+    Meteor.publish 'upvoted_cloud', ->
         Meteor.users.find @userId,
             fields:
                 upvoted_cloud: 1
-                downvoted_cloud: 1
-                authored_cloud: 1
-                
-                
-                
+                upvoted_list: 1

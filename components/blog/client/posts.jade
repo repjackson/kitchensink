@@ -14,22 +14,22 @@ template(name='posts')
                     each posts
                         +post_item
             .four.wide.column
+                +cloud filter='post'
                 #add_post.ui.large.basic.fluid.button
                     i.plus.icon
-                    |Create Post
-                +cloud filter='post'
-                if isInRole 'admin'
-                    h2.impact-header 
-                        i.red.configure.icon
-                        |Admin
-                    #add_post.ui.compact.basic.fluid.button
-                        i.large.icons
-                            i.sticky.note.outline.icon
-                            i.green.plus.corner.icon
-                        |Add Post
+                    |Add Post
+                // if isInRole 'admin'
+                //     h2.impact-header 
+                //         i.red.configure.icon
+                //         |Admin
+                //     #add_post.ui.compact.basic.fluid.button
+                //         i.large.icons
+                //             i.sticky.note.outline.icon
+                //             i.green.plus.corner.icon
+                //         |Add Post
 
 
-template(name='post')
+template(name='post_card')
     .ui.fluid.card
         .ui.centered.image
             a(href="/post/view/#{_id}")
@@ -71,7 +71,7 @@ template(name='post_item')
             .extra
                 i.tags.icon
                 each tags
-                    .ui.compact.label.post_tag(class=tag_class) #{this}
+                    .ui.compact.tiny.button.post_tag(class=tag_class) #{this}
             if isInRole 'admin'
                 .extra
                     i.red.configure.large.icon

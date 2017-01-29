@@ -15,7 +15,7 @@ template(name='events')
                         +admin_events
                 .four.wide.column
                     +cloud filter='event'
-                    +google_calendar
+                    // +google_calendar
                     if isInRole 'admin'
                         h2.impact-header 
                             i.red.configure.icon
@@ -30,33 +30,37 @@ template(name='events')
                             | Manually Add Event
 
 template(name='reoccurring_events')
-    h2.impact-header Reoccurring Events
-    .ui.centered.stackable.three.cards
-        each reoccurring_events
-            +event_card
+    if reoccurring_events.count
+        h2.impact-header Reoccurring Events
+        .ui.centered.stackable.three.cards
+            each reoccurring_events
+                +event_card
 
 
 template(name='upcoming_events')
-    h2.impact-header Upcoming Events
-    .ui.centered.stackable.three.cards
-        each upcoming_events
-            +event_card
+    if upcoming_events.count
+        h2.impact-header Upcoming Events
+        .ui.centered.stackable.three.cards
+            each upcoming_events
+                +event_card
 
 
 template(name='past_events')
-    h2.impact-header Past Events
-    .ui.centered.stackable.three.cards
-        each past_events
-            +event_card
+    if past_events.count
+        h2.impact-header Past Events
+        .ui.centered.stackable.three.cards
+            each past_events
+                +event_card
 
 
 template(name='admin_events')
-    h2.impact-header 
-        i.red.configure.icon
-        |Unpublished Events
-    .ui.centered.stackable.three.cards
-        each admin_events
-            +event_card
+    if admin_events.count
+        h2.impact-header 
+            i.red.configure.icon
+            |Unpublished Events
+        .ui.centered.stackable.three.cards
+            each admin_events
+                +event_card
 
 
 

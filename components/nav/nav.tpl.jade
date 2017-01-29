@@ -11,6 +11,9 @@
         a.item(href='/posts' class="{{isActivePath '/posts'}}")
             i.newspaper.icon
             strong Blog
+        a.item(href='/docs' class="{{isActivePath '/docs'}}")
+            i.newspaper.icon
+            strong Docs
         a.item(href='/conversations' class="{{isActivePath '/conversations'}}")
             i.chat.icon
             strong Conversations
@@ -32,8 +35,8 @@
                         | Profile
                 a#logout.ui.item(href='#') 
                     i.sign.out.icon
-                    |Out
+                    |Sign Out
             else
                 a.ui.item(href='/sign-in') 
                     i.sign.in.icon
-                    |In
+                    |Sign In
