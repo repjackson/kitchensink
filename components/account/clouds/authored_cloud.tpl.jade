@@ -1,0 +1,9 @@
+.ui.segment
+    if currentUser.authored_cloud
+        .ui.header 
+            i.thumbs.down.outline.icon
+            | Your Authored Tag Cloud
+        each currentUser.authored_cloud
+            .ui.basic.label(class=authored_cloud_tag_class)
+                |#{this.name}
+                small #{this.count}

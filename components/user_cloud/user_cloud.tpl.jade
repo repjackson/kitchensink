@@ -1,0 +1,11 @@
+#cloud.ui.basic.segment.center.aligned.container
+    if selected_user_tags
+        #clear_tags.ui.primary.circular.icon.compact.big.button
+            i.remove.icon
+        each selected_user_tags
+            .unselect_tag.ui.circular.primary.compact.big.button
+                strong #{this}
+    each all_user_tags
+        .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class) #{this.name}
+                // small #{this.count}
+                // small [#{this.index}]

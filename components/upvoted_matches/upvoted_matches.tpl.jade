@@ -1,0 +1,7 @@
+.ui.segment
+    h4.ui.header Matched Upvoted Tag List with #{username} (Count: #{upvoted_match_list.length})
+    each upvoted_match_list
+        .ui.basic.label #{this}
+    h4.ui.header Matched Upvoted Tag Cloud with #{username} (Total Match Points: #{upvoted_match_cloud.total_count})
+    each upvoted_match_cloud.cloud
+        .ui.basic.label #{this.tag} #{this.min}

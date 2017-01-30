@@ -1,0 +1,12 @@
+.ui.segment
+    .ui.button#find_top_doc_matches Find Top Matches
+    .ui.header Top Matches
+    .ui.list
+        each topDocMatches
+            .item
+            .ui.labeled.icon.button.viewMatchDoc
+                i.unhide.icon
+                |View
+            |by #{this.username}
+            each this.intersectionTags
+                .ui.label #{this}

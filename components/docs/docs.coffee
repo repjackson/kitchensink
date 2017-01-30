@@ -80,21 +80,15 @@ if Meteor.isServer
         match = {}
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         if filter then match.type = filter
+        match.type = $ne: 'timecard'
     
         Docs.find match,
-            limit: 20
+            limit: 5
             
     
     Meteor.publish 'doc', (id)->
         Docs.find id
     
-    
-    Meteor.publish 'featured_docs', (filter)->
-        match = {}
-        match.featured = true
-        match.type = filter
-        
-        Docs.find match, limit: 3
     
     
     Meteor.publish 'tags', (selected_tags, filter)->
@@ -102,6 +96,7 @@ if Meteor.isServer
         match = {}
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         if filter then match.type = filter
+        match.type = $ne: 'timecard'
     
         cloud = Docs.aggregate [
             { $match: match }

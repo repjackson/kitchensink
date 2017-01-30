@@ -1,0 +1,9 @@
+.ui.segment
+    if currentUser.downvoted_cloud
+        .ui.header 
+            i.thumbs.down.outline.icon
+            | Your Downvoted Tag Cloud
+        each currentUser.downvoted_cloud
+            .ui.basic.label(class=downvoted_cloud_tag_class)
+                |#{this.name}
+                small #{this.count}

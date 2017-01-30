@@ -8,9 +8,12 @@
                 a(href="/profile/view/#{_id}") #{profile.name}
             .meta
                 |#{points} points
-                span #{profile.position}
+            .meta
+                | #{profile.position} at #{profile.company}
             .description
                 p #{pro_bio}
             .extra
                 each tags
                     .ui.tiny.compact.basic.label #{this}
+            .extra
+                +upvoted_matches

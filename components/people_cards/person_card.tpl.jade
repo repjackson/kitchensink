@@ -1,0 +1,21 @@
+
+.ui.card
+    .content
+        a(href="/profile/view/#{_id}")
+            .ui.image
+                img.ui.image(src="{{c.url profile.image_id width=400 height=400 gravity='face' crop='fill'}}")
+            .ui.header
+                if profile.name
+                    | #{profile.name}
+                if profile.first_name
+                    | #{profile.first_name}
+                if profile.last_name
+                    | #{profile.last_name}
+        each five_tags
+            .ui.compact.tiny.circular.basic.button.user_tag(class=user_tag_class) #{this}
+        if profile.company
+            p #{profile.company}
+        if profile.position
+            p #{profile.position}
+        if profile.location
+            p #{profile.location}
