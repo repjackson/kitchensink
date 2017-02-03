@@ -71,7 +71,7 @@ Template.edit_profile.events
                 "profile.website": website
                 "profile.position": position
                 "profile.company": company
-        FlowRouter.go "/profile/view/#{Meteor.userId()}"
+        FlowRouter.go "/account/profile/view/#{Meteor.userId()}"
 
     'keydown #add_tag': (e,t)->
         if e.which is 13

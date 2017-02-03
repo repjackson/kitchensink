@@ -1,11 +1,11 @@
 .ui.segment
     with person
         .ui.tiny.image
-            a(href="/profile/view/#{_id}")
+            a(href="/account/profile/view/#{_id}")
                 img(src="{{c.url profile.image_id width=300 height=300 gravity='face' crop='fill'}}")
         .content
             .header
-                a(href="/profile/view/#{_id}") #{profile.name}
+                a(href="/account/profile/view/#{_id}") #{profile.name}
             .meta
                 |#{points} points
             .meta

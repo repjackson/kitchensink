@@ -24,7 +24,7 @@
             a.item(href='/messages' class="{{isActivePath '/messages'}}")
                 i.mail.icon
             if currentUser
-                a.item(href="/profile/edit" class="{{isActivePath '/profile/edit'}}")
+                a.item(href="/account/profile/edit" class="{{isActivePath '/account/profile/edit'}}")
                     if profile_doc.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=50 height=50 gravity='face' crop='fill'}}")
                     else
